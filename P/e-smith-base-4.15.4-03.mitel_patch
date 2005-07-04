@@ -1,0 +1,38 @@
+Index: e-smith-base/e-smith-base.spec
+diff -u e-smith-base/root/etc/e-smith/db/configuration/migrate/05sysconfig:1.1 e-smith-base/root/etc/e-smith/db/configuration/migrate/05sysconfig:1.2
+--- e-smith-base/root/etc/e-smith/db/configuration/migrate/05sysconfig:1.1	Wed May 25 15:39:37 2005
++++ e-smith-base/root/etc/e-smith/db/configuration/migrate/05sysconfig	Tue Jun 21 15:02:13 2005
+@@ -6,15 +6,26 @@
+     my $lang = ($line =~ /^LANG="(.*)"/) ? $1 : "en-us";
+     $lang =~ s/\.UTF-8$//;
+ 
+-    open F, "/etc/sysconfig/keyboard";
+-    my @lines = <F>;
+-    close F;
++    my $kbdtype = "pc";
++    my $keytable = "us";
+ 
+-    ($line) = grep(/^KEYBOARDTYPE/, @lines);
+-    my $kbdtype = ($line =~ /^KEYBOARDTYPE="(.*)"/) ? $1 : "pc";
++    if (open F, "/etc/sysconfig/keyboard")
++    {
++	my @lines = <F>;
++	close F;
+ 
+-    ($line) = grep(/^KEYTABLE/, @lines);
+-    my $keytable = ($line =~ /^KEYTABLE="(.*)"/) ? $1 : "us";
++	($line) = grep(/^KEYBOARDTYPE/, @lines);
++	if ($line =~ /^KEYBOARDTYPE="(.*)"/)
++	{
++	    $kbdtype = $1;
++	}
++
++	($line) = grep(/^KEYTABLE/, @lines);
++	if ($line =~ /^KEYTABLE="(.*)"/)
++	{
++	    $keytable = $1;
++	}
++    }
+ 
+     my $sysconfig = $DB->get('sysconfig') ||
+ 		    $DB->new_record('sysconfig',

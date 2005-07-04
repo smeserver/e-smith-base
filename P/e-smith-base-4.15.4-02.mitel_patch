@@ -1,0 +1,24 @@
+Index: e-smith-base/createlinks
+diff -u e-smith-base/createlinks:1.107 e-smith-base/createlinks:1.108
+--- e-smith-base/createlinks:1.107	Tue Jun 14 12:00:12 2005
++++ e-smith-base/createlinks	Tue Jun 21 14:43:16 2005
+@@ -579,7 +579,6 @@
+     # Start syslog up before network!
+     syslog   	=> "05",
+     #klogd   	=> "06",
+-    random   	=> "20",
+     'bootstrap-console'	=> "35",
+     # Set up the packet filter rules before bringing up networks.
+     # But, after the bootstrap-console has had a chance to configure masq
+Index: e-smith-base/e-smith-base.spec
+diff -u e-smith-base/root/etc/e-smith/db/configuration/defaults/random/status:1.1 e-smith-base/root/etc/e-smith/db/configuration/defaults/random/status:removed
+--- e-smith-base/root/etc/e-smith/db/configuration/defaults/random/status:1.1	Tue Mar  4 16:42:24 2003
++++ e-smith-base/root/etc/e-smith/db/configuration/defaults/random/status	Wed Dec 31 19:00:00 1969
+@@ -1 +0,0 @@
+-enabled
+Index: e-smith-base/root/etc/e-smith/db/configuration/defaults/random/type
+diff -u e-smith-base/root/etc/e-smith/db/configuration/defaults/random/type:1.1 e-smith-base/root/etc/e-smith/db/configuration/defaults/random/type:removed
+--- e-smith-base/root/etc/e-smith/db/configuration/defaults/random/type:1.1	Tue Mar  4 16:42:24 2003
++++ e-smith-base/root/etc/e-smith/db/configuration/defaults/random/type	Wed Dec 31 19:00:00 1969
+@@ -1 +0,0 @@
+-service
