@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.4
-%define release 04
+%define release 04sme01
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -12,6 +12,7 @@ Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-base-4.15.4-02.mitel_patch
 Patch1: e-smith-base-4.15.4-03.mitel_patch
 Patch2: e-smith-base-4.15.4-04.mitel_patch
+Patch3: e-smith-base-4.15.4-04sme01.patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -29,7 +30,8 @@ Obsoletes: rlinetd, e-smith-mod_ssl
 Obsoletes: e-smith-serial-console
 Obsoletes: sshell
 Obsoletes: e-smith-rp-pppoe
-BuildRequires: perl, perl(Test::Inline) >= 0.12
+BuildRequires: perl
+BuildRequires: perl(Test::Inline) >= 0.12
 BuildRequires: e-smith-devtools >= 1.13.1-03
 %define dbfiles accounts configuration domains hosts networks
 AutoReqProv: no
@@ -38,6 +40,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Jul 04 2005 Shad L. Lords <slords@mail.com>
+- [4.15.4-04sme01]
+- Add in bunch of default services that CentOS 4.1 include
+
 * Fri Jun 24 2005 Charlie Brady <charlieb@e-smith.com>
 - [4.15.4-04]
 - Change default domain name setting - I'm sure that xxx is deprecated.
@@ -2130,7 +2136,7 @@ e-smith server and gateway software - base module.
 
 * Wed Mar 19 2003 Gordon Rowell <gordonr@e-smith.com>
 - [4.13.11-06]
-- Moved lots of directory creations from %prep to $build so they
+- Moved lots of directory creations from prep to $build so they
   are unaffected by patches which remove the directory :-) [gordonr 6552]
 
 * Wed Mar 19 2003 Gordon Rowell <gordonr@e-smith.com>
@@ -4372,7 +4378,7 @@ e-smith server and gateway software - base module.
 * Tue Dec 11 2001 Charlie Brady <charlieb@e-smith.com>
 - [4.8.0-02]
 - Small fixes to connect and isdn.hangup scripts so that diald can control ISDN.
-- Fix up %prep section to avoid repeating stuff which is already in the tarball.
+- Fix up prep section to avoid repeating stuff which is already in the tarball.
 
 * Tue Dec 11 2001 Adrian Chung <mac@e-smith.com>
 - [4.8.0-01]
@@ -4443,6 +4449,7 @@ e-smith server and gateway software - base module.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
@@ -4603,6 +4610,15 @@ mkdir -p root/var/service/pppoe/log/supervise
 
 mkdir -p root/var/log/pppoe
 
+ln -s /var/service/raidmonitor root/service/raidmonitor
+
+mkdir -p root/var/service/raidmonitor/supervise
+touch root/var/service/raidmonitor/down
+
+mkdir -p root/var/service/raidmonitor/log/supervise
+
+mkdir -p root/var/log/raidmonitor
+
 %install
 rm -rf $RPM_BUILD_ROOT
 (cd root   ; find . -depth -print | cpio -dump $RPM_BUILD_ROOT)
@@ -4634,6 +4650,14 @@ rm -rf $RPM_BUILD_ROOT
     --dir /var/service/httpd-admin/supervise 'attr(0700,root,root)' \
     --file /var/service/httpd-admin/log/run 'attr(0755,root,root)' \
     --dir /var/log/httpd-admin 'attr(0750,smelog,smelog)' \
+    --dir /var/service/raidmonitor 'attr(01755,root,root)' \
+    --file /var/service/raidmonitor/down 'attr(0644,root,root)' \
+    --file /var/service/raidmonitor/run 'attr(0755,root,root)' \
+    --dir /var/service/raidmonitor/log 'attr(0755,root,root)' \
+    --dir /var/service/raidmonitor/log/supervise 'attr(0700,root,root)' \
+    --dir /var/service/raidmonitor/supervise 'attr(0700,root,root)' \
+    --file /var/service/raidmonitor/log/run 'attr(0755,root,root)' \
+    --dir /var/log/raidmonitor 'attr(2750,smelog,smelog)' \
     --file /var/service/syslog/run 'attr(0755,root,root)' \
     --file /var/service/syslog/down 'attr(0644,root,root)' \
     --file /var/service/klogd/run 'attr(0755,root,root)' \

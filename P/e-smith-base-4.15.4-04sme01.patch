@@ -1,0 +1,195 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/createlinks mezzanine_patched_e-smith-base-4.15.4/createlinks
+--- e-smith-base-4.15.4/createlinks	2005-07-04 15:27:43.739063888 -0600
++++ mezzanine_patched_e-smith-base-4.15.4/createlinks	2005-07-04 15:25:46.246446160 -0600
+@@ -576,21 +576,33 @@
+ 
+ my %service2order =
+ (
++    sysstat	=> "01",
++    readahead_early	=> "04", 
+     # Start syslog up before network!
+-    syslog   	=> "05",
+-    #klogd   	=> "06",
++    syslog	=> "05",
++    cpuspeed	=> "06",
++    #klogd	=> "06",
++    raidmonitor	=> "15",
++    apmd	=> "26",
+     'bootstrap-console'	=> "35",
+     # Set up the packet filter rules before bringing up networks.
+     # But, after the bootstrap-console has had a chance to configure masq
+-    masq 	=> "36",
+-    network  	=> "37",
+-    crond    	=> "40",
+-    dhcpcd    	=> "50",
+-    ippp  	=> "55",
+-    diald    	=> "57",
+-    dhcpd    	=> "65",
++    masq	=> "36",
++    network	=> "37",
++    irqbalance	=> "39",
++    crond	=> "40",
++    acpid	=> "44",
++    dhcpcd	=> "50",
++    ippp	=> "55",
++    rawdevices	=> "56",
++    diald	=> "57",
++    dhcpd	=> "65",
++    gpm		=> "85",
+     'httpd-admin'	=> "86",
+-    'local'    	=> "99",
++    readahead	=> "96",
++    messagebus	=> "96",
++    haldaemon	=> "98",
++    local	=> "99",
+ );
+ 
+ foreach my $service (keys %service2order)
+@@ -615,6 +627,9 @@
+ safe_symlink("httpd", "root/usr/sbin/httpd-admin");
+ 
+ # Set up links to daemontools.
++safe_symlink("daemontools", "root/etc/rc.d/init.d/raidmonitor");
++
++# Set up links to daemontools.
+ safe_symlink("daemontools", "root/etc/rc.d/init.d/httpd-admin");
+ service_link_enhanced("httpd-admin", "K15", "6");
+ service_link_enhanced("httpd-admin", "K15", "0");
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/acpid/status mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/acpid/status
+--- e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/acpid/status	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/acpid/status	2005-07-04 15:09:55.184994432 -0600
+@@ -0,0 +1 @@
++enabled
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/acpid/type mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/acpid/type
+--- e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/acpid/type	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/acpid/type	2005-07-04 15:09:55.187996976 -0600
+@@ -0,0 +1 @@
++service
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/apmd/status mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/apmd/status
+--- e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/apmd/status	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/apmd/status	2005-07-04 15:09:55.189998672 -0600
+@@ -0,0 +1 @@
++enabled
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/apmd/type mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/apmd/type
+--- e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/apmd/type	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/apmd/type	2005-07-04 15:09:55.193001216 -0600
+@@ -0,0 +1 @@
++service
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/cpuspeed/status mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/cpuspeed/status
+--- e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/cpuspeed/status	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/cpuspeed/status	2005-07-04 15:09:55.195002912 -0600
+@@ -0,0 +1 @@
++enabled
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/cpuspeed/type mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/cpuspeed/type
+--- e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/cpuspeed/type	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/cpuspeed/type	2005-07-04 15:09:55.198005456 -0600
+@@ -0,0 +1 @@
++service
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/gpm/status mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/gpm/status
+--- e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/gpm/status	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/gpm/status	2005-07-04 15:09:55.202008848 -0600
+@@ -0,0 +1 @@
++enabled
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/gpm/type mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/gpm/type
+--- e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/gpm/type	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/gpm/type	2005-07-04 15:09:55.205011392 -0600
+@@ -0,0 +1 @@
++service
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/haldaemon/status mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/haldaemon/status
+--- e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/haldaemon/status	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/haldaemon/status	2005-07-04 15:09:55.208013936 -0600
+@@ -0,0 +1 @@
++enabled
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/haldaemon/type mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/haldaemon/type
+--- e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/haldaemon/type	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/haldaemon/type	2005-07-04 15:09:55.211016480 -0600
+@@ -0,0 +1 @@
++service
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/irqbalance/status mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/irqbalance/status
+--- e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/irqbalance/status	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/irqbalance/status	2005-07-04 15:09:55.213018176 -0600
+@@ -0,0 +1 @@
++enabled
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/irqbalance/type mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/irqbalance/type
+--- e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/irqbalance/type	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/irqbalance/type	2005-07-04 15:09:55.216020720 -0600
+@@ -0,0 +1 @@
++service
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/messagebus/status mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/messagebus/status
+--- e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/messagebus/status	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/messagebus/status	2005-07-04 15:09:55.208013000 -0600
+@@ -0,0 +1 @@
++enabled
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/messagebus/type mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/messagebus/type
+--- e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/messagebus/type	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/messagebus/type	2005-07-04 15:09:55.211016000 -0600
+@@ -0,0 +1 @@
++service
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/raidmonitor/status mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/raidmonitor/status
+--- e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/raidmonitor/status	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/raidmonitor/status	2005-07-04 15:09:55.218022416 -0600
+@@ -0,0 +1 @@
++enabled
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/raidmonitor/type mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/raidmonitor/type
+--- e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/raidmonitor/type	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/raidmonitor/type	2005-07-04 15:09:55.221024960 -0600
+@@ -0,0 +1 @@
++service
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/rawdevices/status mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/rawdevices/status
+--- e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/rawdevices/status	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/rawdevices/status	2005-07-04 15:09:55.223026656 -0600
+@@ -0,0 +1 @@
++enabled
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/rawdevices/type mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/rawdevices/type
+--- e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/rawdevices/type	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/rawdevices/type	2005-07-04 15:09:55.226029200 -0600
+@@ -0,0 +1 @@
++service
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/readahead/status mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/readahead/status
+--- e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/readahead/status	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/readahead/status	2005-07-04 15:09:55.228030896 -0600
+@@ -0,0 +1 @@
++enabled
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/readahead/type mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/readahead/type
+--- e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/readahead/type	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/readahead/type	2005-07-04 15:09:55.230032592 -0600
+@@ -0,0 +1 @@
++service
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/readahead_early/status mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/readahead_early/status
+--- e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/readahead_early/status	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/readahead_early/status	2005-07-04 15:09:55.233035136 -0600
+@@ -0,0 +1 @@
++enabled
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/readahead_early/type mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/readahead_early/type
+--- e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/readahead_early/type	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/readahead_early/type	2005-07-04 15:09:55.236037680 -0600
+@@ -0,0 +1 @@
++service
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/sysstat/status mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/sysstat/status
+--- e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/sysstat/status	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/sysstat/status	2005-07-04 15:09:55.239040224 -0600
+@@ -0,0 +1 @@
++enabled
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/sysstat/type mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/sysstat/type
+--- e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/sysstat/type	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/sysstat/type	2005-07-04 15:09:55.242042768 -0600
+@@ -0,0 +1 @@
++service
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/var/service/raidmonitor/log/run mezzanine_patched_e-smith-base-4.15.4/root/var/service/raidmonitor/log/run
+--- e-smith-base-4.15.4/root/var/service/raidmonitor/log/run	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/var/service/raidmonitor/log/run	2005-07-04 15:09:55.244044464 -0600
+@@ -0,0 +1,6 @@
++#!/bin/sh
++
++exec                                    \
++    /usr/local/bin/setuidgid smelog     \
++    /usr/local/bin/multilog t s5000000  \
++    /var/log/raidmonitor
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/var/service/raidmonitor/run mezzanine_patched_e-smith-base-4.15.4/root/var/service/raidmonitor/run
+--- e-smith-base-4.15.4/root/var/service/raidmonitor/run	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/var/service/raidmonitor/run	2005-07-04 15:09:55.247047008 -0600
+@@ -0,0 +1,4 @@
++#! /bin/sh
++
++exec 2>&1
++exec /sbin/mdadm --monitor --scan
