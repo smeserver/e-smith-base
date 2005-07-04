@@ -192,4 +192,4 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/var/service/raidmonito
 +#! /bin/sh
 +
 +exec 2>&1
-+exec /sbin/mdadm --monitor --scan
++exec /sbin/mdadm --monitor --scan --mail admin-raidreport

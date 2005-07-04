@@ -12,3 +12,8 @@ Mon Jul  4 16:08:38 2005                                        slords
 Update startup order
 
 ----------------------------------------------------------------------
+Mon Jul  4 17:18:59 2005                                        slords
+
+Fix raid monitor to always specify mail-to address
+
+----------------------------------------------------------------------
