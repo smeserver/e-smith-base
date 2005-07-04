@@ -39,7 +39,7 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/createlinks mezzanine_patch
      'httpd-admin'	=> "86",
 -    'local'    	=> "99",
 +    readahead	=> "96",
-+    messagebus	=> "96",
++    messagebus	=> "97",
 +    haldaemon	=> "98",
 +    local	=> "99",
  );
