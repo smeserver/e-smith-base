@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.4
-%define release 09sme01
+%define release 09sme02
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -18,6 +18,7 @@ Patch5: e-smith-base-4.15.4-07.mitel_patch
 Patch6: e-smith-base-4.15.4-08.mitel_patch
 Patch7: e-smith-base-4.15.4-09.mitel_patch
 Patch100: e-smith-base-4.15.4-modprobe.conf.patch
+Patch101: e-smith-base-4.15.4-modprobe.conf.patch2
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -44,6 +45,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sat Jul 16 2005 Gordon Rowell <gordonr@gormand.com.au>
+- [4.15.4-09sme02]
+- And fix templates.metadata/etc/modprobe.conf
+
 * Sat Jul 16 2005 Gordon Rowell <gordonr@gormand.com.au>
 - [4.15.4-09sme01]
 - Change /etc/modules.conf templates to /etc/modprobe.conf [SF: 1227251]
@@ -4483,6 +4488,7 @@ e-smith server and gateway software - base module.
 %patch6 -p1
 %patch7 -p1
 %patch100 -p1
+%patch101 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

@@ -1,0 +1,10 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/templates.metadata/etc/modprobe.conf mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/templates.metadata/etc/modprobe.conf
+--- e-smith-base-4.15.4/root/etc/e-smith/templates.metadata/etc/modprobe.conf	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/templates.metadata/etc/modprobe.conf	2005-01-14 08:53:54.000000000 -0700
+@@ -0,0 +1 @@
++FILTER=sub { $_[0] =~ /^\s*$/ ? '' : $_[0] }
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/templates.metadata/etc/modules.conf mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/templates.metadata/etc/modules.conf
+--- e-smith-base-4.15.4/root/etc/e-smith/templates.metadata/etc/modules.conf	2005-01-14 08:53:54.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/templates.metadata/etc/modules.conf	1969-12-31 17:00:00.000000000 -0700
+@@ -1 +0,0 @@
+-FILTER=sub { $_[0] =~ /^\s*$/ ? '' : $_[0] }
