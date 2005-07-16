@@ -17,3 +17,8 @@ Mon Jul  4 17:18:59 2005                                        slords
 Fix raid monitor to always specify mail-to address
 
 ----------------------------------------------------------------------
+Fri Jul 15 19:32:28 2005                       Gordon Rowell (gordonr)
+
+First pass at modules.conf -> modprobe.conf
+
+----------------------------------------------------------------------

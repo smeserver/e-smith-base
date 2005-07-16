@@ -1,0 +1,20 @@
+Index: e-smith-base/e-smith-base.spec
+diff -u e-smith-base/root/etc/e-smith/events/actions/update-dns:1.3 e-smith-base/root/etc/e-smith/events/actions/update-dns:1.4
+--- e-smith-base/root/etc/e-smith/events/actions/update-dns:1.3	Fri Apr  1 14:27:48 2005
++++ e-smith-base/root/etc/e-smith/events/actions/update-dns	Tue Jul  5 14:47:39 2005
+@@ -34,7 +34,6 @@
+ #------------------------------------------------------------
+ 
+ my $event = $ARGV [0];
+-my $ipaddress = $ARGV [1] || $c->get('ExternalIP')->value;
+ 
+ my $DynDNS = $c->get('DynDNS');
+ exit 0 unless $DynDNS;
+@@ -48,4 +47,6 @@
+ 
+ exit 0 unless ($status eq "enabled" && $service ne "off");
+ 
+-exec ("/sbin/e-smith/dynamic-dns/$service", $ipaddress, $account, $password, $domain)
++my $ipaddress = $c->get('ExternalIP') or die "Can't get External IP address";
++
++exec ("/sbin/e-smith/dynamic-dns/$service", $ipaddress->value, $account, $password, $domain)

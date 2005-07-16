@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.4
-%define release 04sme01
+%define release 09sme01
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -12,7 +12,12 @@ Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-base-4.15.4-02.mitel_patch
 Patch1: e-smith-base-4.15.4-03.mitel_patch
 Patch2: e-smith-base-4.15.4-04.mitel_patch
-Patch3: e-smith-base-4.15.4-04sme01.patch
+Patch3: e-smith-base-4.15.4-05.mitel_patch
+Patch4: e-smith-base-4.15.4-06.mitel_patch
+Patch5: e-smith-base-4.15.4-07.mitel_patch
+Patch6: e-smith-base-4.15.4-08.mitel_patch
+Patch7: e-smith-base-4.15.4-09.mitel_patch
+Patch100: e-smith-base-4.15.4-modprobe.conf.patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -30,8 +35,7 @@ Obsoletes: rlinetd, e-smith-mod_ssl
 Obsoletes: e-smith-serial-console
 Obsoletes: sshell
 Obsoletes: e-smith-rp-pppoe
-BuildRequires: perl
-BuildRequires: perl(Test::Inline) >= 0.12
+BuildRequires: perl, perl(Test::Inline) >= 0.12
 BuildRequires: e-smith-devtools >= 1.13.1-03
 %define dbfiles accounts configuration domains hosts networks
 AutoReqProv: no
@@ -40,9 +44,33 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
-* Mon Jul 04 2005 Shad L. Lords <slords@mail.com>
-- [4.15.4-04sme01]
-- Add in bunch of default services that CentOS 4.1 include
+* Sat Jul 16 2005 Gordon Rowell <gordonr@gormand.com.au>
+- [4.15.4-09sme01]
+- Change /etc/modules.conf templates to /etc/modprobe.conf [SF: 1227251]
+- Remove fragments 10appletalk and 95ModulePaths, since they are
+  for very old migrations of /etc/modules.conf
+- NOTE: Two changes to changelog to remove (percent) from (percent)prep
+
+* Tue Jul 12 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.15.4-09]
+- Add default db entries for messagebus and haldaemon. [SF: 1225899]
+
+* Tue Jul 12 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.15.4-08]
+- Add messagebus and haldaemon services, so that cdrom mount point
+  etc is created as required. [SF: 1225899]
+
+* Fri Jul  8 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.15.4-07]
+- Add miscelleous performance related standard RHEL/CentOS services.
+
+* Thu Jul  7 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.15.4-06]
+- Add RAID monitoring service. [SF: 1222143]
+
+* Tue Jul  5 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.15.4-05]
+- Fix log noise from DynDNS update script. [SF: 1231871]
 
 * Fri Jun 24 2005 Charlie Brady <charlieb@e-smith.com>
 - [4.15.4-04]
@@ -4450,6 +4478,11 @@ e-smith server and gateway software - base module.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
+%patch5 -p1
+%patch6 -p1
+%patch7 -p1
+%patch100 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

@@ -1,0 +1,24 @@
+Index: e-smith-base/e-smith-base.spec
+diff -u /dev/null e-smith-base/root/etc/e-smith/db/configuration/defaults/haldaemon/status:1.1
+--- /dev/null	Tue Jul 12 14:05:32 2005
++++ e-smith-base/root/etc/e-smith/db/configuration/defaults/haldaemon/status	Tue Jul 12 14:02:25 2005
+@@ -0,0 +1 @@
++enabled
+Index: e-smith-base/root/etc/e-smith/db/configuration/defaults/haldaemon/type
+diff -u /dev/null e-smith-base/root/etc/e-smith/db/configuration/defaults/haldaemon/type:1.1
+--- /dev/null	Tue Jul 12 14:05:32 2005
++++ e-smith-base/root/etc/e-smith/db/configuration/defaults/haldaemon/type	Tue Jul 12 14:02:26 2005
+@@ -0,0 +1 @@
++service
+Index: e-smith-base/root/etc/e-smith/db/configuration/defaults/messagebus/status
+diff -u /dev/null e-smith-base/root/etc/e-smith/db/configuration/defaults/messagebus/status:1.1
+--- /dev/null	Tue Jul 12 14:05:32 2005
++++ e-smith-base/root/etc/e-smith/db/configuration/defaults/messagebus/status	Tue Jul 12 14:02:26 2005
+@@ -0,0 +1 @@
++enabled
+Index: e-smith-base/root/etc/e-smith/db/configuration/defaults/messagebus/type
+diff -u /dev/null e-smith-base/root/etc/e-smith/db/configuration/defaults/messagebus/type:1.1
+--- /dev/null	Tue Jul 12 14:05:32 2005
++++ e-smith-base/root/etc/e-smith/db/configuration/defaults/messagebus/type	Tue Jul 12 14:02:26 2005
+@@ -0,0 +1 @@
++service
