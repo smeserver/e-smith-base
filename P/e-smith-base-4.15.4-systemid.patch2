@@ -1,0 +1,17 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/sysconfig/Registration mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/sysconfig/Registration
+--- e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/sysconfig/Registration	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/sysconfig/Registration	2005-07-17 10:26:47.134866728 -0600
+@@ -0,0 +1 @@
++none
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/db/configuration/migrate/10SystemID mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/migrate/10SystemID
+--- e-smith-base-4.15.4/root/etc/e-smith/db/configuration/migrate/10SystemID	2005-07-17 10:27:51.086750056 -0600
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/migrate/10SystemID	2005-07-17 10:26:32.605623720 -0600
+@@ -1,5 +1,7 @@
+ {
+     use Data::UUID; 
+    
+-    $sid = $DB->get('SystemID') || $DB->new_record("SystemID", { type => new Data::UUID->create_str });
++    my $sysconfig = $DB->get('sysconfig') || $DB->new_record('sysconfig', { type => 'configuration'});
++
++    $sysconfig->prop('SystemID') || $sysconfig->set_prop("SystemID", new Data::UUID->create_str);
+ }

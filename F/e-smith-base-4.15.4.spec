@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.4
-%define release 09sme03
+%define release 09sme04
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -20,6 +20,7 @@ Patch7: e-smith-base-4.15.4-09.mitel_patch
 Patch100: e-smith-base-4.15.4-modprobe.conf.patch
 Patch101: e-smith-base-4.15.4-modprobe.conf.patch2
 Patch102: e-smith-base-4.15.4-systemid.patch
+Patch103: e-smith-base-4.15.4-systemid.patch2
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -47,6 +48,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sat Jul 16 2005 Gordon Rowell <gordonr@gormand.com.au>
+- [4.15.4-09sme04]
+- Move SystemID to sysconfig and add Registration entry
+
 * Sat Jul 16 2005 Gordon Rowell <gordonr@gormand.com.au>
 - [4.15.4-09sme03]
 - Create unique system ID for use later
@@ -4497,6 +4502,7 @@ e-smith server and gateway software - base module.
 %patch100 -p1
 %patch101 -p1
 %patch102 -p1
+%patch103 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
