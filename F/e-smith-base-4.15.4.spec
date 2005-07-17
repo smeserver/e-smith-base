@@ -21,6 +21,7 @@ Patch100: e-smith-base-4.15.4-modprobe.conf.patch
 Patch101: e-smith-base-4.15.4-modprobe.conf.patch2
 Patch102: e-smith-base-4.15.4-systemid.patch
 Patch103: e-smith-base-4.15.4-systemid.patch2
+Patch104: e-smith-base-4.15.4-password.patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -51,6 +52,7 @@ e-smith server and gateway software - base module.
 * Sat Jul 16 2005 Gordon Rowell <gordonr@gormand.com.au>
 - [4.15.4-09sme04]
 - Move SystemID to sysconfig and add Registration entry
+- Make stong the default password check for all
 
 * Sat Jul 16 2005 Gordon Rowell <gordonr@gormand.com.au>
 - [4.15.4-09sme03]
@@ -4503,6 +4505,7 @@ e-smith server and gateway software - base module.
 %patch101 -p1
 %patch102 -p1
 %patch103 -p1
+%patch104 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
