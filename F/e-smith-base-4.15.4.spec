@@ -22,6 +22,7 @@ Patch101: e-smith-base-4.15.4-modprobe.conf.patch2
 Patch102: e-smith-base-4.15.4-systemid.patch
 Patch103: e-smith-base-4.15.4-systemid.patch2
 Patch104: e-smith-base-4.15.4-password.patch
+Patch105: e-smith-base-4.15.4-console.patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -49,12 +50,13 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
-* Sat Jul 16 2005 Gordon Rowell <gordonr@gormand.com.au>
+* Sun Jul 17 2005 Shad L. Lords <slords@mail.com>
 - [4.15.4-09sme04]
 - Move SystemID to sysconfig and add Registration entry
 - Make stong the default password check for all
+- Change console to use port 980 because rewrite breaks in lynx
 
-* Sat Jul 16 2005 Gordon Rowell <gordonr@gormand.com.au>
+* Sat Jul 16 2005 Shad L. Lords <slords@mail.com>
 - [4.15.4-09sme03]
 - Create unique system ID for use later
 - Note: new Requires
@@ -4506,6 +4508,7 @@ e-smith server and gateway software - base module.
 %patch102 -p1
 %patch103 -p1
 %patch104 -p1
+%patch105 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

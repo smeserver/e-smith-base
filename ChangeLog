@@ -42,3 +42,8 @@ Sun Jul 17 10:53:51 2005                           Shad Lords (slords)
 Update all password checks to strong
 
 ----------------------------------------------------------------------
+Sun Jul 17 13:17:57 2005                           Shad Lords (slords)
+
+Make console connect directly to port 980 as rewrite rules break console
+
+----------------------------------------------------------------------
