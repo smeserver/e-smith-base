@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.4
-%define release 09sme06
+%define release 09sme08
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -52,6 +52,14 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Jul 18 2005 Gordon Rowell <gordonr@gormand.com.au>
+- [4.15.4-09sme08]
+- Remove stray references to /home/e-smith/configuration in SPEC file
+
+* Mon Jul 18 2005 Gordon Rowell <gordonr@gormand.com.au>
+- [4.15.4-09sme07]
+- Note new /home/e-smith/db/dbfile files as config files
+
 * Sun Jul 17 2005 Shad L. Lords <slords@mail.com>
 - [4.15.4-09sme06]
 - Move dbs to /home/e-smith/db
@@ -4649,7 +4657,7 @@ rm root/service/{syslog,klogd}
 mkdir -p root/etc/e-smith/events/local
 mkdir -p root/etc/e-smith/events/user-modify-admin
 mkdir -p root/home/e-smith
-touch root/home/e-smith/configuration
+mkdir -p root/home/e-smith/db
 
 mkdir -p root/etc/e-smith/pam
 mkdir -p root/home/e-smith/ssl.key
@@ -4666,7 +4674,6 @@ do
 	ln -s ../../configuration/migrate/00openRW root/etc/e-smith/db/$file/migrate/00openRW
     fi
     # Create ghost file for rpm
-    touch root/home/e-smith/$file
 done
 
 mkdir -p root/etc/tcprules
@@ -4712,7 +4719,6 @@ rm -rf $RPM_BUILD_ROOT
     --dir /var/service/dhcpcd/supervise 'attr(0700,root,root)' \
     --file /var/service/dhcpcd/log/run 'attr(0755,root,root)' \
     --dir /var/log/dhcpcd 'attr(2750,smelog,smelog)' \
-    --file /home/e-smith/configuration 'config(noreplace)' \
     --dir /var/service/httpd-admin 'attr(01755,root,root)' \
     --file /var/service/httpd-admin/down 'attr(0644,root,root)' \
     --file /var/service/httpd-admin/run 'attr(0755,root,root)' \
@@ -4749,9 +4755,9 @@ rm -rf $RPM_BUILD_ROOT
 
 for file in %{dbfiles}
 do
-    # Create ghost file for rpm
-    touch $RPM_BUILD_ROOT/home/e-smith/$file
-    echo "%config %attr(0640,root,admin) /home/e-smith/$file" \
+    # Create ghost file for rpm (created above)
+    touch $RPM_BUILD_ROOT/home/e-smith/db/$file
+    echo "%config %attr(0640,root,admin) /home/e-smith/db/$file" \
         >> %{name}-%{version}-%{release}-filelist
 done
 echo "%doc COPYING"          >> %{name}-%{version}-%{release}-filelist
