@@ -1,0 +1,24 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/events/actions/group-create-unix mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/events/actions/group-create-unix
+--- e-smith-base-4.15.4/root/etc/e-smith/events/actions/group-create-unix	2005-04-01 09:52:47.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/events/actions/group-create-unix	2005-07-18 00:21:43.272242704 -0600
+@@ -55,7 +55,7 @@
+ {
+     use esmith::lockfile;
+ 
+-    $lock = esmith::lockfile::LockFileOrWait("/home/e-smith/accounts");
++    $lock = esmith::lockfile::LockFileOrWait("/home/e-smith/db/accounts");
+     $gid = $accounts->get_next_uid;
+     $group->set_prop('Gid', $gid);
+     unless ($group->prop('Uid'))
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/events/actions/user-create-unix mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/events/actions/user-create-unix
+--- e-smith-base-4.15.4/root/etc/e-smith/events/actions/user-create-unix	2005-04-01 12:53:56.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/events/actions/user-create-unix	2005-07-18 00:21:47.330625736 -0600
+@@ -52,7 +52,7 @@
+ {
+     use esmith::lockfile;
+ 
+-    $lock = esmith::lockfile::LockFileOrWait("/home/e-smith/accounts");
++    $lock = esmith::lockfile::LockFileOrWait("/home/e-smith/db/accounts");
+     $uid = $accounts->get_next_uid;
+     $acct->set_prop('Uid', $uid);
+ }

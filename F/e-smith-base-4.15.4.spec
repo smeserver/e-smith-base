@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.4
-%define release 09sme05
+%define release 09sme06
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -24,6 +24,7 @@ Patch103: e-smith-base-4.15.4-systemid.patch2
 Patch104: e-smith-base-4.15.4-password.patch
 Patch105: e-smith-base-4.15.4-console.patch
 Patch106: e-smith-base-4.15.4-dbmoved.patch
+Patch107: e-smith-base-4.15.4-dbmoved.patch2
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -51,6 +52,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sun Jul 17 2005 Shad L. Lords <slords@mail.com>
+- [4.15.4-09sme06]
+- Move dbs to /home/e-smith/db
+
 * Sun Jul 17 2005 Shad L. Lords <slords@mail.com>
 - [4.15.4-09sme05]
 - Upgrade db api preparing for db move
@@ -4515,6 +4520,7 @@ e-smith server and gateway software - base module.
 %patch104 -p1
 %patch105 -p1
 %patch106 -p1
+%patch107 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
