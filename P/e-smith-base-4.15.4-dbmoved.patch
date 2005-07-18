@@ -117,7 +117,7 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/templates/
 +
 +    $localAccess = $ndb->local_access_spec();
 +    my $validFrom = ${'httpd-admin'}{'ValidFrom'} || 'none';
-+    $localAccess .= " $validFrom" unless ($validFrom eq 'none')
++    $localAccess .= " $validFrom" unless ($validFrom eq 'none');
      $localAccess =~ s:/255.255.255.255::g;
  
      "";
