@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.4
-%define release 09sme08
+%define release 11
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -17,14 +17,8 @@ Patch4: e-smith-base-4.15.4-06.mitel_patch
 Patch5: e-smith-base-4.15.4-07.mitel_patch
 Patch6: e-smith-base-4.15.4-08.mitel_patch
 Patch7: e-smith-base-4.15.4-09.mitel_patch
-Patch100: e-smith-base-4.15.4-modprobe.conf.patch
-Patch101: e-smith-base-4.15.4-modprobe.conf.patch2
-Patch102: e-smith-base-4.15.4-systemid.patch
-Patch103: e-smith-base-4.15.4-systemid.patch2
-Patch104: e-smith-base-4.15.4-password.patch
-Patch105: e-smith-base-4.15.4-console.patch
-Patch106: e-smith-base-4.15.4-dbmoved.patch
-Patch107: e-smith-base-4.15.4-dbmoved.patch2
+Patch8: e-smith-base-4.15.4-10.mitel_patch
+Patch9: e-smith-base-4.15.4-11.mitel_patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -38,7 +32,6 @@ Requires: perl(Locale::gettext)
 Requires: perl(Crypt::Cracklib)
 Requires: perl(Date::Manip)
 Requires: perl(Net::IPv4Addr)
-Requires: perl(Data::UUID)
 Obsoletes: rlinetd, e-smith-mod_ssl
 Obsoletes: e-smith-serial-console
 Obsoletes: sshell
@@ -52,43 +45,18 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
-* Mon Jul 18 2005 Gordon Rowell <gordonr@gormand.com.au>
-- [4.15.4-09sme08]
-- Remove stray references to /home/e-smith/configuration in SPEC file
-
-* Mon Jul 18 2005 Gordon Rowell <gordonr@gormand.com.au>
-- [4.15.4-09sme07]
-- Note new /home/e-smith/db/dbfile files as config files
-
-* Sun Jul 17 2005 Shad L. Lords <slords@mail.com>
-- [4.15.4-09sme06]
-- Move dbs to /home/e-smith/db
-
-* Sun Jul 17 2005 Shad L. Lords <slords@mail.com>
-- [4.15.4-09sme05]
-- Upgrade db api preparing for db move
-
-* Sun Jul 17 2005 Shad L. Lords <slords@mail.com>
-- [4.15.4-09sme04]
-- Move SystemID to sysconfig and add Registration entry
-- Make stong the default password check for all
-- Change console to use port 980 because rewrite breaks in lynx
-
-* Sat Jul 16 2005 Shad L. Lords <slords@mail.com>
-- [4.15.4-09sme03]
-- Create unique system ID for use later
-- Note: new Requires
-
-* Sat Jul 16 2005 Gordon Rowell <gordonr@gormand.com.au>
-- [4.15.4-09sme02]
-- And fix templates.metadata/etc/modprobe.conf
-
-* Sat Jul 16 2005 Gordon Rowell <gordonr@gormand.com.au>
-- [4.15.4-09sme01]
-- Change /etc/modules.conf templates to /etc/modprobe.conf [SF: 1227251]
+* Tue Jul 19 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.15.4-11]
+- Patches submitted by Gordon Rowell.
+- Change /etc/modules.conf templates to /etc/modprobe.conf
+  and add templates.metadata/etc/modprobe.conf [SF: 1227251]
 - Remove fragments 10appletalk and 95ModulePaths, since they are
   for very old migrations of /etc/modules.conf
-- NOTE: Two changes to changelog to remove (percent) from (percent)prep
+
+* Tue Jul 19 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.15.4-10]
+- Move quota setup in fstab template into e-smith-quota, where it
+  belongs.
 
 * Tue Jul 12 2005 Charlie Brady <charlieb@e-smith.com>
 - [4.15.4-09]
@@ -4521,14 +4489,8 @@ e-smith server and gateway software - base module.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
-%patch100 -p1
-%patch101 -p1
-%patch102 -p1
-%patch103 -p1
-%patch104 -p1
-%patch105 -p1
-%patch106 -p1
-%patch107 -p1
+%patch8 -p1
+%patch9 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
@@ -4657,7 +4619,7 @@ rm root/service/{syslog,klogd}
 mkdir -p root/etc/e-smith/events/local
 mkdir -p root/etc/e-smith/events/user-modify-admin
 mkdir -p root/home/e-smith
-mkdir -p root/home/e-smith/db
+touch root/home/e-smith/configuration
 
 mkdir -p root/etc/e-smith/pam
 mkdir -p root/home/e-smith/ssl.key
@@ -4674,6 +4636,7 @@ do
 	ln -s ../../configuration/migrate/00openRW root/etc/e-smith/db/$file/migrate/00openRW
     fi
     # Create ghost file for rpm
+    touch root/home/e-smith/$file
 done
 
 mkdir -p root/etc/tcprules
@@ -4719,6 +4682,7 @@ rm -rf $RPM_BUILD_ROOT
     --dir /var/service/dhcpcd/supervise 'attr(0700,root,root)' \
     --file /var/service/dhcpcd/log/run 'attr(0755,root,root)' \
     --dir /var/log/dhcpcd 'attr(2750,smelog,smelog)' \
+    --file /home/e-smith/configuration 'config(noreplace)' \
     --dir /var/service/httpd-admin 'attr(01755,root,root)' \
     --file /var/service/httpd-admin/down 'attr(0644,root,root)' \
     --file /var/service/httpd-admin/run 'attr(0755,root,root)' \
@@ -4755,9 +4719,9 @@ rm -rf $RPM_BUILD_ROOT
 
 for file in %{dbfiles}
 do
-    # Create ghost file for rpm (created above)
-    touch $RPM_BUILD_ROOT/home/e-smith/db/$file
-    echo "%config %attr(0640,root,admin) /home/e-smith/db/$file" \
+    # Create ghost file for rpm
+    touch $RPM_BUILD_ROOT/home/e-smith/$file
+    echo "%config %attr(0640,root,admin) /home/e-smith/$file" \
         >> %{name}-%{version}-%{release}-filelist
 done
 echo "%doc COPYING"          >> %{name}-%{version}-%{release}-filelist
