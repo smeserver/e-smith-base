@@ -72,3 +72,13 @@ Tue Jul 19 14:40:49 2005                           Shad Lords (slords)
 Sync with Mitel
 
 ----------------------------------------------------------------------
+Tue Jul 19 15:27:25 2005                           Shad Lords (slords)
+
+- Move databases from /home/e-smith to /home/e-smith/db
+- Upgrade database APIs
+- Change passwordstrength from normal to strong for all
+- Make server-manager access local port 980
+- New SystemID property for future use
+
+
+----------------------------------------------------------------------

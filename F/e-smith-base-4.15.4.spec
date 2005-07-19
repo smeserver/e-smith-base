@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.4
-%define release 11
+%define release 11sme01
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -19,6 +19,11 @@ Patch6: e-smith-base-4.15.4-08.mitel_patch
 Patch7: e-smith-base-4.15.4-09.mitel_patch
 Patch8: e-smith-base-4.15.4-10.mitel_patch
 Patch9: e-smith-base-4.15.4-11.mitel_patch
+Patch10: e-smith-base-4.15.4-dbapi.patch
+Patch11: e-smith-base-4.15.4-localmanager.patch
+Patch12: e-smith-base-4.15.4-movedb.patch
+Patch13: e-smith-base-4.15.4-password.patch
+Patch14: e-smith-base-4.15.4-systemid.patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -32,6 +37,7 @@ Requires: perl(Locale::gettext)
 Requires: perl(Crypt::Cracklib)
 Requires: perl(Date::Manip)
 Requires: perl(Net::IPv4Addr)
+Requires: perl(Data::UUID)
 Obsoletes: rlinetd, e-smith-mod_ssl
 Obsoletes: e-smith-serial-console
 Obsoletes: sshell
@@ -45,6 +51,14 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Jul 19 2005 Shad L. Lords <slords@mail.com>
+- [4.15.4-11sme01]
+- Move databases from /home/e-smith to /home/e-smith/db
+- Upgrade database APIs
+- Change passwordstrength from normal to strong for all
+- Make server-manager access local port 980
+- New SystemID property for future use
+
 * Tue Jul 19 2005 Charlie Brady <charlieb@e-smith.com>
 - [4.15.4-11]
 - Patches submitted by Gordon Rowell.
@@ -4491,6 +4505,11 @@ e-smith server and gateway software - base module.
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
+%patch10 -p1
+%patch11 -p1
+%patch12 -p1
+%patch13 -p1
+%patch14 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
