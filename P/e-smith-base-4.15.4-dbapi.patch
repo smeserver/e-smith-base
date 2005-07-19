@@ -1,0 +1,161 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/templates/etc/e-smith/pam/accounts.allow/00usedb mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/templates/etc/e-smith/pam/accounts.allow/00usedb
+--- e-smith-base-4.15.4/root/etc/e-smith/templates/etc/e-smith/pam/accounts.allow/00usedb	2002-02-15 12:31:21.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/templates/etc/e-smith/pam/accounts.allow/00usedb	1969-12-31 17:00:00.000000000 -0700
+@@ -1,3 +0,0 @@
+-{
+-    use esmith::db;
+-}
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/templates/etc/e-smith/pam/accounts.allow/20userAccounts mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/templates/etc/e-smith/pam/accounts.allow/20userAccounts
+--- e-smith-base-4.15.4/root/etc/e-smith/templates/etc/e-smith/pam/accounts.allow/20userAccounts	2002-02-15 12:31:22.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/templates/etc/e-smith/pam/accounts.allow/20userAccounts	2005-07-19 14:37:52.756930464 -0600
+@@ -1,7 +1,6 @@
+ {
+-    tie my %accounts, 'esmith::config', '/home/e-smith/accounts';
++    use esmith::AccountsDB;
++    my $adb = esmith::AccountsDB->open_ro();
+ 
+-    $OUT = join("\n", grep { db_get_type(\%accounts, $_) eq 'user'
+-                        && db_get_prop(\%accounts, $_, 'PasswordSet') eq 'yes'
+-                    } keys %accounts);
++    $OUT = join "\n", map { $_->key; } grep { $_->prop('PasswordSet') eq 'yes' } $adb->users;
+ }
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/templates/etc/e-smith/pam/accounts.deny/10passwordRequired mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/templates/etc/e-smith/pam/accounts.deny/10passwordRequired
+--- e-smith-base-4.15.4/root/etc/e-smith/templates/etc/e-smith/pam/accounts.deny/10passwordRequired	2002-02-15 12:31:22.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/templates/etc/e-smith/pam/accounts.deny/10passwordRequired	2005-07-19 14:37:52.761929704 -0600
+@@ -1,30 +1,24 @@
+ {
+-    use esmith::db;
+-
+-    tie my %accounts, 'esmith::config', '/home/e-smith/accounts';
++    use esmith::AccountsDB;
++    my $adb = esmith::AccountsDB->open_ro();
+ 
+     while ( my $name = getpwent )
+     {
+ 	next if ($name eq "admin");
+-
+ 	next if ($name eq "public") and ($ACCOUNTS_DENY_ALLOW_PUBLIC);
+ 
+-	my $type = db_get_type(\%accounts, $name) || 'none';
++	my $a = $adb->get($name);
++	next unless defined $a;
+ 
++	my $type = $a->prop('type') || 'none';
+ 	if ( $type =~ /(user|ibay)/ )
+ 	{
+-	    my $passwordSet = db_get_prop(\%accounts, $name, "PasswordSet") || 
+-		'no';
+-
++	    my $passwordSet = $a->prop('PasswordSet') || 'no';
+ 	    next if ($passwordSet eq "yes");
+ 
+-	    my $ftpMode = db_get_prop(\%accounts, $name, "PublicAccess") ||
+-		'none';
+-
++	    my $ftpMode = $a->prop('PublicAccess') || 'none';
+ 	    next if ($ftpMode eq "local" or $ftpMode eq "global");
+-
+ 	}
+-
+ 	$OUT .= "$name\n";
+     }
+ }
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/templates/etc/e-smith/pam/users.allow/00usedb mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/templates/etc/e-smith/pam/users.allow/00usedb
+--- e-smith-base-4.15.4/root/etc/e-smith/templates/etc/e-smith/pam/users.allow/00usedb	2002-02-15 12:31:22.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/templates/etc/e-smith/pam/users.allow/00usedb	1969-12-31 17:00:00.000000000 -0700
+@@ -1,3 +0,0 @@
+-{
+-    use esmith::db;
+-}
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/templates/etc/e-smith/pam/users.allow/20userAccounts mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/templates/etc/e-smith/pam/users.allow/20userAccounts
+--- e-smith-base-4.15.4/root/etc/e-smith/templates/etc/e-smith/pam/users.allow/20userAccounts	2002-02-15 12:31:22.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/templates/etc/e-smith/pam/users.allow/20userAccounts	2005-07-19 14:37:52.765929096 -0600
+@@ -1,7 +1,6 @@
+ {
+-    tie my %accounts, 'esmith::config', '/home/e-smith/accounts';
++    use esmith::AccountsDB;
++    my $adb = esmith::AccountsDB->open_ro();
+ 
+-    join("\n", grep { db_get_type(\%accounts, $_) eq 'user'
+-                        && db_get_prop(\%accounts, $_, 'PasswordSet') eq 'yes'
+-                    } keys %accounts);
++    $OUT = join "\n", map { $_->key; } grep { $_->prop('PasswordSet') eq 'yes' } $adb->users;
+ }
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/templates/etc/httpd/admin-conf/httpd.conf/01localAccessString mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/templates/etc/httpd/admin-conf/httpd.conf/01localAccessString
+--- e-smith-base-4.15.4/root/etc/e-smith/templates/etc/httpd/admin-conf/httpd.conf/01localAccessString	2003-06-02 16:42:05.000000000 -0600
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/templates/etc/httpd/admin-conf/httpd.conf/01localAccessString	2005-07-19 14:37:52.768928640 -0600
+@@ -1,26 +1,17 @@
+ {
+-    use esmith::util;
+-
+-    #------------------------------------------------------------
+-    # Compute "localAccess" string for use in template below.
+-    #------------------------------------------------------------
+-    my %networks;
+-    tie %networks, 'esmith::config', '/home/e-smith/networks';
+-
+-    my @access = esmith::util::computeLocalAccessSpec( $LocalIP, 
+-			$LocalNetmask, \%networks, 'private');
+-
+-    $localAccess = "@access";
+-
+-    my $validFrom = ${"httpd-admin"}{"ValidFrom"} || 'none';
+-
+-    $validFrom =~ s/,/ /g;
+-    unless ($validFrom eq 'none')
+-    {
+-        $localAccess .= " $validFrom";
+-    }
++    #---------------------------------------------------------------------
++    # Grab ValidFrom access list property of httpd-admin
++    # SSL enabled virtual hosts should only allow access from IP's in
++    # this list, as well as local networks.
++    #---------------------------------------------------------------------
++    use esmith::NetworksDB;
++
++    my $ndb = esmith::NetworksDB->open_ro();
++
++    $localAccess = $ndb->local_access_spec();
++    my $validFrom = ${'httpd-admin'}{'ValidFrom'} || 'none';
++    $localAccess .= " $validFrom" unless ($validFrom eq 'none');
+     $localAccess =~ s:/255.255.255.255::g;
+ 
+     "";
+ }
+-
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/rc.d/init.d/e-smith-service mezzanine_patched_e-smith-base-4.15.4/root/etc/rc.d/init.d/e-smith-service
+--- e-smith-base-4.15.4/root/etc/rc.d/init.d/e-smith-service	2004-08-04 10:34:20.000000000 -0600
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/rc.d/init.d/e-smith-service	2005-07-19 14:37:52.901908424 -0600
+@@ -48,7 +48,7 @@
+     INITSCRIPT=${S_INITSCRIPT}
+ fi
+ 
+-STATUS=$( /sbin/e-smith/db /home/e-smith/configuration getprop ${SERVICE} status )
++STATUS=$( /sbin/e-smith/db configuration getprop ${SERVICE} status )
+ 
+ case $1 in
+     *start)
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/sbin/e-smith/console mezzanine_patched_e-smith-base-4.15.4/root/sbin/e-smith/console
+--- e-smith-base-4.15.4/root/sbin/e-smith/console	2005-06-07 09:32:56.000000000 -0600
++++ mezzanine_patched_e-smith-base-4.15.4/root/sbin/e-smith/console	2005-07-19 14:37:52.918905840 -0600
+@@ -65,7 +65,7 @@
+ 
+         return undef if ($self->EXISTS($key) and $self->FETCH($key) eq $value);
+ 
+-        if (($self->filename eq '/home/e-smith/configuration')
++        if (($self->filename eq 'configuration')
+             && ($key ne 'UnsavedChanges')) {
+             $self->SUPER::STORE('UnsavedChanges', 'yes');
+         }
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/sbin/e-smith/init_config mezzanine_patched_e-smith-base-4.15.4/root/sbin/e-smith/init_config
+--- e-smith-base-4.15.4/root/sbin/e-smith/init_config	2005-06-07 09:32:57.000000000 -0600
++++ mezzanine_patched_e-smith-base-4.15.4/root/sbin/e-smith/init_config	2005-07-19 14:37:52.927904472 -0600
+@@ -65,7 +65,7 @@
+ 
+         return undef if ($self->EXISTS($key) and $self->FETCH($key) eq $value);
+ 
+-        if (($self->filename eq '/home/e-smith/configuration')
++        if (($self->filename eq 'configuration')
+             && ($key ne 'UnsavedChanges')) {
+             $self->SUPER::STORE('UnsavedChanges', 'yes');
+         }
