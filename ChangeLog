@@ -97,3 +97,9 @@ Wed Jul 20 18:30:35 2005                           Shad Lords (slords)
 Remove hwconfig default db entry
 
 ----------------------------------------------------------------------
+Thu Jul 21 06:39:55 2005                           Shad Lords (slords)
+
+- Fix user password validation [SF: 1242098]
+
+
+----------------------------------------------------------------------

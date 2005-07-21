@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.4
-%define release 11sme02
+%define release 11sme03
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -25,6 +25,7 @@ Patch12: e-smith-base-4.15.4-movedb.patch
 Patch13: e-smith-base-4.15.4-password.patch
 Patch14: e-smith-base-4.15.4-systemid.patch
 Patch15: e-smith-base-4.15.4-nohwconfig.patch
+Patch16: e-smith-base-4.15.4-userpass.patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -52,6 +53,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Thu Jul 21 2005 Shad L. Lords <slords@mail.com>
+- [4.15.4-11sme03]
+- Fix user password validation [SF: 1242098]
+
 * Wed Jul 20 2005 Shad L. Lords <slords@mail.com>
 - [4.15.4-11sme02]
 - Remove hwconfig db default entry
@@ -4516,6 +4521,7 @@ e-smith server and gateway software - base module.
 %patch13 -p1
 %patch14 -p1
 %patch15 -p1
+%patch16 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
