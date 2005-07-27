@@ -1,6 +1,7 @@
-diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/sbin/e-smith/console mezzanine_patched_e-smith-base-4.15.4/root/sbin/e-smith/console
---- e-smith-base-4.15.4/root/sbin/e-smith/console	2005-06-07 09:32:56.000000000 -0600
-+++ mezzanine_patched_e-smith-base-4.15.4/root/sbin/e-smith/console	2005-07-19 14:37:52.918905840 -0600
+Index: e-smith-base/e-smith-base.spec
+diff -u e-smith-base/root/sbin/e-smith/console:1.156 e-smith-base/root/sbin/e-smith/console:1.157
+--- e-smith-base/root/sbin/e-smith/console:1.156	Tue Jun  7 11:32:56 2005
++++ e-smith-base/root/sbin/e-smith/console	Wed Jul 27 14:26:44 2005
 @@ -2636,7 +2636,7 @@
           text  =>
           gettext("This option will start a text-mode browser to access the server manager from this console.  Normally you would access the server manager from a web browser at the following url:") .
@@ -15,7 +16,7 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/sbin/e-smith/console m
                     "-rlogin",
                     "-telnet",
 -                   "http://localhost/server-manager/noframes"
-+                   "http://localhost:980/server-manager/noframes"
++                   "https://localhost/server-manager/noframes"
                    );
          }
      }

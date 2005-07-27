@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.4
-%define release 12
+%define release 16
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -20,6 +20,10 @@ Patch7: e-smith-base-4.15.4-09.mitel_patch
 Patch8: e-smith-base-4.15.4-10.mitel_patch
 Patch9: e-smith-base-4.15.4-11.mitel_patch
 Patch10: e-smith-base-4.15.4-12.mitel_patch
+Patch11: e-smith-base-4.15.4-13.mitel_patch
+Patch12: e-smith-base-4.15.4-14.mitel_patch
+Patch13: e-smith-base-4.15.4-15.mitel_patch
+Patch14: e-smith-base-4.15.4-16.mitel_patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -46,12 +50,31 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Wed Jul 27 2005 Shad Lords <slords@mail.com>
+- [4.15.4-16]
+- Upgrade database APIs to latest standard.
+- Move databases from /home/e-smith to /home/e-smith/db [SF: 1216546]
+
+* Wed Jul 27 2005 Shad Lords <slords@mail.com>
+- [4.15.4-15]
+- Use https to access server-manager from console, to avoid redirect
+  problems. [SF: 1246182]
+
+* Wed Jul 27 2005 Shad Lords <slords@mail.com>
+- [4.15.4-14]
+- Remove hwconfig db default entry. [SF: 1246180]
+
+* Wed Jul 27 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.15.4-13]
+- Remove checking against 32 group limit from UI. Thanks to Gordon Rowell
+  for the main patch. [SF: 1245421]
+
 * Tue Jul 26 2005 Charlie Brady <charlieb@e-smith.com>
 - [4.15.4-12]
 - Patches from Shad Lords.
 - Complete fix of user password validation started in 4.15.3-06.
   [SF: 1242098]
-- Change default password strength to "strong".
+- Change default password strength to "strong". [SF: 1246178]
 
 * Tue Jul 19 2005 Charlie Brady <charlieb@e-smith.com>
 - [4.15.4-11]
@@ -4500,6 +4523,10 @@ e-smith server and gateway software - base module.
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
+%patch11 -p1
+%patch12 -p1
+%patch13 -p1
+%patch14 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
