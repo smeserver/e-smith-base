@@ -1,0 +1,5 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/hwconfig/type mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/hwconfig/type
+--- e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/hwconfig/type	2003-04-22 15:18:46.000000000 -0600
++++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/db/configuration/defaults/hwconfig/type	1969-12-31 17:00:00.000000000 -0700
+@@ -1 +0,0 @@
+-configuration
