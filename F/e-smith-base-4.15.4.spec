@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.4
-%define release 11sme04
+%define release 12
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -19,14 +19,7 @@ Patch6: e-smith-base-4.15.4-08.mitel_patch
 Patch7: e-smith-base-4.15.4-09.mitel_patch
 Patch8: e-smith-base-4.15.4-10.mitel_patch
 Patch9: e-smith-base-4.15.4-11.mitel_patch
-Patch10: e-smith-base-4.15.4-dbapi.patch
-Patch11: e-smith-base-4.15.4-localmanager.patch
-Patch12: e-smith-base-4.15.4-movedb.patch
-Patch13: e-smith-base-4.15.4-password.patch
-Patch14: e-smith-base-4.15.4-systemid.patch
-Patch15: e-smith-base-4.15.4-nohwconfig.patch
-Patch16: e-smith-base-4.15.4-userpass.patch
-Patch17: e-smith-base-4.15.4-no30grouplimit.patch
+Patch10: e-smith-base-4.15.4-12.mitel_patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -40,7 +33,6 @@ Requires: perl(Locale::gettext)
 Requires: perl(Crypt::Cracklib)
 Requires: perl(Date::Manip)
 Requires: perl(Net::IPv4Addr)
-Requires: perl(Data::UUID)
 Obsoletes: rlinetd, e-smith-mod_ssl
 Obsoletes: e-smith-serial-console
 Obsoletes: sshell
@@ -54,25 +46,12 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
-* Tue Jul 26 2005 Gordon Rowell <gordonr@gormand.com.au>
-- [4.15.4-11sme04]
-- Remove 30 (actually 28) group limit [SF: 1245421]
-
-* Thu Jul 21 2005 Shad L. Lords <slords@mail.com>
-- [4.15.4-11sme03]
-- Fix user password validation [SF: 1242098]
-
-* Wed Jul 20 2005 Shad L. Lords <slords@mail.com>
-- [4.15.4-11sme02]
-- Remove hwconfig db default entry
-
-* Tue Jul 19 2005 Shad L. Lords <slords@mail.com>
-- [4.15.4-11sme01]
-- Move databases from /home/e-smith to /home/e-smith/db
-- Upgrade database APIs
-- Change passwordstrength from normal to strong for all
-- Make server-manager access local port 980
-- New SystemID property for future use
+* Tue Jul 26 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.15.4-12]
+- Patches from Shad Lords.
+- Complete fix of user password validation started in 4.15.3-06.
+  [SF: 1242098]
+- Change default password strength to "strong".
 
 * Tue Jul 19 2005 Charlie Brady <charlieb@e-smith.com>
 - [4.15.4-11]
@@ -4521,13 +4500,6 @@ e-smith server and gateway software - base module.
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
-%patch11 -p1
-%patch12 -p1
-%patch13 -p1
-%patch14 -p1
-%patch15 -p1
-%patch16 -p1
-%patch17 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
@@ -4656,7 +4628,7 @@ rm root/service/{syslog,klogd}
 mkdir -p root/etc/e-smith/events/local
 mkdir -p root/etc/e-smith/events/user-modify-admin
 mkdir -p root/home/e-smith
-mkdir -p root/home/e-smith/db
+touch root/home/e-smith/configuration
 
 mkdir -p root/etc/e-smith/pam
 mkdir -p root/home/e-smith/ssl.key
@@ -4673,6 +4645,7 @@ do
 	ln -s ../../configuration/migrate/00openRW root/etc/e-smith/db/$file/migrate/00openRW
     fi
     # Create ghost file for rpm
+    touch root/home/e-smith/$file
 done
 
 mkdir -p root/etc/tcprules
@@ -4718,6 +4691,7 @@ rm -rf $RPM_BUILD_ROOT
     --dir /var/service/dhcpcd/supervise 'attr(0700,root,root)' \
     --file /var/service/dhcpcd/log/run 'attr(0755,root,root)' \
     --dir /var/log/dhcpcd 'attr(2750,smelog,smelog)' \
+    --file /home/e-smith/configuration 'config(noreplace)' \
     --dir /var/service/httpd-admin 'attr(01755,root,root)' \
     --file /var/service/httpd-admin/down 'attr(0644,root,root)' \
     --file /var/service/httpd-admin/run 'attr(0755,root,root)' \
@@ -4755,8 +4729,8 @@ rm -rf $RPM_BUILD_ROOT
 for file in %{dbfiles}
 do
     # Create ghost file for rpm
-    touch $RPM_BUILD_ROOT/home/e-smith/db/$file
-    echo "%config %attr(0640,root,admin) /home/e-smith/db/$file" \
+    touch $RPM_BUILD_ROOT/home/e-smith/$file
+    echo "%config %attr(0640,root,admin) /home/e-smith/$file" \
         >> %{name}-%{version}-%{release}-filelist
 done
 echo "%doc COPYING"          >> %{name}-%{version}-%{release}-filelist
