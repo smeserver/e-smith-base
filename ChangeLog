@@ -150,3 +150,10 @@ Sat Jul 30 17:19:57 2005                           Shad Lords (slords)
 Sync with mitel
 
 ----------------------------------------------------------------------
+Sat Jul 30 17:32:42 2005                           Shad Lords (slords)
+
+- Add TCPPort and access for httpd-admin [SF: 1246986]
+- Fix UnsavedChanges in console [SF: 1245238]
+
+
+----------------------------------------------------------------------
