@@ -1,0 +1,231 @@
+Index: e-smith-base/e-smith-base.spec
+diff -u e-smith-base/root/etc/e-smith/templates/etc/crontab/65_logrotate:1.1 e-smith-base/root/etc/e-smith/templates/etc/crontab/65_logrotate:1.2
+--- e-smith-base/root/etc/e-smith/templates/etc/crontab/65_logrotate:1.1	Wed Mar 12 15:29:46 2003
++++ e-smith-base/root/etc/e-smith/templates/etc/crontab/65_logrotate	Thu Jul 28 15:31:11 2005
+@@ -1,11 +1,5 @@
+ {
+-    use esmith::db;
+-
+-    my %services;
+-
+-    $services{logrotate} = $logrotate if defined $logrotate;
+-
+-    my $interval = db_get_prop(\%services, "logrotate", "interval") || "7";
++    my $interval = $logrotate{"interval"} || "7";
+     
+     $OUT = "";
+ 
+Index: e-smith-base/root/etc/e-smith/templates/etc/diald/link/20isdn
+diff -u e-smith-base/root/etc/e-smith/templates/etc/diald/link/20isdn:1.1.1.1 e-smith-base/root/etc/e-smith/templates/etc/diald/link/20isdn:1.2
+--- e-smith-base/root/etc/e-smith/templates/etc/diald/link/20isdn:1.1.1.1	Fri Feb 15 14:31:21 2002
++++ e-smith-base/root/etc/e-smith/templates/etc/diald/link/20isdn	Thu Jul 28 15:31:12 2005
+@@ -1,9 +1,7 @@
+ isdn	PHONE='{
+-    my $phone = db_get($confref, 'DialupPhoneNumber');
+-    $phone = "" unless (defined $phone);
++    my $phone = $DialupPhoneNumber || '';
+     $OUT = "$phone";
+ }' WAITTIME=10 EAZ_OUT='{
+-    my $msn = db_get_prop($confref, 'isdn', 'Msn');
+-    $msn = "" unless (defined $msn);
++    my $msn = $isdn{'Msn'} || '';
+     $OUT = "$msn";
+ }' EAZ_IN=''
+Index: e-smith-base/root/etc/e-smith/templates/etc/diald.conf/connect
+diff -u e-smith-base/root/etc/e-smith/templates/etc/diald.conf/connect:1.1.1.1 e-smith-base/root/etc/e-smith/templates/etc/diald.conf/connect:1.2
+--- e-smith-base/root/etc/e-smith/templates/etc/diald.conf/connect:1.1.1.1	Fri Feb 15 14:31:19 2002
++++ e-smith-base/root/etc/e-smith/templates/etc/diald.conf/connect	Thu Jul 28 15:31:12 2005
+@@ -1,6 +1,6 @@
+ {
+-    my $isdn = db_get_prop($confref, 'isdn', 'status') || "disabled";
+-    my $sync = db_get_prop($confref, 'isdn', 'UseSyncPPP') || "yes";
++    my $isdn = $isdn{'status'} || "disabled";
++    my $sync = $isdn{'UseSyncPPP'} || "yes";
+     if ($isdn eq "enabled" && $sync eq "yes")
+     {
+ 	$OUT = "connect /etc/diald/scripts/connect";
+Index: e-smith-base/root/etc/e-smith/templates/etc/diald.conf/device
+diff -u e-smith-base/root/etc/e-smith/templates/etc/diald.conf/device:1.1.1.1 e-smith-base/root/etc/e-smith/templates/etc/diald.conf/device:1.2
+--- e-smith-base/root/etc/e-smith/templates/etc/diald.conf/device:1.1.1.1	Fri Feb 15 14:31:19 2002
++++ e-smith-base/root/etc/e-smith/templates/etc/diald.conf/device	Thu Jul 28 15:31:12 2005
+@@ -1,8 +1,8 @@
+ device {
+-    my $isdn = db_get_prop($confref, 'isdn', 'status') || "disabled";
++    my $isdn = $isdn{'status'} || "disabled";
+     if ($isdn eq "enabled")
+     {
+-	my $sync = db_get_prop($confref, 'isdn', 'UseSyncPPP') || "yes";
++	my $sync = $isdn{'UseSyncPPP'} || "yes";
+ 	$OUT = ($sync eq "yes") ? "ippp0" : "$DialupModemDevice";
+     }
+     else
+Index: e-smith-base/root/etc/e-smith/templates/etc/diald.conf/disconnect
+diff -u e-smith-base/root/etc/e-smith/templates/etc/diald.conf/disconnect:1.1.1.1 e-smith-base/root/etc/e-smith/templates/etc/diald.conf/disconnect:1.2
+--- e-smith-base/root/etc/e-smith/templates/etc/diald.conf/disconnect:1.1.1.1	Fri Feb 15 14:31:19 2002
++++ e-smith-base/root/etc/e-smith/templates/etc/diald.conf/disconnect	Thu Jul 28 15:31:12 2005
+@@ -1,7 +1,7 @@
+ {
+     $OUT = "";
+-    my $isdn = db_get_prop($confref, 'isdn', 'status') || "disabled";
+-    my $sync = db_get_prop($confref, 'isdn', 'UseSyncPPP') || "yes";
++    my $isdn = $isdn{'status'} || "disabled";
++    my $sync = $isdn{'UseSyncPPP'} || "yes";
+     if ($isdn eq "enabled" && $sync eq "yes")
+     {
+ 	$OUT = "disconnect /etc/diald/scripts/disconnect";
+Index: e-smith-base/root/etc/e-smith/templates/etc/diald.conf/options
+diff -u e-smith-base/root/etc/e-smith/templates/etc/diald.conf/options:1.1.1.1 e-smith-base/root/etc/e-smith/templates/etc/diald.conf/options:1.2
+--- e-smith-base/root/etc/e-smith/templates/etc/diald.conf/options:1.1.1.1	Fri Feb 15 14:31:20 2002
++++ e-smith-base/root/etc/e-smith/templates/etc/diald.conf/options	Thu Jul 28 15:31:12 2005
+@@ -1,6 +1,6 @@
+ {
+-    my $isdn = db_get_prop($confref, 'isdn', 'status') || "disabled";
+-    my $sync = db_get_prop($confref, 'isdn', 'UseSyncPPP') || "yes";
++    my $isdn = $isdn{'status'} || "disabled";
++    my $sync = $isdn{'UseSyncPPP'} || "yes";
+     $OUT .= ($isdn eq "enabled" && $sync eq "yes") ?
+ 		"mode dev" : "mode ppp";
+ }
+Index: e-smith-base/root/etc/e-smith/templates/etc/diald.conf/pppd-options
+diff -u e-smith-base/root/etc/e-smith/templates/etc/diald.conf/pppd-options:1.2 e-smith-base/root/etc/e-smith/templates/etc/diald.conf/pppd-options:1.3
+--- e-smith-base/root/etc/e-smith/templates/etc/diald.conf/pppd-options:1.2	Mon Jan 27 10:57:52 2003
++++ e-smith-base/root/etc/e-smith/templates/etc/diald.conf/pppd-options	Thu Jul 28 15:31:12 2005
+@@ -1,7 +1,7 @@
+ {
+     $OUT = "";
+-    my $isdn = db_get_prop($confref, 'isdn', 'status') || "disabled";
+-    my $sync = db_get_prop($confref, 'isdn', 'UseSyncPPP') || "yes";
++    my $isdn = $isdn{'status'} || "disabled";
++    my $sync = $isdn{'UseSyncPPP'} || "yes";
+     return if ($isdn eq "enabled" && $sync eq "yes");
+ 
+     $OUT .= "pppd-options name \"$DialupUserAccount\" noauth noipdefault ";
+Index: e-smith-base/root/etc/e-smith/templates/etc/inittab/15ctrlaltdel
+diff -u e-smith-base/root/etc/e-smith/templates/etc/inittab/15ctrlaltdel:1.1 e-smith-base/root/etc/e-smith/templates/etc/inittab/15ctrlaltdel:1.2
+--- e-smith-base/root/etc/e-smith/templates/etc/inittab/15ctrlaltdel:1.1	Wed Jul  9 13:45:14 2003
++++ e-smith-base/root/etc/e-smith/templates/etc/inittab/15ctrlaltdel	Thu Jul 28 15:31:12 2005
+@@ -1,11 +1,6 @@
+ # Trap CTRL-ALT-DELETE
+ {
+-    use esmith::db;
+-
+-    local %services;
+-    $services{'ctrlaltdel'} = $ctrlaltdel;
+-
+-    my $Status = db_get_prop(\%services, 'ctrlaltdel', 'status');
++    my $Status = $ctrlaltdel{'status'};
+     if (defined $Status && $Status eq "enabled")
+     {
+ 	$OUT .= "ca::ctrlaltdel:/sbin/shutdown -t3 -r now";
+Index: e-smith-base/root/etc/e-smith/templates/etc/ippp.conf/50Generic
+diff -u e-smith-base/root/etc/e-smith/templates/etc/ippp.conf/50Generic:1.1.1.1 e-smith-base/root/etc/e-smith/templates/etc/ippp.conf/50Generic:1.2
+--- e-smith-base/root/etc/e-smith/templates/etc/ippp.conf/50Generic:1.1.1.1	Fri Feb 15 14:31:22 2002
++++ e-smith-base/root/etc/e-smith/templates/etc/ippp.conf/50Generic	Thu Jul 28 15:31:12 2005
+@@ -4,11 +4,8 @@
+     # If you really want to change the options used by ipppd, then
+     # you can set the IpppdOptions property of the 'isdn' service.
+     # If you do this, you'd better know what you are doing!
+-    my $ppp_options = db_get_prop($confref, 'isdn', 'IpppdOptions');
+-    unless (defined $ppp_options)
+-    {
+-	$ppp_options = " noauth debug -vj -vjccomp -bsdcomp -ac -pc " .
++    my $ppp_options = $isdn{'IpppdOptions'} ||
++	" noauth debug -vj -vjccomp -bsdcomp -ac -pc " .
+ 	    "noipdefault ipcp-accept-local ipcp-accept-remote";
+-    }
+     $OUT .= " $ppp_options ipparam diald";
+ }
+Index: e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10hisax
+diff -u e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10hisax:1.1 e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10hisax:1.2
+--- e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10hisax:1.1	Tue Jul 19 12:41:31 2005
++++ e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10hisax	Thu Jul 28 15:31:12 2005
+@@ -5,9 +5,9 @@
+     {
+ 	push @lines, $hisax_alias;
+     }
+-    my $hisax = db_get_prop($confref, 'isdn', 'HisaxOptions') || "";
+-    my $type = db_get_prop($confref, 'isdn', 'Type') || "";
+-    my $protocol = db_get_prop($confref, 'isdn', 'Protocol') || "";
++    my $hisax = $isdn{'HisaxOptions'} || "";
++    my $type = $isdn{'Type'} || "";
++    my $protocol = $isdn{'Protocol'} || "";
+     if ($type)
+     {
+ 	$hisax .= " type=$type";
+Index: e-smith-base/root/etc/e-smith/templates/etc/ppp/chap-secrets/05pppoe-password
+diff -u e-smith-base/root/etc/e-smith/templates/etc/ppp/chap-secrets/05pppoe-password:1.1 e-smith-base/root/etc/e-smith/templates/etc/ppp/chap-secrets/05pppoe-password:1.2
+--- e-smith-base/root/etc/e-smith/templates/etc/ppp/chap-secrets/05pppoe-password:1.1	Fri May 13 17:36:26 2005
++++ e-smith-base/root/etc/e-smith/templates/etc/ppp/chap-secrets/05pppoe-password	Thu Jul 28 15:31:12 2005
+@@ -1,9 +1,6 @@
+ {
+-    use esmith::db;
+-
+     $OUT .= "";
+-    local %services = ( pppoe => $pppoe );
+-    my $pppoe_status = db_get_prop(\%services, "pppoe", "status") || "disabled";
++    my $pppoe_status = $pppoe{"status"} || "disabled";
+     if ($pppoe_status eq "enabled")
+     {
+ 	$OUT .= "\"${DialupUserAccount}\"\t*\t\"${DialupUserPassword}\"";
+Index: e-smith-base/root/etc/e-smith/templates/etc/ppp/pap-secrets/05pppoe-password
+diff -u e-smith-base/root/etc/e-smith/templates/etc/ppp/pap-secrets/05pppoe-password:1.1 e-smith-base/root/etc/e-smith/templates/etc/ppp/pap-secrets/05pppoe-password:1.2
+--- e-smith-base/root/etc/e-smith/templates/etc/ppp/pap-secrets/05pppoe-password:1.1	Fri May 13 17:36:26 2005
++++ e-smith-base/root/etc/e-smith/templates/etc/ppp/pap-secrets/05pppoe-password	Thu Jul 28 15:31:12 2005
+@@ -1,9 +1,6 @@
+ {
+-    use esmith::db;
+-
+     $OUT .= "";
+-    local %services = ( pppoe => $pppoe );
+-    my $pppoe_status = db_get_prop(\%services, "pppoe", "status") || "disabled";
++    my $pppoe_status = $pppoe{"status"} || "disabled";
+     if ($pppoe_status eq "enabled")
+     {
+ 	$OUT .= "\"${DialupUserAccount}\"\t*\t\"${DialupUserPassword}\"";
+Index: e-smith-base/root/etc/e-smith/templates/etc/sysconfig/network-scripts/chat-ppp0/25init
+diff -u e-smith-base/root/etc/e-smith/templates/etc/sysconfig/network-scripts/chat-ppp0/25init:1.1.1.1 e-smith-base/root/etc/e-smith/templates/etc/sysconfig/network-scripts/chat-ppp0/25init:1.2
+--- e-smith-base/root/etc/e-smith/templates/etc/sysconfig/network-scripts/chat-ppp0/25init:1.1.1.1	Fri Feb 15 14:31:21 2002
++++ e-smith-base/root/etc/e-smith/templates/etc/sysconfig/network-scripts/chat-ppp0/25init	Thu Jul 28 15:31:12 2005
+@@ -5,8 +5,8 @@
+     if ($DialupModemDevice eq "/dev/ttyI0")
+     {
+ 	# we are using an internal ISDN card
+-	my $msn = db_get_prop($confref, 'isdn', 'Msn') || "";
+-	my $blocksize = db_get_prop($confref, 'isdn', 'Blocksize') || "512";
++	my $msn = $isdn{'Msn'} || "";
++	my $blocksize = $isdn{'Blocksize'} || "512";
+ 	# Configure HDLC as level 2 protocol
+ 	# Configure MSN
+ 	# Configure Blocksize
+Index: e-smith-base/root/sbin/e-smith/restore-in-progress
+diff -u e-smith-base/root/sbin/e-smith/restore-in-progress:1.1 e-smith-base/root/sbin/e-smith/restore-in-progress:1.2
+--- e-smith-base/root/sbin/e-smith/restore-in-progress:1.1	Tue Jan  4 15:56:41 2005
++++ e-smith-base/root/sbin/e-smith/restore-in-progress	Thu Jul 28 15:31:12 2005
+@@ -29,7 +29,7 @@
+ use Errno;
+ 
+ use esmith::util;
+-use esmith::db;
++use esmith::ConfigDB;
+ use esmith::I18N;
+ use esmith::console;
+ 
+@@ -60,11 +60,14 @@
+ #-------------------------------------------------------------
+ # check whether a backup in process and incomplete
+ #-------------------------------------------------------------
+-my %restore_state;
+-tie %restore_state, 'esmith::config', '/etc/e-smith/restore';
++my $restore_state;
++my $restore_db = esmith::ConfigDB->open_ro('/etc/e-smith/restore');
++if ($restore_db)
++{
++    $restore_state = $restore_db->get_prop('restore', 'state');
++}
+ 
+-my $restore_state = db_get_prop(\%restore_state, 'restore', 'state')
+-    || 'idle';
++$restore_state ||= 'idle';
+ 
+ exit(0) unless ($restore_state eq 'running');
+ 

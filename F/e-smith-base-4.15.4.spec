@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.4
-%define release 17sme01
+%define release 18
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -25,7 +25,7 @@ Patch12: e-smith-base-4.15.4-14.mitel_patch
 Patch13: e-smith-base-4.15.4-15.mitel_patch
 Patch14: e-smith-base-4.15.4-16.mitel_patch
 Patch15: e-smith-base-4.15.4-17.mitel_patch
-Patch16: e-smith-base-4.15.4-firewall.patch
+Patch16: e-smith-base-4.15.4-18.mitel_patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -53,9 +53,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
-* Thu Jul 28 2005 Shad Lords <slords@mail.com>
-- [4.15.4-17sme01]
-- Add TCPPort and access for httpd-admin [SF: 1246986]
+* Thu Jul 28 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.15.4-18]
+- Remove all use db_ API except in console (which will come later).
 
 * Wed Jul 27 2005 Shad Lords <slords@mail.com>
 - [4.15.4-17]
