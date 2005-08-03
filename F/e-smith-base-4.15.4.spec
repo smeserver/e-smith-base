@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.4
-%define release 18sme01
+%define release 19
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -26,8 +26,7 @@ Patch13: e-smith-base-4.15.4-15.mitel_patch
 Patch14: e-smith-base-4.15.4-16.mitel_patch
 Patch15: e-smith-base-4.15.4-17.mitel_patch
 Patch16: e-smith-base-4.15.4-18.mitel_patch
-Patch17: e-smith-base-4.15.4-firewall.patch
-Patch18: e-smith-base-4.15.4-console.patch
+Patch17: e-smith-base-4.15.4-19.mitel_patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -55,8 +54,8 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
-* Sat Jul 30 2005 Shad L. Lords <slords@mail.com>
-- [4.15.4-18sme01]
+* Tue Aug  2 2005 Shad Lords <slords@email.com>
+- [4.15.4-19]
 - Add TCPPort and access for httpd-admin [SF: 1246986]
 - Fix UnsavedChanges in console [SF: 1245238]
 
@@ -4548,7 +4547,6 @@ e-smith server and gateway software - base module.
 %patch15 -p1
 %patch16 -p1
 %patch17 -p1
-%patch18 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
