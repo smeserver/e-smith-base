@@ -162,3 +162,10 @@ Tue Aug  2 18:37:01 2005                           Shad Lords (slords)
 Sync with mitel
 
 ----------------------------------------------------------------------
+Tue Aug  2 18:42:27 2005                           Shad Lords (slords)
+
+- Change httpd-admin access from local to localhost [SF: 1246986]
+- Change console to use 980 instead of https to avoid warnings [SF: 1246182]
+
+
+----------------------------------------------------------------------
