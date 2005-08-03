@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.4
-%define release 19sme01
+%define release 19sme02
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -28,6 +28,7 @@ Patch15: e-smith-base-4.15.4-17.mitel_patch
 Patch16: e-smith-base-4.15.4-18.mitel_patch
 Patch17: e-smith-base-4.15.4-19.mitel_patch
 Patch18: e-smith-base-4.15.4-19sme01.patch
+Patch19: e-smith-base-4.15.4-19sme02.patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -55,6 +56,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Aug  2 2005 Shad Lords <slords@email.com>
+- [4.15.4-19sme01]
+- tie console to new httpd-admin{TCPPort} property. [SF: 1246986]
+
 * Tue Aug  2 2005 Shad Lords <slords@email.com>
 - [4.15.4-19sme01]
 - Change httpd-admin access from local to localhost [SF: 1246986]

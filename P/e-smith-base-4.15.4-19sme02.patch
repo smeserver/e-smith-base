@@ -1,0 +1,20 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/sbin/e-smith/console mezzanine_patched_e-smith-base-4.15.4/root/sbin/e-smith/console
+--- e-smith-base-4.15.4/root/sbin/e-smith/console	2005-08-02 20:34:20.941951608 -0600
++++ mezzanine_patched_e-smith-base-4.15.4/root/sbin/e-smith/console	2005-08-02 20:32:51.352922736 -0600
+@@ -2658,6 +2658,7 @@
+ 	$choice =~ /(.+)/;
+         if ($rc == 0)
+         {
++            my $port = db_get_prop(\%conf, "httpd-admin", "TCPPort") || "980";
+             $ENV{'LYNX_TEMP_SPACE'} = "/tmp";
+             system(
+                    "/usr/bin/lynx",
+@@ -2667,7 +2668,7 @@
+                    "-restrictions=all",
+                    "-rlogin",
+                    "-telnet",
+-                   "http://localhost:980/server-manager/noframes"
++                   "http://localhost:$port/server-manager/noframes"
+                   );
+         }
+     }
