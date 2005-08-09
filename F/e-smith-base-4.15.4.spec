@@ -57,7 +57,7 @@ e-smith server and gateway software - base module.
 
 %changelog
 * Tue Aug  2 2005 Shad Lords <slords@email.com>
-- [4.15.4-19sme01]
+- [4.15.4-19sme02]
 - tie console to new httpd-admin{TCPPort} property. [SF: 1246986]
 
 * Tue Aug  2 2005 Shad Lords <slords@email.com>
@@ -4559,6 +4559,7 @@ e-smith server and gateway software - base module.
 %patch16 -p1
 %patch17 -p1
 %patch18 -p1
+%patch19 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
