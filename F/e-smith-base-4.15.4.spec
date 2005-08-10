@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.4
-%define release 20
+%define release 21
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -42,6 +42,12 @@ Requires: perl(Crypt::Cracklib)
 Requires: perl(Date::Manip)
 Requires: perl(Data::UUID)
 Requires: perl(Net::IPv4Addr)
+Requires: sysstat
+Requires: kernel-utils
+Requires: dbus
+Requires: hal
+Requires: acpid
+Requires: apmd
 Obsoletes: rlinetd, e-smith-mod_ssl
 Obsoletes: e-smith-serial-console
 Obsoletes: sshell
@@ -55,6 +61,11 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Aug  9 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.15.4-21]
+- Add Requires: headers for all the additional standard daemons, to
+  ensure they are installed on upgrade.
+
 * Tue Aug  9 2005 Shad Lords <slords@mail.com>
 - [4.15.4-20]
 - Change httpd-admin access from local to localhost [SF: 1246986]
