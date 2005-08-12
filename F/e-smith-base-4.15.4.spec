@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.4
-%define release 21
+%define release 22
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -48,6 +48,7 @@ Requires: dbus
 Requires: hal
 Requires: acpid
 Requires: apmd
+Requires: whiptail
 Obsoletes: rlinetd, e-smith-mod_ssl
 Obsoletes: e-smith-serial-console
 Obsoletes: sshell
@@ -61,6 +62,11 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Thu Aug 11 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.15.4-22]
+- Add Requires: whiptail so that the out fork of whiptail from the
+  newt package is installed on upgrade.
+
 * Tue Aug  9 2005 Charlie Brady <charlieb@e-smith.com>
 - [4.15.4-21]
 - Add Requires: headers for all the additional standard daemons, to
