@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.4
-%define release 22
+%define release 23
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -28,6 +28,7 @@ Patch15: e-smith-base-4.15.4-17.mitel_patch
 Patch16: e-smith-base-4.15.4-18.mitel_patch
 Patch17: e-smith-base-4.15.4-19.mitel_patch
 Patch18: e-smith-base-4.15.4-20.mitel_patch
+Patch19: e-smith-base-4.15.4-23.mitel_patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -62,6 +63,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Aug 15 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.15.4-23]
+- Create /mnt/cdrom symlink if required.  [SF: 1260322]
+
 * Thu Aug 11 2005 Charlie Brady <charlieb@e-smith.com>
 - [4.15.4-22]
 - Add Requires: whiptail so that the out fork of whiptail from the
@@ -4572,6 +4577,7 @@ e-smith server and gateway software - base module.
 %patch16 -p1
 %patch17 -p1
 %patch18 -p1
+%patch19 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

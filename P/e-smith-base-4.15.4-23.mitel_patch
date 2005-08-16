@@ -1,0 +1,41 @@
+Index: e-smith-base/createlinks
+diff -u e-smith-base/createlinks:1.112 e-smith-base/createlinks:1.113
+--- e-smith-base/createlinks:1.112	Tue Jul 19 12:41:31 2005
++++ e-smith-base/createlinks	Mon Aug 15 17:24:37 2005
+@@ -554,7 +554,13 @@
+ safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/syslog");
+ safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-admin");
+ 
++#--------------------------------------------------
++# actions for local event
++#--------------------------------------------------
++
+ $event = "local";
++
++event_link("create-mnt-cdrom", $event, "50");
+ 
+ #--------------------------------------------------
+ # actions for ldap-update event
+Index: e-smith-base/e-smith-base.spec
+diff -u /dev/null e-smith-base/root/etc/e-smith/events/actions/create-mnt-cdrom:1.1
+--- /dev/null	Mon Aug 15 17:27:48 2005
++++ e-smith-base/root/etc/e-smith/events/actions/create-mnt-cdrom	Mon Aug 15 17:24:38 2005
+@@ -0,0 +1,18 @@
++#! /bin/sh
++# Try to make sure that /mnt/cdrom can be mounted
++
++# If the system has been upgraded, there should be an old /mnt/cdrom directory
++if [ -d /mnt/cdrom ]
++then
++    exit 0
++fi
++
++# If the system is newly installed, then haldaemon is managing /media/*
++# mount points - if we find one, then create a symlink
++for i in cdrecorder cdrom dvd dvdrecorder
++do
++    if grep -q /media/$i /etc/fstab
++    then
++       ln -sf /media/$i /mnt/cdrom
++    fi
++done
