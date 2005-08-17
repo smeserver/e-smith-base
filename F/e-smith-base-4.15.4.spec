@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.4
-%define release 23
+%define release 26
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -50,6 +50,9 @@ Requires: hal
 Requires: acpid
 Requires: apmd
 Requires: whiptail
+Requires: rssh
+Requires: bridge-utils
+Requires: vconfig
 Obsoletes: rlinetd, e-smith-mod_ssl
 Obsoletes: e-smith-serial-console
 Obsoletes: sshell
@@ -63,6 +66,19 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Aug 16 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.15.4-26]
+- Add Requires for bridge-utils and vconfig.
+
+* Tue Aug 16 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.15.4-25]
+- Add "Requires: rssh".
+
+* Mon Aug 15 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.15.4-24]
+- Update %ghost filelist entries for databases which have moved
+  from /home/e-smith to /home/e-smith/db [SF: 1216546]
+
 * Mon Aug 15 2005 Charlie Brady <charlieb@e-smith.com>
 - [4.15.4-23]
 - Create /mnt/cdrom symlink if required.  [SF: 1260322]
@@ -4804,11 +4820,12 @@ rm -rf $RPM_BUILD_ROOT
     --dir /var/log/pppoe 'attr(2750,qmaill,nofiles)' \
     > %{name}-%{version}-%{release}-filelist
 
+mkdir -p $RPM_BUILD_ROOT/home/e-smith/db
 for file in %{dbfiles}
 do
     # Create ghost file for rpm
-    touch $RPM_BUILD_ROOT/home/e-smith/$file
-    echo "%config %attr(0640,root,admin) /home/e-smith/$file" \
+    touch $RPM_BUILD_ROOT/home/e-smith/db/$file
+    echo "%config %attr(0640,root,admin) /home/e-smith/db/$file" \
         >> %{name}-%{version}-%{release}-filelist
 done
 echo "%doc COPYING"          >> %{name}-%{version}-%{release}-filelist
