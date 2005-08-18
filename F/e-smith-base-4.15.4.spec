@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.4
-%define release 26
+%define release 27
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -29,6 +29,7 @@ Patch16: e-smith-base-4.15.4-18.mitel_patch
 Patch17: e-smith-base-4.15.4-19.mitel_patch
 Patch18: e-smith-base-4.15.4-20.mitel_patch
 Patch19: e-smith-base-4.15.4-23.mitel_patch
+Patch20: e-smith-base-4.15.4-27.mitel_patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -66,6 +67,12 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Thu Aug 18 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.15.4-27]
+- Modify /sbin/e-smith/service so that it runs /sbin/service unless
+  runlevel is 7. [SF: 1237968]
+- Only prefix /sbin/e-smith to PATH if user is root. [SF: 1250579]
+
 * Tue Aug 16 2005 Charlie Brady <charlieb@e-smith.com>
 - [4.15.4-26]
 - Add Requires for bridge-utils and vconfig.
@@ -4594,6 +4601,7 @@ e-smith server and gateway software - base module.
 %patch17 -p1
 %patch18 -p1
 %patch19 -p1
+%patch20 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
