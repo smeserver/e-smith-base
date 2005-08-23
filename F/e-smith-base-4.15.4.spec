@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.4
-%define release 27
+%define release 27sme01
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -30,6 +30,7 @@ Patch17: e-smith-base-4.15.4-19.mitel_patch
 Patch18: e-smith-base-4.15.4-20.mitel_patch
 Patch19: e-smith-base-4.15.4-23.mitel_patch
 Patch20: e-smith-base-4.15.4-27.mitel_patch
+Patch21: e-smith-base-4.15.4-shellproperty.patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -67,6 +68,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Aug 22 2005 Gordon Rowell <gordonr@gormand.com.au>
+- [4.15.4-27mse01]
+- Respect Shell property os user accounts [SF: 1266706]
+
 * Thu Aug 18 2005 Charlie Brady <charlieb@e-smith.com>
 - [4.15.4-27]
 - Modify /sbin/e-smith/service so that it runs /sbin/service unless
@@ -4602,6 +4607,7 @@ e-smith server and gateway software - base module.
 %patch18 -p1
 %patch19 -p1
 %patch20 -p1
+%patch21 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
