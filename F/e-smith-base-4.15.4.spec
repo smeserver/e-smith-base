@@ -69,8 +69,8 @@ e-smith server and gateway software - base module.
 
 %changelog
 * Mon Aug 22 2005 Gordon Rowell <gordonr@gormand.com.au>
-- [4.15.4-27mse01]
-- Respect Shell property os user accounts [SF: 1266706]
+- [4.15.4-27sme01]
+- Respect Shell property of user accounts [SF: 1266706]
 
 * Thu Aug 18 2005 Charlie Brady <charlieb@e-smith.com>
 - [4.15.4-27]
