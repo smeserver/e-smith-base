@@ -1,6 +1,7 @@
-diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/events/actions/user-modify-unix mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/events/actions/user-modify-unix
---- e-smith-base-4.15.4/root/etc/e-smith/events/actions/user-modify-unix	2005-04-11 17:13:56.000000000 -0600
-+++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/events/actions/user-modify-unix	2005-08-22 19:59:15.087832776 -0600
+Index: e-smith-base/e-smith-base.spec
+diff -u e-smith-base/root/etc/e-smith/events/actions/user-modify-unix:1.5 e-smith-base/root/etc/e-smith/events/actions/user-modify-unix:1.6
+--- e-smith-base/root/etc/e-smith/events/actions/user-modify-unix:1.5	Mon Apr 11 19:13:56 2005
++++ e-smith-base/root/etc/e-smith/events/actions/user-modify-unix	Tue Aug 23 11:09:34 2005
 @@ -1,6 +1,6 @@
  #!/usr/bin/perl -w
  #----------------------------------------------------------------------
