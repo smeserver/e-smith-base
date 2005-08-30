@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.4
-%define release 30
+%define release 30sme01
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -33,6 +33,7 @@ Patch20: e-smith-base-4.15.4-27.mitel_patch
 Patch21: e-smith-base-4.15.4-28.mitel_patch
 Patch22: e-smith-base-4.15.4-29.mitel_patch
 Patch23: e-smith-base-4.15.4-30.mitel_patch
+Patch24: e-smith-base-4.15.4-services.patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -70,6 +71,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Aug 30 2005 Shad L. Lords <slords@mail.com>
+- [4.15.4-30sme01]
+- Update services entries to conform with RHEL4 services [SF: 1276479]
+
 * Mon Aug 29 2005 Charlie Brady <charlieb@e-smith.com>
 - [4.15.4-30]
 - Correctly handle multiple net specification in ValidFrom for httpd-admin.
@@ -4622,6 +4627,7 @@ e-smith server and gateway software - base module.
 %patch21 -p1
 %patch22 -p1
 %patch23 -p1
+%patch24 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
