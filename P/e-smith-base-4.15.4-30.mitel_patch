@@ -1,0 +1,24 @@
+Index: e-smith-base/e-smith-base.spec
+diff -u e-smith-base/root/etc/e-smith/templates/etc/httpd/admin-conf/httpd.conf/01localAccessString:1.3 e-smith-base/root/etc/e-smith/templates/etc/httpd/admin-conf/httpd.conf/01localAccessString:1.4
+--- e-smith-base/root/etc/e-smith/templates/etc/httpd/admin-conf/httpd.conf/01localAccessString:1.3	Wed Jul 27 14:38:37 2005
++++ e-smith-base/root/etc/e-smith/templates/etc/httpd/admin-conf/httpd.conf/01localAccessString	Mon Aug 29 18:26:45 2005
+@@ -8,10 +8,15 @@
+ 
+     my $ndb = esmith::NetworksDB->open_ro();
+ 
+-    $localAccess = $ndb->local_access_spec();
+-    my $validFrom = ${'httpd-admin'}{'ValidFrom'} || 'none';
+-    $localAccess .= " $validFrom" unless ($validFrom eq 'none');
+-    $localAccess =~ s:/255.255.255.255::g;
++    my @localAccess = $ndb->local_access_spec();
++    my $validFrom = ${'httpd-admin'}{'ValidFrom'};
++    if ($validFrom)
++    {
++	push @localAccess, split /,/, $validFrom;
++    }
++    $localAccess .= join ' ',
++	map { s:/255.255.255.255::; $_ }
++	    @localAccess;
+ 
+     "";
+ }

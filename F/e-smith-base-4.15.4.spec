@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.4
-%define release 29
+%define release 30
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -32,6 +32,7 @@ Patch19: e-smith-base-4.15.4-23.mitel_patch
 Patch20: e-smith-base-4.15.4-27.mitel_patch
 Patch21: e-smith-base-4.15.4-28.mitel_patch
 Patch22: e-smith-base-4.15.4-29.mitel_patch
+Patch23: e-smith-base-4.15.4-30.mitel_patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -69,6 +70,11 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Aug 29 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.15.4-30]
+- Correctly handle multiple net specification in ValidFrom for httpd-admin.
+  [SF: 1273756]
+
 * Tue Aug 23 2005 Charlie Brady <charlieb@e-smith.com>
 - [4.15.4-29]
 - Fix taint problem in license text in option 6 of the console menu.
@@ -4615,6 +4621,7 @@ e-smith server and gateway software - base module.
 %patch20 -p1
 %patch21 -p1
 %patch22 -p1
+%patch23 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
