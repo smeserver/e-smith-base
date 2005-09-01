@@ -1,6 +1,7 @@
-diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/templates/etc/services/10standard mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/templates/etc/services/10standard
---- e-smith-base-4.15.4/root/etc/e-smith/templates/etc/services/10standard	2002-02-15 12:31:21.000000000 -0700
-+++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/templates/etc/services/10standard	2005-08-30 14:50:35.124003560 -0600
+Index: e-smith-base/e-smith-base.spec
+diff -u e-smith-base/root/etc/e-smith/templates/etc/services/10standard:1.1.1.1 e-smith-base/root/etc/e-smith/templates/etc/services/10standard:1.2
+--- e-smith-base/root/etc/e-smith/templates/etc/services/10standard:1.1.1.1	Fri Feb 15 14:31:21 2002
++++ e-smith-base/root/etc/e-smith/templates/etc/services/10standard	Tue Aug 30 18:20:34 2005
 @@ -1,5 +1,5 @@
  # /etc/services:
 -# $Id: services,v 1.11 2000/08/03 21:46:53 nalin Exp $
@@ -637,14 +638,16 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/templates/
  binkp		24554/tcp			# Binkley
  binkp		24554/udp			# Binkley
  asp		27374/tcp			# Address Search Protocol
-diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/templates/etc/services/20https-admin mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/templates/etc/services/20https-admin
---- e-smith-base-4.15.4/root/etc/e-smith/templates/etc/services/20https-admin	2002-02-15 12:31:21.000000000 -0700
-+++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/templates/etc/services/20https-admin	1969-12-31 17:00:00.000000000 -0700
+Index: e-smith-base/root/etc/e-smith/templates/etc/services/20https-admin
+diff -u e-smith-base/root/etc/e-smith/templates/etc/services/20https-admin:1.1.1.1 e-smith-base/root/etc/e-smith/templates/etc/services/20https-admin:removed
+--- e-smith-base/root/etc/e-smith/templates/etc/services/20https-admin:1.1.1.1	Fri Feb 15 14:31:21 2002
++++ e-smith-base/root/etc/e-smith/templates/etc/services/20https-admin	Wed Dec 31 19:00:00 1969
 @@ -1 +0,0 @@
 -https-admin	981/tcp		# admin SSL HTTP server
-diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.4/root/etc/e-smith/templates/etc/services/80old mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/templates/etc/services/80old
---- e-smith-base-4.15.4/root/etc/e-smith/templates/etc/services/80old	2002-02-15 12:31:21.000000000 -0700
-+++ mezzanine_patched_e-smith-base-4.15.4/root/etc/e-smith/templates/etc/services/80old	1969-12-31 17:00:00.000000000 -0700
+Index: e-smith-base/root/etc/e-smith/templates/etc/services/80old
+diff -u e-smith-base/root/etc/e-smith/templates/etc/services/80old:1.1.1.1 e-smith-base/root/etc/e-smith/templates/etc/services/80old:removed
+--- e-smith-base/root/etc/e-smith/templates/etc/services/80old:1.1.1.1	Fri Feb 15 14:31:21 2002
++++ e-smith-base/root/etc/e-smith/templates/etc/services/80old	Wed Dec 31 19:00:00 1969
 @@ -1,34 +0,0 @@
 -#---------------------------------------------------------------------------#
 -# The services listed in this section are old, and possibly deprecated.
