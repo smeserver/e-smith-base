@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.4
-%define release 31
+%define release 33
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -34,6 +34,8 @@ Patch21: e-smith-base-4.15.4-28.mitel_patch
 Patch22: e-smith-base-4.15.4-29.mitel_patch
 Patch23: e-smith-base-4.15.4-30.mitel_patch
 Patch24: e-smith-base-4.15.4-31.mitel_patch
+Patch25: e-smith-base-4.15.4-32.mitel_patch
+Patch26: e-smith-base-4.15.4-33.mitel_patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -71,6 +73,15 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri Sep  2 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.15.4-33]
+- Fix race condition in /mnt/cdrom symlink creation, but creating
+  symlink from haldaemon action. [SF: 1260322]
+
+* Thu Sep  1 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.15.4-32]
+- Really create /mnt/cdrom symlink if required.  [SF: 1260322]
+
 * Tue Aug 30 2005 Shad Lords <slords@mail.com>
 - [4.15.4-31]
 - Update services entries to conform with RHEL4 services [SF: 1276479]
@@ -4628,6 +4639,8 @@ e-smith server and gateway software - base module.
 %patch22 -p1
 %patch23 -p1
 %patch24 -p1
+%patch25 -p1
+%patch26 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

@@ -1,0 +1,22 @@
+Index: e-smith-base/createlinks
+diff -u e-smith-base/createlinks:1.113 e-smith-base/createlinks:1.114
+--- e-smith-base/createlinks:1.113	Mon Aug 15 17:24:37 2005
++++ e-smith-base/createlinks	Fri Sep  2 15:50:48 2005
+@@ -560,8 +560,6 @@
+ 
+ $event = "local";
+ 
+-event_link("create-mnt-cdrom", $event, "50");
+-
+ #--------------------------------------------------
+ # actions for ldap-update event
+ #--------------------------------------------------
+@@ -635,3 +633,7 @@
+ safe_symlink("daemontools", "root/etc/rc.d/init.d/httpd-admin");
+ service_link_enhanced("httpd-admin", "K15", "6");
+ service_link_enhanced("httpd-admin", "K15", "0");
++
++safe_symlink("/etc/e-smith/events/actions/create-mnt-cdrom",
++    "root/etc/hal/device.d/60-create-mnt-cdrom.hal");
++
+Index: e-smith-base/e-smith-base.spec
