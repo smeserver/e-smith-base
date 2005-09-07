@@ -1,0 +1,14 @@
+Index: e-smith-base/createlinks
+diff -u e-smith-base/createlinks:1.110 e-smith-base/createlinks:1.111
+--- e-smith-base/createlinks:1.110	Fri Jul  8 11:55:12 2005
++++ e-smith-base/createlinks	Tue Jul 12 13:47:00 2005
+@@ -596,6 +596,8 @@
+     diald    	=> "57",
+     dhcpd    	=> "65",
+     'httpd-admin'	=> "86",
++    messagebus 	=> "97",
++    haldaemon  	=> "98",
+     'local'    	=> "99",
+ );
+ 
+Index: e-smith-base/e-smith-base.spec

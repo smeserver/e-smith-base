@@ -1,0 +1,31 @@
+Index: e-smith-base/e-smith-base.spec
+diff -u e-smith-base/root/etc/e-smith/events/actions/user-modify-unix:1.5 e-smith-base/root/etc/e-smith/events/actions/user-modify-unix:1.6
+--- e-smith-base/root/etc/e-smith/events/actions/user-modify-unix:1.5	Mon Apr 11 19:13:56 2005
++++ e-smith-base/root/etc/e-smith/events/actions/user-modify-unix	Tue Aug 23 11:09:34 2005
+@@ -1,6 +1,6 @@
+ #!/usr/bin/perl -w
+ #----------------------------------------------------------------------
+-# copyright (C) 1999-2003 Mitel Networks Corporation
++# copyright (C) 1999-2005 Mitel Networks Corporation
+ # 
+ # This program is free software; you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+@@ -15,9 +15,6 @@
+ # You should have received a copy of the GNU General Public License
+ # along with this program; if not, write to the Free Software
+ # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+-# 
+-# Technical support for this program is available from Mitel Networks 
+-# Please visit our web site www.mitel.com/sme/ for details.
+ #----------------------------------------------------------------------
+ package esmith;
+ 
+@@ -58,7 +55,7 @@
+     my $shell = (getpwnam($userName))[8];
+     endpwent;
+     $shell = $u->prop('Shell')
+-		|| ($shell eq "/bin/sshell") ? "/usr/bin/rssh" : $shell;
++		|| (($shell eq "/bin/sshell") ? "/usr/bin/rssh" : $shell);
+ 
+     #------------------------------------------------------------
+     # Modify user's first name and last name, and shell,

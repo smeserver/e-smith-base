@@ -1,7 +1,0 @@
-Index: e-smith-base/e-smith-base.spec
-diff -u e-smith-base/root/etc/e-smith/db/configuration/defaults/DomainName/type:1.1 e-smith-base/root/etc/e-smith/db/configuration/defaults/DomainName/type:1.2
---- e-smith-base/root/etc/e-smith/db/configuration/defaults/DomainName/type:1.1	Thu Feb 27 10:55:37 2003
-+++ e-smith-base/root/etc/e-smith/db/configuration/defaults/DomainName/type	Fri Jun 24 16:08:53 2005
-@@ -1 +1 @@
--mycompany.xxx
-+mycompany.local

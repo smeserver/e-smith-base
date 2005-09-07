@@ -1,0 +1,22 @@
+Index: e-smith-base/e-smith-base.spec
+diff -u e-smith-base/root/sbin/e-smith/console:1.156 e-smith-base/root/sbin/e-smith/console:1.157
+--- e-smith-base/root/sbin/e-smith/console:1.156	Tue Jun  7 11:32:56 2005
++++ e-smith-base/root/sbin/e-smith/console	Wed Jul 27 14:26:44 2005
+@@ -2636,7 +2636,7 @@
+          text  =>
+          gettext("This option will start a text-mode browser to access the server manager from this console.  Normally you would access the server manager from a web browser at the following url:") .
+          "\n\n" .
+-         "http://$conf{'SystemName'}/server-manager/" .
++         "https://$conf{'SystemName'}/server-manager/" .
+          "\n\n" .
+          gettext("You should only proceed if you are comfortable using a text-mode browser.  Note that you will be prompted for the administrator password in order to access the server manager.") .
+          "\n\n" .
+@@ -2667,7 +2667,7 @@
+                    "-restrictions=all",
+                    "-rlogin",
+                    "-telnet",
+-                   "http://localhost/server-manager/noframes"
++                   "https://localhost/server-manager/noframes"
+                   );
+         }
+     }

@@ -1,0 +1,564 @@
+Index: e-smith-base/createlinks
+diff -u e-smith-base/createlinks:1.111 e-smith-base/createlinks:1.112
+--- e-smith-base/createlinks:1.111	Tue Jul 12 13:47:00 2005
++++ e-smith-base/createlinks	Tue Jul 19 12:41:31 2005
+@@ -117,7 +117,7 @@
+ 
+ # conf-modules
+ 
+-templates2events("/etc/modules.conf", qw(
++templates2events("/etc/modprobe.conf", qw(
+ 	console-save
+ 	bootstrap-console-save
+ 	post-install
+Index: e-smith-base/e-smith-base.spec
+diff -u e-smith-base/root/etc/e-smith/events/actions/conf-modules:1.6 e-smith-base/root/etc/e-smith/events/actions/conf-modules:1.7
+--- e-smith-base/root/etc/e-smith/events/actions/conf-modules:1.6	Fri Apr  1 14:27:48 2005
++++ e-smith-base/root/etc/e-smith/events/actions/conf-modules	Tue Jul 19 12:41:31 2005
+@@ -33,8 +33,8 @@
+ {
+     next unless $file =~ /System.map-(.*)/;
+     my $version = $1;
+-    open(MODULES, "</etc/modules.conf") or
+-	die "Could not read /etc/modules.conf: $!";
++    open(MODULES, "</etc/modprobe.conf") or
++	die "Could not read /etc/modprobe.conf: $!";
+ 
+     my $pid = open(DEPMOD, "|-");
+     $SIG{ALRM} = sub { die "whoops, depmod pipe broke" };
+Index: e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10EthernetDrivers
+diff -u /dev/null e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10EthernetDrivers:1.1
+--- /dev/null	Tue Jul 19 12:44:45 2005
++++ e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10EthernetDrivers	Tue Jul 19 12:41:31 2005
+@@ -0,0 +1,12 @@
++{
++    @lines = grep { !/^\s*alias\s*eth[01]/ } @lines;
++    if (defined $EthernetDriver1 && $EthernetDriver1 ne "unknown")
++    {
++	push @lines, "alias eth0 ${EthernetDriver1}";
++    }
++    if (defined $EthernetDriver2 && $EthernetDriver2 ne "unknown")
++    {
++	push @lines, "alias eth1 ${EthernetDriver2}";
++    }
++    "";
++}
+Index: e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10blockdev-aliases
+diff -u /dev/null e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10blockdev-aliases:1.1
+--- /dev/null	Tue Jul 19 12:44:45 2005
++++ e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10blockdev-aliases	Tue Jul 19 12:41:31 2005
+@@ -0,0 +1,13 @@
++{
++    foreach my $line
++	(
++	    "alias block-major-3 off",
++	)
++    {
++	unless (exists $lines{$line})
++	{
++	    push @lines, $line;
++	}
++    }
++    "";
++}
+Index: e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10hisax
+diff -u /dev/null e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10hisax:1.1
+--- /dev/null	Tue Jul 19 12:44:45 2005
++++ e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10hisax	Tue Jul 19 12:41:31 2005
+@@ -0,0 +1,25 @@
++{
++    @lines = grep { !/^\s*options\s*hisax/ } @lines;
++    my $hisax_alias = "alias char-major-43 hisax";
++    unless (exists $lines{$hisax_alias})
++    {
++	push @lines, $hisax_alias;
++    }
++    my $hisax = db_get_prop($confref, 'isdn', 'HisaxOptions') || "";
++    my $type = db_get_prop($confref, 'isdn', 'Type') || "";
++    my $protocol = db_get_prop($confref, 'isdn', 'Protocol') || "";
++    if ($type)
++    {
++	$hisax .= " type=$type";
++    }
++    if ($protocol)
++    {
++	$hisax .= " protocol=$protocol";
++    }
++    if ($hisax)
++    {
++	push @lines, "options hisax $hisax";
++    }
++    "";
++}
++
+Index: e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10net-fp-aliases
+diff -u /dev/null e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10net-fp-aliases:1.1
+--- /dev/null	Tue Jul 19 12:44:45 2005
++++ e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10net-fp-aliases	Tue Jul 19 12:41:31 2005
+@@ -0,0 +1,19 @@
++{
++    foreach my $line
++	(
++	    # alias IPX off
++	    "alias net-pf-4 off",
++	    # alias IPV6 off
++	    "alias net-pf-10 off",
++	    "alias net-pf-15 ipsec",
++	    "alias net-pf-47 ip_gre",
++	    "alias net-pf-50 ipsec",
++	)
++    {
++	unless (exists $lines{$line})
++	{
++	    push @lines, $line;
++	}
++    }
++    "";
++}
+Index: e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10net-fp-pppoe
+diff -u /dev/null e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10net-fp-pppoe:1.1
+--- /dev/null	Tue Jul 19 12:44:45 2005
++++ e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10net-fp-pppoe	Tue Jul 19 12:41:31 2005
+@@ -0,0 +1,9 @@
++{
++    # Ensure that pppoe module can be autoloaded
++    my $line = "alias net-pf-24 pppoe";
++    unless (exists $lines{$line})
++    {
++	push @lines, $line;
++    }
++    "";
++}
+Index: e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10parport-aliases
+diff -u /dev/null e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10parport-aliases:1.1
+--- /dev/null	Tue Jul 19 12:44:45 2005
++++ e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10parport-aliases	Tue Jul 19 12:41:32 2005
+@@ -0,0 +1,13 @@
++{
++    foreach my $line
++	(
++	    "alias parport_lowlevel parport_pc"
++	)
++    {
++	unless (exists $lines{$line})
++	{
++	    push @lines, $line;
++	}
++    }
++    "";
++}
+Index: e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10ppp
+diff -u /dev/null e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10ppp:1.1
+--- /dev/null	Tue Jul 19 12:44:45 2005
++++ e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10ppp	Tue Jul 19 12:41:32 2005
+@@ -0,0 +1,21 @@
++{
++    # Obsolete the aliasing of ppp module name if we find it
++    # We no longer need to use the alias, we use a module
++    # search path instead
++    @lines = grep { !/^alias ppp ppp-4mppe$/ } @lines;
++    foreach my $line
++	(
++	    "alias ppp ppp_generic",
++	    "alias char-major-108 ppp",
++	    "alias /dev/ppp ppp",
++	    "alias tty-ldisc-3 ppp_async",
++	    "alias tty-ldisc-14 ppp_synctty",
++	)
++    {
++	unless (exists $lines{$line})
++	{
++	    push @lines, $line;
++	}
++    }
++    "";
++}
+Index: e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10ppp-compress-aliases
+diff -u /dev/null e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10ppp-compress-aliases:1.1
+--- /dev/null	Tue Jul 19 12:44:45 2005
++++ e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10ppp-compress-aliases	Tue Jul 19 12:41:32 2005
+@@ -0,0 +1,16 @@
++{
++    foreach my $line
++	(
++	    "alias ppp-compress-18 ppp_mppe",
++	    "alias ppp-compress-21 bsd_comp",
++	    "alias ppp-compress-24 ppp_deflate",
++	    "alias ppp-compress-26 ppp_deflate"
++	)
++    {
++	unless (exists $lines{$line})
++	{
++	    push @lines, $line;
++	}
++    }
++    "";
++}
+Index: e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10tap-aliases
+diff -u /dev/null e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10tap-aliases:1.1
+--- /dev/null	Tue Jul 19 12:44:45 2005
++++ e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10tap-aliases	Tue Jul 19 12:41:32 2005
+@@ -0,0 +1,11 @@
++{
++    foreach my $i (0..15)
++    {
++	my $line = "alias tap${i} off";
++	unless (exists $lines{$line})
++	{
++	    push @lines, $line;
++	}
++    }
++    "";
++}
+Index: e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10usb
+diff -u /dev/null e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10usb:1.1
+--- /dev/null	Tue Jul 19 12:44:45 2005
++++ e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/10usb	Tue Jul 19 12:41:32 2005
+@@ -0,0 +1,8 @@
++{
++    my $usb_alias = "alias char-major-180 usbcore";
++    unless (exists $lines{$usb_alias})
++    {
++	push @lines, $usb_alias;
++    }
++    "";
++}
+Index: e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/99writefile
+diff -u /dev/null e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/99writefile:1.1
+--- /dev/null	Tue Jul 19 12:44:45 2005
++++ e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/99writefile	Tue Jul 19 12:41:32 2005
+@@ -0,0 +1,7 @@
++{
++    $OUT .= "";
++    foreach my $line (@lines)
++    {
++	$OUT .= "$line\n";
++    }
++}
+Index: e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/template-begin
+diff -u /dev/null e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/template-begin:1.1
+--- /dev/null	Tue Jul 19 12:44:45 2005
++++ e-smith-base/root/etc/e-smith/templates/etc/modprobe.conf/template-begin	Tue Jul 19 12:41:32 2005
+@@ -0,0 +1,34 @@
++{
++    %lines = ();
++    @lines = ();
++    open (RD, "</etc/modprobe.conf")
++    || warn "Cannot open input file /etc/modprobe.conf: $!\n";
++    while (<RD>)
++    {
++	chop;
++	push @lines, $_;
++	$lines{$_} = 1;
++    }
++    close(RD);
++    my @header = (
++	"#------------------------------------------------------------",
++	"# BE CAREFUL WHEN MODIFYING THIS FILE! It is updated automatically",
++	"# by the SME server software. Various aliases are added and/or",
++	"# deleted by the template processing of the file and white space",
++	"# is removed, but otherwise changes to the file are preserved.",
++	"# For more information, see http://www.e-smith.org/custom/ and",
++	"# the template fragments in /etc/e-smith/templates/etc/modprobe.conf/.",
++	"# ",
++	"# copyright (C) 2002-2005 Mitel Networks Corporation",
++	"#------------------------------------------------------------",
++    );
++    foreach my $line (@header)
++    {
++	# Print the header banner, and delete any of its lines from the
++	# buffer, so that it isn't repeated.
++	my $test = $line;
++	$test =~ tr/()/../; # Avoid special interpretation of () in pattern
++	@lines = grep { !/^$test$/ } @lines;
++	$OUT .= "$line\n";
++    }
++}
+Index: e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10EthernetDrivers
+diff -u e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10EthernetDrivers:1.1.1.1 e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10EthernetDrivers:removed
+--- e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10EthernetDrivers:1.1.1.1	Fri Feb 15 14:31:21 2002
++++ e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10EthernetDrivers	Wed Dec 31 19:00:00 1969
+@@ -1,12 +0,0 @@
+-{
+-    @lines = grep { !/^\s*alias\s*eth[01]/ } @lines;
+-    if (defined $EthernetDriver1 && $EthernetDriver1 ne "unknown")
+-    {
+-	push @lines, "alias eth0 ${EthernetDriver1}";
+-    }
+-    if (defined $EthernetDriver2 && $EthernetDriver2 ne "unknown")
+-    {
+-	push @lines, "alias eth1 ${EthernetDriver2}";
+-    }
+-    "";
+-}
+Index: e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10appletalk
+diff -u e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10appletalk:1.1.1.1 e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10appletalk:removed
+--- e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10appletalk:1.1.1.1	Fri Feb 15 14:31:21 2002
++++ e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10appletalk	Wed Dec 31 19:00:00 1969
+@@ -1,6 +0,0 @@
+-{
+-    # Obsolete the aliasing of the appletalk module
+-    # We use a different path now, or don't need to fix it at all
+-    @lines = grep { !/^alias appletalk appletalk-fixed$/ } @lines;
+-    "";
+-}
+Index: e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10blockdev-aliases
+diff -u e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10blockdev-aliases:1.1 e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10blockdev-aliases:removed
+--- e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10blockdev-aliases:1.1	Mon Jun  9 15:25:36 2003
++++ e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10blockdev-aliases	Wed Dec 31 19:00:00 1969
+@@ -1,13 +0,0 @@
+-{
+-    foreach my $line
+-	(
+-	    "alias block-major-3 off",
+-	)
+-    {
+-	unless (exists $lines{$line})
+-	{
+-	    push @lines, $line;
+-	}
+-    }
+-    "";
+-}
+Index: e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10hisax
+diff -u e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10hisax:1.1.1.1 e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10hisax:removed
+--- e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10hisax:1.1.1.1	Fri Feb 15 14:31:21 2002
++++ e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10hisax	Wed Dec 31 19:00:00 1969
+@@ -1,25 +0,0 @@
+-{
+-    @lines = grep { !/^\s*options\s*hisax/ } @lines;
+-    my $hisax_alias = "alias char-major-43 hisax";
+-    unless (exists $lines{$hisax_alias})
+-    {
+-	push @lines, $hisax_alias;
+-    }
+-    my $hisax = db_get_prop($confref, 'isdn', 'HisaxOptions') || "";
+-    my $type = db_get_prop($confref, 'isdn', 'Type') || "";
+-    my $protocol = db_get_prop($confref, 'isdn', 'Protocol') || "";
+-    if ($type)
+-    {
+-	$hisax .= " type=$type";
+-    }
+-    if ($protocol)
+-    {
+-	$hisax .= " protocol=$protocol";
+-    }
+-    if ($hisax)
+-    {
+-	push @lines, "options hisax $hisax";
+-    }
+-    "";
+-}
+-
+Index: e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10net-fp-aliases
+diff -u e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10net-fp-aliases:1.3 e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10net-fp-aliases:removed
+--- e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10net-fp-aliases:1.3	Thu Jul 25 19:54:47 2002
++++ e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10net-fp-aliases	Wed Dec 31 19:00:00 1969
+@@ -1,19 +0,0 @@
+-{
+-    foreach my $line
+-	(
+-	    # alias IPX off
+-	    "alias net-pf-4 off",
+-	    # alias IPV6 off
+-	    "alias net-pf-10 off",
+-	    "alias net-pf-15 ipsec",
+-	    "alias net-pf-47 ip_gre",
+-	    "alias net-pf-50 ipsec",
+-	)
+-    {
+-	unless (exists $lines{$line})
+-	{
+-	    push @lines, $line;
+-	}
+-    }
+-    "";
+-}
+Index: e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10net-fp-pppoe
+diff -u e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10net-fp-pppoe:1.1 e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10net-fp-pppoe:removed
+--- e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10net-fp-pppoe:1.1	Fri May 13 17:36:25 2005
++++ e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10net-fp-pppoe	Wed Dec 31 19:00:00 1969
+@@ -1,9 +0,0 @@
+-{
+-    # Ensure that pppoe module can be autoloaded
+-    my $line = "alias net-pf-24 pppoe";
+-    unless (exists $lines{$line})
+-    {
+-	push @lines, $line;
+-    }
+-    "";
+-}
+Index: e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10parport-aliases
+diff -u e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10parport-aliases:1.1.1.1 e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10parport-aliases:removed
+--- e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10parport-aliases:1.1.1.1	Fri Feb 15 14:31:21 2002
++++ e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10parport-aliases	Wed Dec 31 19:00:00 1969
+@@ -1,13 +0,0 @@
+-{
+-    foreach my $line
+-	(
+-	    "alias parport_lowlevel parport_pc"
+-	)
+-    {
+-	unless (exists $lines{$line})
+-	{
+-	    push @lines, $line;
+-	}
+-    }
+-    "";
+-}
+Index: e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10ppp
+diff -u e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10ppp:1.4 e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10ppp:removed
+--- e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10ppp:1.4	Wed Jul 31 14:04:07 2002
++++ e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10ppp	Wed Dec 31 19:00:00 1969
+@@ -1,21 +0,0 @@
+-{
+-    # Obsolete the aliasing of ppp module name if we find it
+-    # We no longer need to use the alias, we use a module
+-    # search path instead
+-    @lines = grep { !/^alias ppp ppp-4mppe$/ } @lines;
+-    foreach my $line
+-	(
+-	    "alias ppp ppp_generic",
+-	    "alias char-major-108 ppp",
+-	    "alias /dev/ppp ppp",
+-	    "alias tty-ldisc-3 ppp_async",
+-	    "alias tty-ldisc-14 ppp_synctty",
+-	)
+-    {
+-	unless (exists $lines{$line})
+-	{
+-	    push @lines, $line;
+-	}
+-    }
+-    "";
+-}
+Index: e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10ppp-compress-aliases
+diff -u e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10ppp-compress-aliases:1.1.1.1 e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10ppp-compress-aliases:removed
+--- e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10ppp-compress-aliases:1.1.1.1	Fri Feb 15 14:31:21 2002
++++ e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10ppp-compress-aliases	Wed Dec 31 19:00:00 1969
+@@ -1,16 +0,0 @@
+-{
+-    foreach my $line
+-	(
+-	    "alias ppp-compress-18 ppp_mppe",
+-	    "alias ppp-compress-21 bsd_comp",
+-	    "alias ppp-compress-24 ppp_deflate",
+-	    "alias ppp-compress-26 ppp_deflate"
+-	)
+-    {
+-	unless (exists $lines{$line})
+-	{
+-	    push @lines, $line;
+-	}
+-    }
+-    "";
+-}
+Index: e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10tap-aliases
+diff -u e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10tap-aliases:1.1.1.1 e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10tap-aliases:removed
+--- e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10tap-aliases:1.1.1.1	Fri Feb 15 14:31:21 2002
++++ e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10tap-aliases	Wed Dec 31 19:00:00 1969
+@@ -1,11 +0,0 @@
+-{
+-    foreach my $i (0..15)
+-    {
+-	my $line = "alias tap${i} off";
+-	unless (exists $lines{$line})
+-	{
+-	    push @lines, $line;
+-	}
+-    }
+-    "";
+-}
+Index: e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10usb
+diff -u e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10usb:1.2 e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10usb:removed
+--- e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10usb:1.2	Mon Apr 28 14:44:05 2003
++++ e-smith-base/root/etc/e-smith/templates/etc/modules.conf/10usb	Wed Dec 31 19:00:00 1969
+@@ -1,8 +0,0 @@
+-{
+-    my $usb_alias = "alias char-major-180 usbcore";
+-    unless (exists $lines{$usb_alias})
+-    {
+-	push @lines, $usb_alias;
+-    }
+-    "";
+-}
+Index: e-smith-base/root/etc/e-smith/templates/etc/modules.conf/95ModulePaths
+diff -u e-smith-base/root/etc/e-smith/templates/etc/modules.conf/95ModulePaths:1.4 e-smith-base/root/etc/e-smith/templates/etc/modules.conf/95ModulePaths:removed
+--- e-smith-base/root/etc/e-smith/templates/etc/modules.conf/95ModulePaths:1.4	Thu Jun  9 09:41:22 2005
++++ e-smith-base/root/etc/e-smith/templates/etc/modules.conf/95ModulePaths	Wed Dec 31 19:00:00 1969
+@@ -1,12 +0,0 @@
+-{
+-    # Remove obsolete settings of module search path (which
+-    # breaks kernel upgrade depmods).
+-    @lines = grep {
+-	$_ ne 'path=/lib/modules/$(/bin/uname -r)-e-smith'
+-	&&
+-	$_ ne 'path=/lib/modules/$(/bin/uname -r)/updates'
+-	&&
+-	$_ ne 'path=/lib/modules/$(/bin/uname -r)'
+-    } @lines;
+-    $OUT = '';
+-}
+Index: e-smith-base/root/etc/e-smith/templates/etc/modules.conf/99writefile
+diff -u e-smith-base/root/etc/e-smith/templates/etc/modules.conf/99writefile:1.1.1.1 e-smith-base/root/etc/e-smith/templates/etc/modules.conf/99writefile:removed
+--- e-smith-base/root/etc/e-smith/templates/etc/modules.conf/99writefile:1.1.1.1	Fri Feb 15 14:31:21 2002
++++ e-smith-base/root/etc/e-smith/templates/etc/modules.conf/99writefile	Wed Dec 31 19:00:00 1969
+@@ -1,7 +0,0 @@
+-{
+-    $OUT .= "";
+-    foreach my $line (@lines)
+-    {
+-	$OUT .= "$line\n";
+-    }
+-}
+Index: e-smith-base/root/etc/e-smith/templates/etc/modules.conf/template-begin
+diff -u e-smith-base/root/etc/e-smith/templates/etc/modules.conf/template-begin:1.2 e-smith-base/root/etc/e-smith/templates/etc/modules.conf/template-begin:removed
+--- e-smith-base/root/etc/e-smith/templates/etc/modules.conf/template-begin:1.2	Thu Jul 25 19:54:47 2002
++++ e-smith-base/root/etc/e-smith/templates/etc/modules.conf/template-begin	Wed Dec 31 19:00:00 1969
+@@ -1,34 +0,0 @@
+-{
+-    %lines = ();
+-    @lines = ();
+-    open (RD, "</etc/modules.conf")
+-    || warn "Cannot open input file /etc/modules.conf: $!\n";
+-    while (<RD>)
+-    {
+-	chop;
+-	push @lines, $_;
+-	$lines{$_} = 1;
+-    }
+-    close(RD);
+-    my @header = (
+-	"#------------------------------------------------------------",
+-	"# BE CAREFUL WHEN MODIFYING THIS FILE! It is updated automatically",
+-	"# by the SME server software. Various aliases are added and/or",
+-	"# deleted by the template processing of the file and white space",
+-	"# is removed, but otherwise changes to the file are preserved.",
+-	"# For more information, see http://www.e-smith.org/custom/ and",
+-	"# the template fragments in /etc/e-smith/templates/etc/modules.conf/.",
+-	"# ",
+-	"# copyright (C) 2002 Mitel Networks Corporation",
+-	"#------------------------------------------------------------",
+-    );
+-    foreach my $line (@header)
+-    {
+-	# Print the header banner, and delete any of its lines from the
+-	# buffer, so that it isn't repeated.
+-	my $test = $line;
+-	$test =~ tr/()/../; # Avoid special interpretation of () in pattern
+-	@lines = grep { !/^$test$/ } @lines;
+-	$OUT .= "$line\n";
+-    }
+-}
+Index: e-smith-base/root/etc/e-smith/templates.metadata/etc/modprobe.conf
+diff -u /dev/null e-smith-base/root/etc/e-smith/templates.metadata/etc/modprobe.conf:1.1
+--- /dev/null	Tue Jul 19 12:44:47 2005
++++ e-smith-base/root/etc/e-smith/templates.metadata/etc/modprobe.conf	Tue Jul 19 12:41:32 2005
+@@ -0,0 +1 @@
++FILTER=sub { $_[0] =~ /^\s*$/ ? '' : $_[0] }
+Index: e-smith-base/root/etc/e-smith/templates.metadata/etc/modules.conf
+diff -u e-smith-base/root/etc/e-smith/templates.metadata/etc/modules.conf:1.1 e-smith-base/root/etc/e-smith/templates.metadata/etc/modules.conf:removed
+--- e-smith-base/root/etc/e-smith/templates.metadata/etc/modules.conf:1.1	Fri Jan 14 10:53:54 2005
++++ e-smith-base/root/etc/e-smith/templates.metadata/etc/modules.conf	Wed Dec 31 19:00:00 1969
+@@ -1 +0,0 @@
+-FILTER=sub { $_[0] =~ /^\s*$/ ? '' : $_[0] }
