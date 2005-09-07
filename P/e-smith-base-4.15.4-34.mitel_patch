@@ -1,0 +1,82 @@
+Index: e-smith-base/e-smith-base.spec
+diff -u e-smith-base/root/sbin/e-smith/console:1.161 e-smith-base/root/sbin/e-smith/console:1.162
+--- e-smith-base/root/sbin/e-smith/console:1.161	Tue Aug 23 13:21:11 2005
++++ e-smith-base/root/sbin/e-smith/console	Mon Sep  5 21:33:08 2005
+@@ -2102,10 +2102,10 @@
+         {
+             db_set_prop(\%conf, 'smb', 'DomainMaster', 'no');
+         }
+-        goto QUERY_SAVE_CONFIG;
++        goto DNS_FORWARDER;
+     }
+ 
+-    goto QUERY_SAVE_CONFIG;
++    goto DNS_FORWARDER;
+ }
+ 
+ #------------------------------------------------------------
+@@ -2215,7 +2215,7 @@
+ 			{
+ 			    db_set_prop(\%conf, 'dhcpd', 'end', cleanIP($choice));
+ 			}
+-			goto QUERY_SAVE_CONFIG;
++			goto DNS_FORWARDER;
+ 		    }
+ 		    else
+ 		    {
+@@ -2252,6 +2252,55 @@
+         );
+ 
+     goto DHCP_SERVER_END;
++}
++
++#------------------------------------------------------------
++DNS_FORWARDER:
++#------------------------------------------------------------
++
++{
++    my $primary = db_get_prop(\%conf, 'dnscache', 'Forwarder') || '';
++    ($rc, $choice) = $console->input_page
++        (
++         title => gettext("Select master DNS server address"),
++         text  =>
++         gettext("You may need to specify an IP address here if there is a firewall between this server and the Internet, or if another DNS server resolves local addresses on your LAN.") .
++         "\n\n" .
++         gettext("In most cases you can leave this field blank."),
++         value   => $primary
++        );
++
++    if ($rc != 0)
++    {
++        goto DHCP_SERVER;
++    }
++
++    if ($choice)
++    {
++        if ( isValidIP($choice) )
++        {
++            db_set_prop(\%conf, 'dnscache', 'Forwarder', cleanIP($choice));
++            goto QUERY_SAVE_CONFIG;
++        }
++        elsif ($choice =~ /^\s*$/)
++        {
++            db_delete_prop(\%conf, 'dnscache', 'Forwarder');
++            goto QUERY_SAVE_CONFIG;
++        }
++    }
++    else
++    {
++        db_delete_prop(\%conf, 'dnscache', 'Forwarder');
++        goto QUERY_SAVE_CONFIG;
++    }
++
++    ($rc, $choice) = $console->tryagain_page
++        (
++         title   => gettext("Invalid IP address for DNS forwarder"),
++         choice  => $choice,
++        );
++
++    goto DNS_FORWARDER;
+ }
+ 
+ #------------------------------------------------------------

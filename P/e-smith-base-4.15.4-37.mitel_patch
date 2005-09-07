@@ -1,0 +1,106 @@
+Index: e-smith-base/createlinks
+diff -u e-smith-base/createlinks:1.115 e-smith-base/createlinks:1.116
+--- e-smith-base/createlinks:1.115	Tue Sep  6 14:42:13 2005
++++ e-smith-base/createlinks	Tue Sep  6 17:42:26 2005
+@@ -436,6 +436,7 @@
+ event_link("init-passwords", $event, "10");
+ event_link("conf-startup", $event, "10");
+ event_link("conf-modules", $event, "30");
++event_link("create-mnt-floppy", $event, "50");
+ 
+ #--------------------------------------------------
+ # actions for post-upgrade event
+@@ -450,6 +451,7 @@
+ event_link("update-passwd", $event, "20");
+ event_link("count-active-user-accounts", $event, "25");
+ event_link("conf-modules", $event, "30");
++event_link("create-mnt-floppy", $event, "50");
+ 
+ #--------------------------------------------------
+ # actions for reboot event
+@@ -633,7 +635,3 @@
+ safe_symlink("daemontools", "root/etc/rc.d/init.d/httpd-admin");
+ service_link_enhanced("httpd-admin", "K15", "6");
+ service_link_enhanced("httpd-admin", "K15", "0");
+-
+-safe_symlink("/etc/e-smith/events/actions/create-mnt-symlinks",
+-    "root/etc/hal/device.d/60-create-mnt-symlinks.hal");
+-
+Index: e-smith-base/e-smith-base.spec
+diff -u /dev/null e-smith-base/root/etc/e-smith/events/actions/create-mnt-floppy:1.1
+--- /dev/null	Wed Sep  7 00:18:19 2005
++++ e-smith-base/root/etc/e-smith/events/actions/create-mnt-floppy	Tue Sep  6 17:42:26 2005
+@@ -0,0 +1,14 @@
++#! /bin/sh
++# Try to make sure that /mnt/floppy can be mounted
++
++# If the system has been upgraded, there should be an old mount directory
++if [ -d /mnt/floppy ]
++then
++    exit 0
++fi
++
++# Create /mnt if required
++mkdir -p /mnt
++
++# Let's assume that haldaemon will create /media/floppy
++ln -sf /media/floppy /mnt/floppy
+Index: e-smith-base/root/etc/e-smith/events/actions/create-mnt-symlinks
+diff -u e-smith-base/root/etc/e-smith/events/actions/create-mnt-symlinks:1.1 e-smith-base/root/etc/e-smith/events/actions/create-mnt-symlinks:removed
+--- e-smith-base/root/etc/e-smith/events/actions/create-mnt-symlinks:1.1	Tue Sep  6 14:42:13 2005
++++ e-smith-base/root/etc/e-smith/events/actions/create-mnt-symlinks	Wed Dec 31 19:00:00 1969
+@@ -1,26 +0,0 @@
+-#! /bin/sh
+-# Try to make sure that /mnt/cdrom and /mnt/floppy can be mounted
+-
+-# If the system has been upgraded, there should be an old mount directories
+-if [ -d /mnt/cdrom -a -d /mnt/floppy ]
+-then
+-    exit 0
+-fi
+-
+-# Create /mnt if required
+-mkdir -p /mnt
+-
+-# If the system is newly installed, then haldaemon is managing /media/*
+-# mount points - if we find one, then create a symlink
+-for i in cdrecorder cdrom dvd dvdrecorder
+-do
+-    if grep -q /media/$i /etc/fstab
+-    then
+-       ln -sf /media/$i /mnt/cdrom
+-    fi
+-done
+-
+-if grep -q /media/floppy /etc/fstab
+-then
+-   ln -sf /media/floppy /mnt/floppy
+-fi
+Index: e-smith-base/root/sbin/e-smith/console
+diff -u e-smith-base/root/sbin/e-smith/console:1.162 e-smith-base/root/sbin/e-smith/console:1.163
+--- e-smith-base/root/sbin/e-smith/console:1.162	Mon Sep  5 21:33:08 2005
++++ e-smith-base/root/sbin/e-smith/console	Wed Sep  7 00:08:53 2005
+@@ -97,6 +97,9 @@
+ 
+ BEGIN
+ {
++    # disable CTRL-C
++    $SIG{INT} = 'IGNORE';
++
+     # Set PATH explicitly and clear related environment variables so that calls
+     # to external programs do not cause results to be tainted. See
+     # "perlsec" manual page for details.
+@@ -2868,7 +2871,12 @@
+     print gettext("If this test takes too long, please halt it by typing Ctrl-C.") . "\n";
+     print '-' x 75 . "\n";
+ 
+-    my $response = $ua->request($request);
++    my $response;
++
++    eval {
++        local $SIG{INT} = sub {die 1};
++        $response = $ua->request($request);
++    };	
+ 
+     if ($response->is_success)
+     {

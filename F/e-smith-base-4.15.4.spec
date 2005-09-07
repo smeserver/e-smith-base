@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.4
-%define release 33
+%define release 37
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -36,6 +36,10 @@ Patch23: e-smith-base-4.15.4-30.mitel_patch
 Patch24: e-smith-base-4.15.4-31.mitel_patch
 Patch25: e-smith-base-4.15.4-32.mitel_patch
 Patch26: e-smith-base-4.15.4-33.mitel_patch
+Patch27: e-smith-base-4.15.4-34.mitel_patch
+Patch28: e-smith-base-4.15.4-35.mitel_patch
+Patch29: e-smith-base-4.15.4-36.mitel_patch
+Patch30: e-smith-base-4.15.4-37.mitel_patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -73,9 +77,30 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Sep  6 2005 Tony Clayton <apc@e-smith.com>
+- [4.15.4-37]
+- Create /mnt/floppy symlink if required in post-{install,upgrade}.
+  [MN00095821]
+- Haldaemon race conditions seem quite recalcitrant, so don't try to create
+  /mnt/cdrom symlink. [SF: 1260322]
+- Disable CTRL-C in console [tonyc SF: 1264697]
+- Catch CTRL-C in console during Test Internet [tonyc SF: 1264697]
+
+* Tue Sep  6 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.15.4-36]
+- Rework user-group-modify to work around perl bug in getgrent(). [SF 1276553]
+
+* Tue Sep  6 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.15.4-35]
+- Also create /mnt/floppy symlink if required. [MN00095821]
+
+* Mon Sep  5 2005 Gordon Rowell <gordonr@e-smith.com>
+- [4.15.4-34]
+- Re-add Master DNS Server console screen [gordonr MN00096910, MN00088222]
+
 * Fri Sep  2 2005 Charlie Brady <charlieb@e-smith.com>
 - [4.15.4-33]
-- Fix race condition in /mnt/cdrom symlink creation, but creating
+- Fix race condition in /mnt/cdrom symlink creation, by creating
   symlink from haldaemon action. [SF: 1260322]
 
 * Thu Sep  1 2005 Charlie Brady <charlieb@e-smith.com>
@@ -4641,6 +4666,10 @@ e-smith server and gateway software - base module.
 %patch24 -p1
 %patch25 -p1
 %patch26 -p1
+%patch27 -p1
+%patch28 -p1
+%patch29 -p1
+%patch30 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
