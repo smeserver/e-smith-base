@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.4
-%define release 37
+%define release 37sme01
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -43,6 +43,7 @@ Patch30: e-smith-base-4.15.4-37.mitel_patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
+Requires: authconfig
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.15.1-19
 Requires: server-manager-images, server-manager
@@ -77,6 +78,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Sep 13 2005 Gordon Rowell <gordonr@gormand.com.au>
+- [4.15.4-37sme01]
+- Add requires for authconfig
+
 * Tue Sep  6 2005 Tony Clayton <apc@e-smith.com>
 - [4.15.4-37]
 - Create /mnt/floppy symlink if required in post-{install,upgrade}.
