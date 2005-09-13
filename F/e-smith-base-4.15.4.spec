@@ -80,7 +80,7 @@ e-smith server and gateway software - base module.
 %changelog
 * Tue Sep 13 2005 Gordon Rowell <gordonr@gormand.com.au>
 - [4.15.4-37sme01]
-- Add requires for authconfig
+- Add requires for authconfig [SF: 1283228]
 
 * Tue Sep  6 2005 Tony Clayton <apc@e-smith.com>
 - [4.15.4-37]
