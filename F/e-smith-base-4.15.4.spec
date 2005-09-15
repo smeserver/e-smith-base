@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.4
-%define release 38
+%define release 38sme01
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -43,6 +43,7 @@ Patch30: e-smith-base-4.15.4-37.mitel_patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
+Requires: authconfig
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.15.1-19
 Requires: server-manager-images, server-manager
@@ -77,6 +78,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Wed Sep 14 2005 Gordon Rowell <gordonr@gormand.com.au>
+- Add Requires: authconfig [SF: 1283228]
+
 * Mon Sep 12 2005 Charlie Brady <charlieb@e-smith.com>
 - [4.15.4-38]
 - Update filelist entries for databases which have moved
