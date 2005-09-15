@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.4
-%define release 37sme01
+%define release 38
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -43,7 +43,6 @@ Patch30: e-smith-base-4.15.4-37.mitel_patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
-Requires: authconfig
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.15.1-19
 Requires: server-manager-images, server-manager
@@ -78,9 +77,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
-* Tue Sep 13 2005 Gordon Rowell <gordonr@gormand.com.au>
-- [4.15.4-37sme01]
-- Add requires for authconfig [SF: 1283228]
+* Mon Sep 12 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.15.4-38]
+- Update filelist entries for databases which have moved
+  from /home/e-smith to /home/e-smith/db [SF: 1216546]
 
 * Tue Sep  6 2005 Tony Clayton <apc@e-smith.com>
 - [4.15.4-37]
@@ -4802,8 +4802,8 @@ rm root/service/{syslog,klogd}
 
 mkdir -p root/etc/e-smith/events/local
 mkdir -p root/etc/e-smith/events/user-modify-admin
-mkdir -p root/home/e-smith
-touch root/home/e-smith/configuration
+mkdir -p root/home/e-smith/db
+touch root/home/e-smith/db/configuration
 
 mkdir -p root/etc/e-smith/pam
 mkdir -p root/home/e-smith/ssl.key
@@ -4820,7 +4820,7 @@ do
 	ln -s ../../configuration/migrate/00openRW root/etc/e-smith/db/$file/migrate/00openRW
     fi
     # Create ghost file for rpm
-    touch root/home/e-smith/$file
+    touch root/home/e-smith/db/$file
 done
 
 mkdir -p root/etc/tcprules
@@ -4866,7 +4866,7 @@ rm -rf $RPM_BUILD_ROOT
     --dir /var/service/dhcpcd/supervise 'attr(0700,root,root)' \
     --file /var/service/dhcpcd/log/run 'attr(0755,root,root)' \
     --dir /var/log/dhcpcd 'attr(2750,smelog,smelog)' \
-    --file /home/e-smith/configuration 'config(noreplace)' \
+    --file /home/e-smith/db/configuration 'config(noreplace)' \
     --dir /var/service/httpd-admin 'attr(01755,root,root)' \
     --file /var/service/httpd-admin/down 'attr(0644,root,root)' \
     --file /var/service/httpd-admin/run 'attr(0755,root,root)' \
