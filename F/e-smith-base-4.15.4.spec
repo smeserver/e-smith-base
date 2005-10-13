@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.4
-%define release 51
+%define release 51sme01
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -53,6 +53,7 @@ Patch40: e-smith-base-4.15.4-48.mitel_patch
 Patch41: e-smith-base-4.15.4-49.mitel_patch
 Patch42: e-smith-base-4.15.4-50.mitel_patch
 Patch43: e-smith-base-4.15.4-51.mitel_patch
+Patch44: e-smith-base-4.15.4-add_mirror.patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -90,6 +91,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Thu Oct 13 2005 Gordon Rowell <gordonr@gormand.com.au>
+- [4.15.4-51sme01]
+- Add /sbin/e-smith/add_mirror [SF: 1325479]
+
 * Tue Oct 11 2005 Charlie Brady <charlieb@e-smith.com>
 - [4.15.4-51]
 - Untaint menu choice when ethernet driver is chosen from menu. [SF: 1323270]
@@ -4760,6 +4765,7 @@ e-smith server and gateway software - base module.
 %patch41 -p1
 %patch42 -p1
 %patch43 -p1
+%patch44 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
