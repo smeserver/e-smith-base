@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.4
-%define release 38sme01
+%define release 51
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -40,10 +40,22 @@ Patch27: e-smith-base-4.15.4-34.mitel_patch
 Patch28: e-smith-base-4.15.4-35.mitel_patch
 Patch29: e-smith-base-4.15.4-36.mitel_patch
 Patch30: e-smith-base-4.15.4-37.mitel_patch
+Patch31: e-smith-base-4.15.4-39.mitel_patch
+Patch32: e-smith-base-4.15.4-40.mitel_patch
+Patch33: e-smith-base-4.15.4-41.mitel_patch
+Patch34: e-smith-base-4.15.4-42.mitel_patch
+Patch35: e-smith-base-4.15.4-43.mitel_patch
+Patch36: e-smith-base-4.15.4-44.mitel_patch
+Patch37: e-smith-base-4.15.4-45.mitel_patch
+Patch38: e-smith-base-4.15.4-46.mitel_patch
+Patch39: e-smith-base-4.15.4-47.mitel_patch
+Patch40: e-smith-base-4.15.4-48.mitel_patch
+Patch41: e-smith-base-4.15.4-49.mitel_patch
+Patch42: e-smith-base-4.15.4-50.mitel_patch
+Patch43: e-smith-base-4.15.4-51.mitel_patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
-Requires: authconfig
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.15.1-19
 Requires: server-manager-images, server-manager
@@ -78,8 +90,64 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
-* Wed Sep 14 2005 Gordon Rowell <gordonr@gormand.com.au>
-- Add Requires: authconfig [SF: 1283228]
+* Tue Oct 11 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.15.4-51]
+- Untaint menu choice when ethernet driver is chosen from menu. [SF: 1323270]
+
+* Tue Oct 11 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.15.4-50]
+- Move user-create-unix action before template expansions, so
+  that getpwnam can be used in template fragments. Ditto
+  for group-create-unix. [SF. 1322231]
+
+* Sun Oct  9 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.15.4-49]
+- Fix spelling mistake in useraccounts panel. [SF: 1320002]
+
+* Fri Sep 30 2005 Gordon Rowell <gordonr@e-smith.com>
+- [4.15.4-48]
+- Revised translation of groups panel, reordered to match
+  the English lexicon - Thanks Didier Rambeau [SF: 1305184]
+
+* Fri Sep 30 2005 Gordon Rowell <gordonr@e-smith.com>
+- [4.15.4-47]
+- Added foot.tmpl for Italian [SF: 1309266]
+
+* Fri Sep 30 2005 Gordon Rowell <gordonr@e-smith.com>
+- [4.15.4-46]
+- Added Italian L10Ns - Thanks Filippo Carletti [SF: 1309266]
+
+* Fri Sep 30 2005 Gordon Rowell <gordonr@e-smith.com>
+- [4.15.4-45]
+- Added Italian for Please wait - we should do this through gettext
+  or similar [SF: 1309288]
+
+* Thu Sep 29 2005 Gordon Rowell <gordonr@e-smith.com>
+- [4.15.4-44]
+- Reword Master DNS Server screen as "Corporated DNS Server", in
+  line with domains panel [gordonr MN00096914]
+
+* Mon Sep 26 2005 Gordon Rowell <gordonr@e-smith.com>
+- [4.15.4-43]
+- German L10Ns for userpassword and console - Thanks Dietmar Berteld 
+  [SF: 1293325]
+
+* Sun Sep 25 2005 Gordon Rowell <gordonr@e-smith.com>
+- [4.15.4-42]
+- Added German L10N - Thanks Dietmar Berteld [SF: 1293325]
+
+* Sun Sep 25 2005 Gordon Rowell <gordonr@e-smith.com>
+- [4.15.4-41]
+- Added "de" to pleasewait ugliness case statement and
+  sorted the list alphabetically [SF: 1293325]
+
+* Fri Sep 23 2005 Gordon Rowell <gordonr@e-smith.com>
+- [4.15.4-40]
+- Convert [s]smtpfront-qmail to [s]smtpd in migrate fragment [SF: 1291265]
+
+* Thu Sep 22 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.15.4-39]
+- Add preliminary support for ethernet bonding on local interface.
 
 * Mon Sep 12 2005 Charlie Brady <charlieb@e-smith.com>
 - [4.15.4-38]
@@ -4679,6 +4747,19 @@ e-smith server and gateway software - base module.
 %patch28 -p1
 %patch29 -p1
 %patch30 -p1
+%patch31 -p1
+%patch32 -p1
+%patch33 -p1
+%patch34 -p1
+%patch35 -p1
+%patch36 -p1
+%patch37 -p1
+%patch38 -p1
+%patch39 -p1
+%patch40 -p1
+%patch41 -p1
+%patch42 -p1
+%patch43 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

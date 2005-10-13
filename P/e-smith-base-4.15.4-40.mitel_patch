@@ -1,0 +1,15 @@
+Index: e-smith-base/e-smith-base.spec
+diff -u e-smith-base/root/etc/e-smith/db/configuration/migrate/10SetAccessDefaults:1.6 e-smith-base/root/etc/e-smith/db/configuration/migrate/10SetAccessDefaults:1.7
+--- e-smith-base/root/etc/e-smith/db/configuration/migrate/10SetAccessDefaults:1.6	Thu Mar 10 15:57:22 2005
++++ e-smith-base/root/etc/e-smith/db/configuration/migrate/10SetAccessDefaults	Fri Sep 23 00:45:07 2005
+@@ -41,8 +41,8 @@
+ 	    (
+ 		oidentd		=> "public",
+ 		'httpd-e-smith'	=> "public",
+-		'smtpfront-qmail'	=> "public",
+-		'ssmtpfront-qmail'	=> "public",
++		'smtpd'		=> "public",
++		'ssmtpd'	=> "public",
+ 		ftp			=> "private",
+ 		imap		=> "private",
+ 		imaps		=> "private",

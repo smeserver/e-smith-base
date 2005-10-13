@@ -1,0 +1,154 @@
+Index: e-smith-base/e-smith-base.spec
+diff -u e-smith-base/root/etc/e-smith/locale/fr/etc/e-smith/web/functions/groups:1.8 e-smith-base/root/etc/e-smith/locale/fr/etc/e-smith/web/functions/groups:1.9
+--- e-smith-base/root/etc/e-smith/locale/fr/etc/e-smith/web/functions/groups:1.8	Wed Jul 27 13:19:44 2005
++++ e-smith-base/root/etc/e-smith/locale/fr/etc/e-smith/web/functions/groups	Fri Sep 30 09:36:47 2005
+@@ -3,19 +3,19 @@
+ <lexicon lang="fr"> 
+     <entry>
+         <base>FORM_TITLE</base> 
+-        <trans>Créer, modifier, ou supprimer les groupes d'usagers</trans> 
++        <trans>Créer, modifier, ou supprimer les groupes d'utilisateurs</trans> 
+     </entry> 
+     <entry>
+         <base>CREATE_TITLE</base> 
+-        <trans>Créer le groupe d'usagers</trans> 
++        <trans>Créer le groupe d'utilisateurs</trans> 
+     </entry> 
+     <entry>
+         <base>MODIFY_TITLE</base> 
+-        <trans>Modifier le groupe d'usagers</trans> 
++        <trans>Modifier le groupe d'utilisateurs</trans> 
+     </entry> 
+     <entry>
+         <base>REMOVE_TITLE</base> 
+-        <trans>Supprimer le groupe d'usagers</trans> 
++        <trans>Supprimer le groupe d'utilisateurs</trans> 
+     </entry> 
+     <entry>
+         <base>GROUP_TOO_LONG</base> 
+@@ -23,26 +23,48 @@
+             maximum.</trans> 
+     </entry> 
+     <entry>
++        <base>ACCOUNT_CONFLICT</base>
++        <trans>Erreur : le groupe « {$group} » ne peut être créé; il existe
++            déjà un compte {$type} de ce nom.
++        </trans>
++    </entry>
++    <entry>
+         <base>INVALID_GROUP_DESCRIPTION</base> 
+         <trans>Erreur : caractères inattendus ou manquants dans description du
+             groupe</trans> 
+-        </entry> <entry>
++    </entry>
++    <entry>
+         <base>NO_MEMBERS</base> 
+         <trans>Erreur : aucun membre dans le groupe.  Groupe non créé.</trans> 
+     </entry> 
+     <entry>
+         <base>CREATED_GROUP</base> 
+-        <trans>Groupe d'usagers créé avec succès</trans> 
++        <trans>Groupe d'utilisateurs créé avec succès</trans> 
+     </entry> 
+     <entry>
+         <base>DELETED_GROUP</base> 
+-        <trans>Groupe d'usagers supprimé avec succès</trans> 
++        <trans>Groupe d'utilisateurs supprimé avec succès</trans> 
+     </entry> 
+     <entry>
+         <base>MODIFIED_GROUP</base> 
+-        <trans>Groupe d'usagers modifié avec succès</trans> 
++        <trans>Groupe d'utilisateurs modifié avec succès</trans> 
+     </entry> 
+     <entry>
++        <base>CREATE_ERROR</base>
++        <trans>Une erreur est survenue lors de la création du groupe
++            d'utilisateurs.</trans>
++    </entry>
++    <entry>
++        <base>DELETE_ERROR</base>
++        <trans>Une erreur est survenue lors de la uppression du groupe
++            d'utilisateurs.</trans>
++    </entry>
++    <entry>
++        <base>MODIFY_ERROR</base>
++        <trans>Une erreur est survenue lors de la modification du groupe
++            d'utilisateurs.</trans>
++    </entry>
++    <entry>
+         <base>GROUP_NAMING</base> 
+         <trans> <![CDATA[
+             Le nom du groupe doit contenir uniquement des lettres minuscules,
+@@ -67,7 +89,7 @@
+     </entry> 
+     <entry>
+         <base>REMOVE</base> 
+-        <trans>Supprimer </trans> 
++        <trans>Supprimer</trans> 
+     </entry> 
+     <entry>
+         <base>MODIFY_SAVE</base> 
+@@ -83,9 +105,16 @@
+     </entry> 
+     <entry>
+         <base>GROUP_DESC</base> 
+-        <trans>Brève description </trans> 
++        <trans>Brève description</trans> 
+     </entry> 
+     <entry>
++        <base>GROUP_DESC_EXPL</base>
++        <trans>Saissez un brève description du groupe dans le champ ci-dessous.
++               Ce champ correspond également au nom du groupe visible par les
++               clients Windows.</trans>
++    </entry>
++                                                    
++    <entry>
+         <base>IBAYS_WILL_BE_CHANGED</base> 
+         <trans>Les info-baies suivantes ont été attribuées à ce groupe, mais
+             vont l'être au groupe de l'administrateur (vous pouvez ensuite les
+@@ -103,15 +132,19 @@
+     </entry> 
+     <entry>
+         <base>USERNAME</base> 
+-        <trans>Nom d'usager</trans> 
++        <trans>Nom d'utilisateur</trans> 
+     </entry> 
+     <entry>
++        <base>ACTION</base>
++        <trans>Action</trans>
++    </entry>
++    <entry>
+         <base>CLICK_TO_CREATE</base> 
+         <trans>Ajouter un groupe</trans> 
+     </entry> 
+     <entry>
+         <base>NO_GROUPS</base> 
+-        <trans>Il n'y a pas de groupes d'usagers dans le système.</trans> 
++        <trans>Il n'y a pas de groupes d'utilisateurs dans le système.</trans> 
+     </entry> 
+     <entry>
+         <base>CURRENT_LIST</base> 
+@@ -119,7 +152,7 @@
+     </entry> 
+     <entry>
+         <base>GROUP</base> 
+-        <trans>Groupe </trans> 
++        <trans>Groupe</trans> 
+     </entry> 
+     <entry>
+         <base>GROUP_MEMBERS</base> 
+@@ -144,14 +177,4 @@
+         <base>Groups</base> 
+         <trans>Groupes</trans> 
+     </entry> 
+-    <entry>
+-        <base>ACCOUNT_CONFLICT</base>
+-        <trans>Erreur : le groupe « {$group} » ne peut être créé; il existe
+-            déjà un compte {$type} de ce nom.
+-        </trans>
+-    </entry>
+-    <entry>
+-        <base>ACTION</base>
+-        <trans>Action</trans>
+-    </entry>
+ </lexicon>  

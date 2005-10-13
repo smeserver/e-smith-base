@@ -1,0 +1,1748 @@
+Index: e-smith-base/e-smith-base.spec
+diff -u /dev/null e-smith-base/po/de/server-console.po:1.1
+--- /dev/null	Mon Sep 26 01:02:10 2005
++++ e-smith-base/po/de/server-console.po	Mon Sep 26 00:57:19 2005
+@@ -0,0 +1,1643 @@
++# SME Server Console German Localization
++# Copyright (C) 2003 Mitel Networks Corporation
++# SME Server Developers <dietmar@berteld.com>, 2005
++#
++msgid ""
++msgstr ""
++"Project-Id-Version: SME Server 7.0\n"
++"POT-Creation-Date: 2005-09-16 14:48-0400\n"
++"PO-Revision-Date: $Id: server-console.po,v 1.4 2002/12/12 19:00:52 gordonr "
++"Exp $\n"
++"Last-Translator: SME Server Developers <dietmar@berteld.com>\n"
++"Language-Team: German <dietmar@berteld.com>\n"
++"MIME-Version: 1.0\n"
++"Content-Type: text/plain; charset=CHARSET\n"
++"Content-Transfer-Encoding: 8-bit\n"
++
++#: console:130
++msgid "Bad ttyname:"
++msgstr "Falscher Name für TTY :"
++
++#: console:134
++msgid "Can't redirect stdin"
++msgstr "Umleitung von stdin nicht möglich"
++
++#: console:135
++msgid "Can't redirect stdout"
++msgstr "Umleitung von stdout nicht möglich"
++
++#: console:138
++msgid "Can't fork"
++msgstr "Verdoppelung nicht möglich"
++
++#: console:174
++msgid "Inconsistent system state"
++msgstr "Inkonsistenter Systemzustand"
++
++#: console:176
++msgid "********** Inconsistent system state detected ***********"
++msgstr "********** Inkonsistenter Systemzustand entdeckt ***********"
++
++#: console:178
++msgid ""
++"The restoration of a system backup was running and incomplete at the time of "
++"the last reboot. The system should not be used in this state."
++msgstr ""
++"Vor dem letzten Neustart wurde die Wiederherstellung des System-Bakups unvollständig "
++"beendet. Das System sollte nicht in diesem Zustand benutzt werden."
++
++#: console:180
++msgid "Consult the User Guide for further instructions."
++msgstr "Zur weiteren Vorgehensweise bitte im Benutzerhandbuch nachschauen."
++
++#: console:186
++msgid "System will be halted"
++msgstr "System wird jetzt angehalten"
++
++#: console:188
++msgid "The server will now be halted."
++msgstr "Der Server wird jetzt angehalten."
++
++#: console:190
++msgid "Consult the User Guide for recovery instructions."
++msgstr "Zur Wiederherstellung im Benutzerhandbuch nachschauen."
++
++#: console:192
++msgid "Do you wish to halt the system right now?"
++msgstr "Soll das System jetzt angehalten werden?"
++
++#: console:244 console:410
++msgid "Welcome to the server console!"
++msgstr "Willkommen an der Serverkonsole!"
++
++#: console:246 console:459
++msgid ""
++"You will now be taken through a sequence of screens to perform basic "
++"networking configuration on this server."
++msgstr ""
++"Sie werden nun durch eine Abfolge von Bildschirmen geführt, in denen die "
++"Basis-Einstellungen für diesen Server vorgenommen werden."
++
++#: console:248 console:461
++msgid ""
++"These configuration steps are usally performed once. Routine system "
++"administration tasks such as adding users and printers can then be performed "
++"from your desktop using a web browser."
++msgstr ""
++"Diese Basis-Konfiguration erfolgt in der Regel nur einmal. Die später notwendigen Routineaufgaben "
++"der Administration wie z.B. Benutzer hinzufügen oder Drucker bereitstellen können dann "
++"mit einem Web-Frontend an jedem beliebigen Internet-Browser durchgeführt werden."
++
++#: console:250 console:463
++msgid ""
++"You can make your selections in each screen using the Arrow and Tab keys. At "
++"any point, if you select Back you will be returned to the previous screen."
++msgstr ""
++"Mit der Tabtaste und den Pfeiltasten kann jeweils die Auswahl getroffen werden. "
++"Sie können jederzeit mit \"zurück\" zum vorigen Bildschirm  "
++"zurückkehren."
++
++#: console:251
++msgid ""
++"Before you start, you must first choose the administrator password for your "
++"system and enter it below. You will not see the password as you enter it."
++msgstr ""
++"Als erster Schritt muss das Administrator-Kennwort eingegeben werden. "
++"Bei der Eingabe sind keine Zeichen sichtbar."
++
++#: console:259 console:291
++msgid "Administrator password not set"
++msgstr "Administrator-Kennwort nicht angegeben"
++
++#: console:260 console:292
++msgid "Sorry, you must set the administrator password now."
++msgstr "Achtung, Sie müssen jetzt das Administrator-Password eingeben."
++
++#: console:271
++msgid "Unprintable characters in password"
++msgstr "Nicht druckbare Sonderzeichen im Kennwort"
++
++#: console:272
++msgid "The password must contain only printable characters."
++msgstr "Das Kennwort darf nur druckbare Zeichen enthalten."
++
++#: console:283
++msgid "Please type your administrator password again to verify."
++msgstr "Zur Bestätigung das Administrator-Kennwort erneut eingeben."
++
++#: console:303
++msgid "Passwords do not match"
++msgstr "Die Kennwörter sind unterschiedlich."
++
++#: console:304
++msgid "The two passwords did not match"
++msgstr "Die beiden Kennwörter sind verschieden"
++
++#: console:316
++msgid " it is based on your username"
++msgstr "es basiert auf Ihrem Benutzernamen"
++
++#: console:317
++msgid " it is based upon your password entry"
++msgstr "es basiert auf Ihrem Kennwort-Eintrag"
++
++#: console:318
++msgid " it is derived from your password entry"
++msgstr "es ist abgeleitet von Ihrem Kennwort-Eintrag"
++
++#: console:319
++msgid " it is derivable from your password entry"
++msgstr "es ist von Ihrem Kennwort-Eintrag ableitbar"
++
++#: console:320
++msgid " it is too short"
++msgstr "es ist zu kurz"
++
++#: console:321
++msgid " it is all whitespace"
++msgstr "es enthält nur Leerzeichen"
++
++#: console:322
++msgid " it is too simplistic/systematic"
++msgstr "es ist zu vereinfacht/systematisiert"
++
++#: console:323
++msgid " it is based on a dictionary word"
++msgstr "es basiert auf einem übersetzten Wort"
++
++#: console:324
++msgid " it is based on a (reversed) dictionary word"
++msgstr "es basiert auf einem zurück übersetzten Wort"
++
++#: console:328
++msgid "Software error: password check failed"
++msgstr "Software Fehler: Passwort-Prüfung gescheitert"
++
++#: console:333
++msgid "Bad Password Choice"
++msgstr "Schlechte Passwort-Wahl"
++
++#: console:335
++msgid "The password you have chosen is not a good choice, because"
++msgstr "Ihr eingegebenes Passwort ist keine gute Wahl, denn"
++
++#: console:338
++msgid "Do you wish to choose a better one?"
++msgstr "Möchten Sie jetzt ein besseres Passwort eingeben?"
++
++#: console:386
++msgid "Check status of this server"
++msgstr "Serverstatus überprüfen"
++
++#: console:387 console:457
++msgid "Configure this server"
++msgstr "Serverkonfiguration"
++
++#: console:389 console:2508 console:3367
++msgid "Test Internet access"
++msgstr "Internetzugang testen"
++
++#: console:390
++msgid "Reboot or shut down this server"
++msgstr "Herunterfahren oder neu starten"
++
++#: console:391 console:3002
++msgid "Access server manager"
++msgstr "Servermanager benutzen"
++
++#: console:392
++msgid "View support and licensing information"
++msgstr "Support und Lizenzinformation"
++
++#: console:398
++msgid "Exit from the server console"
++msgstr "Serverkonsole beenden"
++
++#: console:401
++msgid "Server console"
++msgstr "Serverkonsole"
++
++#: console:403
++msgid "** unsaved changes; please configure again **"
++msgstr "** nicht gespeicherte Änderungen; bitte erneut konfigurieren **"
++
++#: console:412
++msgid "Use the Arrow and Tab keys to make your selection, then press Enter."
++msgstr "Mit der Tabtaste und den Pfeiltasten die Auswahl treffen und \"Enter\" drücken."
++
++#: console:415
++msgid "Exit"
++msgstr "Ende"
++
++#: console:465 console:3012
++msgid "Do you wish to proceed?"
++msgstr "Möchten Sie fortfahren?"
++
++#: console:494 console:3252
++msgid "Primary domain name"
++msgstr "Haupt-Domänen-Name erstellen"
++
++#: console:496
++msgid "Please enter the primary domain name for your server."
++msgstr "Bitte geben Sie den Haupt-Domänen-Namen Ihres Servers an."
++
++#: console:498
++msgid ""
++"This will be the default domain for your e-mail and web server. Virtual "
++"domains can be added later using the server manager."
++msgstr ""
++"Dieser wird dann Ihr voreingestellter Domänen-Name für E-Mail und Web-Server "
++"sein. Später können dann im Server-Manager virtuelle Domänen hinzugefügt werden."
++
++#: console:521
++msgid "Invalid domain name"
++msgstr "Unzutreffender Domänen-Name"
++
++#: console:540
++msgid "Select system name"
++msgstr "System-Name erstellen"
++
++#: console:542
++msgid "Please enter the system name for your server."
++msgstr "Bitte geben Sie einen System-Namen für Ihren Server ein."
++
++#: console:544
++msgid "You should select unique system names for each server."
++msgstr "Für jeden Server sollten eindeutige Namen gewählt werden."
++
++#: console:546
++msgid ""
++"The system name must start with a letter and can be composed of  letters, "
++"numbers and hyphens."
++msgstr ""
++"Der System-Name sollte mit einem Buchstaben beginnen und kann neben Buchstaben "
++"auch Ziffern, Trenn- und Unterstriche enthalten."
++
++#: console:581
++msgid "Invalid system name"
++msgstr "Unzutreffender System-Name"
++
++#: console:612
++msgid "Local networking parameters"
++msgstr "Lokale Netzwerk-Parameter"
++
++#: console:614
++msgid "Please enter the local IP address for this server."
++msgstr "Bitte geben Sie die lokale IP-Adresse für diesen Server ein."
++
++#: console:616
++msgid ""
++"If this server is the first machine on your network, we recommend accepting "
++"the default value unless you have a specific reason to choose something else."
++msgstr ""
++"Sollte dieser Server die erste Maschine im Netzwerk sein, wird die Voreinstellung "
++"empfohlen, es sei denn, Sie möchten bewußt eine andere IP-Adresse nehmen."
++
++#: console:618
++msgid ""
++"If your server is being installed into an existing network, you must choose "
++"an address which is not in use by any other computer on this network."
++msgstr ""
++"Sollte dieser Server in ein bereits bestehendes Netzwerk integriert werden, sollte"
++"eine IP-Adresse gewählt werden, die nicht bereits durch einen anderen Computer benutzt wird."
++
++#: console:669
++msgid "Invalid local IP address"
++msgstr "Unzutreffende IP-Adresse"
++
++#: console:683
++msgid "Select local subnet mask"
++msgstr "Eingabe der lokalen Subnetzmaske"
++
++#: console:685
++msgid "Please enter the local subnet mask for this server."
++msgstr "Bitte geben Sie die lokale Subnetzmaske für diesen Server ein."
++
++#: console:687
++msgid ""
++"If this server is the first machine on your network, we recommend using the "
++"default unless you have a specific reason to choose something else."
++msgstr ""
++"Sollte dieser Server die erste Maschine im Netzwerk sein, wird die Voreinstellung empfohlen, "
++"es sei denn, Sie möchten bewußt eine andere Einstellung nehmen."
++
++#: console:689
++msgid ""
++"If your server is being installed into an existing network, you must choose "
++"the same subnet mask used by other computers on this network."
++msgstr ""
++"Sollte dieser Server in ein bereits bestehendes Netzwerk integriert werden, sollte "
++"die gleiche Subnetzmaske wie bei den anderen Computern dieses Netzwerks benutzt werden."
++
++#: console:711
++msgid "Invalid local subnet mask"
++msgstr "Unzutreffendes lokales Subnetz"
++
++#: console:729 console:745
++msgid "Server and gateway"
++msgstr "Server und Gateway"
++
++#: console:734 console:746
++msgid "Private server and gateway"
++msgstr "Privater Server und Gateway"
++
++#: console:739 console:747
++msgid "Server-only"
++msgstr "Nur Server"
++
++#: console:752
++msgid "Select operation mode"
++msgstr "Arbeitsmodus des Servers auswählen"
++
++#: console:754
++msgid ""
++"If you want this server to act as a gateway to the Internet, choose one of "
++"the server and gateway options. Server and gateway mode acts as a firewall "
++"and provides an external web and mail server. Private server and gateway "
++"mode also acts as a firewall but disables all incoming services."
++msgstr ""
++"Wenn der Server auch als Gateway zum Internet verwendet werden soll, sollte "
++"\"Server und Gateway\" ausgewählt werden. Der \"Server und Gateway\" Arbeitsmodus stellt "
++"eine Firewall, einen externen Web-Server und einen Mail-Server bereit. Der "
++"Arbeitsmodus \"Privater Server und Gateway\" stellt ebenfalls eine Firewall zur "
++"Verfügung, schaltet aber alle eingehenden Service aus."
++
++#: console:756
++msgid ""
++"Server-only mode provides services to a local, protected network. If you "
++"choose this mode and Internet access is required, the network must be "
++"protected by another server configured in server and "
++"gateway mode (or another firewall)."
++msgstr ""
++"Der \"Nur-Server\"-Arbeitsmodus beinhaltet keine Firewall und stellt nur Dienste in "
++"einem geschützten lokalen Netzwerk bereit. Bei Auswahl dieses Arbeitsmodus muss "
++"der Internetzugang durch einen anderen Server mit Firewall-Funktion sichergestellt werden."
++
++#: console:763 console:830 console:896 console:969 console:1178 console:1890
++#: console:1924 console:1957 console:2059 console:2322 console:2485
++#: console:3662
++msgid "keep"
++msgstr "behalten"
++
++#: console:802 console:813
++msgid "Server and gateway - dedicated"
++msgstr "Server und Gateway - direkt"
++
++#: console:807 console:814
++msgid "Server and gateway - dialup"
++msgstr "Server und Gateway - Einwahl"
++
++#: console:819
++msgid "Select external access mode"
++msgstr "Auswahl Methode für den Internetzugang"
++
++#: console:821
++msgid ""
++"The next step is to select the access mode that your server will use to "
++"connect to the Internet."
++msgstr ""
++"Im nächsten Schritt wird die Zugriffs-Methode für die Internetverbindung "
++"festgelegt."
++
++#: console:823
++msgid ""
++"Choose the dedicated option if you access the Internet via a router, a cable "
++"modem or ADSL. Choose the dialup option if you use a modem or ISDN "
++"connection."
++msgstr ""
++"Falls Sie einen Router, ein Kabelmodem oder einen DSL-Anschluss haben, wählen Sie "
++"bitte die Option \"direkt\". Bei ISDN-Anschluss oder einen analogem Modem wählen Sie "
++"bitte \"Einwahl\"."
++
++#: console:879
++msgid "normal"
++msgstr "normal"
++
++#: console:879
++msgid "eth0 is local, eth1 is external"
++msgstr "eth0 ist lokal, eth1 ist extern"
++
++#: console:880 console:898
++msgid "swapped"
++msgstr "ausgetauscht"
++
++#: console:880
++msgid "eth1 is local, eth0 is external"
++msgstr "eth1 ist lokal, eth0 ist extern"
++
++#: console:885
++msgid "Select ethernet card assignment"
++msgstr "Ethernet-Karte auswählen"
++
++#: console:887
++msgid ""
++"You have two Ethernet cards which use the same driver. The server will "
++"automatically designate one for your local network (called eth0) and one for "
++"your external Internet connection (called eth1). If this default assignment "
++"is not appropriate for your situation, you can select the opposite "
++"assignment using swapped mode. Most installations can accept the default "
++"setting of normal."
++msgstr ""
++"Sie haben 2 Ethernet-Karten mit dem gleichen Treiber. Der Server richtet "
++"automatisch eine Karte für das lokale Netzwerk (eth0) und eine Karte für "
++"die externe Internetverbindung (eth1) ein. Falls diese Voreinstellung nicht "
++"der tatsächlichen Verkabelung entspricht, können Sie auch mit Auswahl \"ausgetauscht\" "
++"eine alternative Verkabelung einstellen. In den meisten Fällen ist die Voreinstellung"
++"\"normal\" zutreffend."
++
++#: console:889
++msgid "Please select whether you want to operate in normal or swapped mode."
++msgstr "Bitte den Arbeitsmodus \"Normal\" oder \"ausgetauscht\" auswählen."
++
++#: console:922
++msgid "use DHCP (send account name as client identifier)"
++msgstr "DHCP benutzen (System-Namen zur Identifikation senden)"
++
++#: console:923
++msgid "DHCP with account name"
++msgstr "DHCP mit System-Namen"
++
++#: console:929
++msgid "use DHCP (send ethernet address as client identifier)"
++msgstr "DHCP benutzen (Ethernet-Adresse zurIdentifikation senden)"
++
++#: console:930
++msgid "DHCP with ethernet address"
++msgstr "DHCP mit Ethernet-Adresse"
++
++#: console:936
++msgid "use PPP over Ethernet (PPPoE)"
++msgstr "PPP over Ethernet (PPPoE benutzen)"
++
++#: console:937
++msgid "PPPoE"
++msgstr "PPPoE"
++
++#: console:943
++msgid "use static IP address (do not use DHCP or PPPoE)"
++msgstr "Statische IP-Adresse benutzen"
++
++#: console:944
++msgid "static IP"
++msgstr "Statische IP-Adresse"
++
++#: console:950
++msgid "Use DHCP (send account name as client identifier)"
++msgstr "DHCP benutzen (System-Namen zur Identifikation senden"
++
++#: console:951
++msgid "Use DHCP (send ethernet address as client identifier)"
++msgstr "DHCP benutzen (Ethernet-Adresse zur Identifikation senden)"
++
++#: console:952
++msgid "Use PPP over Ethernet (PPPoE)"
++msgstr "PPP over Ethernet (PPPoE benutzen)"
++
++#: console:953
++msgid "Use static IP address"
++msgstr "Statische IP-Adresse benutzen"
++
++#: console:958
++msgid "External Interface Configuration"
++msgstr "Konfiguration der Ethernet-Karte für externe Internetverbindung"
++
++#: console:960
++msgid "Next, specify how to configure the external ethernet adapter."
++msgstr "Bitte konfigurieren Sie jetzt die Daten der Ethernet-Karte für die externe Internetverbindung."
++
++#: console:962
++msgid ""
++"For cable modem connections, select DHCP. If your ISP has assigned a system "
++"name for your connection, use the account name option. Otherwise use the "
++"ethernet address option. For residential ADSL, use PPPoE. For most corporate "
++"connections, use a static IP address."
++msgstr ""
++"Wählen Sie DHCP für Kabel-Modem-Verbindungen aus. Falls Ihr Internet Service "
++"Provider (ISP) einen Host-Namen für Ihre Verbindung hinterlegt hat, benutzen Sie "
++"bitte diesen Namen. Ansonsten nutzen Sie bitte die Option \"Ethernet-Adresse\". "
++"Für ADSL-Verbindungen sollte PPPoE benutzt werden. Dabei wird häufig eine Statische "
++"IP-Address verwendet."
++
++#: console:1021
++msgid "Enter ISP assigned hostname"
++msgstr "Eingabe des beim ISP hinterlegten Host-Namens"
++
++#: console:1023
++msgid ""
++"You have selected DHCP (send account name). Please enter the account name "
++"assigned by your ISP. You must enter the account name exactly as specified "
++"by your ISP."
++msgstr ""
++"Sie haben DHCP ausgewählt (Senden des System-Namens). Bitte geben Sie den bei "
++"Ihrem ISP hinterlegten Host-Namen jetzt ein. Wichtig ist dabei, dass die "
++"eingegebenen Zeichen exakt mit den beim ISP hinterlegten Zeichen übereinstimmen. "
++
++#: console:1048
++msgid "Select PPPoE user account"
++msgstr "Eingabe des PPPoE Benutzer-Namens"
++
++#: console:1050
++msgid ""
++"Please enter the user account name for your PPPoE Internet connection. Most "
++"PPPoE service providers use an account name and e-mail domain. For example, "
++msgstr ""
++"Bitte geben Sie den Benutzer-Namen für Ihre PPPoE Internet-Verbindung ein. Die "
++"meisten PPPoE Service Providers verwenden Benutzer-Namen zusammen mit einer "
++"E-Mail-Domäne, zum Beispiel: "
++
++#: console:1076
++msgid "Select PPPoE password"
++msgstr "PPPoE-Passwort eingeben"
++
++#: console:1078
++msgid "Please enter the password for your PPPoE Internet connection."
++msgstr "Bitte geben Sie das Passwort für Ihre PPPoE-Internetverbindung ein."
++
++#: console:1104
++msgid "Cannot read directory"
++msgstr "DNS-Verzeichnis nicht lesbar"
++
++#: console:1157
++msgid "Do not use a dynamic DNS service"
++msgstr "Kein Dynamischer DNS-Dienst"
++
++#: console:1158 console:1160
++msgid "free service"
++msgstr "Kostenloser Dienst"
++
++#: console:1159 console:1161
++msgid "commercial service"
++msgstr "Kostenpflichtiger Dienst"
++
++#: console:1162
++msgid "Custom - Mitel Networks technical support required"
++msgstr "Spezial - SME Technikerunterstützung erforderlich"
++
++#: console:1167
++msgid "Select dynamic DNS service"
++msgstr "Dynamischen DNS-Dienst auswählen"
++
++#: console:1169
++msgid ""
++"Please specify whether you wish to subscribe to a dynamic DNS service. Such "
++"services allow you to have a domain name without a static IP address, and "
++"are available from various organizations for free or for a reasonable "
++"charge. A notification must be sent to the dynamic DNS service whenever your "
++"IP address changes. Your server can automatically do this for some dynamic "
++"DNS services."
++msgstr ""
++"Bitte geben Sie an, ob Sie sich bei einem dynamischen DNS-Dienst anmelden "
++"wollen. Diese Dienste gestatten die Benutzung einer Domäne, ohne eine statische "
++"IP-Adresse zu haben und sind von unterschiedlichen Anbietern kostenlos oder "
++"kostenpflichtig erhältlich. Technisch beruht der dynamische DNS-Dienst auf dem "
++"Senden einer Benachrichtigung beim Erhalt einer neuen IP-Adresse. Ihr Server kann "
++"das für einige dynamische DNS-Dienste automatisch erledigen. "
++
++#: console:1171
++msgid "Choose which dynamic DNS service you would like to use."
++msgstr "Bitte wählen Sie einen für Sie geeigneten dynamischen DNS-Dienst aus."
++
++#: console:1229
++msgid "Select dynamic DNS account"
++msgstr "Benutzer für den dynamischen DNS-Dienst eingeben"
++
++#: console:1230
++msgid "Please enter the account name for your dynamic DNS service"
++msgstr "Bitte geben Sie einen Benutzernamen für Ihren dynamischen DNS-Dienst ein"
++
++#: console:1258
++msgid "Select dynamic DNS password"
++msgstr "Kennwort für den dynamischen DNS-Dienst eingeben"
++
++#: console:1259
++msgid "Please enter the password for your dynamic DNS service"
++msgstr "Bitte geben Sie das Kennwort für Ihren dynamischen DNS-Dienst ein"
++
++#: console:1290
++msgid "Select static IP address"
++msgstr "Statische IP-Adresse eingeben"
++
++#: console:1292
++msgid ""
++"You have chosen to configure your external Ethernet connection with a static "
++"IP address. Please enter the IP address which should be used for the "
++"external interface on this server."
++msgstr ""
++"Sie haben die Einstellung Ihrer externen Internetverbindung auf Basis einer "
++"statischen IP-Adresse ausgewählt. Bitte geben Sie jetzt die IP-Adresse ein, "
++"die von der externen Ethernetkarte benutzt werden soll. "
++
++#: console:1294
++msgid "Please note, this is not the address of your external gateway."
++msgstr "Achtung: Diese IP-Adresse ist nicht die Adresse Ihres externen Gateway."
++
++#: console:1316
++msgid "Invalid external IP address"
++msgstr "Unzutreffende externe IP-Addresse"
++
++#: console:1331
++msgid "Select subnet mask"
++msgstr "Subnetzmaske eingeben"
++
++#: console:1333
++msgid ""
++"Please enter the subnet mask for your Internet connection. A typical subnet "
++"mask is 255.255.255.0."
++msgstr ""
++"Bitte geben Sie die Subnetzmaske für Ihre Internetverbindung ein. "
++"Ein typischer Wert ist 255.255.255.0."
++
++#: console:1355
++msgid "Invalid external subnet mask"
++msgstr "Unzutreffende externe Subnetzmaske"
++
++#: console:1380 console:1985
++msgid "Select gateway IP address"
++msgstr "Gateway-IP-Adresse eingeben"
++
++#: console:1382
++msgid "Please enter the gateway IP address for your Internet connection."
++msgstr "Bitte geben Sie die Gateway-IP-Adresse für Ihre Internetverbindung ein."
++
++#: console:1404 console:2012
++msgid "Invalid gateway IP address"
++msgstr "Unzutreffende Gateway-IP-Adresse"
++
++#: console:1419 console:1420 console:1421 console:1422 console:1423
++msgid "Set modem port to"
++msgstr "Stelle Modem-Port auf"
++
++#: console:1423 console:1457
++msgid "ISDN"
++msgstr "ISDN"
++
++#: console:1424
++msgid "internal ISDN card"
++msgstr "Interne ISDN-Karte"
++
++#: console:1429
++msgid "Select modem/ISDN port"
++msgstr "Modem/ISDN-Anschluss auswählen"
++
++#: console:1431
++msgid ""
++"Please specify which serial port your modem or ISDN terminal adapter is "
++"connected to. Select ISDN if you wish to use an internal ISDN card."
++msgstr ""
++"Bitte geben Sie an, mit welchem seriellen Anschluss Ihr Modem oder "
++"ISDN-Adapter verbunden werden soll. Bei Verwendung einer internen "
++"ISDN-Karte wählen Sie ISDN aus. "
++
++#: console:1602
++msgid "ISDN card detected"
++msgstr "ISDN-Karte entdeckt"
++
++#: console:1604
++msgid ""
++"Do you wish to use the following ISDN card for your Internet connection?"
++msgstr "Möchten Sie die folgende ISDN-Karte für Ihre Internet-Verbindung nutzen?"
++
++#: console:1621
++msgid "ISDN driver options"
++msgstr "ISDN-Treiberoptionen"
++
++#: console:1623 console:1690
++msgid "You have selected an internal ISDN card."
++msgstr "Sie haben eine interne ISDN-Karte ausgewählt."
++
++#: console:1625
++msgid ""
++"The ISDN software will need to be told what ISDN hardware you have. It may "
++"also need to be told what protocol number to use and may need to be given "
++"some additional information about your hardware such as the I/O address and "
++"interrupt settings."
++msgstr ""
++"Die ISDN-Software benötigt Informationen über die ISDN-Hardware. Produkt, "
++"Protokoll-Nummer, I/O Addresse und Interrupt-Einstellungen sind ebenfalls erforderlich."
++
++#: console:1627
++msgid "This information is provided via an options string. An example is"
++msgstr "Diese Informationen werden über einen \"String\" bereitgestellt. Zum Beispiel:"
++
++#: console:1629
++msgid "which would be used to set the"
++msgstr "könnte benutzt werden von"
++
++#: console:1631
++msgid "to EURO-ISDN."
++msgstr "für EURO-ISDN."
++
++#: console:1657
++msgid "Multiple Subscriber Numbering"
++msgstr "Mehrfach-Rufnummer eingeben"
++
++#: console:1659
++msgid ""
++"Your ISDN line may have more than one number associated with it known as "
++"Multiple Subscriber Numbering (MSN). In order to receive an incoming ISDN "
++"call from an ISP or a remote site, you may need to configure your ISDN card "
++"with its MSN so that ISDN calls are routed correctly. If you do not know "
++"this number, you can leave this value blank."
++msgstr ""
++"Ihr ISDN-Anschluss kann eine oder mehrere Rufnummer haben (Mehrfach-Rufnummern, MSN). "
++"Um eine Verbindung mit dem ISP aufbauen zu können, muss daher die richtige MSN für Ihre "
++"ISDN-Karte eingegeben werden. Falls die MSN nicht bekannt ist, kann diese Einstellung "
++"auch leer bleiben."
++
++#: console:1671
++msgid "Invalid Multiple Subscriber Numbering (MSN)"
++msgstr "Unzutreffende Mehrfach-Rufnummer (MSN)"
++
++#: console:1692
++msgid ""
++"The driver for this card includes modem emulation software, and modem "
++"control commands are used by the networking software to configure and "
++"control the ISDN interface card."
++msgstr ""
++"Der Treiber dieser Karte enthält eine Modem-Emulationssoftware, deren "
++"Befehle für die Einstellung der ISDN-Karte benutzt werden. "
++
++#: console:1694
++msgid ""
++"The precise behavior of your ISDN card can be modified by using a specific "
++"modem initialization string, to adjust the settings of the card, or to "
++"modify its default behavior. Most cards should work correctly with the "
++"default settings, but you may enter a modem initialization string here if "
++"required."
++msgstr ""
++"Das genaue Verhalten Ihrer ISDN-Karte kann mit \"Modem Initialisierungs-Strings\" "
++"eingestellt werden. Die meisten Karten sollten bereits mit den Voreinstellungen "
++"funktionieren. Falls dennoch erforderlich, können Sie hier einen entsprechenden "
++"\"Modem-Initialisierungs-String\" eingeben."
++
++#: console:1697
++msgid "You have selected a modem device."
++msgstr "Sie haben ein analoges Modem ausgwählt."
++
++#: console:1699
++msgid ""
++"The precise behavior of your modem can be modified by using a specific modem "
++"initialization string, to adjust the settings of your modem, or to modify "
++"its default behavior. You may enter a modem initialization string here."
++msgstr ""
++"Das genaue Verhalten Ihres Modems kann mit \"Modem Initialisierungs-Strings\" eingestellt "
++"werden. Sie können hier einen entsprechenden \"Modem Initialisierungs-String\"  eingeben."
++
++#: console:1701
++msgid ""
++"Many modems will work correctly without any special settings. If you leave "
++"this field blank, the default string of"
++msgstr ""
++"Viele Modems funktionieren bereits ohne besondere Einstellungen. Falls Sie dieses "
++"Feld leer lassen, wird der voreingestellte \"Modem Initialisierungs-String\" von "
++
++#: console:1703
++msgid ""
++"will be used. This turns the modem speaker off, so that you will not be "
++"bothered by the noises that a modem makes when it starts a connection."
++msgstr ""
++" benutzt. Dabei werden die Modem-Lautsprecher abgeschaltet, so dass keine störenden "
++"Geräusche beim Verbindungsaufbau auftreten können."
++
++#: console:1709
++msgid "Modem initialization string"
++msgstr "Modem Initialisierungs-String"
++
++#: console:1743
++msgid "Select access phone number"
++msgstr "Telefonnummer für den Zugang eingeben"
++
++#: console:1746
++msgid ""
++"Please enter the access phone number for your Internet connection. Long "
++"distance numbers can be entered. The phone number must not contain spaces, "
++"but may contain dashes for readability. Commas may be inserted where a delay "
++"is required. For example, if you need to dial 9 first, then wait, then dial "
++"a phone number, you could enter"
++msgstr ""
++"Bitte geben Sie die Telefonnummer Ihres Internetzugangs ein. Vorwahlnummern können "
++"vorangestellt werden. Die Telefonnummer darf keine Leerzeichen beinhalten. Für kurzes "
++"Warten können auch Kommata eingesetzt werden. Zum Beispiel: Freizeichnen mit \"9\" erhalten, "
++"dann warten, dann erst Weiterwahl. "
++
++#: console:1774
++msgid "Invalid access phone number"
++msgstr "Unzutreffende Telefonnummer"
++
++#: console:1787
++msgid "Please enter the user account name for your Internet connection."
++msgstr ""
++"Bitte geben Sie den Benutzernamen für Ihre Internetverbindung ein."
++
++#: console:1788
++msgid "Please note that account names are usually case sensitive."
++msgstr "Achten Sie dabei bitte auf die richtige Groß- und Kleinschreibung."
++
++#: console:1792
++msgid "Select dialup user account"
++msgstr "Benutzername für Internetverbindung per Einwahl eingeben"
++
++#: console:1817
++msgid "Please enter the password for your Internet connection."
++msgstr "Bitte geben Sie das Kennwort für Ihre Internetverbindung ein."
++
++#: console:1818
++msgid "Please note that passwords are usually case sensitive."
++msgstr "Achten Sie dabei bitte auf die richtige Groß- und Kleinschreibung."
++
++#: console:1822
++msgid "Select dialup password"
++msgstr "Kennwort für Internetverbindung eingeben"
++
++#: console:1848 console:1857
++msgid "never"
++msgstr "nie"
++
++#: console:1848
++msgid "No connection"
++msgstr "Keine Verbindung"
++
++#: console:1849 console:1858
++msgid "short"
++msgstr "kurz"
++
++#: console:1849
++msgid "Short connect times to minimize minutes off-hook"
++msgstr "Kurze Verbindungszeit für geringere Kosten"
++
++#: console:1850 console:1859
++msgid "medium"
++msgstr "mittel"
++
++#: console:1850
++msgid "Medium connect times"
++msgstr "Mittlere Verbindungszeit"
++
++#: console:1851 console:1860
++msgid "long"
++msgstr "lang"
++
++#: console:1851
++msgid "Long connect times to minimize dialing delays"
++msgstr "Lange Verbindungszeit für weniger Einwahlverzögerungen"
++
++#: console:1852
++msgid "continuous"
++msgstr "dauerhaft"
++
++#: console:1852
++msgid "Continuous connection"
++msgstr "Dauerhafte Verbindung"
++
++#: console:1880 console:1915 console:1948
++msgid "Select connect policy"
++msgstr "Verbindungsregel auswählen"
++
++#: console:1882
++msgid ""
++"Select the dialup connect policy that you would like to use during office "
++"hours (8:00 AM to 6:00 PM) on weekdays."
++msgstr ""
++"Wählen Sie die Verbindungsregel zur Einwahl während der Bürozeiten "
++"(8:00 Uhr bis 18:00 Uhr) an Werktagen aus."
++
++#: console:1917
++msgid ""
++"Please select the dialup connect policy that you would like to use outside "
++"office hours (6:00 PM to 8:00 AM) on weekdays."
++msgstr ""
++"Wählen Sie die Verbindungsregel zur Einwahl außerhalb der Bürozeiten "
++"(18:00 Uhr bis 6:00 Uhr) an Werktagen aus."
++
++#: console:1950
++msgid ""
++"Please select the dialup connect policy that you would like to use during "
++"the weekend."
++msgstr ""
++"Wählen Sie die Verbindungsregel zur Einwahl an Wochenenden aus."
++
++#: console:1987
++msgid ""
++"In server-only mode, this server will use only one ethernet "
++"adapter connected to your local network. If you have a firewall and wish to "
++"use this server as your e-mail/web server, you should consult the firewall "
++"documentation for networking details."
++msgstr ""
++"Im Arbeitsmodus \"Nur Server\" verwendet dieser Server nur eine Ethernet-Karte "
++"für die Verbindung zum lokalen Netzwerk. Falls Sie eine Firewall haben und dieser "
++"Server E-Mail und Web-Server-Dienste bereitstellen soll, schauen Sie bitte in die "
++"Doikumentation Ihrer Firewall. "
++
++#: console:1989
++msgid ""
++"Please specify the gateway IP address that this server should use to access "
++"the Internet. Leave blank if you have no Internet access."
++msgstr ""
++"Bitte geben Sie die Gateway IP-Adresse ein, die dieser Server für die Internetverbindung "
++"benutzen soll. Falls keine Verbindung erforderlich ist, kann das Eingabefeld leer bleiben."
++
++#: console:2036 console:2041 console:2058
++msgid "On"
++msgstr "Aktiviert"
++
++#: console:2036 console:2042 console:2071
++msgid "Off"
++msgstr "Deaktiviert"
++
++#: console:2041
++msgid "Provide DHCP service to local network"
++msgstr "DHCP-Dienst im lokalen Netzwerk bereitstellen"
++
++#: console:2042
++msgid "Do not provide DHCP service to local network"
++msgstr "DHCP-Dienst im lokalen Netzwerk nicht bereitstellen"
++
++#: console:2047
++msgid "Select DHCP server configuration"
++msgstr "DHCP-Server Konfiguration"
++
++#: console:2049
++msgid ""
++"Please specify whether you would like this server to provide "
++"DHCP service to your local network. This will let you assign IP addresses to "
++"your other network computers automatically by configuring them to obtain "
++"their IP information using DHCP."
++msgstr ""
++"Bitte geben Sie an, ob der DHCP-Dienst im lokalen Netz bereitgestellt werden soll. "
++"Mit diesem Dienst können die IP-Adressen der anderen Computer im lokalen Netz "
++"automatisch vergeben werden."
++
++#: console:2051
++msgid "We strongly advise that all clients are configured using DHCP."
++msgstr "Die Verwendung von DHCP wird dringend empfohlen."
++
++#: console:2095
++msgid "Select beginning of DHCP host number range"
++msgstr "Anfang des DHCP-Adressenbereichs eingeben"
++
++#: console:2097
++msgid "You must reserve a range of host numbers for the DHCP server to use."
++msgstr "Für die Verwendung des DHCP-Dienstes muss ein Bereich von IP-Adressen reserviert werden."
++
++#: console:2099
++msgid ""
++"Please enter the first host number in this range. If you are using the "
++"standard server defaults and have no particular "
++"preference, you should keep the default values."
++msgstr ""
++"Bitte geben Sie die erste IP-Adresse für den Beginn dieses Adressbereichs ein. "
++"Falls Sie die anderen Voreinstellungen des Servers verwenden, können Sie auch "
++"hier die Voreinstellungen beibehalten."
++
++#: console:2126
++msgid "Invalid IP address for DHCP start"
++msgstr "Unzutreffende IP-Adresse für den Anfang des DHCP-Bereichs"
++
++#: console:2144
++msgid "Select end of DHCP host number range"
++msgstr "Ende des DHCP-Adressenbereichs eingeben"
++
++#: console:2146
++msgid ""
++"Please enter the last host address in this range. If you are using the "
++"standard server defaults and have no particular "
++"preference, you should keep the default value."
++msgstr ""
++"Bitte geben Sie die letzte IP-Adresse für das Ende dieses Adressbereichs ein. "
++"Falls Sie die anderen Voreinstellungen des Servers verwenden, können Sie auch "
++"hier die Voreinstellungen beibehalten."
++
++#: console:2173
++msgid "Invalid IP address for DHCP end"
++msgstr "Unzutreffende IP-Adresse für das Ende des DHCP-Adressbereichs"
++
++#: console:2202 console:2219 console:2301 console:2307 console:2424
++#: console:2430 console:2447
++msgid "Yes"
++msgstr "Ja"
++
++#: console:2202
++msgid "Clear all DHCP leases"
++msgstr "Alle vergebenen DHCP-Adressen löschen"
++
++#: console:2203 console:2301 console:2306 console:2327 console:2425
++#: console:2431
++msgid "No"
++msgstr "Nein"
++
++#: console:2203
++msgid "Attempt to preserve existing DHCP leases"
++msgstr "Versuche die vergebenen DHCP-Adressen beizubehalten"
++
++#: console:2208
++msgid "Clear DHCP leases"
++msgstr "Vergebene DHCP-Adressen löschen"
++
++#: console:2210
++msgid "Do you wish to clear all existing DHCP leases?"
++msgstr "Möchten Sie alle vergebenen DHCP-Adressen löschen?"
++
++#: console:2212
++msgid ""
++"You should answer Yes to this question unless you are only making a minor "
++"adjustment to the server DHCP server and wish to avoid "
++"disrupting any existing leases."
++msgstr ""
++"Sie sollten diese Frage mit \"Ja\" beantworten, wenn Sie nur kleinere Änderungen "
++"in den DHCP-Einstellungen vornehmen und die vergebenen DHCP-Adressen nicht "
++"unterbrechen wollen."
++
++#: console:2235
++msgid "Can't open output file"
++msgstr "Kann die Ausgabedatei nicht öffnen"
++
++#: console:2249
++msgid "Select master DNS server address"
++msgstr "Erste DNS-Server Addresse eingeben"
++
++#: console:2251
++msgid ""
++"You may need to specify an IP address here if there is a firewall between "
++"this server and the Internet, or if another DNS server resolves local "
++"addresses on your LAN."
++msgstr ""
++"Bei einer Firewall zwischen diesem Server und dem Internet können Sie jetzt "
++"eine IP-Adresse für den ersten DNS-Server oder einen anderen Server eingeben, "
++"um Addressnamen im lokalen Netzwerk aufzulösen."
++
++#: console:2253
++msgid "In most cases you can leave this field blank."
++msgstr "In des meisten Fällen kann diese Eingabefeld leer bleiben."
++
++#: console:2286
++msgid "Invalid IP address for DNS forwarder"
++msgstr "Unzutreffende IP-Adresse für die DNS-Weiterleitung"
++
++#: console:2306
++msgid "Normal operation"
++msgstr "Standard ohne Proxyserver"
++
++#: console:2307
++msgid "Use outside proxy server"
++msgstr "Internetzugang über Proxyserver des ISP"
++
++#: console:2313
++msgid "Select proxy server"
++msgstr "Proxyserver angeben"
++
++#: console:2315
++msgid ""
++"Some Internet Service Providers require that you use a proxy server outside "
++"your local network. In such cases, you will need to specify that the server fetch all web pages from your ISP's proxy server.  You "
++"should select No unless you have reason to do otherwise."
++msgstr ""
++"Bei einigen Internet Service Providern (ISP's) erfolgt der Internetzugang "
++"über einen Proxyserver. Für diesen Fall muss der Proxyserver des ISP angegeben "
++"werden, um im Web surfen zu können.  Diese Option sollten Sie aber nur wählen, "
++"wenn Sie sicher sind, dass Ihr ISP diese Art des Zugangs erfordert."
++
++#: console:2344
++msgid "Select outside proxy server IP address"
++msgstr "IP-Adresse oder Namen des Proxyservers angeben"
++
++#: console:2345
++msgid "Please specify the name or IP address of the outside proxy server"
++msgstr "Bitte geben Sie jetzt die IP-Adresse oder den Namen des Proxyservers Ihres ISP ein."
++
++#: console:2373
++msgid "Invalid proxy server address"
++msgstr "Unzutreffende Proxyserver-Adresse"
++
++#: console:2388
++msgid "Select outside proxy server port number"
++msgstr "Port-Nummer des Proxyservers eingeben"
++
++#: console:2389
++msgid "Please specify the port number of your outside proxy server."
++msgstr "Bitte geben Sie jetzt die Port-Nummer oder den Namen des Proxyservers Ihres ISP ein."
++
++#: console:2411
++msgid "Invalid proxy server port number"
++msgstr "Unzutreffende Port-Nummer des Proxyservers"
++
++#: console:2430
++msgid "Send status reports"
++msgstr "Statusbericht senden"
++
++#: console:2431
++msgid "Do not send status reports"
++msgstr "Statusbericht nicht senden"
++
++#: console:2436
++msgid "Select status reporting"
++msgstr "Statusbericht"
++
++#: console:2438
++msgid ""
++"As part of our commitment to producing high-quality server software, we "
++"maintain statistics on how long various servers have been "
++"in continuous operation."
++msgstr ""
++"Ein Bestandteil unseres Versprechens für eine hochqualitative Server-Software "
++"ist es, eine Statistik über die Langzeitnutzung verschiedener Server zu erhalten. "
++
++#: console:2440
++msgid ""
++"If you enable status reporting by selecting Yes below, your server will send "
++"a message to Mitel Networks once per day, specifying your server's IP "
++"address and the number of seconds your server has been running. No other "
++"information is sent. This will not slow down your Internet connection or "
++"create any security risk."
++msgstr ""
++"Falls Sie den Statusbericht mit \"Ja\" einschalten, sendet der Server eine Nachricht "
++"an SME contribs jeden Tag und gibt dabei die IP-Adresse sowie die Zeit, die der Server "
++"ununterbrochen läuft, weiter. Weitere Informationen werden nicht gesendet. Dabei wird "
++"weder Ihr Internetanschluss verlangsamt noch entsteht ein Sicherheitsrisiko."
++
++#: console:2464 console:2487
++msgid "auto"
++msgstr "auto"
++
++#: console:2464
++msgid "Display server console at all times"
++msgstr "Serverkonsole immer anzeigen"
++
++#: console:2465
++msgid "login"
++msgstr "Anmeldung"
++
++#: console:2465
++msgid "Log in as"
++msgstr "Anmelden als"
++
++#: console:2466
++msgid "to access server console"
++msgstr "um zur Serverkonsole zu gelangen"
++
++#: console:2472
++msgid "Select console mode"
++msgstr "Auswahl des Serverkonsolen-Modus"
++
++#: console:2474
++msgid ""
++"By default the server console (which you are now using) can be used without "
++"requiring a username or password. As an additional security precaution, you "
++"can configure this server to display a login prompt instead. In this case, "
++"you must log in as"
++msgstr ""
++"In der Voreinstellung kann die Serverkonsole (die Sie gerade benutzen) ohne die "
++"Eingabe von Benutzer und Passwort verwendet werden. Für mehr Sicherheit können Sie "
++"den Server auch so einstellen, dass stattdessen eine Anmeldung erforderlich ist. "
++"Dann müssen Sie sich mit "
++
++#: console:2476
++msgid "with the current system password to access the console."
++msgstr "und dem aktuellen System-Passwort an der Serverkonsole anmelden."
++
++#: console:2478
++msgid "Please select your preferred console mode."
++msgstr "Bitte wählen Sie jetzt Ihren bevorzugten Serverkonsolen-Modus aus."
++
++#: console:2504
++msgid "Contact e-mail address"
++msgstr "E-Mail Kontaktadresse"
++
++#: console:2506
++msgid ""
++"If you would like to be notified about new Mitel Networks products and "
++"services, please enter your e-mail address here. When you successfully run "
++"the"
++msgstr ""
++"Wenn Sie über Produkte und Dienste von SME contribs.org informiert werden "
++"wollen, geben Sie bitte hier Ihre E-Mail-Adresse ein. Wenn Sie erfolgreich die "
++
++#: console:2510
++msgid ""
++"function your e-mail address will be sent to Mitel Networks. We will not use "
++"your e-mail address for any other purpose. We do not sell mailing lists or "
++"perform mass mailings for third parties."
++msgstr ""
++"Funktion abgeschlossen haben, wird Ihre E-Mail-Adresse weitergeleitet. Wir geben "
++"Ihre Adresse nicht für andere Zwecke weiter und führen weder Massen-Mails durch "
++"noch verkaufen wir Mail-Adressen an Dritte."
++
++#: console:2512
++msgid ""
++"If you would rather not receive any notifications from Mitel Networks, leave "
++"this field blank."
++msgstr ""
++"Falls Sie nicht informiert werden wollen, lassen dieses Feld einfach leer."
++
++#: console:2551 console:3294
++msgid "Contact name"
++msgstr "Ansprechpartner"
++
++#: console:2552
++msgid "Please enter the contact person's name."
++msgstr "Bitte geben Sie den Ansprechpartner ein."
++
++#: console:2589
++msgid "Contact person's organization"
++msgstr "Organisation des Ansprechpartners"
++
++#: console:2590
++msgid "Please enter the contact person's organization."
++msgstr "Bitte geben Sie einen Organisationsnamne des Ansprechpartners ein."
++
++#: console:2628
++msgid "No unsaved changes"
++msgstr "Keine ungespeicherten Änderungen"
++
++#: console:2630
++msgid "No changes were made during the configuration process"
++msgstr "Während des Konfigurations-Vorgangs wurden keine Änderungen durchgeführt"
++
++#: console:2632
++msgid "Press ENTER to proceed."
++msgstr "Zur Fortfahren ENTER drücken."
++
++#: console:2634 console:2649
++msgid "Finish"
++msgstr "Ende"
++
++#: console:2643
++msgid "Activate configuration changes"
++msgstr "Konfigurations-Änderungen werden aktiviert"
++
++#: console:2645
++msgid ""
++"Your configuration changes will now be activated. The configuration files on "
++"this server will be changed to reflect your new settings. This may take a "
++"few minutes."
++msgstr ""
++"Ihre Änderungen an der Konfiguration werden jetzt aktiviert. Die Konfigurations-Dateien "
++"des Servers mit Ihren Änderungen neu eingestellt. Das kann ein paar Minuten dauern."
++
++#: console:2647
++msgid "Do you wish to activate your changes?"
++msgstr "Wollen Sie Ihre Änderungen aktivieren?"
++
++#: console:2668
++msgid "Activating configuration settings"
++msgstr "Die Änderungen an der Konfiguration werden gerade aktiviert."
++
++#: console:2669
++msgid "Please standby while your configuration settings are activated ..."
++msgstr "Bitte warten Sie, bis Ihre Konfigurations-Änderungen aktiviert sind..."
++
++#: console:2709
++msgid "Changes will take effect after reboot"
++msgstr "Änderungen werden nach dem Neustart wirksam"
++
++#: console:2711
++msgid "The new configuration will take effect when you reboot the server."
++msgstr "Die geänderte Konfiguration wird erst wirksam, wenn der Server neu gestartet wird."
++
++#: console:2713
++msgid "Do you wish to reboot right now?"
++msgstr "Möchten Sie jetzt neu starten?"
++
++#: console:2740
++msgid "*** THERE ARE UNACTIVATED CHANGES - QUIT ANYWAY? ***"
++msgstr "*** NOCH NICHT AKTIVIERTE ÄNDERUNGEN - TROTZDEM BEENDEN? ***"
++
++#: console:2742
++msgid ""
++"Your configuration changes have been saved but have not yet been activated. "
++"This may result in unpredictable system behavior. We recommend that you "
++"complete the configuration process and activate the changes before exiting "
++"the console."
++msgstr ""
++"Ihre Konfiguration-Änderungen wurden gespeichert, aber noch nicht aktiviert. "
++"Das kann einen nicht vorhersehbaren Systemzustand zur Folge haben. Vor dem Beenden "
++"der Serverkonsole wird empfohlen, den Konfigurationsprozess vollständig abzuschliessen "
++"und die Änderungen zu aktivieren."
++
++#: console:2744
++msgid "Are you sure you want to quit with unactivated changes?"
++msgstr "Sind Sie sicher, die Serverkonsole zu verlassen, ohne die Änderungen zu aktivieren?"
++
++#: console:2807
++msgid "Use"
++msgstr "Benutzt"
++
++#: console:2808
++msgid "for chipset"
++msgstr "für den Chipsatz"
++
++#: console:2816
++#, c-format
++msgid "Manually select driver for %s ethernet adapter"
++msgstr "Manuelle Treiberauswahl für %s Ethernet-Netzwerkkarte"
++
++#: console:2823
++#, c-format
++msgid "Select %s network ethernet driver"
++msgstr "Auswahl %s Ethernet-Netzwerkkarte"
++
++#: console:2826
++#, c-format
++msgid ""
++"You now need to select the proper driver for your %s network ethernet "
++"adapter. The server can attempt to do this automatically, or you can do it "
++"manually - either by specifying the model of your ethernet adapter or by "
++"directly choosing a driver."
++msgstr ""
++"Sie müssen jetzt den richtigen Treiber für Ihre %s Ethernet-Netzwerkkarte auswählen. "
++"Der Server kann das automatisch ausführen oder Sie wählen den Treiber manuell aus - "
++"entweder durch Angabe des Ethernetkarten-Modells oder durch direkte Auswahl des Treibers."
++
++#: console:2829
++msgid "The server has detected these ethernet adapters:"
++msgstr "Der Server konnte folgende Ethernet-Netzwerkkarten entdecken :"
++
++#: console:2866
++msgid "unknown"
++msgstr "unbekannt"
++
++#: console:2870
++msgid "Choose driver by specifying ethernet adapter model"
++msgstr "Treiberauswahl durch Angabe des Ethernet-Kartenmodells"
++
++#: console:2871
++msgid "Choose driver directly"
++msgstr "Direkte Treiberauswahl"
++
++#: console:2876
++#, c-format
++msgid "Select %s adapter manually"
++msgstr "Auswahl %s Karte manuell"
++
++#: console:2877
++msgid "Please select one of the following:"
++msgstr "Bitte eine der folgenden Karten auswählen :"
++
++#: console:2898
++#, c-format
++msgid "Specify %s adapter and driver"
++msgstr "Eingabe %s Karte und Treiber"
++
++#: console:2900
++#, c-format
++msgid "Please specify your %s ethernet adapter and corresponding driver"
++msgstr "Bitte geben Sie die %s Ethernet-Karte und den zugehörigen Treiber an"
++
++#: console:2924
++#, c-format
++msgid "Specify %s ethernet driver"
++msgstr "Treiber für die %s Ethernet-Karte"
++
++#: console:2925
++#, c-format
++msgid "Please specify the driver to use for the %s ethernet adapter"
++msgstr "Bitte geben Sie den Treiber für die %s Ethernet-Karte an"
++
++#: console:2976
++msgid "Mitel Networks Corporation support and licensing information"
++msgstr "SME Server support und Lizenzinformation"
++
++#: console:2981
++msgid ""
++"You can scroll through this document using the up and down arrow keys or the "
++"Page Up and Page Down keys."
++msgstr ""
++"Mit den Tasten \"Pfeil oben\" und \"Pfeil unten\" oder den Tasten \"Bild oben\" "
++"und \"Bild unten\" können Sie das Dokument durchlesen."
++
++#: console:3004
++msgid ""
++"This option will start a text-mode browser to access the server manager from "
++"this console.  Normally you would access the server manager from a web "
++"browser at the following url:"
++msgstr ""
++"Mit dieser Option können Sie einen textbasierten Browser starten, um von dieser "
++"Konsole zum Servermanager zu gelangen. Normalerweise wird der Servermanager von "
++"einem Web-Browser unter der url: "
++
++#: console:3008
++msgid ""
++"You should only proceed if you are comfortable using a text-mode browser.  "
++"Note that you will be prompted for the administrator password in order to "
++"access the server manager."
++msgstr ""
++"aufgerufen. Sie sollten nur ausführen, wenn Sie mit einem textbasierten Browser "
++"gewohnt sind, zu arbeiten. Beachten Sie, dass Sie für den Zugang zum Servermanager "
++"einen Benutzer mit Passwort angeben müssen."
++
++#: console:3010
++msgid "NOTE: The 'q' key is used to quit from the text-mode browser."
++msgstr "ANMERKUNG: Die \"q\" Taste wird benutzt, um den textbasierten Servermanager wieder zu verlassen."
++
++#: console:3021
++msgid "Access server manager with text-mode browser"
++msgstr "Zugang zum Servermanager mit textbasiertem Browser"
++
++#: console:3022
++msgid "Enter the administrator password"
++msgstr "Administrator-Kennwort eingeben"
++
++#: console:3067
++msgid "Status of this server as of"
++msgstr "Der Status dieses Server um"
++
++#: console:3069
++msgid "This server has been running for"
++msgstr "Dieser Server läuft seit"
++
++#: console:3070
++msgid "days"
++msgstr "Tagen"
++
++#: console:3071
++msgid "hours"
++msgstr "Stunden"
++
++#: console:3072
++msgid "minutes"
++msgstr "Minuten"
++
++#: console:3319
++msgid "Reboot"
++msgstr "Neu starten"
++
++#: console:3319
++msgid "Reboot this server"
++msgstr "Server neu starten"
++
++#: console:3320
++msgid "Shutdown"
++msgstr "Herunterfahren"
++
++#: console:3320
++msgid "Shutdown this server"
++msgstr "Server herunterfahren"
++
++#: console:3325
++msgid "Reboot or shutdown this server"
++msgstr "Herunterfahren oder neu starten"
++
++#: console:3327
++msgid ""
++"Please select whether you wish to reboot or shutdown. The process will start "
++"as soon as you make your selection."
++msgstr ""
++"Bitte wählen Sie \"Herunterfahren\" oder \"Neu starten\" aus. Direkt nach "
++"Ihrer Eingabe wird dieser Prozess umgesetzt. "
++
++#: console:3329
++msgid ""
++"If you have an older computer without power management, the shutdown process "
++"will perform a clean halt of all system services, but will not actually "
++"power off your computer. In this case, wait for the power down message and "
++"then shut off the power manually."
++msgstr ""
++"Falls Sie einen älteren Computer ohne Power-Management haben, werden mit "
++"\"Herunterfahren\" alle Systemdienste abgeschaltet, aber nicht der Stromnetzschalter "
++"des Computers ausgeschaltet. Dann warten Sie auf die Nachricht \"power down\" und "
++"schalten den Computer manuell aus."
++
++#: console:3331
++msgid ""
++"If you have changed your mind and do not want to reboot or shutdown, use the "
++"Tab key to select Cancel, then press Enter."
++msgstr ""
++"Wenn Sie nicht \"Neu starten\" oder \"Herunterfahren\" wollen, benutzen Sie bitte "
++"die Tab-Taste zum Abbrechen und drücken dan ENTER."
++
++#: console:3334
++msgid "Cancel"
++msgstr "Abbrechen"
++
++#: console:3335
++msgid "Ok"
++msgstr "Ok"
++
++#: console:3369
++msgid ""
++"After your Internet connection is operational and your server has been "
++"connected and configured, this test will verify that your server can "
++"communicate with the Internet."
++msgstr ""
++"Wenn Ihre Internetverbindung arbeitsfähig und Ihr Server verbunden und konfiguriert "
++"ist, kann dieser Test den Internetzugang überprüfen."
++
++#: console:3371
++msgid ""
++"As part of this test, a summary of your system configuration will be sent to "
++"Mitel Networks. User account names and passwords will not be sent. We "
++"appreciate this opportunity to be notified of successful server "
++"installations, and will not release this information to anyone outside of "
++"Mitel Networks."
++msgstr ""
++"Als Bestandteil dieses Tests wird die Zusammenfassung der Systemkonfiguration an "
++"SME contribs.org gesendet. Benutzernamen und Kennwörter werden nicht gesendet."
++
++#: console:3373
++msgid "Do you wish to run the test?"
++msgstr "Soll der Test ausgeführt werden?"
++
++#: console:3410
++msgid "Attempting to test Internet connection."
++msgstr "Verbindungsaufbau zum Test einer Internetverbindung."
++
++#: console:3411
++msgid "If this test takes too long, please halt it by typing Ctrl-C."
++msgstr "Falls dieser Test zulange dauert, bitte beenden mit Eingabe von Ctrl-C."
++
++#: console:3421
++msgid "Internet connection successful"
++msgstr "Internetverbindung erfolgreich"
++
++#: console:3423
++msgid ""
++"The test was successful! Your server was able to communicate with Mitel "
++"Networks."
++msgstr "Der Test verlief erfolgreich! Ihr Server kann Verbindungen zum Internet aufbauen."
++
++#: console:3429
++msgid "Response to Internet test was"
++msgstr "Die Antwort auf den Internet-Test war"
++
++#: console:3437
++msgid ""
++"The test failed. Your server was unable to establish contact with Mitel "
++"Networks via the Internet."
++msgstr ""
++"Der Test scheiterte. Ihr Server konnte keine Verbindung zum Internet aufbauen."
++
++#: console:3439
++msgid ""
++"Please check that your server is correctly configured. A reboot may be "
++"required if certain settings are modified and the configuration process will "
++"advise you if this is required."
++msgstr ""
++"Bitte prüfen Sie die korrekte Einstellung Ihres Servers. Ein Neustart könnte noch "
++"nötig sein, um letzte Einstellungsänderungen zu aktivieren."
++
++#: console:3441
++msgid ""
++"You might also want to check with your Internet provider to make sure that "
++"your Internet connection is working properly."
++msgstr ""
++"Zusätzlich sollten Sie auch Ihren Internet Service Provider prüfen."
++
++#: console:3443
++msgid ""
++"It is also possible (although unlikely) that there is a technical problem at "
++"the Mitel Networks site. In this case, you should proceed with your "
++"installation and run this test again later."
++msgstr ""
++"Es könnte auch sein (eher unwahrscheinlich), dass es technische Schwierigkeiten "
++"mit der Test-Seite gibt. Für diesen Fall sollte der Test später wiederholt werden."
++
++#: console:3463
++msgid "Couldn't create pipe"
++msgstr "Internetverbindung gescheitert"
++
++#: console:3469
++msgid "Couldn't fork"
++msgstr "Verdoppelung nicht möglich"
++
++#: console:3485
++msgid "Couldn't close reading end of pipe"
++msgstr "Konnte Internetverbindungsende nicht lesen"
++
++#: console:3488
++msgid "Couldn't connect STDERR to pipe"
++msgstr "Konnte SDTERR nicht an Internet anschließen"
++
++#: console:3491
++msgid "Couldn't close writing end of pipe"
++msgstr "Konnte Internetverbindungsende nicht schreiben"
++
++#: console:3499
++msgid "Couldn't exec:"
++msgstr "Konnte nicht ausgeführt werden :"
++
++#: console:3528 console:3589 console:3613 console:3639
++msgid "Back"
++msgstr "Zurück"
++
++#: console:3529 console:3590 console:3614 console:3640
++msgid "Next"
++msgstr "Weiter"
++
++#: console:3550
++msgid "please try again"
++msgstr "Bitte wiederholen"
++
++#: console:3660
++msgid "Keep the current setting"
++msgstr "Aktuelle Einstellung beibehalten"
++
++msgid "That address is not on the local network."
++msgstr "Diese Adresse ist nicht im lokalen Netz."
++
++msgid "You must provide an IP address for the start of the DHCP range."
++msgstr "Sie müssen eine IP-Adresse für den Anfang des DHCP-Bereichs eingeben."
++
++msgid "You must provide an IP address for the end of the DHCP range."
++msgstr "Sie müssen eine IP-Adresse für das Ende des DHCP-Bereichs eingeben."
++
++msgid "The end of the range must be larger than the start."
++msgstr "Die letzte IP-Adresse des Adressbereichs muss größer als die erste IP-Adresse des Adressbereichs sein."
+Index: e-smith-base/root/etc/e-smith/locale/de/etc/e-smith/web/panels/password/cgi-bin/userpassword
+diff -u /dev/null e-smith-base/root/etc/e-smith/locale/de/etc/e-smith/web/panels/password/cgi-bin/userpassword:1.1
+--- /dev/null	Mon Sep 26 01:02:12 2005
++++ e-smith-base/root/etc/e-smith/locale/de/etc/e-smith/web/panels/password/cgi-bin/userpassword	Mon Sep 26 00:57:19 2005
+@@ -0,0 +1,95 @@
++<lexicon lang="de">
++
++    <entry>
++      <base>FORM_TITLE</base>
++      <trans> Kontopasswort ändern </trans>
++    </entry>
++
++    <entry>
++      <base>DESCRIPTION</base>
++      <trans>
++	<![CDATA[
++	    <P>
++           Um das Kontenpasswort zu ändern, müssen Sie die unteren Felder 
++           ausfüllen. Sie benötigen den Namen des Kontos und das alte Passwort 
++           sowie das gewünschte neue Passwort. Sie müssen das neue Passwort 
++           zweimal eingeben ! 
++          </P>
++	    <P>
++           Wenn Sie Ihr Passwort nicht ändern können, da Sie ihr altes vergessen 
++           haben, kann der System Administrator über den <EM> Server Manager 
++           </EM> dieses zurücksetzen. 
++	    </P>
++        ]]>
++      </trans>
++    </entry>
++
++    <entry>
++      <base>ACCOUNT_NAME</base>
++      <trans> Ihr Konto: </trans>
++    </entry>
++
++    <entry>
++      <base>OLD_SYSTEM_PASSWORD</base>
++      <trans> Altes Passwort: </trans>
++    </entry>
++
++    <entry>
++      <base>NEW_SYSTEM_PASSWORD</base>
++      <trans> Neues Passwort: </trans>
++    </entry>
++
++    <entry>
++      <base>NEW_SYSTEM_PASSWORD_VERIFY</base>
++      <trans> Neues Passwort (bestätigen): </trans>
++    </entry>
++
++    <entry>
++      <base>CHANGE_PASSWORD</base>
++      <trans> Passwort ändern </trans>
++    </entry>
++
++    <entry>
++      <base>PASSWORD_VERIFY_ERROR</base>
++      <trans> Das eingegebene Passwort stimmt nicht. </trans>
++    </entry>
++
++    <entry>
++      <base>PASSWORD_CHANGE_FAILURE</base>
++      <trans> Ein Fehler ist beim Versuch aufgetreten, Ihr Passwort zu ändern. 
++          Bitte vergewissern Sie sich, dass das alte Passwort, welches Sie 
++          eingegeben haben, richtig ist. </trans>
++    </entry>
++
++    <entry>
++      <base>PASSWORD_CHANGED</base>
++      <trans> Ihr Passwort wurde erfolgreich geändert. </trans>
++    </entry>
++
++    <entry>
++      <base>TAINED_OLDPASS</base>
++      <trans> Das alte Passwort, welches Sie eingegeben haben, enthält ungültige 
++          Zeichen.</trans>
++    </entry>
++
++    <entry>
++      <base>TAINED_PASS</base>
++      <trans> Das Passwort, welches Sie eingegeben haben, enthält ungültige 
++          Zeichen.</trans>
++    </entry>
++
++    <entry>
++      <base>TAINED_ACCOUNT</base>
++      <trans> Der Kontoname, welchen Sie eingegeben haben, enthält ungültige 
++          Zeichen.</trans>
++    </entry>
++
++    <entry>
++      <base>NO_SUCH_USER</base>
++      <trans> Der Kontoname, den Sie eingegeben haben, ist ungültig </trans>
++    </entry>
++
++</lexicon>
++
++
++

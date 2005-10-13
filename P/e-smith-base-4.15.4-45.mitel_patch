@@ -1,0 +1,12 @@
+Index: e-smith-base/e-smith-base.spec
+diff -u e-smith-base/root/etc/e-smith/web/functions/pleasewait:1.8 e-smith-base/root/etc/e-smith/web/functions/pleasewait:1.9
+--- e-smith-base/root/etc/e-smith/web/functions/pleasewait:1.8	Sun Sep 25 22:47:14 2005
++++ e-smith-base/root/etc/e-smith/web/functions/pleasewait	Fri Sep 30 06:55:22 2005
+@@ -4,6 +4,7 @@
+     de*)        PLEASEWAIT="Bitte einen Moment warten..." ;;
+     es*)	PLEASEWAIT="Espere un momento..."	;;
+     fr*)	PLEASEWAIT="Veuillez patienter..."	;;
++    it*)	PLEASEWAIT="Attendere..." ;; 
+     *)		PLEASEWAIT="Please wait a moment..."	;;
+ esac
+ 

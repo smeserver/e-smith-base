@@ -1,0 +1,23 @@
+Index: e-smith-base/createlinks
+diff -u e-smith-base/createlinks:1.117 e-smith-base/createlinks:1.118
+--- e-smith-base/createlinks:1.117	Thu Sep 22 10:25:42 2005
++++ e-smith-base/createlinks	Tue Oct 11 10:47:12 2005
+@@ -370,7 +370,7 @@
+ 
+ $event = "group-create";
+ 
+-event_link("group-create-unix", $event, "15");
++event_link("group-create-unix", $event, "04");
+ 
+ #--------------------------------------------------
+ # actions for group-delete event
+@@ -478,7 +478,7 @@
+ 
+ $event = "user-create";
+ 
+-event_link("user-create-unix", $event, "15");
++event_link("user-create-unix", $event, "04");
+ event_link("count-active-user-accounts", $event, "25");
+ event_link("user-group-modify", $event, "85");
+ 
+Index: e-smith-base/e-smith-base.spec

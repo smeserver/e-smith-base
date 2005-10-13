@@ -1,0 +1,13 @@
+Index: e-smith-base/e-smith-base.spec
+diff -u e-smith-base/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/useraccounts:1.23 e-smith-base/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/useraccounts:1.24
+--- e-smith-base/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/useraccounts:1.23	Mon Aug 30 16:24:18 2004
++++ e-smith-base/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/useraccounts	Sun Oct  9 16:24:58 2005
+@@ -48,7 +48,7 @@
+                 new account. These pseudonyms provide the ability to have
+                 alternative mail accounts for that
+                 user which include their first name and last name
+-                seperated with a period (.) and underscore (_). So, for
++                separated with a period (.) and underscore (_). So, for
+                 the account "betty" with first name "Betty" and
+                 last name "Rubble" two pseudonyms are created as
+                 betty.rubble and betty_rubble. 

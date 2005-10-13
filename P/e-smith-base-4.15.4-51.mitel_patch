@@ -1,0 +1,24 @@
+Index: e-smith-base/e-smith-base.spec
+diff -u e-smith-base/root/sbin/e-smith/console:1.164 e-smith-base/root/sbin/e-smith/console:1.165
+--- e-smith-base/root/sbin/e-smith/console:1.164	Thu Sep 29 02:03:26 2005
++++ e-smith-base/root/sbin/e-smith/console	Tue Oct 11 13:52:54 2005
+@@ -2619,7 +2619,8 @@
+ 
+         return 'CANCEL_MANUAL' unless ($rc == 0);
+ 
+-        $driver = $choice;
++        $choice =~ /(\w+)/;
++        $driver = $1;
+     }
+     else
+     {
+@@ -2643,7 +2644,8 @@
+ 
+         return 'CANCEL_MANUAL' unless ($rc == 0);
+ 
+-        $driver = $choice;
++        $choice =~ /(\w+)/;
++        $driver = $1;
+     }
+ 
+     return $driver;
