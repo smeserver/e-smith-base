@@ -1,59 +1,15 @@
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
-%define version 4.15.4
-%define release 51sme01
+%define version 4.15.6
+%define release 02
 Version: %{version}
 Release: %{release}
 License: GPL
 Vendor: Mitel Networks Corporation
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
-Patch0: e-smith-base-4.15.4-02.mitel_patch
-Patch1: e-smith-base-4.15.4-03.mitel_patch
-Patch2: e-smith-base-4.15.4-04.mitel_patch
-Patch3: e-smith-base-4.15.4-05.mitel_patch
-Patch4: e-smith-base-4.15.4-06.mitel_patch
-Patch5: e-smith-base-4.15.4-07.mitel_patch
-Patch6: e-smith-base-4.15.4-08.mitel_patch
-Patch7: e-smith-base-4.15.4-09.mitel_patch
-Patch8: e-smith-base-4.15.4-10.mitel_patch
-Patch9: e-smith-base-4.15.4-11.mitel_patch
-Patch10: e-smith-base-4.15.4-12.mitel_patch
-Patch11: e-smith-base-4.15.4-13.mitel_patch
-Patch12: e-smith-base-4.15.4-14.mitel_patch
-Patch13: e-smith-base-4.15.4-15.mitel_patch
-Patch14: e-smith-base-4.15.4-16.mitel_patch
-Patch15: e-smith-base-4.15.4-17.mitel_patch
-Patch16: e-smith-base-4.15.4-18.mitel_patch
-Patch17: e-smith-base-4.15.4-19.mitel_patch
-Patch18: e-smith-base-4.15.4-20.mitel_patch
-Patch19: e-smith-base-4.15.4-23.mitel_patch
-Patch20: e-smith-base-4.15.4-27.mitel_patch
-Patch21: e-smith-base-4.15.4-28.mitel_patch
-Patch22: e-smith-base-4.15.4-29.mitel_patch
-Patch23: e-smith-base-4.15.4-30.mitel_patch
-Patch24: e-smith-base-4.15.4-31.mitel_patch
-Patch25: e-smith-base-4.15.4-32.mitel_patch
-Patch26: e-smith-base-4.15.4-33.mitel_patch
-Patch27: e-smith-base-4.15.4-34.mitel_patch
-Patch28: e-smith-base-4.15.4-35.mitel_patch
-Patch29: e-smith-base-4.15.4-36.mitel_patch
-Patch30: e-smith-base-4.15.4-37.mitel_patch
-Patch31: e-smith-base-4.15.4-39.mitel_patch
-Patch32: e-smith-base-4.15.4-40.mitel_patch
-Patch33: e-smith-base-4.15.4-41.mitel_patch
-Patch34: e-smith-base-4.15.4-42.mitel_patch
-Patch35: e-smith-base-4.15.4-43.mitel_patch
-Patch36: e-smith-base-4.15.4-44.mitel_patch
-Patch37: e-smith-base-4.15.4-45.mitel_patch
-Patch38: e-smith-base-4.15.4-46.mitel_patch
-Patch39: e-smith-base-4.15.4-47.mitel_patch
-Patch40: e-smith-base-4.15.4-48.mitel_patch
-Patch41: e-smith-base-4.15.4-49.mitel_patch
-Patch42: e-smith-base-4.15.4-50.mitel_patch
-Patch43: e-smith-base-4.15.4-51.mitel_patch
-Patch44: e-smith-base-4.15.4-add_mirror.patch
+Patch0: e-smith-base-4.15.6-02.mitel_patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -91,8 +47,21 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Oct 17 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.15.6-02]
+- Disable raid monitor if /boot/grub/device.map suggests that the system
+  is a single disk system. [SF: 1269091]
+
+* Fri Oct 14 2005 Gordon Rowell <gordonr@e-smith.com>
+- [4.15.6-01]
+- Remove L10Ns from base packages [SF: 1309520]
+
+* Fri Oct 14 2005 Gordon Rowell <gordonr@e-smith.com>
+- [4.15.5-01]
+- New dev stream before relocating L10Ns
+
 * Thu Oct 13 2005 Gordon Rowell <gordonr@gormand.com.au>
-- [4.15.4-51sme01]
+- [4.15.4-52]
 - Add /sbin/e-smith/add_mirror [SF: 1325479]
 
 * Tue Oct 11 2005 Charlie Brady <charlieb@e-smith.com>
@@ -4722,50 +4691,6 @@ e-smith server and gateway software - base module.
 %prep
 %setup
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
-%patch10 -p1
-%patch11 -p1
-%patch12 -p1
-%patch13 -p1
-%patch14 -p1
-%patch15 -p1
-%patch16 -p1
-%patch17 -p1
-%patch18 -p1
-%patch19 -p1
-%patch20 -p1
-%patch21 -p1
-%patch22 -p1
-%patch23 -p1
-%patch24 -p1
-%patch25 -p1
-%patch26 -p1
-%patch27 -p1
-%patch28 -p1
-%patch29 -p1
-%patch30 -p1
-%patch31 -p1
-%patch32 -p1
-%patch33 -p1
-%patch34 -p1
-%patch35 -p1
-%patch36 -p1
-%patch37 -p1
-%patch38 -p1
-%patch39 -p1
-%patch40 -p1
-%patch41 -p1
-%patch42 -p1
-%patch43 -p1
-%patch44 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

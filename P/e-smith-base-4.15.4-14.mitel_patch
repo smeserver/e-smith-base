@@ -1,6 +1,0 @@
-Index: e-smith-base/e-smith-base.spec
-diff -u e-smith-base/root/etc/e-smith/db/configuration/defaults/hwconfig/type:1.1 e-smith-base/root/etc/e-smith/db/configuration/defaults/hwconfig/type:removed
---- e-smith-base/root/etc/e-smith/db/configuration/defaults/hwconfig/type:1.1	Tue Apr 22 17:18:46 2003
-+++ e-smith-base/root/etc/e-smith/db/configuration/defaults/hwconfig/type	Wed Dec 31 19:00:00 1969
-@@ -1 +0,0 @@
--configuration
