@@ -286,3 +286,7 @@ Thu Oct 20 16:11:57 2005                       Gordon Rowell (gordonr)
 
 Sync with Mitel
 ----------------------------------------------------------------------
+Thu Oct 20 16:20:53 2005                       Gordon Rowell (gordonr)
+
+Call grub-install /dev/md1 instead of doing it by hand. Add dependency
+----------------------------------------------------------------------

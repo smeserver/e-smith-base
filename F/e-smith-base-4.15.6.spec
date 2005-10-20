@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.6
-%define release 02
+%define release 02sme01
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -10,6 +10,7 @@ Vendor: Mitel Networks Corporation
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-base-4.15.6-02.mitel_patch
+Patch100: e-smith-base-4.15.6-add_mirror.patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -19,6 +20,7 @@ Requires: server-manager-images, server-manager
 Requires: e-smith-formmagick >= 0.2.0
 Requires: initscripts >= 6.67-1es17
 Requires: e-smith-daemontools >= 1.7.1-04
+Requires: grub >= 0.95-13sme01
 Requires: perl(Locale::gettext)
 Requires: perl(Crypt::Cracklib)
 Requires: perl(Date::Manip)
@@ -47,6 +49,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Thu Oct 20 2005 Gordon Rowell <gordonr@gormand.com.au> 4.15.6-02sme01
+- Call grub-install /dev/md1 in add_mirror rather than doing it by hand
+- Add dependency on grub, specifying the patched version [SF: 1233029]
+
 * Mon Oct 17 2005 Charlie Brady <charlieb@e-smith.com>
 - [4.15.6-02]
 - Disable raid monitor if /boot/grub/device.map suggests that the system
@@ -4691,6 +4697,7 @@ e-smith server and gateway software - base module.
 %prep
 %setup
 %patch0 -p1
+%patch100 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
