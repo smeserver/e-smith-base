@@ -1,0 +1,45 @@
+Index: e-smith-base/e-smith-base.spec
+diff -u e-smith-base/root/etc/rc.d/rc.e-smith:1.1 e-smith-base/root/etc/rc.d/rc.e-smith:1.2
+--- e-smith-base/root/etc/rc.d/rc.e-smith:1.1	Wed Nov 10 11:25:21 2004
++++ e-smith-base/root/etc/rc.d/rc.e-smith	Tue Nov  1 20:17:54 2005
+@@ -18,33 +18,33 @@
+ 
+ echo_success() {
+   [ "$BOOTUP" = "color" ] && $MOVE_TO_COL
+-  echo -n "[   "
++  echo -n "[  "
+   [ "$BOOTUP" = "color" ] && $SETCOLOR_SUCCESS
+   echo -n $"OK"
+   [ "$BOOTUP" = "color" ] && $SETCOLOR_NORMAL
+-  echo -n "   ]"
++  echo -n "  ]"
+   echo -ne "\r"
+   return 0
+ }
+ 
+ echo_failure() {
+   [ "$BOOTUP" = "color" ] && $MOVE_TO_COL
+-  echo -n "[ "
++  echo -n "["
+   [ "$BOOTUP" = "color" ] && $SETCOLOR_FAILURE
+   echo -n $"FAILED"
+   [ "$BOOTUP" = "color" ] && $SETCOLOR_NORMAL
+-  echo -n " ]"
++  echo -n "]"
+   echo -ne "\r"
+   return 1
+ }
+ 
+ echo_disabled() {
+   [ "$BOOTUP" = "color" ] && $MOVE_TO_COL
+-  echo -n "["
++  echo -n "[  "
+   [ "$BOOTUP" = "color" ] && $SETCOLOR_WARNING
+-  echo -n "DISABLED"
++  echo -n "OFF"
+   [ "$BOOTUP" = "color" ] && $SETCOLOR_NORMAL
+-  echo -n "]"
++  echo -n " ]"
+   echo -ne "\r"
+   return 1
+ }

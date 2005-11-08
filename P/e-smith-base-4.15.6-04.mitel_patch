@@ -1,6 +1,7 @@
-diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.6/root/sbin/e-smith/add_mirror mezzanine_patched_e-smith-base-4.15.6/root/sbin/e-smith/add_mirror
---- e-smith-base-4.15.6/root/sbin/e-smith/add_mirror	2005-10-14 03:33:46.000000000 +1000
-+++ mezzanine_patched_e-smith-base-4.15.6/root/sbin/e-smith/add_mirror	2005-10-20 16:13:56.331807302 +1000
+Index: e-smith-base/e-smith-base.spec
+diff -u e-smith-base/root/sbin/e-smith/add_mirror:1.1 e-smith-base/root/sbin/e-smith/add_mirror:1.2
+--- e-smith-base/root/sbin/e-smith/add_mirror:1.1	Thu Oct 13 13:33:46 2005
++++ e-smith-base/root/sbin/e-smith/add_mirror	Mon Oct 24 16:04:02 2005
 @@ -70,15 +70,4 @@
      mdadm --add /dev/md$part /dev/${NEW}${part}
  done
@@ -17,4 +18,4 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.6/root/sbin/e-smith/add_mirro
 -install --stage2=/boot/grub/stage2 (hd1,0)/grub/stage1 (hd1) (hd1,0)/grub/stage2 p /grub/grub.conf
 -quit
 -HERE
-+grub-install --recheck /dev/md1
++exec /sbin/e-smith/update-bootloader

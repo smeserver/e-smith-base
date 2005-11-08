@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.6
-%define release 02sme01
+%define release 06
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -10,7 +10,10 @@ Vendor: Mitel Networks Corporation
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-base-4.15.6-02.mitel_patch
-Patch100: e-smith-base-4.15.6-add_mirror.patch
+Patch1: e-smith-base-4.15.6-03.mitel_patch
+Patch2: e-smith-base-4.15.6-04.mitel_patch
+Patch3: e-smith-base-4.15.6-05.mitel_patch
+Patch4: e-smith-base-4.15.6-06.mitel_patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -20,7 +23,6 @@ Requires: server-manager-images, server-manager
 Requires: e-smith-formmagick >= 0.2.0
 Requires: initscripts >= 6.67-1es17
 Requires: e-smith-daemontools >= 1.7.1-04
-Requires: grub >= 0.95-13sme01
 Requires: perl(Locale::gettext)
 Requires: perl(Crypt::Cracklib)
 Requires: perl(Date::Manip)
@@ -36,6 +38,7 @@ Requires: whiptail
 Requires: rssh
 Requires: bridge-utils
 Requires: vconfig
+Requires: e-smith-bootloader
 Obsoletes: rlinetd, e-smith-mod_ssl
 Obsoletes: e-smith-serial-console
 Obsoletes: sshell
@@ -49,9 +52,27 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
-* Thu Oct 20 2005 Gordon Rowell <gordonr@gormand.com.au> 4.15.6-02sme01
-- Call grub-install /dev/md1 in add_mirror rather than doing it by hand
-- Add dependency on grub, specifying the patched version [SF: 1233029]
+* Tue Nov  1 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.15.6-06]
+- Change DISABLED -> OFF in init script messages, and go back to standard
+  alignment. [SF: 1264702, 134543]
+
+* Mon Oct 24 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.15.6-05]
+- Add default value of SYSFONTACM to /etc/sysconfig/i18n. [SF: 1295293]
+
+* Mon Oct 24 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.15.6-04]
+- Replace grub setup commands in add_mirror with an exec of an external
+  script. This script will be provided by a bootloader specific package,
+  e.g. e-smith-lilo or e-smith-grub. That package should include a
+  "Provides: e-smith-bootloader" header, to satisfy a Requires in this
+  package. [SF: 1335937]
+
+* Thu Oct 20 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.15.6-03]
+- Unload network drivers immediately after rc.sysinit runs, so that
+  we can control the order of allocation of eth0 and eth1. [SF: 1332366]
 
 * Mon Oct 17 2005 Charlie Brady <charlieb@e-smith.com>
 - [4.15.6-02]
@@ -128,6 +149,8 @@ e-smith server and gateway software - base module.
 * Thu Sep 22 2005 Charlie Brady <charlieb@e-smith.com>
 - [4.15.4-39]
 - Add preliminary support for ethernet bonding on local interface.
+- Modify user-modify-unix so that usermod is not called to change
+  shell or GCOS field unless they need to change.
 
 * Mon Sep 12 2005 Charlie Brady <charlieb@e-smith.com>
 - [4.15.4-38]
@@ -4697,7 +4720,10 @@ e-smith server and gateway software - base module.
 %prep
 %setup
 %patch0 -p1
-%patch100 -p1
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
