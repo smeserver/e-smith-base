@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.6
-%define release 06
+%define release 07
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -14,6 +14,7 @@ Patch1: e-smith-base-4.15.6-03.mitel_patch
 Patch2: e-smith-base-4.15.6-04.mitel_patch
 Patch3: e-smith-base-4.15.6-05.mitel_patch
 Patch4: e-smith-base-4.15.6-06.mitel_patch
+Patch5: e-smith-base-4.15.6-07.mitel_patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -52,6 +53,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Nov  7 2005 Gordon Rowell <gordonr@e-smith.com>
+- [4.15.6-07]
+- Only signal-event ip-change on the BOUND action of dhclient [SF: 1344853]
+
 * Tue Nov  1 2005 Charlie Brady <charlieb@e-smith.com>
 - [4.15.6-06]
 - Change DISABLED -> OFF in init script messages, and go back to standard
@@ -4724,6 +4729,7 @@ e-smith server and gateway software - base module.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
