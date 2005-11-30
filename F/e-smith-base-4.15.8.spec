@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 03
+%define release 04
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -10,7 +10,8 @@ Vendor: Mitel Networks Corporation
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-base-4.15.8-02.mitel_patch
-Packager: e-smith developers <bugs@e-smith.com>
+Patch1: e-smith-base-4.15.8-routeethX.patch
+Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -48,6 +49,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Wed Nov 30 2005 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-04
+- Fix routing on eth0 for multiple local networks [SME: 203]
+
 * Wed Nov 30 2005 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-03
 - Bump release number only
 
@@ -4748,6 +4752,7 @@ e-smith server and gateway software - base module.
 %prep
 %setup
 %patch0 -p1
+%patch1 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
