@@ -1,20 +1,15 @@
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
-%define version 4.15.6
-%define release 07
+%define version 4.15.8
+%define release 03
 Version: %{version}
 Release: %{release}
 License: GPL
 Vendor: Mitel Networks Corporation
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
-Patch0: e-smith-base-4.15.6-02.mitel_patch
-Patch1: e-smith-base-4.15.6-03.mitel_patch
-Patch2: e-smith-base-4.15.6-04.mitel_patch
-Patch3: e-smith-base-4.15.6-05.mitel_patch
-Patch4: e-smith-base-4.15.6-06.mitel_patch
-Patch5: e-smith-base-4.15.6-07.mitel_patch
+Patch0: e-smith-base-4.15.8-02.mitel_patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -53,6 +48,34 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Wed Nov 30 2005 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-03
+- Bump release number only
+
+* Mon Nov 28 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.15.8-02]
+- Re-import head to CVS.
+- Regenerate both key and cert when cert expires, not just crt. [SF: 1365965]
+
+* Sun Nov 20 2005 Gordon Rowell <gordonr@e-smith.com>
+- [4.15.8-01]
+- Default cpuspeed to disabled [MN00107779]
+
+* Wed Nov 16 2005 Mark Knox <mark_knox@mitel.com>
+- [4.15.7-01]
+- Imported to ClearCase
+- Changed console sort order from ASCII to numeric [MN00107120]
+
+* Sun Nov 13 2005 Gordon Rowell <gordonr@e-smith.com>
+- [4.15.6-09]
+- Add -f option to add_mirror to allow use of disks with existing
+  partition tables [MN00101667]
+
+* Sun Nov 13 2005 Gordon Rowell <gordonr@e-smith.com>
+- [4.15.6-08]
+- Add reconfiguration reboot option to reboot panel [SF: 1349946]
+- TODO: Cleanup so that the red warning header doesn't display since
+  the reboot is going to happen anyway
+
 * Mon Nov  7 2005 Gordon Rowell <gordonr@e-smith.com>
 - [4.15.6-07]
 - Only signal-event ip-change on the BOUND action of dhclient [SF: 1344853]
@@ -4725,11 +4748,6 @@ e-smith server and gateway software - base module.
 %prep
 %setup
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

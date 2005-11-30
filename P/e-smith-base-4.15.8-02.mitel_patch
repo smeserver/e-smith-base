@@ -1,0 +1,9 @@
+Index: e-smith-base/e-smith-base.spec
+diff -u e-smith-base/root/etc/cron.daily/conf-mod_ssl:1.1 e-smith-base/root/etc/cron.daily/conf-mod_ssl:1.2
+--- e-smith-base/root/etc/cron.daily/conf-mod_ssl:1.1	Wed May 25 15:11:16 2005
++++ e-smith-base/root/etc/cron.daily/conf-mod_ssl	Mon Nov 28 20:49:53 2005
+@@ -1,3 +1,3 @@
+ #! /bin/sh
+ 
+-exec /sbin/e-smith/expand-template /home/e-smith/ssl.crt/crt
++exec /sbin/e-smith/expand-template /home/e-smith/ssl.pem/pem
