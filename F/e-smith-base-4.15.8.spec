@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 04
+%define release 06
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -11,6 +11,8 @@ Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-base-4.15.8-02.mitel_patch
 Patch1: e-smith-base-4.15.8-routeethX.patch
+Patch2: e-smith-base-4.15.8-standby.patch
+Patch3: e-smith-base-4.15.8-manageRAID.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -49,6 +51,14 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri Dec 2 2005 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-06
+- Initial cut at console menu item to (re)add RAID-1 mirror [SME: 253]
+- Needs to move to /sbin/e-smith/console-menu-items, once I work out
+  what I believe is a taint issue.
+
+* Wed Nov 30 2005 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-05
+- Change 'standby' to 'stand by' in console [SME: 66]
+
 * Wed Nov 30 2005 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-04
 - Fix routing on eth0 for multiple local networks [SME: 203]
 
@@ -4753,6 +4763,8 @@ e-smith server and gateway software - base module.
 %setup
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
+%patch3 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
