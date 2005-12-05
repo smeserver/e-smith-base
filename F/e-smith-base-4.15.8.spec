@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 06
+%define release 07
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -13,6 +13,7 @@ Patch0: e-smith-base-4.15.8-02.mitel_patch
 Patch1: e-smith-base-4.15.8-routeethX.patch
 Patch2: e-smith-base-4.15.8-standby.patch
 Patch3: e-smith-base-4.15.8-manageRAID.patch
+Patch4: e-smith-base-4.15.8-DHCP_console.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -51,6 +52,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Dec 05 2005 Filippo Carletti <carletti@mobilia.it> 4.15.8-07
+- console: DHCP range (wrong path chosen for non-English) [SME: 157]
+
 * Fri Dec 2 2005 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-06
 - Initial cut at console menu item to (re)add RAID-1 mirror [SME: 253]
 - Needs to move to /sbin/e-smith/console-menu-items, once I work out
@@ -4765,6 +4769,7 @@ e-smith server and gateway software - base module.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
