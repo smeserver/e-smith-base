@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 08
+%define release 09
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -15,6 +15,7 @@ Patch2: e-smith-base-4.15.8-standby.patch
 Patch3: e-smith-base-4.15.8-manageRAID.patch
 Patch4: e-smith-base-4.15.8-DHCP_console.patch
 Patch5: e-smith-base-4.15.8-manageRAID.patch2
+Patch6: e-smith-base-4.15.8-console_loop.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -53,8 +54,11 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Thu Dec 8 2005 Charlie Brady <charlieb@e-smith.com> 4.15.8-09
+- Fix looping in console at swap ethernet choice page. [SME: 68]
+
 * Wed Dec 7 2005 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-08
-- Fix taint issues with RAID management menu item [SMGE: 253]
+- Fix taint issues with RAID management menu item [SME: 253]
 
 * Mon Dec 05 2005 Filippo Carletti <carletti@mobilia.it> 4.15.8-07
 - console: DHCP range (wrong path chosen for non-English) [SME: 157]
@@ -4775,6 +4779,7 @@ e-smith server and gateway software - base module.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

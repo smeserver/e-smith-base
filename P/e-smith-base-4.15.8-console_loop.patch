@@ -1,0 +1,12 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.8/root/sbin/e-smith/console mezzanine_patched_e-smith-base-4.15.8/root/sbin/e-smith/console
+--- e-smith-base-4.15.8/root/sbin/e-smith/console	2005-12-08 16:44:58.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.15.8/root/sbin/e-smith/console	2005-12-08 16:44:27.000000000 -0500
+@@ -903,7 +903,7 @@
+          argsref => \@args
+         );
+ 
+-    goto ETHERNET_EXTERNAL unless ($rc == 0);
++    goto SERVER_GATEWAY unless ($rc == 0);
+ 
+     unless ($choice eq gettext("keep"))
+     {
