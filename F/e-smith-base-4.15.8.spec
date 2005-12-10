@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 09
+%define release 10
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -16,6 +16,7 @@ Patch3: e-smith-base-4.15.8-manageRAID.patch
 Patch4: e-smith-base-4.15.8-DHCP_console.patch
 Patch5: e-smith-base-4.15.8-manageRAID.patch2
 Patch6: e-smith-base-4.15.8-console_loop.patch
+Patch7: e-smith-base-4.15.8-testInternet.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -54,6 +55,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sat Dec 10 2005 Charlie Brady <charlieb@e-smith.com> 4.15.8-10
+- Move code for testing internet access into menu item file.
+  [SME: 261]
+
 * Thu Dec 8 2005 Charlie Brady <charlieb@e-smith.com> 4.15.8-09
 - Fix looping in console at swap ethernet choice page. [SME: 68]
 
@@ -4780,6 +4785,7 @@ e-smith server and gateway software - base module.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
