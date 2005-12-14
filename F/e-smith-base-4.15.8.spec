@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 10
+%define release 11
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -31,7 +31,6 @@ Requires: perl(Crypt::Cracklib)
 Requires: perl(Date::Manip)
 Requires: perl(Data::UUID)
 Requires: perl(Net::IPv4Addr)
-Requires: sysstat
 Requires: kernel-utils
 Requires: dbus
 Requires: hal
@@ -55,6 +54,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Wed Dec 14 2005 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-11
+- Remove Requires: sysstat [SME: 327]
+
 * Sat Dec 10 2005 Charlie Brady <charlieb@e-smith.com> 4.15.8-10
 - Move code for testing internet access into menu item file.
   [SME: 261]
