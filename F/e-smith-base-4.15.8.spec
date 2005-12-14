@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 13
+%define release 14
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -19,6 +19,7 @@ Patch6: e-smith-base-4.15.8-console_loop.patch
 Patch7: e-smith-base-4.15.8-testInternet.patch
 Patch8: e-smith-base-4.15.8-DefaultPreviousSystemMode.patch
 Patch9: e-smith-base-4.15.8-sysstat.patch
+Patch10: e-smith-base-4.15.8-sysstat.patch2
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -56,6 +57,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Wed Dec 14 2005 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-14
+- And remove db defaults for sysstat service [SME: 327]
+
 * Wed Dec 14 2005 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-13
 - Remove sysstat startup symlink [SME: 327]
 
@@ -4798,6 +4802,7 @@ e-smith server and gateway software - base module.
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
+%patch10 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
