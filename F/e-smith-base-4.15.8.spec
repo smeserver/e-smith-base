@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 17
+%define release 18
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -23,6 +23,7 @@ Patch10: e-smith-base-4.15.8-sysstat.patch2
 Patch11: e-smith-base-4.15.8-SystemDomainNameservers.patch
 Patch12: e-smith-base-4.15.8-URLreservations.patch
 Patch13: e-smith-base-4.15.8-microcode_ctl.patch
+Patch14: e-smith-base-4.15.8-CipherSuite.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -60,6 +61,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Thu Dec 15 2005 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-18
+- Added modSSL{CipherSuite} default [SME: 194]
+
 * Wed Dec 14 2005 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-17
 - Enable microcode_ctl service by default [SME: 74]
 
@@ -4819,6 +4823,7 @@ e-smith server and gateway software - base module.
 %patch11 -p1
 %patch12 -p1
 %patch13 -p1
+%patch14 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
