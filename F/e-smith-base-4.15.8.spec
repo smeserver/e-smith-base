@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 18
+%define release 19
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -24,6 +24,7 @@ Patch11: e-smith-base-4.15.8-SystemDomainNameservers.patch
 Patch12: e-smith-base-4.15.8-URLreservations.patch
 Patch13: e-smith-base-4.15.8-microcode_ctl.patch
 Patch14: e-smith-base-4.15.8-CipherSuite.patch
+Patch15: e-smith-base-4.15.8-EightSeconds.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -61,6 +62,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Thu Dec 15 2005 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-19
+- Remove the "In eight seconds" untruth from shutdown/reboot [SME: 86]
+
 * Thu Dec 15 2005 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-18
 - Added modSSL{CipherSuite} default [SME: 194]
 
@@ -4824,6 +4828,7 @@ e-smith server and gateway software - base module.
 %patch12 -p1
 %patch13 -p1
 %patch14 -p1
+%patch15 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
