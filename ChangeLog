@@ -362,3 +362,7 @@ Thu Dec 15 18:05:25 2005                       Gordon Rowell (gordonr)
 
 Auto-commit
 ----------------------------------------------------------------------
+Fri Dec 16 14:42:47 2005                      Charlie Brady (charlieb)
+
+- Fix localization bug in add_mirror. [SME: 341]
+----------------------------------------------------------------------

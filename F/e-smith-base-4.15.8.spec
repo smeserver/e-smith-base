@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 19
+%define release 20
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -25,6 +25,7 @@ Patch12: e-smith-base-4.15.8-URLreservations.patch
 Patch13: e-smith-base-4.15.8-microcode_ctl.patch
 Patch14: e-smith-base-4.15.8-CipherSuite.patch
 Patch15: e-smith-base-4.15.8-EightSeconds.patch
+Patch16: e-smith-base-4.15.8-add_mirror.l10n.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -62,6 +63,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri Dec 16 2005 Charlie Brady <charlieb@e-smith.com> 4.15.8-20
+- Fix localization bug in add_mirror. [SME: 341]
+
 * Thu Dec 15 2005 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-19
 - Remove the "In eight seconds" untruth from shutdown/reboot [SME: 86]
 
@@ -4829,6 +4833,7 @@ e-smith server and gateway software - base module.
 %patch13 -p1
 %patch14 -p1
 %patch15 -p1
+%patch16 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
