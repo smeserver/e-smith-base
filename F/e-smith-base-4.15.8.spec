@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 20
+%define release 21
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -26,6 +26,7 @@ Patch13: e-smith-base-4.15.8-microcode_ctl.patch
 Patch14: e-smith-base-4.15.8-CipherSuite.patch
 Patch15: e-smith-base-4.15.8-EightSeconds.patch
 Patch16: e-smith-base-4.15.8-add_mirror.l10n.patch
+Patch17: smith-base-4.15.8-testInternet.patch2
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -63,6 +64,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sat Dec 25 2005 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-21
+- Move testInternet console menu item to smeserver-support [SME: 364]
+
 * Fri Dec 16 2005 Charlie Brady <charlieb@e-smith.com> 4.15.8-20
 - Fix localization bug in add_mirror. [SME: 341]
 
@@ -4834,6 +4838,7 @@ e-smith server and gateway software - base module.
 %patch14 -p1
 %patch15 -p1
 %patch16 -p1
+%patch17 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
