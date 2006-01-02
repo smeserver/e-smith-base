@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 22
+%define release 23
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -28,6 +28,7 @@ Patch15: e-smith-base-4.15.8-EightSeconds.patch
 Patch16: e-smith-base-4.15.8-add_mirror.l10n.patch
 Patch17: smith-base-4.15.8-testInternet.patch2
 Patch18: e-smith-base-4.15.8-DiskHeuristic.patch
+Patch19: e-smith-base-4.15.8-admin.passwd.check.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -65,6 +66,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sun Jan  1 2006 Charlie Brady <charlieb@e-smith.com> 4.15.8-23
+- Use regexp as well as cracklib to check admin password in console.
+  [SME: 335]
+
 * Mon Jan 2 2006 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-22
 - Change heuristic for finding disks in manageRAID.pl [SME: 342]
 
@@ -4844,6 +4849,7 @@ e-smith server and gateway software - base module.
 %patch16 -p1
 %patch17 -p1
 %patch18 -p1
+%patch19 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
