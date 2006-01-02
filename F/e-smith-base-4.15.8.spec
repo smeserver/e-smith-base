@@ -66,7 +66,7 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
-* Sun Jan  1 2006 Charlie Brady <charlieb@e-smith.com> 4.15.8-23
+* Sun Jan 2 2006 Charlie Brady <charlieb@e-smith.com> 4.15.8-23
 - Use regexp as well as cracklib to check admin password in console.
   [SME: 335]
 
