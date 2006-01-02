@@ -1,0 +1,12 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.8/root/sbin/e-smith/console-menu-items/manageRAID.pl mezzanine_patched_e-smith-base-4.15.8/root/sbin/e-smith/console-menu-items/manageRAID.pl
+--- e-smith-base-4.15.8/root/sbin/e-smith/console-menu-items/manageRAID.pl	2006-01-02 11:06:03.265600180 +1100
++++ mezzanine_patched_e-smith-base-4.15.8/root/sbin/e-smith/console-menu-items/manageRAID.pl	2006-01-02 11:05:45.596674374 +1100
+@@ -226,7 +226,7 @@
+ 
+     for (keys %parts)
+     {
+-        push @disks, $_ if ($parts{$_}{minor} == 0);
++        push @disks, $_ unless (/[0-9]$/);
+     }
+ 
+     return @disks;

@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 21
+%define release 22
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -27,6 +27,7 @@ Patch14: e-smith-base-4.15.8-CipherSuite.patch
 Patch15: e-smith-base-4.15.8-EightSeconds.patch
 Patch16: e-smith-base-4.15.8-add_mirror.l10n.patch
 Patch17: smith-base-4.15.8-testInternet.patch2
+Patch18: e-smith-base-4.15.8-DiskHeuristic.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -64,6 +65,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Jan 2 2006 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-22
+- Change heuristic for finding disks in manageRAID.pl [SME: 342]
+
 * Sat Dec 25 2005 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-21
 - Move testInternet console menu item to smeserver-support [SME: 364]
 
@@ -4839,6 +4843,7 @@ e-smith server and gateway software - base module.
 %patch15 -p1
 %patch16 -p1
 %patch17 -p1
+%patch18 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
