@@ -1,0 +1,19 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.8/root/etc/e-smith/db/configuration/migrate/10interfaces mezzanine_patched_e-smith-base-4.15.8/root/etc/e-smith/db/configuration/migrate/10interfaces
+--- e-smith-base-4.15.8/root/etc/e-smith/db/configuration/migrate/10interfaces	2005-11-20 23:28:05.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.15.8/root/etc/e-smith/db/configuration/migrate/10interfaces	2006-01-05 11:25:51.257705000 -0500
+@@ -33,12 +33,12 @@
+ 
+     use esmith::util;
+ 
+-    my $internal = $DB->get("InternalInterface") ||
+-                   $DB->new_record("InternalInterface");
+-
+     # No need to run this unless we have valid settings
+     return unless $DB->get_value("LocalIP");
+ 
++    my $internal = $DB->get("InternalInterface") ||
++                   $DB->new_record("InternalInterface", {type => "interface"});
++
+     my $ethernet_assign = $DB->get_value('EthernetAssign') || "normal";
+     my $diald = $DB->get("diald") || $DB->new_record("diald", { type => 'service' } );
+     my $diald_status = 'disabled';
