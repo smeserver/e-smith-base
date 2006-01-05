@@ -1,0 +1,28 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.8/root/etc/e-smith/templates/etc/modprobe.conf/10net-fp-aliases mezzanine_patched_e-smith-base-4.15.8/root/etc/e-smith/templates/etc/modprobe.conf/10net-fp-aliases
+--- e-smith-base-4.15.8/root/etc/e-smith/templates/etc/modprobe.conf/10net-fp-aliases	2005-11-20 23:28:07.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.15.8/root/etc/e-smith/templates/etc/modprobe.conf/10net-fp-aliases	2006-01-05 10:08:23.726507000 -0500
+@@ -5,9 +5,7 @@
+ 	    "alias net-pf-4 off",
+ 	    # alias IPV6 off
+ 	    "alias net-pf-10 off",
+-	    "alias net-pf-15 ipsec",
+ 	    "alias net-pf-47 ip_gre",
+-	    "alias net-pf-50 ipsec",
+ 	)
+     {
+ 	unless (exists $lines{$line})
+@@ -15,5 +13,14 @@
+ 	    push @lines, $line;
+ 	}
+     }
++    foreach my $line
++	(
++	    "alias net-pf-15 ipsec",
++	    "alias net-pf-50 ipsec",
++	)
++    {
++	@lines = grep { !/^$line$/ } @lines;
++    }
++
+     "";
+ }

@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 23
+%define release 24
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -29,6 +29,7 @@ Patch16: e-smith-base-4.15.8-add_mirror.l10n.patch
 Patch17: smith-base-4.15.8-testInternet.patch2
 Patch18: e-smith-base-4.15.8-DiskHeuristic.patch
 Patch19: e-smith-base-4.15.8-admin.passwd.check.patch
+Patch20: e-smith-base-4.15.8-net-fp-aliases.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -66,6 +67,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Thu Jan  5 2006 Charlie Brady <charlieb@e-smith.com> 4.15.8-24
+- Don't add obsolete ipsec net-pf aliases to modprobe.conf, and
+  remove them if found. [SME: 390]
+
 * Sun Jan 2 2006 Charlie Brady <charlieb@e-smith.com> 4.15.8-23
 - Use regexp as well as cracklib to check admin password in console.
   [SME: 335]
@@ -4850,6 +4855,7 @@ e-smith server and gateway software - base module.
 %patch17 -p1
 %patch18 -p1
 %patch19 -p1
+%patch20 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
