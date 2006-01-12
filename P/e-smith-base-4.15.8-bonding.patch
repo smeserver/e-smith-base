@@ -1,0 +1,40 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.8/root/sbin/e-smith/console mezzanine_patched_e-smith-base-4.15.8/root/sbin/e-smith/console
+--- e-smith-base-4.15.8/root/sbin/e-smith/console	2006-01-11 14:09:55.684250000 -0500
++++ mezzanine_patched_e-smith-base-4.15.8/root/sbin/e-smith/console	2006-01-11 14:09:03.413903000 -0500
+@@ -1973,6 +1973,36 @@
+ #------------------------------------------------------------
+ 
+ {
++    if (scalar @adapters == 2)
++    {
++        my (undef, $driver1, undef) = split (/\s+/, $adapters[0], 3);
++        my (undef, $driver2, undef) = split (/\s+/, $adapters[1], 3);
++        if($driver1 eq $driver2)
++        {
++            my @args = (
++                    $console->keep_option(gettext(
++                        db_get_prop(\%conf, 'InternalInterface',
++                        'NICBonding') || 'disabled')),
++                    gettext("enabled"), gettext("Enable NIC bonding"),
++                    gettext("disabled"), gettext("Disable NIC bonding")
++                );
++
++            ($rc, $choice) = $console->menu_page
++                (
++                title => gettext("NIC Bonding"),
++                text  =>
++                gettext("You have more than one network adapter. Would you like to bond them together into a single interface? This can provide greater throughput and/or failure resiliency, depending on your adapters and network configuration."),
++                argsref => \@args
++            );
++
++            unless($choice eq gettext("keep"))
++            {
++                db_set_prop(\%conf, 'InternalInterface', 'NICBonding', 
++                    ($choice eq gettext('enabled')) ? 'enabled' : 'disabled');
++            }
++        }
++    }
++    
+     goto OTHER_PARAMETERS unless ($conf{'AccessType'} eq 'dedicated');
+ 
+     my $gateway_ip = $conf {'GatewayIP'} || "";

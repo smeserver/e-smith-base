@@ -378,3 +378,8 @@ Mon Jan  2 11:08:36 2006                       Gordon Rowell (gordonr)
 
 Auto-commit
 ----------------------------------------------------------------------
+Thu Jan 12 11:19:51 2006                            Mark Knox (knoxma)
+
+Added console patch to enable and disable NIC bonding in server-only
+mode with two identical adapters.
+----------------------------------------------------------------------
