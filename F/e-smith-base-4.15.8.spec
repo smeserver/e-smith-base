@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 27
+%define release 28
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -33,6 +33,7 @@ Patch20: e-smith-base-4.15.8-net-fp-aliases.patch
 Patch21: e-smith-base-4.15.8-interface.migration.patch
 Patch22: e-smith-base-4.15.8-DotUnderscoreUsers.patch
 Patch23: e-smith-base-4.15.8-bonding.patch
+Patch24: e-smith-base-4.15.8-setpasswordregexp.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -70,13 +71,15 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri Jan 13 2006 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-28
+- Fix account regexp for set_password case [SME: 24]
+
 * Wed Jan 11 2006 Mark Knox <mark_knox@mitel.com> 4.15.8-27
 - New console option for ethernet bonding [SME: 449]
 
 * Mon Jan  9 2006 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-26
 - Allow dot and underscore in account names [SME: 24]
 - Default maxAcctNameLength and maxGroupNameLength to 31 [SME: 24]
-
 
 * Thu Jan  5 2006 Charlie Brady <charlieb@e-smith.com> 4.15.8-25
 - Avoid generating warning messages during interfaces migration
@@ -4874,6 +4877,7 @@ e-smith server and gateway software - base module.
 %patch21 -p1
 %patch22 -p1
 %patch23 -p1
+%patch24 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
