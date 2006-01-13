@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 28
+%define release 29
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -34,6 +34,7 @@ Patch21: e-smith-base-4.15.8-interface.migration.patch
 Patch22: e-smith-base-4.15.8-DotUnderscoreUsers.patch
 Patch23: e-smith-base-4.15.8-bonding.patch
 Patch24: e-smith-base-4.15.8-setpasswordregexp.patch
+Patch25: e-smith-base-4.15.8-bonding2.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -71,6 +72,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri Jan 13 2006 Mark Knox <mark_knox@mitel.com> 4.15.8-29
+- New migrate fragment to clean up NIC bonding property [SME: 449]
+
 * Fri Jan 13 2006 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-28
 - Fix account regexp for set_password case [SME: 24]
 
@@ -4878,6 +4882,7 @@ e-smith server and gateway software - base module.
 %patch22 -p1
 %patch23 -p1
 %patch24 -p1
+%patch25 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

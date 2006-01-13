@@ -1,0 +1,12 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.8/root/etc/e-smith/db/configuration/migrate/25NICBondingUpdate mezzanine_patched_e-smith-base-4.15.8/root/etc/e-smith/db/configuration/migrate/25NICBondingUpdate
+--- e-smith-base-4.15.8/root/etc/e-smith/db/configuration/migrate/25NICBondingUpdate	1969-12-31 19:00:00.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.15.8/root/etc/e-smith/db/configuration/migrate/25NICBondingUpdate	2006-01-12 16:39:27.183616000 -0500
+@@ -0,0 +1,8 @@
++{
++    # Remove NICBonding property unless conditions are met
++    return unless defined $InternalInterface{NICBonding};
++    return if($SystemMode eq "serveronly" and 
++        $EthernetDriver1 eq $EthernetDriver2);
++
++    $DB->get('InternalInterface')->delete_prop('NICBonding');
++}
