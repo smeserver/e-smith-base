@@ -1,0 +1,14 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.8/createlinks mezzanine_patched_e-smith-base-4.15.8/createlinks
+--- e-smith-base-4.15.8/createlinks	2006-01-17 17:09:19.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.15.8/createlinks	2006-01-17 17:08:50.000000000 -0500
+@@ -460,7 +460,9 @@
+ 
+ $event = "reboot";
+ 
+-event_link("reboot", $event, "70");
++safe_symlink("stop", "root/etc/e-smith/events/$event/services2adjust/pppoe");
++safe_symlink("stop", "root/etc/e-smith/events/$event/services2adjust/dhcpcd");
++event_link("reboot", $event, "99");
+ 
+ #--------------------------------------------------
+ # actions for remoteaccess-update event
