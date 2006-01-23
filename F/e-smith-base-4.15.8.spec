@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 30
+%define release 31
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -73,6 +73,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Jan 23 2006 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-31
+- Create ~/.ssh as part of skeleton home directory [SME: 456]
+
 * Wed Jan 18 2006 Charlie Brady <charlieb@e-smith.com> 4.15.8-30
 - Fix reboot problem when switching WAN from dynamic to static
   address. [SME: 500]
@@ -4913,6 +4916,7 @@ fi
 %build
 # Force creation of potentially empty directories
 mkdir -p root/etc/e-smith/licenses
+mkdir -p root/etc/e-smith/skel/user/.ssh
 mkdir -p root/etc/e-smith/skel/user/home
 mkdir -p root/etc/e-smith/skel/user/Maildir/{cur,new,tmp}
 mkdir -p root/etc/e-smith/skel/e-smith/files/users
@@ -5113,6 +5117,7 @@ rm -rf $RPM_BUILD_ROOT
     --file /var/service/pppoe/log/run 'attr(0755,root,root)' \
     --dir /var/service/pppoe/log/supervise 'attr(0700,root,root)' \
     --dir /var/log/pppoe 'attr(2750,qmaill,nofiles)' \
+    --dir /etc/e-smith/skel/user/.ssh 'attr(0700,root,root)' \
     > %{name}-%{version}-%{release}-filelist
 
 mkdir -p $RPM_BUILD_ROOT/home/e-smith/db
