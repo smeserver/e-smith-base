@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 31
+%define release 32
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -36,6 +36,7 @@ Patch23: e-smith-base-4.15.8-bonding.patch
 Patch24: e-smith-base-4.15.8-setpasswordregexp.patch
 Patch25: e-smith-base-4.15.8-bonding2.patch
 Patch26: e-smith-base-4.15.8-restart.patch
+Patch27: e-smith-base-4.15.8-mdadm.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -73,6 +74,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Jan 23 2006 Shad L. Lords <slords@mail.com> 4.15.8-32
+- Help raidmonitor report more than just failures [SME: 496]
+
 * Mon Jan 23 2006 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-31
 - Create ~/.ssh as part of skeleton home directory [SME: 456]
 
@@ -4892,6 +4896,7 @@ e-smith server and gateway software - base module.
 %patch24 -p1
 %patch25 -p1
 %patch26 -p1
+%patch27 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
