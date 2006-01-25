@@ -1,0 +1,16 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.8/createlinks mezzanine_patched_e-smith-base-4.15.8/createlinks
+--- e-smith-base-4.15.8/createlinks	2006-01-25 14:46:52.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.15.8/createlinks	2006-01-25 14:46:30.000000000 -0500
+@@ -295,6 +295,7 @@
+ # lynx-conf
+ 
+ templates2events("/etc/lynx.cfg", qw(console-save bootstrap-console-save));
++templates2events("/etc/elinks.conf", qw(bootstrap-console-save));
+ 
+ #
+ # Set up generic logfile timestamp renaming/symlinking
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.8/root/etc/e-smith/templates/etc/elinks.conf/10no_utf8 mezzanine_patched_e-smith-base-4.15.8/root/etc/e-smith/templates/etc/elinks.conf/10no_utf8
+--- e-smith-base-4.15.8/root/etc/e-smith/templates/etc/elinks.conf/10no_utf8	1969-12-31 19:00:00.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.15.8/root/etc/e-smith/templates/etc/elinks.conf/10no_utf8	2006-01-25 14:45:33.000000000 -0500
+@@ -0,0 +1 @@
++set terminal.linux.utf_8_io = 0
