@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 33
+%define release 34
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -38,6 +38,7 @@ Patch25: e-smith-base-4.15.8-bonding2.patch
 Patch26: e-smith-base-4.15.8-restart.patch
 Patch27: e-smith-base-4.15.8-mdadm.patch
 Patch28: e-smith-base-4.15.8-elinks.conf.patch
+Patch29: e-smith-base-4.15.8-no.statusreport.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -75,6 +76,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sun Jan 29 2006 Charlie Brady <charlie_brady@mitel.com> 4.15.8-34
+- Remove remnants of statustest. [SME: 450]
+
 * Wed Jan 25 2006 Charlie Brady <charlie_brady@mitel.com> 4.15.8-33
 - Add templated elinks config file. [SME: 444]
 
@@ -4902,6 +4906,7 @@ e-smith server and gateway software - base module.
 %patch26 -p1
 %patch27 -p1
 %patch28 -p1
+%patch29 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
