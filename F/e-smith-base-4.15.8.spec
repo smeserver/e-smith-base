@@ -79,7 +79,7 @@ e-smith server and gateway software - base module.
 
 %changelog
 * Tue Jan 31 2006 Shad L. Lords <slords@mail.com> 4.15.8-36
-- Disable zeroconf so 169.254.0.0/16 route isn't created [SME: ]
+- Disable zeroconf so 169.254.0.0/16 route isn't created [SME: 613]
 
 * Sun Jan 29 2006 Charlie Brady <charlie_brady@mitel.com> 4.15.8-35
 - Fix flip of access settings to default on first post-upgrade (e.g.
