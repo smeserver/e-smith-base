@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 37
+%define release 38
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -42,6 +42,7 @@ Patch29: e-smith-base-4.15.8-no.statusreport.patch
 Patch30: e-smith-base-4.15.8-access.defaults.patch
 Patch31: e-smith-base-4.15.8-zeroconf.patch
 Patch32: e-smith-base-4.15.8-raid1text.patch
+Patch33: e-smith-base-4.15.8-copyrightupdated.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -79,6 +80,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Jan 31 2006 Gavin Weight <gweight@gmail.com> 4.15.8-38
+- Updated copyright text in server-manager [SME: 459]
+
 * Tue Jan 31 2006 Gavin Weight <gweight@gmail.com> 4.15.8-37
 - The menu text incorrect for RAID5 configurations [SME: 404]
 
@@ -4923,6 +4927,7 @@ e-smith server and gateway software - base module.
 %patch30 -p1
 %patch31 -p1
 %patch32 -p1
+%patch33 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
