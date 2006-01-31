@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 35
+%define release 36
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -40,6 +40,7 @@ Patch27: e-smith-base-4.15.8-mdadm.patch
 Patch28: e-smith-base-4.15.8-elinks.conf.patch
 Patch29: e-smith-base-4.15.8-no.statusreport.patch
 Patch30: e-smith-base-4.15.8-access.defaults.patch
+Patch31: e-smith-base-4.15.8-zeroconf.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -77,6 +78,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Jan 31 2006 Shad L. Lords <slords@mail.com> 4.15.8-36
+- Disable zeroconf so 169.254.0.0/16 route isn't created [SME: ]
+
 * Sun Jan 29 2006 Charlie Brady <charlie_brady@mitel.com> 4.15.8-35
 - Fix flip of access settings to default on first post-upgrade (e.g.
   sshd from public to private). [SME: 495]
@@ -4913,6 +4917,7 @@ e-smith server and gateway software - base module.
 %patch28 -p1
 %patch29 -p1
 %patch30 -p1
+%patch31 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
