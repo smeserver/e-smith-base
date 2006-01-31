@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 36
+%define release 37
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -41,6 +41,7 @@ Patch28: e-smith-base-4.15.8-elinks.conf.patch
 Patch29: e-smith-base-4.15.8-no.statusreport.patch
 Patch30: e-smith-base-4.15.8-access.defaults.patch
 Patch31: e-smith-base-4.15.8-zeroconf.patch
+Patch32: e-smith-base-4.15.8-raid1text.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -78,6 +79,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Jan 31 2006 Gavin Weight <gweight@gmail.com> 4.15.8-37
+- The menu text incorrect for RAID5 configurations [SME: 404]
+
 * Tue Jan 31 2006 Shad L. Lords <slords@mail.com> 4.15.8-36
 - Disable zeroconf so 169.254.0.0/16 route isn't created [SME: 613]
 
@@ -4918,6 +4922,7 @@ e-smith server and gateway software - base module.
 %patch29 -p1
 %patch30 -p1
 %patch31 -p1
+%patch32 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
