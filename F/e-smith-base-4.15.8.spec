@@ -4917,7 +4917,7 @@ e-smith server and gateway software - base module.
 %patch28 -p1
 %patch29 -p1
 %patch30 -p1
-%patch31 -p0
+%patch31 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
