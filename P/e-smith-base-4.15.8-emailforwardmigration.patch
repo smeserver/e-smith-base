@@ -1,0 +1,10 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.8/root/etc/e-smith/db/accounts/migrate/30EmailForward mezzanine_patched_e-smith-base-4.15.8/root/etc/e-smith/db/accounts/migrate/30EmailForward
+--- e-smith-base-4.15.8/root/etc/e-smith/db/accounts/migrate/30EmailForward	1970-01-01 10:00:00.000000000 +1000
++++ mezzanine_patched_e-smith-base-4.15.8/root/etc/e-smith/db/accounts/migrate/30EmailForward	2006-02-06 09:30:38.764685091 +1100
+@@ -0,0 +1,6 @@
++{
++	foreach my $user ($DB->get_all_by_prop(EmailForward => 'procmail'))
++    {
++	$user->set_prop('EmailForward','local');
++    }
++}

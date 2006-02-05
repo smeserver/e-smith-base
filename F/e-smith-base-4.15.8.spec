@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 39
+%define release 40
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -44,6 +44,7 @@ Patch31: e-smith-base-4.15.8-zeroconf.patch
 Patch32: e-smith-base-4.15.8-raid1text.patch
 Patch33: e-smith-base-4.15.8-copyrightupdated.patch
 Patch34: e-smith-base-4.15.8-usertext.patch
+Patch35: e-smith-base-4.15.8-emailforwardmigration.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -81,6 +82,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Jan 31 2006 Gavin Weight <gweight@gmail.com> 4.15.8-40
+- Added EmailForward migrate fragment [SME: 598]
+
 * Tue Jan 31 2006 Gavin Weight <gweight@gmail.com> 4.15.8-39
 - Added text periods and underscores in useraccounts [SME: 531]
 
@@ -4933,6 +4937,7 @@ e-smith server and gateway software - base module.
 %patch32 -p1
 %patch33 -p1
 %patch34 -p1
+%patch35 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
