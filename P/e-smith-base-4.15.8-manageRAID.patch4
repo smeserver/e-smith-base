@@ -1,0 +1,72 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.8/root/sbin/e-smith/console-menu-items/manageRAID.pl mezzanine_patched_e-smith-base-4.15.8/root/sbin/e-smith/console-menu-items/manageRAID.pl
+--- e-smith-base-4.15.8/root/sbin/e-smith/console-menu-items/manageRAID.pl	2006-02-06 19:09:15.609344236 +1100
++++ mezzanine_patched_e-smith-base-4.15.8/root/sbin/e-smith/console-menu-items/manageRAID.pl	2006-02-06 19:07:22.869959623 +1100
+@@ -3,6 +3,10 @@
+ use esmith::console;
+ use Locale::gettext;
+ 
++use Data::Dumper;
++
++use constant DEBUG_MANAGE_RAID => 1;
++
+ sub new
+ {
+     my $class = shift;
+@@ -36,6 +40,9 @@
+ 
+     my %devices = get_raid_details();
+ 
++    warn $text if DEBUG_MANAGE_RAID;
++    warn "devices: " . Dumper(%devices) . "\n" if DEBUG_MANAGE_RAID;
++
+     unless (scalar %devices)
+     {
+         $text = gettext("There are no RAID devices configured");
+@@ -68,15 +75,17 @@
+ 
+     for my $dev (keys %devices)
+     {
+-        my $disk = $devices{$dev}{0};
+-        $disk =~ s/\d+//;
+-        $used_disks{$disk}++;
++	$used_disks{$_}++ for (@{$devices{$dev}{UsedDisks}});
+ 
+         next if ($devices{$dev}{State} eq "clean");
+ 
+         push @unclean, "$dev => " . $devices{$dev}{State};
+     }
+ 
++    warn "used_disks: " . Dumper(%used_disks) . "\n" if DEBUG_MANAGE_RAID;
++
++    warn "unclean: @unclean\n" if DEBUG_MANAGE_RAID;
++
+     unless (scalar @unclean)
+     {
+         $text .= gettext("All RAID devices are in clean state");
+@@ -94,8 +103,11 @@
+     }
+ 
+     my %free_disks = map {$_ => 1} get_disks();
++
+     delete $free_disks{$_} for keys %used_disks;
+ 
++    warn "free_disks: " . Dumper(%free_disks) . "\n" if DEBUG_MANAGE_RAID;
++
+     my $disk_status = gettext("Current disk status:") . "\n\n";
+     $disk_status .= gettext("Installed disks") . ": " . 
+                     join(" ", get_disks()) . "\n";
+@@ -184,9 +196,12 @@
+                 $devices{$dev}{$key} = $value;
+             }
+ 
+-            if ( m:\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(.*)/dev/(\w+): )
++            if ( m:\s+(\d+)\s+(\d+)\s+(\d+).*/dev/(\w+): )
+             {
+-                $devices{$dev}{$1} = $6;
++                $devices{$dev}{$1} = $_;
++		my $used_disk = $4;
++		$used_disk =~ s/\d+//;
++                push (@{$devices{$dev}{UsedDisks}}, $used_disk);
+             }
+         }
+         close MDADM;
