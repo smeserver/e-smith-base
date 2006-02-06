@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 41
+%define release 42
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -46,6 +46,7 @@ Patch33: e-smith-base-4.15.8-copyrightupdated.patch
 Patch34: e-smith-base-4.15.8-usertext.patch
 Patch35: e-smith-base-4.15.8-emailforwardmigration.patch
 Patch36: e-smith-base-4.15.8-openRW.patch
+Patch37: e-smith-base-4.15.8-AllowBootp.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -83,6 +84,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Feb 6 2006 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-42
+- Delete 'deny bootp' fragment from dhcpd.conf, reverting to
+  default, which is to allow bootp. [SME: 660]
+
 * Sun Feb  5 2006 Charlie Brady <charlie_brady@mitel.com> 4.15.8-41
 - Use appropriate esmith::*DB class for 00openRW migrate fragments.
   [SME: 659]
@@ -4944,6 +4949,7 @@ e-smith server and gateway software - base module.
 %patch34 -p1
 %patch35 -p1
 %patch36 -p1
+%patch37 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
