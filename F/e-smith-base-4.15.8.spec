@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 40
+%define release 41
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -45,6 +45,7 @@ Patch32: e-smith-base-4.15.8-raid1text.patch
 Patch33: e-smith-base-4.15.8-copyrightupdated.patch
 Patch34: e-smith-base-4.15.8-usertext.patch
 Patch35: e-smith-base-4.15.8-emailforwardmigration.patch
+Patch36: e-smith-base-4.15.8-openRW.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -82,6 +83,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sun Feb  5 2006 Charlie Brady <charlie_brady@mitel.com> 4.15.8-41
+- Use appropriate esmith::*DB class for 00openRW migrate fragments.
+  [SME: 659]
+
 * Tue Jan 31 2006 Gavin Weight <gweight@gmail.com> 4.15.8-40
 - Added EmailForward migrate fragment [SME: 598]
 
@@ -4938,6 +4943,7 @@ e-smith server and gateway software - base module.
 %patch33 -p1
 %patch34 -p1
 %patch35 -p1
+%patch36 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
@@ -5079,10 +5085,6 @@ mkdir -p root/var/state/e-smith
 for file in %{dbfiles}
 do
     mkdir -p root/etc/e-smith/db/$file/{defaults,migrate,force}
-    if [ "$file" != "configuration" ]
-    then
-	ln -s ../../configuration/migrate/00openRW root/etc/e-smith/db/$file/migrate/00openRW
-    fi
     # Create ghost file for rpm
     touch root/home/e-smith/db/$file
 done
