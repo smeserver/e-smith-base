@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 44
+%define release 45
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -49,6 +49,7 @@ Patch36: e-smith-base-4.15.8-openRW.patch
 Patch37: e-smith-base-4.15.8-AllowBootp.patch
 Patch38: e-smith-base-4.15.8-manageRAID.patch3
 Patch39: e-smith-base-4.15.8-manageRAID.patch4
+Patch40: e-smith-base-4.15.8-openRW.patch2
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -86,6 +87,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Feb 7 2006 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-45
+- Fix up location of 00openRW fragments from change 41 [SME: 659. 679]
+
 * Mon Feb 6 2006 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-44
 - Change logic for determining RAID partitions in use [SME: 516]
 - Add detailed output of the RAID state to messages log [SME: 516]
@@ -4962,6 +4966,7 @@ e-smith server and gateway software - base module.
 %patch37 -p1
 %patch38 -p1
 %patch39 -p1
+%patch40 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
