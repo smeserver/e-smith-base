@@ -1,0 +1,13 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.8/root/etc/e-smith/db/configuration/defaults/dhcpd/Bootp mezzanine_patched_e-smith-base-4.15.8/root/etc/e-smith/db/configuration/defaults/dhcpd/Bootp
+--- e-smith-base-4.15.8/root/etc/e-smith/db/configuration/defaults/dhcpd/Bootp	1969-12-31 19:00:00.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.15.8/root/etc/e-smith/db/configuration/defaults/dhcpd/Bootp	2006-02-07 11:38:20.000000000 -0500
+@@ -0,0 +1 @@
++deny
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.8/root/etc/e-smith/templates/etc/dhcpd.conf/25DenyBootp mezzanine_patched_e-smith-base-4.15.8/root/etc/e-smith/templates/etc/dhcpd.conf/25DenyBootp
+--- e-smith-base-4.15.8/root/etc/e-smith/templates/etc/dhcpd.conf/25DenyBootp	1969-12-31 19:00:00.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.15.8/root/etc/e-smith/templates/etc/dhcpd.conf/25DenyBootp	2006-02-07 11:39:32.000000000 -0500
+@@ -0,0 +1,4 @@
++{
++     my $bootp = $dhcpd{'Bootp'} || 'deny';
++     $OUT = "$bootp bootp;";
++}
