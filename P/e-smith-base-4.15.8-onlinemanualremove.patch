@@ -1,0 +1,33 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.8/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/online-manual mezzanine_patched_e-smith-base-4.15.8/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/online-manual
+--- e-smith-base-4.15.8/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/online-manual	2005-11-21 15:28:05.000000000 +1100
++++ mezzanine_patched_e-smith-base-4.15.8/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/online-manual	1970-01-01 10:00:00.000000000 +1000
+@@ -1,29 +0,0 @@
+-<lexicon lang="en-us">
+-      <entry>
+-	<base>FORM_TITLE</base>
+-	<trans>Online manual</trans>
+-      </entry>	
+-      <entry> 
+-	<base>DESCRIPTION</base>
+-	<trans>
+-	  <![CDATA[
+-	<p>
+-	  The online manual is available at:
+-	<a target="new" href="http://edocs.mitel.com/">
+-	  http://edocs.mitel.com/</a>
+-	</p>
+-	  ]]>
+-	</trans>
+-      </entry>		
+-
+-      <entry>
+-	<base>Miscellaneous</base>
+-	<trans>Miscellaneous</trans>
+-      </entry>
+-
+-      <entry>
+-	<base>Online manual</base>
+-	<trans>Online manual</trans>
+-      </entry>
+-
+-</lexicon>
