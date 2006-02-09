@@ -1,0 +1,33 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.8/root/etc/e-smith/web/functions/useraccounts mezzanine_patched_e-smith-base-4.15.8/root/etc/e-smith/web/functions/useraccounts
+--- e-smith-base-4.15.8/root/etc/e-smith/web/functions/useraccounts	2005-11-21 15:28:10.000000000 +1100
++++ mezzanine_patched_e-smith-base-4.15.8/root/etc/e-smith/web/functions/useraccounts	2006-02-09 16:38:26.117966698 +1100
+@@ -203,10 +203,14 @@
+         </field>
+         <field type="select" id="EmailForward" options="'local' =>
+             'DELIVER_EMAIL_LOCALLY', 'forward' => 'FORWARD_EMAIL',
+-            'both' => 'DELIVER_AND_FORWARD'" validation="nonblank" value='local'>
++            'both' => 'DELIVER_AND_FORWARD'" validation="nonblank" value='local'
++            display="display_email_forwarding()"
++            >
+             <label>EMAIL_DELIVERY</label>
+         </field>
+-        <field type="text" id="ForwardAddress" validation="emailforward()">
++        <field type="text" id="ForwardAddress" validation="emailforward()"
++            display="display_email_forwarding()"
++            >
+             <label>FORWARDING_ADDRESS</label>
+         </field>
+         <field type="select" id="VPNClientAccess" options="'yes' => 'YES',
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.8/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm mezzanine_patched_e-smith-base-4.15.8/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm
+--- e-smith-base-4.15.8/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm	2006-02-09 16:41:39.822264327 +1100
++++ mezzanine_patched_e-smith-base-4.15.8/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm	2006-02-09 16:41:19.526795510 +1100
+@@ -1276,4 +1276,9 @@
+     return '';
+ }
+ 
++sub display_email_forwarding
++{
++    return defined $configdb->get('smtpd');
++}
++
+ 1;

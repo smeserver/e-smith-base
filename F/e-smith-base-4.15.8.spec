@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 46
+%define release 47
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -51,6 +51,7 @@ Patch38: e-smith-base-4.15.8-manageRAID.patch3
 Patch39: e-smith-base-4.15.8-manageRAID.patch4
 Patch40: e-smith-base-4.15.8-openRW.patch2
 Patch41: e-smith-base-4.15.8-shell.patch
+Patch42: e-smith-base-4.15.8-HideEmailForward.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -88,6 +89,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Thu Feb 9 2006 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-47
+- Hide email forwarding options on useraccounts page if there is 
+  no 'smtpd' record [SME: 704]
+
 * Wed Feb  8 2006 Charlie Brady <charlie_brady@mitel.com> 4.15.8-46
 - Fix conversion of user shell from sshell to rssh. [SME: 699]
 
@@ -4972,6 +4977,7 @@ e-smith server and gateway software - base module.
 %patch39 -p1
 %patch40 -p1
 %patch41 -p1
+%patch42 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
