@@ -91,7 +91,7 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
-* Tue Feb 07 2006 Charlie Brady <charlie_brady@mitel.com> 4.15.8-49
+* Tue Feb 9 2006 Charlie Brady <charlie_brady@mitel.com> 4.15.8-49
 - Make bootp support optional, defaulting to 'deny'. [SME: 660]
 
 * Thu Feb 9 2006 Gavin Weight <gweight@gmail.com> 4.15.8-48
