@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 50
+%define release 51
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -55,6 +55,7 @@ Patch42: e-smith-base-4.15.8-HideEmailForward.patch
 Patch43: e-smith-base-4.15.8-onlinemanualremove.patch
 Patch44: e-smith-base-4.15.8-OptionalBootp.patch
 Patch45: e-smith-base-4.15.8-kudzu.patch
+Patch46: e-smith-base-4.15.8-no_keytable.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -92,6 +93,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sun Feb 12 2006 Charlie Brady <charlie_brady@mitel.com> 4.15.8-51
+- Obsolete keytable service. [SME: 746]
+
 * Sat Feb 11 2006 Shad L. Lords <slords@mail.com> 4.15.8-50
 - Run kudzu -q from inittab [SME: 727]
 
@@ -4993,6 +4997,7 @@ e-smith server and gateway software - base module.
 %patch43 -p1
 %patch44 -p1
 %patch45 -p1
+%patch46 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

@@ -1,0 +1,20 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.8/root/etc/e-smith/db/configuration/defaults/keytable/status mezzanine_patched_e-smith-base-4.15.8/root/etc/e-smith/db/configuration/defaults/keytable/status
+--- e-smith-base-4.15.8/root/etc/e-smith/db/configuration/defaults/keytable/status	2005-11-20 23:28:04.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.15.8/root/etc/e-smith/db/configuration/defaults/keytable/status	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-enabled
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.8/root/etc/e-smith/db/configuration/defaults/keytable/type mezzanine_patched_e-smith-base-4.15.8/root/etc/e-smith/db/configuration/defaults/keytable/type
+--- e-smith-base-4.15.8/root/etc/e-smith/db/configuration/defaults/keytable/type	2005-11-20 23:28:04.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.15.8/root/etc/e-smith/db/configuration/defaults/keytable/type	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-service
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.8/root/etc/e-smith/db/configuration/migrate/10keytable mezzanine_patched_e-smith-base-4.15.8/root/etc/e-smith/db/configuration/migrate/10keytable
+--- e-smith-base-4.15.8/root/etc/e-smith/db/configuration/migrate/10keytable	1969-12-31 19:00:00.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.15.8/root/etc/e-smith/db/configuration/migrate/10keytable	2006-02-12 18:40:52.000000000 -0500
+@@ -0,0 +1,6 @@
++{
++    unlink "/etc/rc.d/rc7.d/S75keytable";
++    my $keytable = $DB->get('keytable');
++    return unless $keytable;
++    $keytable->delete;
++}
