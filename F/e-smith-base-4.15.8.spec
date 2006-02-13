@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 52
+%define release 53
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -57,6 +57,7 @@ Patch44: e-smith-base-4.15.8-OptionalBootp.patch
 Patch45: e-smith-base-4.15.8-kudzu.patch
 Patch46: e-smith-base-4.15.8-no_keytable.patch
 Patch47: e-smith-base-4.15.8-early.patch
+Patch48:  e-smith-base-4.15.8-Removecpuspeed.contrib.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -94,6 +95,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Feb 13 2006 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-53
+- Remove cpuspeed.contrib ClearCase droppings [SME: 754]
+
 * Sun Feb 12 2006 Charlie Brady <charlie_brady@mitel.com> 4.15.8-52
 - Start bootstrap-console earlier - in particular before raidmonitor.
   Don't try to restart 'random'. [SME: 743]
@@ -5004,6 +5008,7 @@ e-smith server and gateway software - base module.
 %patch45 -p1
 %patch46 -p1
 %patch47 -p1
+%patch48 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
