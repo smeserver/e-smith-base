@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 51
+%define release 52
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -56,6 +56,7 @@ Patch43: e-smith-base-4.15.8-onlinemanualremove.patch
 Patch44: e-smith-base-4.15.8-OptionalBootp.patch
 Patch45: e-smith-base-4.15.8-kudzu.patch
 Patch46: e-smith-base-4.15.8-no_keytable.patch
+Patch47: e-smith-base-4.15.8-early.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -93,6 +94,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sun Feb 12 2006 Charlie Brady <charlie_brady@mitel.com> 4.15.8-52
+- Start bootstrap-console earlier - in particular before raidmonitor.
+  Don't try to restart 'random'. [SME: 743]
+
 * Sun Feb 12 2006 Charlie Brady <charlie_brady@mitel.com> 4.15.8-51
 - Obsolete keytable service. [SME: 746]
 
@@ -4998,6 +5003,7 @@ e-smith server and gateway software - base module.
 %patch44 -p1
 %patch45 -p1
 %patch46 -p1
+%patch47 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
