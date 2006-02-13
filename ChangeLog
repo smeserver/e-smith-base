@@ -467,3 +467,7 @@ Mon Feb 13 15:49:53 2006                       Gordon Rowell (gordonr)
 
 Remove ClearCase droppings
 ----------------------------------------------------------------------
+Mon Feb 13 16:47:21 2006                            Mark Knox (knoxma)
+
+Set EthernetDriver2 value when enabling NICBonding (SME 776)
+----------------------------------------------------------------------

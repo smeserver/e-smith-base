@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 53
+%define release 54
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -58,6 +58,7 @@ Patch45: e-smith-base-4.15.8-kudzu.patch
 Patch46: e-smith-base-4.15.8-no_keytable.patch
 Patch47: e-smith-base-4.15.8-early.patch
 Patch48:  e-smith-base-4.15.8-Removecpuspeed.contrib.patch
+Patch49: e-smith-base-4.15.8-nicbonding2.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -95,6 +96,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Feb 13 2006 Mark Knox <mark_knox@mitel.com> 4.15.8-54
+- Set EthernetDriver2 property when bonding is enabled [SME: 776]
+
 * Mon Feb 13 2006 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-53
 - Remove cpuspeed.contrib ClearCase droppings [SME: 754]
 
@@ -5009,6 +5013,7 @@ e-smith server and gateway software - base module.
 %patch46 -p1
 %patch47 -p1
 %patch48 -p1
+%patch49 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

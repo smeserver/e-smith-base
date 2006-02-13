@@ -1,0 +1,15 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.8/root/sbin/e-smith/console mezzanine_patched_e-smith-base-4.15.8/root/sbin/e-smith/console
+--- e-smith-base-4.15.8/root/sbin/e-smith/console	2006-02-13 16:16:02.833520000 -0500
++++ mezzanine_patched_e-smith-base-4.15.8/root/sbin/e-smith/console	2006-02-13 16:11:08.962955000 -0500
+@@ -2000,6 +2000,11 @@
+                 db_set_prop(\%conf, 'InternalInterface', 'NICBonding', 
+                     ($choice eq gettext('enabled')) ? 'enabled' : 'disabled');
+             }
++
++            db_set(\%conf, "EthernetDriver2", 
++                (db_get_prop(\%conf, 'InternalInterface', 'NICBonding', 
++                    'enabled'))
++                ? db_get(\%conf, "EthernetDriver1") : 'unknown');
+         }
+     }
+     
