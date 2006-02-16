@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 54
+%define release 55
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -57,13 +57,14 @@ Patch44: e-smith-base-4.15.8-OptionalBootp.patch
 Patch45: e-smith-base-4.15.8-kudzu.patch
 Patch46: e-smith-base-4.15.8-no_keytable.patch
 Patch47: e-smith-base-4.15.8-early.patch
-Patch48:  e-smith-base-4.15.8-Removecpuspeed.contrib.patch
+Patch48: e-smith-base-4.15.8-Removecpuspeed.contrib.patch
 Patch49: e-smith-base-4.15.8-nicbonding2.patch
+PAtch50: e-smith-base-4.15.8-TitleBar.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
-Requires: e-smith-lib >= 1.15.1-19
+Requires: e-smith-lib >= 1.15.3-42
 Requires: server-manager-images, server-manager
 Requires: e-smith-formmagick >= 0.2.0
 Requires: initscripts >= 6.67-1es17
@@ -96,6 +97,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Thu Feb 16 2006 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-55
+- Adjust console title bar to 'SME Server' [SME: 726]
+- Change title on "Choose administrator password" screens
+
 * Mon Feb 13 2006 Mark Knox <mark_knox@mitel.com> 4.15.8-54
 - Set EthernetDriver2 property when bonding is enabled [SME: 776]
 
@@ -5014,6 +5019,7 @@ e-smith server and gateway software - base module.
 %patch47 -p1
 %patch48 -p1
 %patch49 -p1
+%patch50 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

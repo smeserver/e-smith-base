@@ -1,0 +1,60 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.8/root/sbin/e-smith/console mezzanine_patched_e-smith-base-4.15.8/root/sbin/e-smith/console
+--- e-smith-base-4.15.8/root/sbin/e-smith/console	2006-02-16 15:13:24.667158001 +1100
++++ mezzanine_patched_e-smith-base-4.15.8/root/sbin/e-smith/console	2006-02-16 15:13:20.765836787 +1100
+@@ -1,7 +1,7 @@
+ #!/usr/bin/perl -wT
+ 
+ #----------------------------------------------------------------------
+-# copyright (C) 1999-2005 Mitel Networks Corporation
++# copyright (C) 1999-2006 Mitel Corporation
+ #
+ # This program is free software; you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+@@ -16,9 +16,6 @@
+ # You should have received a copy of the GNU General Public License
+ # along with this program; if not, write to the Free Software
+ # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+-#
+-# Technical support for this program is available from Mitel Networks
+-# Please visit our web site www.mitel.com/sme/ for details.
+ #----------------------------------------------------------------------
+ package esmith::console;
+ 
+@@ -91,9 +88,6 @@
+ sub isValidIP($);
+ sub rebootShutdown();
+ 
+-my $release = esmith::util::determineRelease();
+-my $release_string = "Mitel Networks server ${release}";
+-
+ BEGIN
+ {
+     # disable CTRL-C
+@@ -238,7 +232,7 @@
+ 
+     ($rc, $choice1) = $console->password_page
+         (
+-         title => $release_string,
++         title => gettext("Choose administrator password"),
+          text  =>
+          gettext("Welcome to the server console!") .
+          "\n\n" .
+@@ -274,7 +268,7 @@
+ 
+     ($rc, $choice2) = $console->password_page
+         (
+-         title   => $release_string,
++         title   => gettext("Choose administrator password"),
+          text    => gettext("Please type your administrator password again to verify."),
+         );
+ 
+@@ -2425,8 +2419,7 @@
+ 
+     system(
+            "/usr/bin/whiptail",
+-           "--backtitle",
+-	   "$release_string Copyright 1999-2005 Mitel Networks Corporation",
++           "--backtitle", $console->backtitle,
+            "--title", gettext("Activating configuration settings"),
+            "--infobox", gettext("Please stand by while your configuration settings are activated ..."),
+            8, SCREEN_COLUMNS,
