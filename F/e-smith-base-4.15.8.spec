@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 55
+%define release 56
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -59,7 +59,8 @@ Patch46: e-smith-base-4.15.8-no_keytable.patch
 Patch47: e-smith-base-4.15.8-early.patch
 Patch48: e-smith-base-4.15.8-Removecpuspeed.contrib.patch
 Patch49: e-smith-base-4.15.8-nicbonding2.patch
-PAtch50: e-smith-base-4.15.8-TitleBar.patch
+Patch50: e-smith-base-4.15.8-TitleBar.patch
+Patch51: e-smith-base-4.15.8-HideEmailForward.patch2
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -97,6 +98,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Thu Feb 16 2006 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-56
+- Default EmailForward to 'local' in case that part of the panel
+  is hidden from view [SME: 704]
+
 * Thu Feb 16 2006 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-55
 - Adjust console title bar to 'SME Server' [SME: 726]
 - Change title on "Choose administrator password" screens
@@ -5020,6 +5025,7 @@ e-smith server and gateway software - base module.
 %patch48 -p1
 %patch49 -p1
 %patch50 -p1
+%patch51 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
