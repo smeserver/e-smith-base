@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 59
+%define release 60
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -64,6 +64,7 @@ Patch51: e-smith-base-4.15.8-HideEmailForward.patch2
 Patch52: e-smith-base-4.15.8-reconfigureoptioninconsole.patch
 Patch53: e-smith-base-4.15.8-RotateUpgradeLogs.patch
 Patch54: e-smith-base-4.15.8-reconfigureoptioninconsole.patch2
+Patch55: e-smith-base-4.15.8-RotateAnacondaLogs.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -101,6 +102,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri Feb 17 2006 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-60
+- Also rotate /var/log/anaconda.{log,syslog} in post-upgrade [SME: 808]
+
 * Fri Feb 17 2006 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-59
 - Change 'Reconfigure' to lower case in -57 change [SME: 2]
 
@@ -5044,6 +5048,7 @@ e-smith server and gateway software - base module.
 %patch52 -p1
 %patch53 -p1
 %patch54 -p1
+%patch55 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
