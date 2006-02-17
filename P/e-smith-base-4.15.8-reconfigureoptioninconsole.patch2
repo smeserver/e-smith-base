@@ -1,0 +1,12 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.8/root/sbin/e-smith/console mezzanine_patched_e-smith-base-4.15.8/root/sbin/e-smith/console
+--- e-smith-base-4.15.8/root/sbin/e-smith/console	2006-02-17 13:08:13.380408374 +1100
++++ mezzanine_patched_e-smith-base-4.15.8/root/sbin/e-smith/console	2006-02-17 13:07:48.268777516 +1100
+@@ -2826,7 +2826,7 @@
+ 
+     ($rc, $choice) = $console->menu_page
+         (
+-         title => gettext("Reboot, Reconfigure or shutdown this server"),
++         title => gettext("Reboot, reconfigure or shutdown this server"),
+          text  =>
+          gettext("Please select whether you wish to reboot, reconfigure or shutdown. The process will start as soon as you make your selection.") .
+          "\n\n" .
