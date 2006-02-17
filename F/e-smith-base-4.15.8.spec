@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.8
-%define release 57
+%define release 58
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -62,6 +62,7 @@ Patch49: e-smith-base-4.15.8-nicbonding2.patch
 Patch50: e-smith-base-4.15.8-TitleBar.patch
 Patch51: e-smith-base-4.15.8-HideEmailForward.patch2
 Patch52: e-smith-base-4.15.8-reconfigureoptioninconsole.patch
+Patch53: e-smith-base-4.15.8-RotateUpgradeLogs.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -99,6 +100,11 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri Feb 17 2006 Gordon Rowell <gordonr@gormand.com.au> 4.15.8-58
+- Add /root/upgrade.log and /root/upgrade.log.syslog to 
+  logfiles2timestamp in post-upgrade event so we preserve 
+  them across multiple upgrades [SME: 808]
+
 * Fri Feb 17 2006 Gavin Weight <gweight@gmail.com> 4.15.8-57
 - Added Reconfigure and Reboot option in console, changed
   main console menu to reflect Reconfigure option [SME: 2]
@@ -5032,6 +5038,7 @@ e-smith server and gateway software - base module.
 %patch50 -p1
 %patch51 -p1
 %patch52 -p1
+%patch53 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

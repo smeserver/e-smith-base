@@ -1,0 +1,18 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.8/createlinks mezzanine_patched_e-smith-base-4.15.8/createlinks
+--- e-smith-base-4.15.8/createlinks	2006-02-17 13:03:38.400251832 +1100
++++ mezzanine_patched_e-smith-base-4.15.8/createlinks	2006-02-17 13:03:15.031317764 +1100
+@@ -315,6 +315,14 @@
+     safe_touch "root/etc/e-smith/events/post-upgrade/logfiles2timestamp/$_";
+ }
+ 
++foreach (qw(
++    /root/upgrade.log
++    /root/upgrade.log.syslog
++	))
++{
++    safe_touch "root/etc/e-smith/events/post-upgrade/logfiles2timestamp/$_";
++}
++
+ #--------------------------------------------------
+ # functions for manager panel
+ #--------------------------------------------------
