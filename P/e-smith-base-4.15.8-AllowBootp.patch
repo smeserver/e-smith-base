@@ -1,5 +1,0 @@
-diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.8/root/etc/e-smith/templates/etc/dhcpd.conf/25DenyBootp mezzanine_patched_e-smith-base-4.15.8/root/etc/e-smith/templates/etc/dhcpd.conf/25DenyBootp
---- e-smith-base-4.15.8/root/etc/e-smith/templates/etc/dhcpd.conf/25DenyBootp	2005-11-21 15:28:06.000000000 +1100
-+++ mezzanine_patched_e-smith-base-4.15.8/root/etc/e-smith/templates/etc/dhcpd.conf/25DenyBootp	1970-01-01 10:00:00.000000000 +1000
-@@ -1 +0,0 @@
--    deny bootp;

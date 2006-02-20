@@ -1,9 +1,0 @@
-diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.8/root/etc/e-smith/templates/etc/e-smith/web/common/foot.tmpl/25Copyright mezzanine_patched_e-smith-base-4.15.8/root/etc/e-smith/templates/etc/e-smith/web/common/foot.tmpl/25Copyright
---- e-smith-base-4.15.8/root/etc/e-smith/templates/etc/e-smith/web/common/foot.tmpl/25Copyright	2005-11-21 15:28:06.000000000 +1100
-+++ mezzanine_patched_e-smith-base-4.15.8/root/etc/e-smith/templates/etc/e-smith/web/common/foot.tmpl/25Copyright	2006-02-01 05:15:45.897617694 +1100
-@@ -1,4 +1,4 @@
--    $OUT .= "Copyright 1999-2005 Mitel Corporation<BR>";
-+    $OUT .= "Copyright 1999-2006 Mitel Corporation<BR>";
- 
-     use Locale::gettext;
-     use esmith::I18N;
