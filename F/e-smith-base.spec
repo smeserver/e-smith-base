@@ -2,13 +2,14 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.9
-%define release 02
+%define release 03
 Version: %{version}
 Release: %{release}
 License: GPL
 Vendor: Mitel Networks Corporation
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
+Patch0: e-smith-base-4.15.9-ReconfigureMenuItem.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -47,6 +48,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Feb 21 2006 Gordon Rowell <gordonr@gormand.com.au> 4.15.9-03
+- Change 'Reconfigure' to lower case in menu [SME: 2]
+
 * Mon Feb 20 2006 Gordon Rowell <gordonr@gormand.com.au> 4.15.9-02
 - Add requires for mdadm. We use it in the console and raid monitor
   and it won't get installed for 5.x upgrades [SME: 767]
@@ -594,6 +598,7 @@ e-smith server and gateway software - base module.
 
 %prep
 %setup
+%patch0 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
