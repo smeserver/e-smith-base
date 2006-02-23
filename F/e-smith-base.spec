@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.9
-%define release 03
+%define release 04
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -48,6 +48,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Wed Feb 22 2006 Charlie Brady <charlieb@e-smith.com> 4.15.9-04
+- Remove default fragment for AdminEmail [SME: 863]
+
 * Mon Feb 21 2006 Gordon Rowell <gordonr@gormand.com.au> 4.15.9-03
 - Change 'Reconfigure' to lower case in menu [SME: 2]
 
@@ -599,6 +602,7 @@ e-smith server and gateway software - base module.
 %prep
 %setup
 %patch0 -p1
+rm -r root/etc/e-smith/db/configuration/defaults/AdminEmail
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
