@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.9
-%define release 04
+%define release 05
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -10,6 +10,7 @@ Vendor: Mitel Networks Corporation
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-base-4.15.9-ReconfigureMenuItem.patch
+Patch1: e-smith-base-4.15.9-dhclient_conf.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -48,6 +49,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Thu Feb 23 2006 Charlie Brady <charlieb@e-smith.com> 4.15.9-05
+- Add templates for dhclient configuration file. [SME: 881]
+
 * Wed Feb 22 2006 Charlie Brady <charlieb@e-smith.com> 4.15.9-04
 - Remove default fragment for AdminEmail [SME: 863]
 
@@ -603,6 +607,7 @@ e-smith server and gateway software - base module.
 %setup
 %patch0 -p1
 rm -r root/etc/e-smith/db/configuration/defaults/AdminEmail
+%patch1 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
