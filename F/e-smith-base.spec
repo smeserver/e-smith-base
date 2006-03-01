@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.9
-%define release 06
+%define release 07
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -12,6 +12,7 @@ Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-base-4.15.9-ReconfigureMenuItem.patch
 Patch1: e-smith-base-4.15.9-dhclient_conf.patch
 Patch2: e-smith-base-4.15.9-RemoveAdminEmail.patch
+Patch3: e-smith-base-4.15.9-pppoe_mlimit.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -50,6 +51,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Wed Mar 01 2006 Charlie Brady <charlie_brady@mitel.com> 4.15.9-07
+- Bump pppoe run script mlimit from 10M to 25M. [SME: 907]
+
 * Fri Feb 24 2006 Gordon Rowell <gordonr@gormand.com.au> 4.15.9-06
 - Re-do -04 change as a patch so it sticks [SME: 863]
 
@@ -613,6 +617,7 @@ e-smith server and gateway software - base module.
 rm -r root/etc/e-smith/db/configuration/defaults/AdminEmail
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

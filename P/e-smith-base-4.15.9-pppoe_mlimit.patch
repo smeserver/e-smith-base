@@ -1,0 +1,10 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.9/root/etc/e-smith/templates/var/service/pppoe/run.pppoe.conf/mlimit mezzanine_patched_e-smith-base-4.15.9/root/etc/e-smith/templates/var/service/pppoe/run.pppoe.conf/mlimit
+--- e-smith-base-4.15.9/root/etc/e-smith/templates/var/service/pppoe/run.pppoe.conf/mlimit	2005-11-20 23:28:09.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.15.9/root/etc/e-smith/templates/var/service/pppoe/run.pppoe.conf/mlimit	2006-03-01 11:50:02.000000000 -0500
+@@ -1,2 +1,5 @@
++{
+ # memory limit to catch any memory leak before it kills the system
+-PPPD_MLIMIT=10000000
++    my $mlimit = $pppoe{Mlimit} || '25000000';
++    $OUT = "PPPD_MLIMIT=$mlimit";
++}
