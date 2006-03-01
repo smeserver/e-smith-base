@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.9
-%define release 07
+%define release 08
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -13,6 +13,7 @@ Patch0: e-smith-base-4.15.9-ReconfigureMenuItem.patch
 Patch1: e-smith-base-4.15.9-dhclient_conf.patch
 Patch2: e-smith-base-4.15.9-RemoveAdminEmail.patch
 Patch3: e-smith-base-4.15.9-pppoe_mlimit.patch
+Patch4: e-smith-base-4.15.9-nicbonding.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -51,6 +52,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Wed Mar 01 2006 Mark Knox <mark_knox@mitel.com> 4.15.9-08
+- Allow NICBondingOptions in 10bonding template fragment [SME: 918]
+
 * Wed Mar 01 2006 Charlie Brady <charlie_brady@mitel.com> 4.15.9-07
 - Bump pppoe run script mlimit from 10M to 25M. [SME: 907]
 
@@ -618,6 +622,7 @@ rm -r root/etc/e-smith/db/configuration/defaults/AdminEmail
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

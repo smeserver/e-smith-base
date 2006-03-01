@@ -527,3 +527,8 @@ Wed Mar  1 12:10:16 2006                        Charlie Brady (bradyc)
 
 See changelog
 ----------------------------------------------------------------------
+Wed Mar  1 16:05:13 2006                            Mark Knox (knoxma)
+
+Added InternalInterface{NICBondingOptions} property with defaults fragment.
+Modified 10bonding template to include these options in modprobe.conf. SME 918.
+----------------------------------------------------------------------

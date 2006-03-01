@@ -1,0 +1,26 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.9/root/etc/e-smith/db/configuration/defaults/InternalInterface/NICBondingOptions mezzanine_patched_e-smith-base-4.15.9/root/etc/e-smith/db/configuration/defaults/InternalInterface/NICBondingOptions
+--- e-smith-base-4.15.9/root/etc/e-smith/db/configuration/defaults/InternalInterface/NICBondingOptions	1969-12-31 19:00:00.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.15.9/root/etc/e-smith/db/configuration/defaults/InternalInterface/NICBondingOptions	2006-03-01 15:57:49.230873000 -0500
+@@ -0,0 +1 @@
++miimon=200
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.9/root/etc/e-smith/templates/etc/modprobe.conf/10bonding mezzanine_patched_e-smith-base-4.15.9/root/etc/e-smith/templates/etc/modprobe.conf/10bonding
+--- e-smith-base-4.15.9/root/etc/e-smith/templates/etc/modprobe.conf/10bonding	2005-11-20 23:28:07.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.15.9/root/etc/e-smith/templates/etc/modprobe.conf/10bonding	2006-03-01 15:47:37.791768000 -0500
+@@ -1,8 +1,8 @@
+ {
++    my $options = ${InternalInterface}{NICBondingOptions} || '';
+     foreach my $line
+ 	(
+ 	    "alias bond0 bonding",
+-	    "options bond0 miimon=200",
+ 	)
+     {
+ 	unless (exists $lines{$line})
+@@ -10,5 +10,7 @@
+ 	    push @lines, $line;
+ 	}
+     }
++    @lines = grep !/^options bond0/, @lines;
++    push @lines, "options bond0 $options" if($options);
+     "";
+ }
