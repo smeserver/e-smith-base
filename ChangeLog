@@ -532,3 +532,7 @@ Wed Mar  1 16:05:13 2006                            Mark Knox (knoxma)
 Added InternalInterface{NICBondingOptions} property with defaults fragment.
 Modified 10bonding template to include these options in modprobe.conf. SME 918.
 ----------------------------------------------------------------------
+Fri Mar  3 13:47:42 2006                            Mark Knox (knoxma)
+
+See rpm changelog and bugzilla 935
+----------------------------------------------------------------------

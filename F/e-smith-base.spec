@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.9
-%define release 08
+%define release 09
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -14,6 +14,7 @@ Patch1: e-smith-base-4.15.9-dhclient_conf.patch
 Patch2: e-smith-base-4.15.9-RemoveAdminEmail.patch
 Patch3: e-smith-base-4.15.9-pppoe_mlimit.patch
 Patch4: e-smith-base-4.15.9-nicbonding.patch
+Patch5: e-smith-base-4.15.9-nicbondingoptions.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -52,6 +53,13 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri Mar 03 2006 Mark Knox <mark_knox@mitel.com> 4.15.9-09
+- Added NIC Bonding options screen in console [SME: 935]
+- Migrate old NICBondingOptions to new defaults, and added new default
+  options [SME: 935]
+- rmmod bonding.ko in bootstrap-console-save so new options work
+  without extra reboot [SME: 935]
+  
 * Wed Mar 01 2006 Mark Knox <mark_knox@mitel.com> 4.15.9-08
 - Allow NICBondingOptions in 10bonding template fragment [SME: 918]
 
@@ -623,6 +631,7 @@ rm -r root/etc/e-smith/db/configuration/defaults/AdminEmail
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

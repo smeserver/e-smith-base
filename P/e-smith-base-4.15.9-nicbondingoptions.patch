@@ -1,0 +1,73 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.9/createlinks mezzanine_patched_e-smith-base-4.15.9/createlinks
+--- e-smith-base-4.15.9/createlinks	2006-03-03 13:30:15.596748000 -0500
++++ mezzanine_patched_e-smith-base-4.15.9/createlinks	2006-03-03 13:28:37.714798000 -0500
+@@ -366,6 +366,7 @@
+ 
+ 
+ templates2events("/home/e-smith/ssl.pem/pem", $event);
++event_link("rmmod-bonding", $event, "10");
+ event_link("set-hostname", $event, "10");
+ event_link("conf-modules", $event, "30");
+ event_link("conf-startup", $event, "60");
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.9/root/etc/e-smith/db/configuration/defaults/InternalInterface/NICBondingOptions mezzanine_patched_e-smith-base-4.15.9/root/etc/e-smith/db/configuration/defaults/InternalInterface/NICBondingOptions
+--- e-smith-base-4.15.9/root/etc/e-smith/db/configuration/defaults/InternalInterface/NICBondingOptions	2006-03-03 13:30:16.536768000 -0500
++++ mezzanine_patched_e-smith-base-4.15.9/root/etc/e-smith/db/configuration/defaults/InternalInterface/NICBondingOptions	2006-03-03 12:31:31.153984000 -0500
+@@ -1 +1 @@
+-miimon=200
++miimon=200 mode=active-backup
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.9/root/etc/e-smith/db/configuration/migrate/25NICBondingOptions mezzanine_patched_e-smith-base-4.15.9/root/etc/e-smith/db/configuration/migrate/25NICBondingOptions
+--- e-smith-base-4.15.9/root/etc/e-smith/db/configuration/migrate/25NICBondingOptions	1969-12-31 19:00:00.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.15.9/root/etc/e-smith/db/configuration/migrate/25NICBondingOptions	2006-03-03 12:56:41.044225000 -0500
+@@ -0,0 +1,8 @@
++{
++    # Migrate old servers to new defaults if not customized
++    if($InternalInterface{NICBondingOptions} eq "miimon=200")
++    {
++        $DB->get('InternalInterface')->set_prop('NICBondingOptions',
++            'miimon=200 mode=active-backup');
++    }
++}
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.9/root/etc/e-smith/events/actions/rmmod-bonding mezzanine_patched_e-smith-base-4.15.9/root/etc/e-smith/events/actions/rmmod-bonding
+--- e-smith-base-4.15.9/root/etc/e-smith/events/actions/rmmod-bonding	1969-12-31 19:00:00.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.15.9/root/etc/e-smith/events/actions/rmmod-bonding	2006-03-03 13:27:04.032918000 -0500
+@@ -0,0 +1,12 @@
++#!/bin/sh
++
++# This is an ugly hack that removes the bonding module during
++# bootstrap-console-save. We do this because we can potentially 
++# change modprobe.conf in the event, but bonding.ko is already
++# loaded by the time we do. This means the changes don't take
++# effect unless you reboot (ugh). Removing the module before
++# networking is started causes the module to be reloaded using
++# the new module params.
++
++/sbin/rmmod bonding
++
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.9/root/sbin/e-smith/console mezzanine_patched_e-smith-base-4.15.9/root/sbin/e-smith/console
+--- e-smith-base-4.15.9/root/sbin/e-smith/console	2006-02-16 22:41:51.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.15.9/root/sbin/e-smith/console	2006-03-03 12:47:47.923203000 -0500
+@@ -2000,6 +2000,24 @@
+                     'enabled'))
+                 ? db_get(\%conf, "EthernetDriver1") : 'unknown');
+         }
++
++        # SME 935 - edit NIC bonding option string
++        if(db_get_prop(\%conf, 'InternalInterface', 'NICBonding') eq 'enabled')
++        {
++            my $msg = gettext("The NIC bonding driver allows various modes and performance options. Edit the option string below if the defaults are not suitable.\n\nMost users do not need to change this setting.\n");
++            my $bond_opts = db_get_prop(\%conf, "InternalInterface", "NICBondingOptions") || '';
++            ($rc, $choice) = $console->input_page
++                (
++                 title   => gettext("NIC Bonding Options"),
++                 text    => $msg,
++                 value   => $bond_opts
++                );
++
++            goto SERVER_ONLY unless ($rc == 0);
++
++            db_set_prop(\%conf, 'InternalInterface', 'NICBondingOptions', 
++                $choice);
++        }
+     }
+     
+     goto OTHER_PARAMETERS unless ($conf{'AccessType'} eq 'dedicated');
