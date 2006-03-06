@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.9
-%define release 09
+%define release 10
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -15,6 +15,7 @@ Patch2: e-smith-base-4.15.9-RemoveAdminEmail.patch
 Patch3: e-smith-base-4.15.9-pppoe_mlimit.patch
 Patch4: e-smith-base-4.15.9-nicbonding.patch
 Patch5: e-smith-base-4.15.9-nicbondingoptions.patch
+Patch6: e-smith-base-4.15.9-dhclient_conf.patch2
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -53,6 +54,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sun Mar  5 2006 Charlie Brady <charlie_brady@mitel.com> 4.15.9-10
+- Fixes to dhclient configuration. [SME: 881]
+
 * Fri Mar 03 2006 Mark Knox <mark_knox@mitel.com> 4.15.9-09
 - Added NIC Bonding options screen in console [SME: 935]
 - Migrate old NICBondingOptions to new defaults, and added new default
@@ -632,6 +636,7 @@ rm -r root/etc/e-smith/db/configuration/defaults/AdminEmail
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
