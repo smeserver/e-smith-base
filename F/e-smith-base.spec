@@ -60,7 +60,7 @@ e-smith server and gateway software - base module.
 
 %changelog
 * Tue Mar  7 2006 Gordon Rowell <gordonr@gormand.com.au> 4.15.9-15
-- Correct typo in -13 change which hid message [SME: 954]
+- Correct typo in -13 change which hid message [SME: 964]
 
 * Tue Mar  7 2006 Gordon Rowell <gordonr@gormand.com.au> 4.15.9-14
 - Display a message for single disk installs which catches that
@@ -69,8 +69,8 @@ e-smith server and gateway software - base module.
 
 * Tue Mar  7 2006 Gordon Rowell <gordonr@gormand.com.au> 4.15.9-13
 - Display a nicer message when a spare disk is available to be
-  added to the pair [SME: 954]
-- Blank line for consistency with other messages [SME: 954]
+  added to the pair [SME: 964]
+- Blank line for consistency with other messages [SME: 964]
 
 * Tue Mar  7 2006 Gordon Rowell <gordonr@gormand.com.au> 4.15.9-12
 - Check whether a resync is in progress so we don't state that
