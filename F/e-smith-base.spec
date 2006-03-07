@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.9
-%define release 10
+%define release 11
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -16,6 +16,7 @@ Patch3: e-smith-base-4.15.9-pppoe_mlimit.patch
 Patch4: e-smith-base-4.15.9-nicbonding.patch
 Patch5: e-smith-base-4.15.9-nicbondingoptions.patch
 Patch6: e-smith-base-4.15.9-dhclient_conf.patch2
+Patch7: e-smith-base-4.15.9-add_mirror.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -54,6 +55,11 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Mar  7 2006 Gordon Rowell <gordonr@gormand.com.au> 4.15.9-11
+- Check whether destination drive of add_mirror is already part
+  of a RAID device. If so, complain and exit [SME: 870]
+- Also ensure that /sbin is in the PATH
+
 * Sun Mar  5 2006 Charlie Brady <charlie_brady@mitel.com> 4.15.9-10
 - Fixes to dhclient configuration. [SME: 881]
 
@@ -637,6 +643,7 @@ rm -r root/etc/e-smith/db/configuration/defaults/AdminEmail
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
