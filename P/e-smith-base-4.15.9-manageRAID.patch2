@@ -1,0 +1,24 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.9/root/sbin/e-smith/console-menu-items/manageRAID.pl mezzanine_patched_e-smith-base-4.15.9/root/sbin/e-smith/console-menu-items/manageRAID.pl
+--- e-smith-base-4.15.9/root/sbin/e-smith/console-menu-items/manageRAID.pl	2006-03-07 18:01:15.627349798 +1100
++++ mezzanine_patched_e-smith-base-4.15.9/root/sbin/e-smith/console-menu-items/manageRAID.pl	2006-03-07 18:00:53.896082610 +1100
+@@ -111,7 +111,8 @@
+ 
+     unless (scalar @unclean == scalar keys %devices)
+     {
+-        $text .= gettext("Only some of the RAID devices are unclean.") . " " .
++        $text .= gettext("Only some of the RAID devices are unclean.") . 
++		"\n\n" .
+                 gettext("Manual intervention may be required.") . "\n\n";
+ 
+         my ($rc, $choice) = $console->message_page(title => $title, text => $text);
+@@ -149,9 +150,8 @@
+ 
+     $text = $disk_status . 
+         "\n\n" . 
+-        gettext("Do you wish to run the following command?") . 
++        gettext("There is an unused disk drive in your system. Do you want to add it to the existing drive to make a RAID pair?") . 
+         "\n\n" .
+-        "@cmd";
+ 
+     my ($rc, $choice) = $console->yesno_page(title => $title, text => $text);
+     return unless ($rc == 0);

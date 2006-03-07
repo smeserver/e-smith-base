@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.9
-%define release 12
+%define release 14
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -18,6 +18,8 @@ Patch5: e-smith-base-4.15.9-nicbondingoptions.patch
 Patch6: e-smith-base-4.15.9-dhclient_conf.patch2
 Patch7: e-smith-base-4.15.9-add_mirror.patch
 Patch8: e-smith-base-4.15.9-manageRAID.patch
+Patch9: e-smith-base-4.15.9-manageRAID.patch2
+Patch10: e-smith-base-4.15.9-manageRAID.patch3
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -56,6 +58,16 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Mar  7 2006 Gordon Rowell <gordonr@gormand.com.au> 4.15.9-14
+- Display a message for single disk installs which catches that
+  case and tells people that they can add a second disk and produce
+  a mirrored pair [SME: 958]
+
+* Tue Mar  7 2006 Gordon Rowell <gordonr@gormand.com.au> 4.15.9-13
+- Display a nicer message when a spare disk is available to be
+  added to the pair [SME: 954]
+- Blank line for consistency with other messages [SME: 954]
+
 * Tue Mar  7 2006 Gordon Rowell <gordonr@gormand.com.au> 4.15.9-12
 - Check whether a resync is in progress so we don't state that
   intervention is required when it is not [SME: 958]
@@ -650,6 +662,8 @@ rm -r root/etc/e-smith/db/configuration/defaults/AdminEmail
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
+%patch10 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
