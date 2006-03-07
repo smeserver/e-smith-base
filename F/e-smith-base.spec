@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.15.9
-%define release 14
+%define release 15
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -20,6 +20,7 @@ Patch7: e-smith-base-4.15.9-add_mirror.patch
 Patch8: e-smith-base-4.15.9-manageRAID.patch
 Patch9: e-smith-base-4.15.9-manageRAID.patch2
 Patch10: e-smith-base-4.15.9-manageRAID.patch3
+Patch11: e-smith-base-4.15.9-manageRAID.patch4
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -58,6 +59,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Mar  7 2006 Gordon Rowell <gordonr@gormand.com.au> 4.15.9-15
+- Correct typo in -13 change which hid message [SME: 954]
+
 * Tue Mar  7 2006 Gordon Rowell <gordonr@gormand.com.au> 4.15.9-14
 - Display a message for single disk installs which catches that
   case and tells people that they can add a second disk and produce
@@ -664,6 +668,7 @@ rm -r root/etc/e-smith/db/configuration/defaults/AdminEmail
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
+%patch11 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
