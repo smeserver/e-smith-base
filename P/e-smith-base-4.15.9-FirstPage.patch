@@ -1,0 +1,93 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.9/root/etc/e-smith/web/functions/index.cgi mezzanine_patched_e-smith-base-4.15.9/root/etc/e-smith/web/functions/index.cgi
+--- e-smith-base-4.15.9/root/etc/e-smith/web/functions/index.cgi	2005-11-20 23:28:10.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.15.9/root/etc/e-smith/web/functions/index.cgi	2006-03-10 17:36:54.000000000 -0500
+@@ -1,7 +1,7 @@
+ #!/usr/bin/perl -wT
+ 
+ #----------------------------------------------------------------------
+-# copyright (C) 1999-2003 Mitel Networks Corporation
++# copyright (C) 1999-2006 Mitel Networks Corporation
+ # 
+ # This program is free software; you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+@@ -17,8 +17,6 @@
+ # along with this program; if not, write to the Free Software
+ # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ # 
+-# Technical support for this program is available from Mitel Networks 
+-# Please visit our web site www.mitel.com/sme/ for details.
+ #----------------------------------------------------------------------
+ 
+ use strict;
+@@ -31,7 +29,7 @@
+ 
+ __DATA__
+ <form title="FORM_TITLE" header="/etc/e-smith/web/common/noframes_head.tmpl" footer="/etc/e-smith/web/common/noframes_foot.tmpl">
+-    <page name="FirstPage">
++    <page name="First">
+         <description>NOFRAMES_BODY</description>
+     </page>
+  
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.9/root/etc/e-smith/web/functions/initial.cgi mezzanine_patched_e-smith-base-4.15.9/root/etc/e-smith/web/functions/initial.cgi
+--- e-smith-base-4.15.9/root/etc/e-smith/web/functions/initial.cgi	2005-11-20 23:28:10.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.15.9/root/etc/e-smith/web/functions/initial.cgi	2006-03-10 17:36:36.000000000 -0500
+@@ -1,7 +1,7 @@
+ #!/usr/bin/perl -wT
+ 
+ #----------------------------------------------------------------------
+-# copyright (C) 1999-2003 Mitel Networks Corporation
++# copyright (C) 1999-2006 Mitel Networks Corporation
+ # 
+ # This program is free software; you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+@@ -17,8 +17,6 @@
+ # along with this program; if not, write to the Free Software
+ # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ # 
+-# Technical support for this program is available from Mitel Networks 
+-# Please visit our web site www.mitel.com/sme/ for details.
+ #----------------------------------------------------------------------
+ use strict;
+ use esmith::FormMagick;
+@@ -31,7 +29,7 @@
+ 
+ __DATA__
+ <form title="FORM_TITLE" header="/etc/e-smith/web/common/head.tmpl" footer="/etc/e-smith/web/common/foot.tmpl">
+-    <page name="FirstPage">
++    <page name="First">
+         <description>FRAMES_BODY</description>
+     </page>
+   
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.9/root/etc/e-smith/web/functions/localnetworks mezzanine_patched_e-smith-base-4.15.9/root/etc/e-smith/web/functions/localnetworks
+--- e-smith-base-4.15.9/root/etc/e-smith/web/functions/localnetworks	2005-11-20 23:28:10.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.15.9/root/etc/e-smith/web/functions/localnetworks	2006-03-10 17:34:50.000000000 -0500
+@@ -125,7 +125,7 @@
+ 
+ __DATA__
+ <form title="FORM_TITLE" header="/etc/e-smith/web/common/head.tmpl" footer="/etc/e-smith/web/common/foot.tmpl">
+-    <page name="FirstPage" pre-event="print_status_message()">
++    <page name="First" pre-event="print_status_message()">
+         <description>FIRSTPAGE_DESC</description>
+         <subroutine src="print_network_table()" />
+     </page>
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.9/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/localnetworks.pm mezzanine_patched_e-smith-base-4.15.9/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/localnetworks.pm
+--- e-smith-base-4.15.9/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/localnetworks.pm	2005-11-20 23:28:11.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.15.9/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/localnetworks.pm	2006-03-10 17:36:11.000000000 -0500
+@@ -310,7 +310,7 @@
+     my $networkMask    = $fm->{cgi}->param('networkMask');
+     my $networkRouter  = $fm->{cgi}->param('networkRouter');
+ 
+-    $fm->wherenext('FirstPage');
++    $fm->wherenext('First');
+ 
+     my $network_db = esmith::NetworksDB->open()
+       || esmith::NetworksDB->create();
+@@ -433,7 +433,7 @@
+     my $delete_hosts = $self->cgi->param('delete_hosts') || "";
+     my $network_db = esmith::NetworksDB->open();
+ 
+-    $self->wherenext('FirstPage');
++    $self->wherenext('First');
+ 
+     unless ( $self->{cgi}->param("cancel") )
+     {
