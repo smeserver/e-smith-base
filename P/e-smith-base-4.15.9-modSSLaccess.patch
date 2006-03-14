@@ -1,0 +1,11 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.9/root/etc/e-smith/db/configuration/migrate/10SetAccessDefaults mezzanine_patched_e-smith-base-4.15.9/root/etc/e-smith/db/configuration/migrate/10SetAccessDefaults
+--- e-smith-base-4.15.9/root/etc/e-smith/db/configuration/migrate/10SetAccessDefaults	2006-02-17 14:41:51.000000000 +1100
++++ mezzanine_patched_e-smith-base-4.15.9/root/etc/e-smith/db/configuration/migrate/10SetAccessDefaults	2006-03-13 17:44:41.807507276 +1100
+@@ -47,6 +47,7 @@
+ 		ftp			=> "private",
+ 		imap		=> "private",
+ 		imaps		=> "private",
++		modSSL		=> "public",
+ 		pop3s		=> "private",
+ 		popd		=> "private",
+ 		sshd		=> "private",
