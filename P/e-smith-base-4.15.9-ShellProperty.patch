@@ -1,0 +1,21 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.15.9/root/etc/e-smith/events/actions/user-modify-unix mezzanine_patched_e-smith-base-4.15.9/root/etc/e-smith/events/actions/user-modify-unix
+--- e-smith-base-4.15.9/root/etc/e-smith/events/actions/user-modify-unix	2006-02-17 14:41:51.000000000 +1100
++++ mezzanine_patched_e-smith-base-4.15.9/root/etc/e-smith/events/actions/user-modify-unix	2006-03-14 14:47:59.328535225 +1100
+@@ -30,7 +30,7 @@
+ #------------------------------------------------------------
+ 
+ 
+-my $a = esmith::AccountsDB->open_ro or die "Could not open accounts db";
++my $a = esmith::AccountsDB->open or die "Could not open accounts db";
+ 
+ my @users;
+ if ($event eq 'post-upgrade')
+@@ -57,6 +57,8 @@
+     my $new_shell = $u->prop('Shell')
+ 		|| (($shell eq "/bin/sshell") ? "/usr/bin/rssh" : $shell);
+ 
++    $u->set_prop('Shell', $new_shell);
++
+     #------------------------------------------------------------
+     # Modify user's shell, if required, in /etc/passwd using "usermod"
+     #------------------------------------------------------------
