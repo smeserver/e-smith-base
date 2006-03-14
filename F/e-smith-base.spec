@@ -1,32 +1,14 @@
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
-%define version 4.15.9
-%define release 20
+%define version 4.16.0
+%define release 01
 Version: %{version}
 Release: %{release}
 License: GPL
 Vendor: Mitel Networks Corporation
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
-Patch0: e-smith-base-4.15.9-ReconfigureMenuItem.patch
-Patch1: e-smith-base-4.15.9-dhclient_conf.patch
-Patch2: e-smith-base-4.15.9-RemoveAdminEmail.patch
-Patch3: e-smith-base-4.15.9-pppoe_mlimit.patch
-Patch4: e-smith-base-4.15.9-nicbonding.patch
-Patch5: e-smith-base-4.15.9-nicbondingoptions.patch
-Patch6: e-smith-base-4.15.9-dhclient_conf.patch2
-Patch7: e-smith-base-4.15.9-add_mirror.patch
-Patch8: e-smith-base-4.15.9-manageRAID.patch
-Patch9: e-smith-base-4.15.9-manageRAID.patch2
-Patch10: e-smith-base-4.15.9-manageRAID.patch3
-Patch11: e-smith-base-4.15.9-manageRAID.patch4
-Patch12: e-smith-base-4.15.9-FirstPage.patch
-Patch13: e-smith-base-4.15.9-FirstPage.patch2
-Patch14: e-smith-base-4.15.9-modSSLaccess.patch
-Patch15: e-smith-base-4.15.9-CopyAnacondaLogs.patch
-Patch16: e-smith-base-4.15.9-CopyAnacondaLogs.patch2
-Patch17: e-smith-base-4.15.9-ShellProperty.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -65,6 +47,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Mar 14 2006 Charlie Brady <charlie_brady@mitel.com> 4.16.0-01
+- Roll stable stream version. [SME: 1016]
+
 * Tue Mar 14 2006 Gordon Rowell <gordonr@gormand.com.au> 4.15.9-20
 - Ensure that each user has a Shell property in post-upgrade. 
   If they didn't have one before, set it to the current value in
@@ -680,25 +665,6 @@ e-smith server and gateway software - base module.
 
 %prep
 %setup
-%patch0 -p1
-rm -r root/etc/e-smith/db/configuration/defaults/AdminEmail
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
-%patch10 -p1
-%patch11 -p1
-%patch12 -p1
-%patch13 -p1
-%patch14 -p1
-%patch15 -p1
-%patch16 -p1
-%patch17 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
