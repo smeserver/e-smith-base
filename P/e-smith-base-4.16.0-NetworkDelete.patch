@@ -1,0 +1,12 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.16.0/root/etc/e-smith/templates/etc/sysconfig/network-scripts/route-ethX/10localroutes mezzanine_patched_e-smith-base-4.16.0/root/etc/e-smith/templates/etc/sysconfig/network-scripts/route-ethX/10localroutes
+--- e-smith-base-4.16.0/root/etc/e-smith/templates/etc/sysconfig/network-scripts/route-ethX/10localroutes	2006-02-17 14:41:50.000000000 +1100
++++ mezzanine_patched_e-smith-base-4.16.0/root/etc/e-smith/templates/etc/sysconfig/network-scripts/route-ethX/10localroutes	2006-04-05 18:28:44.949233349 +1000
+@@ -21,7 +21,7 @@
+     }
+ 
+     my $index = 0;
+-    foreach my $network ($db->get_all)
++    foreach my $network ($db->networks)
+     {
+ 	# Skip local network
+ 	my $system = $network->prop('SystemLocalNetwork') || "no";
