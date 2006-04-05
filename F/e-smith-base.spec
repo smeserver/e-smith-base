@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.16.0
-%define release 02
+%define release 03
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -10,6 +10,7 @@ Vendor: Mitel Networks Corporation
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-base-4.16.0-RenameAnacondaLogs.patch
+Patch1: e-smith-base-4.16.0-PasswordLength.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -48,6 +49,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Wed Apr 5 2006 Gordon Rowell <gordonr@gormand.com.au> 4.16.0-03
+- Restrict passwords to 14 characters [SME: 1193]
+
 * Tue Mar 14 2006 Gordon Rowell <gordonr@gormand.com.au> 4.16.0-02
 - Rename anaconda logs, but leave a symlink. Do nothing if the log
   is already a symlink or missing [SME: 808]
@@ -671,6 +675,7 @@ e-smith server and gateway software - base module.
 %prep
 %setup
 %patch0 -p1
+%patch1 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
