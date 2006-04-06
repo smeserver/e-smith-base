@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.16.0
-%define release 05
+%define release 06
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -12,7 +12,7 @@ Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-base-4.16.0-RenameAnacondaLogs.patch
 Patch1: e-smith-base-4.16.0-PasswordLength.patch
 Patch2: e-smith-base-4.16.0-NetworkDelete.patch 
-Patch3: e-smith-base-4.16.0-PasswordLength.patch2
+Patch3: e-smith-base-4.16.0-PasswordLength.patch3
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -51,6 +51,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Thu Apr 6 2006 Gordon Rowell <gordonr@gormand.com.au> 4.16.0-06
+- Adjust plural in page title in last patch [SME: 1193]
+
 * Thu Apr 6 2006 Gordon Rowell <gordonr@gormand.com.au> 4.16.0-05
 - Adjust console logic for 14 character password restriction [SME: 1193]
 
