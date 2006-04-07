@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.16.0
-%define release 07
+%define release 08
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -11,6 +11,7 @@ Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-base-4.16.0-RenameAnacondaLogs.patch
 Patch2: e-smith-base-4.16.0-NetworkDelete.patch 
+Patch3: e-smith-base-4.16.0-LockNullPasswords.patch 
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -49,6 +50,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Thu Apr 6 2006 Gordon Rowell <gordonr@gormand.com.au> 4.16.0-08
+- Lock accounts with bad SMB passwords [SME: 1193]
+
 * Thu Apr 6 2006 Gordon Rowell <gordonr@gormand.com.au> 4.16.0-07
 - Revert password length restriction changes [SME: 1193]
 
@@ -688,6 +692,7 @@ e-smith server and gateway software - base module.
 %setup
 %patch0 -p1
 %patch2 -p1
+%patch3 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
