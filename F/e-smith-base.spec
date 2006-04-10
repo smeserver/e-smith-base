@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.16.0
-%define release 09
+%define release 10
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -13,6 +13,7 @@ Patch0: e-smith-base-4.16.0-RenameAnacondaLogs.patch
 Patch2: e-smith-base-4.16.0-NetworkDelete.patch 
 Patch3: e-smith-base-4.16.0-LockNullPasswords.patch 
 Patch4: e-smith-base-4.16.0-EnableMasq.patch
+Patch5: e-smith-base-4.16.0-dhclient_config.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -51,6 +52,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Apr 10 2006 Charlie Brady <charlie_brady@mitel.com> 4.16.0-10
+- Fixes to dhclient configuration (courtesy of Richard Schiffelers).
+  [SME: 881]
+
 * Thu Apr 6 2006 Gordon Rowell <gordonr@gormand.com.au> 4.16.0-09
 - Enable the masq service to ensure that installs and upgrades
   are consistent. If someone really wants to disable it, they can 
@@ -700,6 +705,7 @@ e-smith server and gateway software - base module.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
