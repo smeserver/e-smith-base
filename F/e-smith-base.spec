@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.16.0
-%define release 10
+%define release 11
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -14,6 +14,7 @@ Patch2: e-smith-base-4.16.0-NetworkDelete.patch
 Patch3: e-smith-base-4.16.0-LockNullPasswords.patch 
 Patch4: e-smith-base-4.16.0-EnableMasq.patch
 Patch5: e-smith-base-4.16.0-dhclient_config.patch
+Patch6: e-smith-base-4.16.0-dhclient_config.patch2
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -52,6 +53,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Apr 11 2006 Charlie Brady <charlie_brady@mitel.com> 4.16.0-11
+- More fixes to dhclient configuration (courtesy of Richard Schiffelers).
+  [SME: 881]
+
 * Mon Apr 10 2006 Charlie Brady <charlie_brady@mitel.com> 4.16.0-10
 - Fixes to dhclient configuration (courtesy of Richard Schiffelers).
   [SME: 881]
@@ -706,6 +711,7 @@ e-smith server and gateway software - base module.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
