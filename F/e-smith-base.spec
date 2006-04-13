@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.16.0
-%define release 11
+%define release 12
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -15,6 +15,7 @@ Patch3: e-smith-base-4.16.0-LockNullPasswords.patch
 Patch4: e-smith-base-4.16.0-EnableMasq.patch
 Patch5: e-smith-base-4.16.0-dhclient_config.patch
 Patch6: e-smith-base-4.16.0-dhclient_config.patch2
+Patch7: e-smith-base-4.16.0-nokudzu.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -53,6 +54,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Thu Apr 13 2006 Charlie Brady <charlie_brady@mitel.com> 4.16.0-12
+- Don't run kudzu at every bootup. [SME: 727]
+
 * Tue Apr 11 2006 Charlie Brady <charlie_brady@mitel.com> 4.16.0-11
 - More fixes to dhclient configuration (courtesy of Richard Schiffelers).
   [SME: 881]
@@ -712,6 +716,7 @@ e-smith server and gateway software - base module.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

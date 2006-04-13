@@ -1,0 +1,17 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.16.0/root/etc/e-smith/templates/etc/inittab/14kudzu mezzanine_patched_e-smith-base-4.16.0/root/etc/e-smith/templates/etc/inittab/14kudzu
+--- e-smith-base-4.16.0/root/etc/e-smith/templates/etc/inittab/14kudzu	2006-02-16 22:41:51.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.16.0/root/etc/e-smith/templates/etc/inittab/14kudzu	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-kq::sysinit:/usr/sbin/kudzu -q
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.16.0/root/sbin/e-smith/console mezzanine_patched_e-smith-base-4.16.0/root/sbin/e-smith/console
+--- e-smith-base-4.16.0/root/sbin/e-smith/console	2006-03-14 11:20:43.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.16.0/root/sbin/e-smith/console	2006-04-13 11:16:38.000000000 -0400
+@@ -484,7 +484,7 @@
+ untie %conf;
+ tie %conf, 'esmith::config::unsaved';
+ 
+-# Run kudzu, and grok /etc/sysconfig/hwconf to detect ethernet adapters
++# Run kudzu probe to detect ethernet adapters
+ my @adapters = split(/\n/, esmith::ethernet::probeAdapters());
+ 
+ #------------------------------------------------------------
