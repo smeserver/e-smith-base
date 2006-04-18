@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.16.0
-%define release 14
+%define release 15
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -18,6 +18,7 @@ Patch6: e-smith-base-4.16.0-dhclient_config.patch2
 Patch7: e-smith-base-4.16.0-nokudzu.patch
 Patch8: e-smith-base-4.16.0-SSHProperties.patch 
 Patch9: e-smith-base-4.16.0-nicbondingoptions.patch
+Patch10: e-smith-base-4.16.0-rmmod-bonding.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -56,6 +57,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Apr 18 2006 Charlie Brady <charlie_brady@mitel.com> 4.16.0-15
+- Ensure that rmmod-bonding doesn't return error status if
+  bonding is not enabled (e.g. during upgrade) [SME: 935]
+
 * Tue Apr 18 2006 Charlie Brady <charlie_brady@mitel.com> 4.16.0-14
 - Avoid warning from NICBondingOptions migrate fragment. [SME: 1271]
 
@@ -727,6 +732,7 @@ e-smith server and gateway software - base module.
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
+%patch10 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
