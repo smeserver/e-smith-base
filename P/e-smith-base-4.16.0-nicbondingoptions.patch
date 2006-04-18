@@ -1,0 +1,10 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.16.0/root/etc/e-smith/db/configuration/migrate/25NICBondingOptions mezzanine_patched_e-smith-base-4.16.0/root/etc/e-smith/db/configuration/migrate/25NICBondingOptions
+--- e-smith-base-4.16.0/root/etc/e-smith/db/configuration/migrate/25NICBondingOptions	2006-03-14 11:20:43.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.16.0/root/etc/e-smith/db/configuration/migrate/25NICBondingOptions	2006-04-18 13:55:57.000000000 -0400
+@@ -1,5 +1,6 @@
+ {
+     # Migrate old servers to new defaults if not customized
++    return unless defined $InternalInterface{NICBondingOptions};
+     if($InternalInterface{NICBondingOptions} eq "miimon=200")
+     {
+         $DB->get('InternalInterface')->set_prop('NICBondingOptions',
