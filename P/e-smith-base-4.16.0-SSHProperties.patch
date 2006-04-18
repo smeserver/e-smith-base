@@ -1,0 +1,29 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.16.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/remoteaccess.pm mezzanine_patched_e-smith-base-4.16.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/remoteaccess.pm
+--- e-smith-base-4.16.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/remoteaccess.pm	2005-11-21 15:28:11.000000000 +1100
++++ mezzanine_patched_e-smith-base-4.16.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/remoteaccess.pm	2006-04-18 19:00:37.210631302 +1000
+@@ -632,20 +632,13 @@
+       	}
+     }
+ 
+-    if ($sshaccess eq "off")
+-    {
++    $rec = $db->get('sshd') || $db->new_record('sshd', {type => 'service'});
+ 
+-      $db->get('sshd')->set_prop('status','disabled');
+-	
+-    }	
++    $rec->set_prop('status', ($sshaccess eq "off" ? 'disabled' : 'enabled'));
++    $rec->set_prop('access', $sshaccess);
++    $rec->set_prop('PermitRootLogin', $sshPermitRootLogin);
++    $rec->set_prop('PasswordAuthentication', $sshPasswordAuthentication);
+ 
+-    else
+-    {
+-      $db->get('sshd')->set_prop('status','enabled');
+-      $db->get('sshd')->set_prop('access',$sshaccess);
+-      $db->get('sshd')->set_prop( 'PermitRootLogin', $sshPermitRootLogin);
+-      $db->get('sshd')->set_prop( 'PasswordAuthentication', $sshPasswordAuthentication);
+-    }
+ 
+     $rec = $db->get('ftp');
+     if($rec)
