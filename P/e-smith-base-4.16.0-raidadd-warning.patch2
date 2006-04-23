@@ -1,0 +1,104 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.16.0/root/sbin/e-smith/console-menu-items/manageRAID.pl mezzanine_patched_e-smith-base-4.16.0/root/sbin/e-smith/console-menu-items/manageRAID.pl
+--- e-smith-base-4.16.0/root/sbin/e-smith/console-menu-items/manageRAID.pl	2006-04-23 14:06:24.000000000 -0400
++++ mezzanine_patched_e-smith-base-4.16.0/root/sbin/e-smith/console-menu-items/manageRAID.pl	2006-04-23 14:06:07.000000000 -0400
+@@ -31,6 +31,7 @@
+ sub doit
+ {
+     my $console = new esmith::console;
++    my ($rc, $choice);
+ 
+     use POSIX qw(strftime);
+     my $today = strftime "%A %B %e, %Y %H:%M:%S", localtime;
+@@ -46,7 +47,7 @@
+     unless (scalar %devices)
+     {
+         $text = gettext("There are no RAID devices configured");
+-        my ($rc, $choice) = $console->message_page(title => $title, text => $text);
++        ($rc, $choice) = $console->message_page(title => $title, text => $text);
+         return;
+     }
+ 
+@@ -54,7 +55,7 @@
+     {
+         $text .= gettext("There should be two RAID devices, not ") . 
+                     scalar keys %devices;
+-        my ($rc, $choice) = $console->message_page(title => $title, text => $text);
++        ($rc, $choice) = $console->message_page(title => $title, text => $text);
+         return;
+     }
+ 
+@@ -64,7 +65,7 @@
+         {
+             $text .= gettext("One or more devices is not RAID1") . "\n\n" .
+                 gettext("Manual intervention may be required.") . "\n\n";
+-            my ($rc, $choice) = $console->message_page(title => $title, 
++            ($rc, $choice) = $console->message_page(title => $title, 
+                             text => $text);
+             return;
+         }
+@@ -98,14 +99,14 @@
+     if (scalar @recovering)
+     {
+         $text .= gettext("A RAID resynchronization is in progress.");
+-        my ($rc, $choice) = $console->message_page(title => $title, text => $text);
++        ($rc, $choice) = $console->message_page(title => $title, text => $text);
+         return;
+     }
+ 
+     unless (scalar @unclean)
+     {
+         $text .= gettext("All RAID devices are in clean state");
+-        my ($rc, $choice) = $console->message_page(title => $title, text => $text);
++        ($rc, $choice) = $console->message_page(title => $title, text => $text);
+         return;
+     }
+ 
+@@ -115,7 +116,7 @@
+ 		"\n\n" .
+                 gettext("Manual intervention may be required.") . "\n\n";
+ 
+-        my ($rc, $choice) = $console->message_page(title => $title, text => $text);
++        ($rc, $choice) = $console->message_page(title => $title, text => $text);
+         return;
+     }
+ 
+@@ -137,7 +138,7 @@
+     {
+         $text .= gettext("Your system only has a single disk drive installed or is using hardware mirroring. If you would like to enable software mirroring, please shut down, install a second disk drive (of the same capacity) and then return to this screen.");
+ 
+-        my ($rc, $choice) = $console->message_page(title => $title, text => $text);
++        ($rc, $choice) = $console->message_page(title => $title, text => $text);
+         return;
+     }
+ 
+@@ -149,7 +150,7 @@
+                 gettext("Manual intervention may be required.") . "\n\n" .
+                 $disk_status;
+ 
+-        my ($rc, $choice) = $console->message_page(title => $title, text => $text);
++        ($rc, $choice) = $console->message_page(title => $title, text => $text);
+         return;
+     }
+ 
+@@ -161,10 +162,10 @@
+         gettext("There is an unused disk drive in your system. Do you want to add it to the existing drive to make a RAID pair?") . 
+ 	"\n\n" .
+ 	gettext("WARNING: ALL DATA ON THE NEW DISK WILL BE DESTROYED!") .
+-	"\n" .
++	"\n"
+         ;
+ 
+-    my ($rc, $choice) = $console->yesno_page(title => $title, text => $text);
++    ($rc, $choice) = $console->yesno_page(title => $title, text => $text);
+     return unless ($rc == 0);
+ 
+     unless (system(@cmd) == 0)
+@@ -173,7 +174,7 @@
+                 "\n\n" .
+                 gettext("This configuration is not yet fully supported in these screens.");
+ 
+-        my ($rc, $choice) = $console->message_page(title => $title, text => $text);
++        ($rc, $choice) = $console->message_page(title => $title, text => $text);
+         return;
+     }
+ 

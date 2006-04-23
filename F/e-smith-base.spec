@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.16.0
-%define release 16
+%define release 17
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -20,6 +20,7 @@ Patch8: e-smith-base-4.16.0-SSHProperties.patch
 Patch9: e-smith-base-4.16.0-nicbondingoptions.patch
 Patch10: e-smith-base-4.16.0-rmmod-bonding.patch
 Patch11: e-smith-base-4.16.0-raidadd-warning.patch
+Patch12: e-smith-base-4.16.0-raidadd-warning.patch2
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -58,6 +59,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sun Apr 23 2006 Charlie Brady <charlie_brady@mitel.com> 4.16.0-17
+- Fix a few syntax errors introduced in recent changes. [SME: 1285,1300] 
+
 * Wed Apr 19 2006 Charlie Brady <charlie_brady@mitel.com> 4.16.0-16
 - Add big warning about wiping disk to raid management screen. 
   [SME: 1285] 
@@ -739,6 +743,7 @@ e-smith server and gateway software - base module.
 %patch9 -p1
 %patch10 -p1
 %patch11 -p1
+%patch12 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
