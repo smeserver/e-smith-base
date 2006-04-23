@@ -60,7 +60,8 @@ e-smith server and gateway software - base module.
 
 %changelog
 * Sun Apr 23 2006 Charlie Brady <charlie_brady@mitel.com> 4.16.0-17
-- Fix a few syntax errors introduced in recent changes. [SME: 1285,1300] 
+- Fix syntax error introduced in last change (and reuse $rc and $choice in
+  raidManage.pl). [SME: 1285,1300] 
 
 * Wed Apr 19 2006 Charlie Brady <charlie_brady@mitel.com> 4.16.0-16
 - Add big warning about wiping disk to raid management screen. 
