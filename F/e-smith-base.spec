@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.16.0
-%define release 17
+%define release 18
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -20,7 +20,8 @@ Patch8: e-smith-base-4.16.0-SSHProperties.patch
 Patch9: e-smith-base-4.16.0-nicbondingoptions.patch
 Patch10: e-smith-base-4.16.0-rmmod-bonding.patch
 Patch11: e-smith-base-4.16.0-raidadd-warning.patch
-Patch12: e-smith-base-4.16.0-raidadd-warning.patch2
+Patch12: e-smith-base-4.16.0-EnableMasqSelectively.patch
+Patch13: e-smith-base-4.16.0-raidadd-warning.patch2
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -59,9 +60,13 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
-* Sun Apr 23 2006 Charlie Brady <charlie_brady@mitel.com> 4.16.0-17
+* Sun Apr 23 2006 Charlie Brady <charlie_brady@mitel.com> 4.16.0-18
 - Fix syntax error introduced in last change (and reuse $rc and $choice in
   raidManage.pl). [SME: 1285,1300] 
+
+* Fri Apr 21 2006 Gordon Rowell <gordonr@gormand.com.au> 4.16.0-17
+- Force masq service to enabled for servergateway modes, but
+  leave at current setting for serveronly. Revises -09 change [SME: 1209]
 
 * Wed Apr 19 2006 Charlie Brady <charlie_brady@mitel.com> 4.16.0-16
 - Add big warning about wiping disk to raid management screen. 
@@ -745,6 +750,7 @@ e-smith server and gateway software - base module.
 %patch10 -p1
 %patch11 -p1
 %patch12 -p1
+%patch13 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
