@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.16.0
-%define release 18
+%define release 19
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -22,6 +22,7 @@ Patch10: e-smith-base-4.16.0-rmmod-bonding.patch
 Patch11: e-smith-base-4.16.0-raidadd-warning.patch
 Patch12: e-smith-base-4.16.0-EnableMasqSelectively.patch
 Patch13: e-smith-base-4.16.0-raidadd-warning.patch2
+Patch14: e-smith-base-4.16.0-ChangeDefaultShutdownValue.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -60,6 +61,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Thu Apr 27 2006 Gavin Weight <gweight@gmail.com> 4.16.0-19
+- Change default shutdown value from shutdown to reboot. [SME: 1320] 
+
 * Sun Apr 23 2006 Charlie Brady <charlie_brady@mitel.com> 4.16.0-18
 - Fix syntax error introduced in last change (and reuse $rc and $choice in
   raidManage.pl). [SME: 1285,1300] 
@@ -751,6 +755,7 @@ e-smith server and gateway software - base module.
 %patch11 -p1
 %patch12 -p1
 %patch13 -p1
+%patch14 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

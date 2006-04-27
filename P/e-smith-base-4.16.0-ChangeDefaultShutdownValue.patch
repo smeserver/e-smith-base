@@ -1,0 +1,12 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.16.0/root/etc/e-smith/web/functions/reboot mezzanine_patched_e-smith-base-4.16.0/root/etc/e-smith/web/functions/reboot
+--- e-smith-base-4.16.0/root/etc/e-smith/web/functions/reboot	2005-11-21 15:28:10.000000000 +1100
++++ mezzanine_patched_e-smith-base-4.16.0/root/etc/e-smith/web/functions/reboot	2006-04-27 19:04:20.244311572 +1000
+@@ -91,7 +91,7 @@
+ 	     options="'shutdown' => 'SHUTDOWN',
+                        'reboot'=> 'REBOOT',
+                        'reconfigure'=> 'RECONFIGURE'"
+-	     value="shutdown">
++	     value="reboot">
+ 	<label>LABEL_REBOOT</label>
+       </field>
+ 
