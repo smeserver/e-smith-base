@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.16.0
-%define release 19
+%define release 20
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -23,6 +23,7 @@ Patch11: e-smith-base-4.16.0-raidadd-warning.patch
 Patch12: e-smith-base-4.16.0-EnableMasqSelectively.patch
 Patch13: e-smith-base-4.16.0-raidadd-warning.patch2
 Patch14: e-smith-base-4.16.0-ChangeDefaultShutdownValue.patch
+Patch15: e-smith-base-4.16.0-cert_issuer.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -61,6 +62,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sun May 28 2006 Charlie Brady <charlie_brady@mitel.com> 4.16.0-20
+- Change ssl.crt template so that cert is regenerated if issuer information
+  has changed. [SME: 1484]
+
 * Thu Apr 27 2006 Gavin Weight <gweight@gmail.com> 4.16.0-19
 - Change default shutdown value from shutdown to reboot. [SME: 1320] 
 
@@ -756,6 +761,7 @@ e-smith server and gateway software - base module.
 %patch12 -p1
 %patch13 -p1
 %patch14 -p1
+%patch15 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
