@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.16.0
-%define release 21
+%define release 22
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -25,6 +25,7 @@ Patch13: e-smith-base-4.16.0-raidadd-warning.patch2
 Patch14: e-smith-base-4.16.0-ChangeDefaultShutdownValue.patch
 Patch15: e-smith-base-4.16.0-cert_issuer.patch
 Patch16: e-smith-base-4.16.0-cert_serial.patch
+Patch17: e-smith-base-4.16.0-cert_serial.patch2
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -63,6 +64,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Jun 6 2006 Gordon Rowell <gordonr@gormand.com.au> 4.16.0-22
+- Correct argument ordering in last change [SME: 790, SME: 1541]
+
 * Sun May 28 2006 Charlie Brady <charlie_brady@mitel.com> 4.16.0-21
 - Increase cert serial number when new certificate is generated. [SME: 790]
 
@@ -767,6 +771,7 @@ e-smith server and gateway software - base module.
 %patch14 -p1
 %patch15 -p1
 %patch16 -p1
+%patch17 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

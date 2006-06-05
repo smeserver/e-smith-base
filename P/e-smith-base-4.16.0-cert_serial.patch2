@@ -1,0 +1,14 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.16.0/root/etc/e-smith/templates/home/e-smith/ssl.crt mezzanine_patched_e-smith-base-4.16.0/root/etc/e-smith/templates/home/e-smith/ssl.crt
+--- e-smith-base-4.16.0/root/etc/e-smith/templates/home/e-smith/ssl.crt	2006-06-05 18:02:41.378164399 +1000
++++ mezzanine_patched_e-smith-base-4.16.0/root/etc/e-smith/templates/home/e-smith/ssl.crt	2006-06-05 18:02:36.450021624 +1000
+@@ -90,9 +90,8 @@
+ 	    exec("/usr/bin/openssl",
+ 		qw(req -new -key),
+ 		$key,
+-		qw(-x509 -days), 
++		qw(-x509 -days), KEYLIFEINDAYS,
+ 		qw(-set_serial), time(),
+-		KEYLIFEINDAYS,
+ 		)
+ 		    || die "can't exec program: $!";
+ 	    # NOTREACHED
