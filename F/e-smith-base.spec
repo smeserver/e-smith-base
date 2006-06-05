@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.16.0
-%define release 22
+%define release 23
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -26,6 +26,8 @@ Patch14: e-smith-base-4.16.0-ChangeDefaultShutdownValue.patch
 Patch15: e-smith-base-4.16.0-cert_issuer.patch
 Patch16: e-smith-base-4.16.0-cert_serial.patch
 Patch17: e-smith-base-4.16.0-cert_serial.patch2
+Patch18: e-smith-base-4.16.0-LockNullPasswords.patch2
+Patch19: e-smith-base-4.16.0-LockNullPasswords.patch3
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -64,6 +66,11 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Jun 6 2006 Gordon Rowell <gordonr@gormand.com.au> 4.16.0-23
+- Allow for admin account when locking null passwords, and perform
+  check in post-upgrade so that the password screen will be presented
+  after the reboot [SME: 1529]
+
 * Mon Jun 6 2006 Gordon Rowell <gordonr@gormand.com.au> 4.16.0-22
 - Correct argument ordering in last change [SME: 790, SME: 1541]
 
@@ -772,6 +779,8 @@ e-smith server and gateway software - base module.
 %patch15 -p1
 %patch16 -p1
 %patch17 -p1
+%patch18 -p1
+%patch19 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
