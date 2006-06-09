@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.16.0
-%define release 23
+%define release 24
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -66,6 +66,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri Jun 9 2006 Gavin Weight <gweight@gmail.com> 4.16.0-24
+- Remove lines for creating symlink to statusreport from spec file. [SME: 450] 
+
 * Mon Jun 6 2006 Gordon Rowell <gordonr@gormand.com.au> 4.16.0-23
 - Allow for admin account when locking null passwords, and perform
   check in post-upgrade so that the password screen will be presented
@@ -882,10 +885,6 @@ do
     ln -s /etc/e-smith/templates-default/template-begin-pam \
       root/etc/e-smith/templates/etc/pam.d/$file/template-begin
 done
-
-mkdir -p root/etc/e-smith/templates/etc/statusreport
-ln -s /etc/e-smith/templates-default/template-begin-perl \
-      root/etc/e-smith/templates/etc/statusreport/template-begin
 
 mkdir -p root/service
 mkdir -p root/etc/rc.d/init.d/supervise
