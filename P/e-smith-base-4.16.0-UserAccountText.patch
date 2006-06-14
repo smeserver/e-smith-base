@@ -1,0 +1,12 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.16.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/useraccounts mezzanine_patched_e-smith-base-4.16.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/useraccounts
+--- e-smith-base-4.16.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/useraccounts	2006-02-17 14:41:51.000000000 +1100
++++ mezzanine_patched_e-smith-base-4.16.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/useraccounts	2006-06-15 04:26:51.039773149 +1000
+@@ -41,7 +41,7 @@
+                 letters, numbers, hyphens, periods, underscores and should start with a
+                 lower-case letter. For example "betty",
+                 "hjohnson", and "mary-jane" are all valid account names,
+-                but "3friends", "John Smith", and "henry_miller" are not. 
++                but "3friends", "John Smith", and "henry:miller" are not. 
+             </p>
+             <p>
+                 Note that two special pseudonyms will be created for each

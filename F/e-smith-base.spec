@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.16.0
-%define release 24
+%define release 25
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -28,6 +28,7 @@ Patch16: e-smith-base-4.16.0-cert_serial.patch
 Patch17: e-smith-base-4.16.0-cert_serial.patch2
 Patch18: e-smith-base-4.16.0-LockNullPasswords.patch2
 Patch19: e-smith-base-4.16.0-LockNullPasswords.patch3
+Patch20: e-smith-base-4.16.0-UserAccountText.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -66,6 +67,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Wed Jun 14 2006 Gavin Weight <gweight@gmail.com> 4.16.0-25
+- Modify user create page to show henry:miller not henry_miller. [SME: 531] 
+
 * Fri Jun 9 2006 Gavin Weight <gweight@gmail.com> 4.16.0-24
 - Remove lines for creating symlink to statusreport from spec file. [SME: 450] 
 
@@ -784,6 +788,7 @@ e-smith server and gateway software - base module.
 %patch17 -p1
 %patch18 -p1
 %patch19 -p1
+%patch20 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
