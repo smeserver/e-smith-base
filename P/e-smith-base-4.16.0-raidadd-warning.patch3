@@ -1,0 +1,12 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.16.0/root/sbin/e-smith/console-menu-items/manageRAID.pl mezzanine_patched_e-smith-base-4.16.0/root/sbin/e-smith/console-menu-items/manageRAID.pl
+--- e-smith-base-4.16.0/root/sbin/e-smith/console-menu-items/manageRAID.pl	2006-06-29 04:07:27.100878891 +1000
++++ mezzanine_patched_e-smith-base-4.16.0/root/sbin/e-smith/console-menu-items/manageRAID.pl	2006-06-29 04:04:53.296807145 +1000
+@@ -64,7 +64,7 @@
+         unless ($devices{$dev}{RaidLevel} eq "raid1")
+         {
+             $text .= gettext("One or more devices is not RAID1") . "\n\n" .
+-                gettext("Manual intervention may be required.") . "\n\n";
++                gettext("This configuration is not yet fully supported in these screens.") . "\n\n";
+             ($rc, $choice) = $console->message_page(title => $title, 
+                             text => $text);
+             return;
