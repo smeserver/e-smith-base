@@ -1,36 +1,14 @@
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
-%define version 4.16.0
-%define release 27
+%define version 4.17.0
+%define release 01
 Version: %{version}
 Release: %{release}
 License: GPL
 Vendor: Mitel Networks Corporation
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
-Patch0: e-smith-base-4.16.0-RenameAnacondaLogs.patch
-Patch2: e-smith-base-4.16.0-NetworkDelete.patch 
-Patch3: e-smith-base-4.16.0-LockNullPasswords.patch 
-Patch4: e-smith-base-4.16.0-EnableMasq.patch
-Patch5: e-smith-base-4.16.0-dhclient_config.patch
-Patch6: e-smith-base-4.16.0-dhclient_config.patch2
-Patch7: e-smith-base-4.16.0-nokudzu.patch
-Patch8: e-smith-base-4.16.0-SSHProperties.patch 
-Patch9: e-smith-base-4.16.0-nicbondingoptions.patch
-Patch10: e-smith-base-4.16.0-rmmod-bonding.patch
-Patch11: e-smith-base-4.16.0-raidadd-warning.patch
-Patch12: e-smith-base-4.16.0-EnableMasqSelectively.patch
-Patch13: e-smith-base-4.16.0-raidadd-warning.patch2
-Patch14: e-smith-base-4.16.0-ChangeDefaultShutdownValue.patch
-Patch15: e-smith-base-4.16.0-cert_issuer.patch
-Patch16: e-smith-base-4.16.0-cert_serial.patch
-Patch17: e-smith-base-4.16.0-cert_serial.patch2
-Patch18: e-smith-base-4.16.0-LockNullPasswords.patch2
-Patch19: e-smith-base-4.16.0-LockNullPasswords.patch3
-Patch20: e-smith-base-4.16.0-UserAccountText.patch
-Patch21: e-smith-base-4.16.0-raidadd-warning.patch3
-Patch22: e-smith-base-4.16.0-cert_issuer.patch2
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -69,6 +47,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sun Aug 13 2006 Charlie Brady <charlie_brady@mitel.com> 4.17.0-01
+- Make new development stream.
+
 * Fri Jul 14 2006 Charlie Brady <charlie_brady@mitel.com> 4.16.0-27
 - Prevent daily regeneration of SSL cert if City/Company/Department are
   empty. [SME: 1602]
@@ -778,28 +759,6 @@ e-smith server and gateway software - base module.
 
 %prep
 %setup
-%patch0 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
-%patch10 -p1
-%patch11 -p1
-%patch12 -p1
-%patch13 -p1
-%patch14 -p1
-%patch15 -p1
-%patch16 -p1
-%patch17 -p1
-%patch18 -p1
-%patch19 -p1
-%patch20 -p1
-%patch21 -p1
-%patch22 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
