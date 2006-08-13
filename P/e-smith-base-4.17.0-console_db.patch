@@ -1,0 +1,1416 @@
+diff -ru e-smith-base-4.16.0/root/sbin/e-smith/console e-smith-base-4.16.0/root/sbin/e-smith/console
+--- e-smith-base-4.16.0/root/sbin/e-smith/console	2006-08-09 23:28:21.000000000 -0400
++++ e-smith-base-4.16.0/root/sbin/e-smith/console	2006-08-13 03:00:43.000000000 -0400
+@@ -108,10 +108,13 @@
+ my $i18n = new esmith::I18N;
+ $i18n->setLocale("server-console");
+ 
+-my %conf;
+-tie %conf, 'esmith::config::unsaved';
++my $db = esmith::ConfigDB->open;
++#$db->{config} = { my %conf; tie %conf, 'esmith::config::unsaved'; ( %conf )};
++
++my $termType = $db->get_prop('serial-console', 'Terminal') || '';
++my $SystemName = $db->get_value('SystemName');
++my $DomainName = $db->get_value('DomainName');
+ 
+-my $termType = db_get_prop(\%conf, 'serial-console', 'Terminal') || '';
+ $ENV{TERM} = $termType if($termType);
+ 
+ my $rebootRequired = "no";
+@@ -148,7 +151,7 @@
+ #-------------------------------------------------------------
+ 
+ my $bootstrapConsole =
+-    db_get_prop(\%conf, "bootstrap-console", "Run") || "no";
++    $db->get_prop("bootstrap-console", "Run") || "no";
+ unless ($bootstrapConsole eq "yes")
+ {
+     goto INITIAL;
+@@ -158,10 +161,8 @@
+ # OK, this is the bootstrap-console - check whether a backup
+ # in process and incomplete
+ #-------------------------------------------------------------
+-my %restore_state;
+-tie %restore_state, 'esmith::config::unsaved', '/etc/e-smith/restore';
+-
+-my $restore_state = db_get_prop(\%restore_state, 'restore', 'state')
++my $restore_db = esmith::ConfigDB->open_ro("/etc/e-smith/restore");
++my $restore_state = $restore_db->get_prop('restore', 'state')
+     || 'idle';
+ 
+ if ($restore_state eq 'running')
+@@ -199,18 +200,18 @@
+ 
+     sleep(600);
+ }
+-untie %restore_state;
++unset $restore_db;
+ 
+ #---------------------------------------------------------------
+ # Check whether the password is set, and if so, check for what
+ # to do next ...
+ #---------------------------------------------------------------
+ 
+-if ($conf {'PasswordSet'} eq 'yes')
++if ($db->get_value('PasswordSet') eq 'yes')
+ {
+ 
+     my $forceSave =
+-        db_get_prop(\%conf, "bootstrap-console", "ForceSave") || "no";
++        $db->get_prop("bootstrap-console", "ForceSave") || "no";
+ 
+     if ($forceSave eq "yes")
+     {
+@@ -349,18 +350,18 @@
+     esmith::util::setUnixSystemPassword ($choice1);
+     esmith::util::setServerSystemPassword ($choice1);
+ 
+-    my $old = $conf {'UnsavedChanges'};
+-    $conf {'PasswordSet'} = 'yes';
+-    $conf {'UnsavedChanges'} = $old;
++    my $old = $db->get_value('UnsavedChanges');
++    $db->set_value('PasswordSet', 'yes');
++    $db->set_value('UnsavedChanges', $old);
+ 
+     my $forceSave =
+-        db_get_prop(\%conf, "bootstrap-console", "ForceSave") || "no";
++        $db->get_prop("bootstrap-console", "ForceSave") || "no";
+ 
+     if ($forceSave eq "yes")
+     {
+         # System has been reinstalled from re-install floppy - skip
+         # the reconfiguration
+-        db_set_prop(\%conf, "bootstrap-console", "ForceSave", "no");
++        $db->set_prop("bootstrap-console", "ForceSave", "no");
+         goto SAVE_CONFIG;
+     }
+     else
+@@ -375,12 +376,10 @@
+ 
+ {
+     #----------------------------------------
+-    # Untie and retie the configuration to force
+-    # the parameters to be refreshed from the file.
++    # Reload the configuration from file
+     #----------------------------------------
+ 
+-    untie %conf;
+-    tie %conf, 'esmith::config::unsaved';
++    $db->reload;
+ 
+     my @args = ();
+ 
+@@ -390,10 +389,10 @@
+     }
+ 
+     my $title = gettext("Server console");
+-    $title .= " ($conf{SystemName}.$conf{DomainName})";
++    $title .= " (${SystemName}.${DomainName})";
+ 
+     $title .= " " . gettext("** unsaved changes **")
+-        if ( $conf {'UnsavedChanges'} eq 'yes' );
++        if ( $db->get_value('UnsavedChanges') eq 'yes' );
+ 
+     ($rc, $choice) = $console->menu_page
+         (
+@@ -421,16 +420,14 @@
+ #------------------------------------------------------------
+ 
+ {
+-    #----------------------------------------
+-    # Untie and retie the configuration to force
+-    # the parameters to be refreshed from the file.
+-    #----------------------------------------
+-    untie %conf;
+-    tie %conf, 'esmith::config::unsaved';
++    #--------------------------------------------------
++    # Reload the db contents, so ensure it's up to date
++    #--------------------------------------------------
++    $db->reload;
+ 
+-    my $old = $conf {'UnsavedChanges'};
+-    db_set_prop(\%conf, 'sysconfig', 'PreviousSystemMode', $conf{SystemMode});
+-    $conf {'UnsavedChanges'} = $old;
++    my $old = $db->get_value('UnsavedChanges');
++    $db->set_prop('sysconfig', 'PreviousSystemMode', $db->get_value('SystemMode'));
++    $db->set_value('UnsavedChanges', $old);
+ 
+     ($rc, $choice) = $console->yesno_page
+         (
+@@ -446,7 +443,7 @@
+         );
+ 
+     if ($rc == 0) {
+-	if($conf{'PasswordSet'} eq 'yes')
++	if($db->get_value('PasswordSet') eq 'yes')
+ 	{
+             goto CONFIGURE_MAIN;
+ 	}
+@@ -480,9 +477,8 @@
+     goto INITIAL;
+ }
+ 
+-# Refresh the %conf hash.
+-untie %conf;
+-tie %conf, 'esmith::config::unsaved';
++# Refresh the db
++$db->reload;
+ 
+ # Run kudzu probe to detect ethernet adapters
+ my @adapters = split(/\n/, esmith::ethernet::probeAdapters());
+@@ -498,7 +494,7 @@
+          gettext("Please enter the primary domain name for your server.") .
+          "\n\n" .
+          gettext("This will be the default domain for your e-mail and web server. Virtual domains can be added later using the server manager."),
+-         value   => $conf {'DomainName'}
++         value   => $DomainName
+         );
+ 
+     goto INITIAL unless ($rc == 0);
+@@ -507,7 +503,7 @@
+     {
+         if ($choice =~ /^[a-zA-Z0-9\-\.]+$/)
+         {
+-            $conf {'DomainName'} = lc($choice);
++            $db->set_value('DomainName', $DomainName = lc($choice));
+             goto SYSTEM_NAME;
+         }
+     }
+@@ -530,7 +526,7 @@
+ #------------------------------------------------------------
+ 
+ {
+-    my $oldSystemName = $conf{'SystemName'};
++    my $oldSystemName = $SystemName;
+ 
+     $oldSystemName = '' if ($oldSystemName eq 'mitel-networks-server');
+ 
+@@ -552,19 +548,19 @@
+     {
+         if (($choice =~ /^[a-zA-Z][a-zA-Z0-9\-]*$/)
+             and ( $choice ne 'mitel-networks-server' )) {
+-            $conf{'SystemName'} =  lc($choice);
++            $db->set_value('SystemName', $SystemName = lc($choice));
+ 
+             #------------------------------------------------------------
+             # Default the SambaServerName to the SystemName, but only
+             # change it if someone changes the SystemName here. This allows
+             # the default to be overridden in the Workgroup panel.
+             #------------------------------------------------------------
+-            unless ( $conf{'SystemName'} eq $oldSystemName )
++            unless ( $SystemName eq $oldSystemName )
+             {
+-                db_set_prop(\%conf, 'smb', 'ServerName', "$choice");
++                $db->set_prop('smb', 'ServerName', "$choice");
+ 
+                 my $hosts = esmith::HostsDB->open;
+-                $hosts->propogate_hosts($oldSystemName, $conf{SystemName});
++                $hosts->propogate_hosts($oldSystemName, $SystemName);
+             }
+             goto ETHERNET_LOCAL;
+         }
+@@ -622,10 +618,7 @@
+ #------------------------------------------------------------
+ 
+ {
+-    unless ($conf{'LocalIP'})
+-    {
+-        $conf {'LocalIP'} = '192.168.' . (int(rand(248)) + 2) . '.1';
+-    }
++    my $local_ip = $db->get_value('LocalIP') || '192.168.' . (int(rand(248)) + 2) . '.1';
+ 
+     ($rc, $choice) = $console->input_page
+         (
+@@ -636,7 +629,7 @@
+          gettext("If this server is the first machine on your network, we recommend accepting the default value unless you have a specific reason to choose something else.") .
+          "\n\n" .
+          gettext("If your server is being installed into an existing network, you must choose an address which is not in use by any other computer on this network."),
+-         value   => $conf {'LocalIP'}
++         value   => $local_ip,
+         );
+ 
+     goto SYSTEM_NAME unless ($rc == 0);
+@@ -646,10 +639,7 @@
+         if (isValidIP($choice))
+         {
+             $choice = cleanIP($choice);
+-            if ($choice ne $conf {'LocalIP'})
+-            {
+-                $conf {'LocalIP'} = $choice;
+-            }
++            $db->set_value('LocalIP', $choice);
+             goto LOCAL_NETMASK;
+         }
+     }
+@@ -680,7 +670,7 @@
+          gettext("If this server is the first machine on your network, we recommend using the default unless you have a specific reason to choose something else.") .
+          "\n\n" .
+          gettext("If your server is being installed into an existing network, you must choose the same subnet mask used by other computers on this network."),
+-         value   => $conf {'LocalNetmask'}
++         value   => $db->get_value('LocalNetmask')
+         );
+ 
+     goto LOCAL_IP unless ($rc == 0);
+@@ -691,7 +681,7 @@
+         {
+             $choice = cleanIP($choice);
+             # Update primary record
+-            $conf {'LocalNetmask'} = $choice;
++            $db->set_value('LocalNetmask', $choice);
+             goto SYSTEM_MODE;
+         }
+     }
+@@ -717,12 +707,12 @@
+     my $currentmode;
+     my $currentnumber;
+ 
+-    if ($conf {'SystemMode'} eq 'servergateway')
++    if ($db->get_value('SystemMode') eq 'servergateway')
+     {
+         $currentmode = gettext("Server and gateway");
+         $currentnumber = "1.";
+     }
+-    elsif ($conf {'SystemMode'} eq 'servergateway-private')
++    elsif ($db->get_value('SystemMode') eq 'servergateway-private')
+     {
+         $currentmode = gettext("Private server and gateway");
+         $currentnumber = "2.";
+@@ -759,22 +749,22 @@
+ 
+     if ($choice eq "1.")
+     {
+-        $conf {'SystemMode'} = 'servergateway';
++        $db->set_value('SystemMode', 'servergateway');
+         goto SERVER_GATEWAY;
+     }
+ 
+     if ($choice eq "2.")
+     {
+-        $conf {'SystemMode'} = 'servergateway-private';
++        $db->set_value('SystemMode', 'servergateway-private');
+         goto SERVER_GATEWAY;
+     }
+ 
+     if ($choice eq "3.")
+     {
+-        db_set_prop(\%conf, "pppoe", "status", "disabled");
+-        db_delete(\%conf, "ExternalIP");
+-        $conf {'SystemMode'} = 'serveronly';
+-        $conf{'AccessType'} = "dedicated";
++        $db->set_prop("pppoe", "status", "disabled");
++        $db->delete("ExternalIP");
++        $db->set_value('SystemMode', 'serveronly');
++        $db->set_value('AccessType', "dedicated");
+         goto SERVER_ONLY;
+     }
+ }
+@@ -786,16 +776,16 @@
+ {
+     my $currentmode;
+     my $currentnumber;
+-    my $dialup_support = db_get_prop(\%conf, "bootstrap-console", "DialupSupport")
++    my $dialup_support = $db->get_prop("bootstrap-console", "DialupSupport")
+ 			    || "yes";
+ 
+     if ($dialup_support eq "no")
+     {
+-        $conf {'AccessType'} = 'dedicated';
++        $db->set_value('AccessType', 'dedicated');
+         goto ETHERNET_EXTERNAL;
+     }
+ 
+-    if ($conf {'AccessType'} eq 'dedicated')
++    if ($db->get_value('AccessType') eq 'dedicated')
+     {
+         $currentmode = gettext("Server and gateway - dedicated");
+         $currentnumber = "1.";
+@@ -831,14 +821,14 @@
+ 
+     if ($choice eq  "1.")
+     {
+-        $conf {'AccessType'} = 'dedicated';
++        $db->set_value('AccessType', 'dedicated');
+         goto ETHERNET_EXTERNAL;
+     }
+ 
+     if ($choice eq  "2.")
+     {
+-        db_set_type(\%conf, 'AccessType', 'dialup');
+-        db_set_prop(\%conf, "pppoe", "status", "disabled");
++        $db->set_value('AccessType', 'dialup');
++        $db->set_prop("pppoe", "status", "disabled");
+         goto DIALUP_MODEM;
+     }
+ }
+@@ -847,7 +837,7 @@
+ ETHERNET_EXTERNAL:
+ #------------------------------------------------------------
+ {
+-    my $vlan = db_get_prop(\%conf, 'sysconfig', 'VlanWAN');
++    my $vlan = $db->get_prop('sysconfig', 'VlanWAN');
+     if (scalar @adapters == 1 && !$vlan)
+     {
+         ($rc, $choice) = $console->message_page
+@@ -872,13 +862,13 @@
+         goto ETHERNET_EXTERNAL;
+     }
+ 
+-    if ($conf{'EthernetDriver1'} eq $conf{'EthernetDriver2'})
++    if ($db->get_value('EthernetDriver1') eq $db->get_value('EthernetDriver2'))
+     {
+         goto ETHERNET_SWAP
+     }
+     else
+     {
+-        $conf {'EthernetAssign'} = "normal";
++        $db->set_value('EthernetAssign', "normal");
+     }
+ 
+     goto SERVER_GATEWAY_DEDICATED;
+@@ -891,7 +881,7 @@
+ {
+ 
+     my @args = (
+-                $console->keep_option( gettext($conf{'EthernetAssign'}) ),
++                $console->keep_option( gettext($db->get_value('EthernetAssign')) ),
+                 gettext("normal"),  gettext("eth0 is local, eth1 is external"),
+                 gettext("swapped"), gettext("eth1 is local, eth0 is external")
+                );
+@@ -910,8 +900,8 @@
+ 
+     unless ($choice eq gettext("keep"))
+     {
+-        $conf {'EthernetAssign'} = ($choice eq gettext("swapped")) ? "swapped"
+-            : "normal";
++        $db->set_value('EthernetAssign',
++            ($choice eq gettext("swapped")) ? "swapped" : "normal");
+     }
+ 
+     goto SERVER_GATEWAY_DEDICATED;
+@@ -921,18 +911,18 @@
+ SERVER_GATEWAY_DEDICATED:
+ #------------------------------------------------------------
+ {
+-    unless ($conf {'DHCPClient'})
++    unless ($db->get_value('DHCPClient'))
+     {
+-        $conf {'DHCPClient'} = 'dhi';
++        $db->set_value('DHCPClient', 'dhi');
+     }
+ 
+     my $currentmode;
+     my $currentnumber;
+     my $shortmode;
+ 
+-    if ($conf {'ExternalDHCP'} eq 'on')
++    if ($db->get_value('ExternalDHCP') eq 'on')
+     {
+-        if ($conf {'DHCPClient'} eq 'dhi')
++        if ($db->get_value('DHCPClient') eq 'dhi')
+         {
+             $currentmode = gettext("use DHCP (send account name as client identifier)");
+             $shortmode = gettext("DHCP with account name");
+@@ -946,7 +936,7 @@
+             $currentnumber = "2.";
+         }
+     }
+-    elsif (db_get_prop(\%conf, "pppoe", "status") eq "enabled")
++    elsif ($db->get_prop("pppoe", "status") eq "enabled")
+     {
+         $currentmode = gettext("use PPP over Ethernet (PPPoE)");
+         $shortmode = gettext("PPPoE");
+@@ -987,40 +977,40 @@
+ 
+     if ($choice eq  "3.")
+     {
+-        $conf {'ExternalDHCP'} = 'off';
++        $db->set_value('ExternalDHCP', 'off');
+ 
+-        db_set_prop(\%conf, "pppoe", "status", "enabled");
+-        db_set_prop(\%conf, "pppoe", "DemandIdleTime", "no");
+-        db_set_prop(\%conf, "pppoe", "SynchronousPPP", "no");
++        $db->set_prop("pppoe", "status", "enabled");
++        $db->set_prop("pppoe", "DemandIdleTime", "no");
++        $db->set_prop("pppoe", "SynchronousPPP", "no");
+         # Delete GatewayIP, as Gateway is via ppp link
+-        db_delete(\%conf, 'GatewayIP');
++        $db->delete('GatewayIP');
+         goto PPPoE_ACCOUNT;
+     }
+     else
+     {
+-        db_set_prop(\%conf, "pppoe", "status", "disabled");
++        $db->set_prop("pppoe", "status", "disabled");
+         if ($choice eq  "1.")
+         {
+             # Delete GatewayIP, as Gateway is via DHCP
+-            db_delete(\%conf, 'GatewayIP');
+-            $conf {'ExternalDHCP'} = 'on';
+-            $conf {'DHCPClient'} = 'dhi';
++            $db->delete('GatewayIP');
++            $db->set_value('ExternalDHCP', 'on');
++            $db->set_value('DHCPClient', 'dhi');
+             goto DHCP_ACCOUNT;
+         }
+ 
+         if ($choice eq  "2.")
+         {
+             # Delete GatewayIP, as Gateway is via DHCP
+-            db_delete(\%conf, 'GatewayIP');
+-            $conf {'ExternalDHCP'} = 'on';
+-            $conf {'DHCPClient'} = 'd';
++            $db->delete('GatewayIP');
++            $db->set_value('ExternalDHCP', 'on');
++            $db->set_value('DHCPClient', 'd');
+             goto DYNAMIC_DNS_SERVICE;
+         }
+ 
+         if ($choice eq  "4.")
+         {
+-            $conf {'ExternalDHCP'} = 'off';
+-            db_set_prop(\%conf, 'DynDNS', 'status', 'disabled');
++            $db->set_value('ExternalDHCP', 'off');
++            $db->set_prop('DynDNS', 'status', 'disabled');
+             goto STATIC_IP;
+         }
+     }
+@@ -1035,19 +1025,12 @@
+          title => gettext("Enter ISP assigned hostname"),
+          text  =>
+          gettext("You have selected DHCP (send account name). Please enter the account name assigned by your ISP. You must enter the account name exactly as specified by your ISP."),
+-         value   => $conf {'DialupUserAccount'}
++         value   => $db->get_value('DialupUserAccount')
+         );
+ 
+     goto SERVER_GATEWAY_DEDICATED unless ($rc == 0);
+ 
+-    if ($choice)
+-    {
+-        $conf {'DialupUserAccount'} = $choice;
+-    }
+-    else
+-    {
+-        $conf {'DialupUserAccount'} = '';
+-    }
++    $db->set_value('DialupUserAccount', $choice || '');
+ 
+     goto DYNAMIC_DNS_SERVICE;
+ }
+@@ -1061,19 +1044,12 @@
+          title => gettext("Select PPPoE user account"),
+          text  =>
+          gettext("Please enter the user account name for your PPPoE Internet connection. Most PPPoE service providers use an account name and e-mail domain. For example, ") . "fredfrog\@frog.pond",
+-         value   => $conf {'DialupUserAccount'}
++         value   => $db->get_value('DialupUserAccount')
+         );
+ 
+     goto SERVER_GATEWAY_DEDICATED unless ($rc == 0);
+ 
+-    if ($choice)
+-    {
+-        $conf {'DialupUserAccount'} = $choice;
+-    }
+-    else
+-    {
+-        $conf {'DialupUserAccount'} = '';
+-    }
++    $db->set_value('DialupUserAccount', $choice || '');
+ 
+     goto PPPoE_PASSWORD;
+ }
+@@ -1088,19 +1064,12 @@
+          title  => gettext("Select PPPoE password"),
+          text   =>
+          gettext("Please enter the password for your PPPoE Internet connection."),
+-         value   => $conf {'DialupUserPassword'}
++         value   => $db->get_value('DialupUserPassword')
+         );
+ 
+     goto PPPoE_ACCOUNT unless ($rc == 0);
+ 
+-    if ($choice)
+-    {
+-        $conf {'DialupUserPassword'} = $choice;
+-    }
+-    else
+-    {
+-        $conf {'DialupUserPassword'} = '';
+-    }
++    $db->set_value('DialupUserPassword', $choice || '');
+ 
+     goto DYNAMIC_DNS_SERVICE;
+ }
+@@ -1115,7 +1084,7 @@
+     {
+         warn gettext("Cannot read directory"),
+             " /sbin/e-smith/dynamic-dns", "\n";
+-        db_set_prop(\%conf, 'DynDNS', 'status', 'disabled');
++        $db->set_prop('DynDNS', 'status', 'disabled');
+         goto OTHER_PARAMETERS;
+ 
+     }
+@@ -1129,8 +1098,8 @@
+ 
+     my $currentnumber;
+ 
+-    my $status = db_get_prop(\%conf, 'DynDNS', 'status') || "disabled";
+-    my $service = db_get_prop(\%conf, 'DynDNS', 'Service');
++    my $status = $db->get_prop('DynDNS', 'status') || "disabled";
++    my $service = $db->get_prop('DynDNS', 'Service');
+     if ($status eq "disabled")
+     {
+         $service = "off";
+@@ -1193,37 +1162,37 @@
+ 
+     if ($choice eq  "1.")
+     {
+-        db_set_prop(\%conf, 'DynDNS', 'status', 'disabled');
++        $db->set_prop('DynDNS', 'status', 'disabled');
+         goto OTHER_PARAMETERS;
+     }
+-    db_set_prop(\%conf, 'DynDNS', 'status', 'enabled');
++    $db->set_prop('DynDNS', 'status', 'enabled');
+     if ($choice eq  "2.")
+     {
+-        db_set_prop(\%conf, 'DynDNS', 'Service', 'yi');
++        $db->set_prop('DynDNS', 'Service', 'yi');
+         goto DYNAMIC_DNS_ACCOUNT;
+     }
+ 
+     if ($choice eq  "3.")
+     {
+-        db_set_prop(\%conf, 'DynDNS', 'Service', 'dyndns');
++        $db->set_prop('DynDNS', 'Service', 'dyndns');
+         goto DYNAMIC_DNS_ACCOUNT;
+     }
+ 
+     if ($choice eq  "4.")
+     {
+-        db_set_prop(\%conf, 'DynDNS', 'Service', 'dyndns.org');
++        $db->set_prop('DynDNS', 'Service', 'dyndns.org');
+         goto DYNAMIC_DNS_ACCOUNT;
+     }
+ 
+     if ($choice eq  "5.")
+     {
+-        db_set_prop(\%conf, 'DynDNS', 'Service', 'tzo');
++        $db->set_prop('DynDNS', 'Service', 'tzo');
+         goto DYNAMIC_DNS_ACCOUNT;
+     }
+ 
+     if ($choice eq  "6.")
+     {
+-        db_set_prop(\%conf, 'DynDNS', 'Service', 'custom');
++        $db->set_prop('DynDNS', 'Service', 'custom');
+         goto DYNAMIC_DNS_ACCOUNT;
+     }
+ }
+@@ -1233,8 +1202,8 @@
+ #------------------------------------------------------------
+ 
+ {
+-    my $account = db_get_prop(\%conf, 'DynDNS', 'Account') || '';
+-    my $service = db_get_prop(\%conf, 'DynDNS', 'Service');
++    my $account = $db->get_prop('DynDNS', 'Account') || '';
++    my $service = $db->get_prop('DynDNS', 'Service');
+     ($rc, $choice) = $console->input_page
+         (
+          title => gettext("Select dynamic DNS account"),
+@@ -1246,11 +1215,11 @@
+ 
+     if ($choice)
+     {
+-        db_set_prop(\%conf, 'DynDNS', 'Account', $choice);
++        $db->set_prop('DynDNS', 'Account', $choice);
+     }
+     else
+     {
+-        db_set_prop(\%conf, 'DynDNS', 'Account', '');
++        $db->set_prop('DynDNS', 'Account', '');
+     }
+ 
+     goto DYNAMIC_DNS_PASSWORD;
+@@ -1261,8 +1230,8 @@
+ #------------------------------------------------------------
+ 
+ {
+-    my $account = db_get_prop(\%conf, 'DynDNS', 'Account');
+-    my $password = db_get_prop(\%conf, 'DynDNS', 'Password') || '';
++    my $account = $db->get_prop('DynDNS', 'Account');
++    my $password = $db->get_prop('DynDNS', 'Password') || '';
+     ($rc, $choice) = $console->input_page
+         (
+          title => gettext("Select dynamic DNS password"),
+@@ -1274,11 +1243,11 @@
+ 
+     if ($choice)
+     {
+-        db_set_prop(\%conf, 'DynDNS', 'Password', $choice);
++        $db->set_prop('DynDNS', 'Password', $choice);
+     }
+     else
+     {
+-        db_set_prop(\%conf, 'DynDNS', 'Password', '');
++        $db->set_prop('DynDNS', 'Password', '');
+     }
+ 
+     goto OTHER_PARAMETERS;
+@@ -1293,7 +1262,7 @@
+     # the console will throw an uninitialized variable error
+     # that you'll never see, but will make rc == 0.
+ 
+-    my $externalIP = $conf {'ExternalIP'} || "";
++    my $externalIP = $db->get_value('ExternalIP') || "";
+     ($rc, $choice) = $console->input_page
+         (
+          title => gettext("Select static IP address"),
+@@ -1310,7 +1279,7 @@
+     {
+         if (isValidIP($choice) )
+         {
+-            $conf {'ExternalIP'} = cleanIP($choice);
++            $db->set_value('ExternalIP', cleanIP($choice));
+             goto STATIC_NETMASK;
+         }
+     }
+@@ -1338,7 +1307,7 @@
+          title => gettext("Select subnet mask"),
+          text  =>
+          gettext("Please enter the subnet mask for your Internet connection. A typical subnet mask is 255.255.255.0."),
+-         value   => $conf {'ExternalNetmask'}
++         value   => $db->get_value('ExternalNetmask')
+         );
+ 
+     goto STATIC_IP unless ($rc == 0);
+@@ -1347,7 +1316,7 @@
+     {
+         if ( isValidIP($choice) )
+         {
+-            $conf {'ExternalNetmask'} = cleanIP($choice);
++            $db->set_value('ExternalNetmask', cleanIP($choice));
+             goto STATIC_GATEWAY;
+         }
+     }
+@@ -1370,13 +1339,13 @@
+ #------------------------------------------------------------
+ 
+ {
+-    my $netmaskBits = esmith::util::IPquadToAddr ($conf{'ExternalNetmask'});
+-    my $gateway_ip = $conf{'GatewayIP'} || "";
+-    unless ((esmith::util::IPquadToAddr($conf{'ExternalIP'}) & $netmaskBits) ==
+-            (esmith::util::IPquadToAddr($conf{'GatewayIP'}) & $netmaskBits)) {
++    my $netmaskBits = esmith::util::IPquadToAddr ($db->get_value('ExternalNetmask'));
++    my $gateway_ip = $db->get_value('GatewayIP') || "";
++    unless ((esmith::util::IPquadToAddr($db->get_value('ExternalIP')) & $netmaskBits) ==
++            (esmith::util::IPquadToAddr($db->get_value('GatewayIP')) & $netmaskBits)) {
+         $gateway_ip =
+             esmith::util::IPaddrToQuad(
+-                                       (esmith::util::IPquadToAddr($conf{'ExternalIP'}) & $netmaskBits)
++                                       (esmith::util::IPquadToAddr($db->get_value('ExternalIP')) & $netmaskBits)
+                                        + 1);
+     }
+     ($rc, $choice) = $console->input_page
+@@ -1393,7 +1362,7 @@
+     {
+         if (isValidIP($choice) )
+         {
+-            $conf {'GatewayIP'} = cleanIP($choice);
++            $db->set_value('GatewayIP', cleanIP($choice));
+             goto OTHER_PARAMETERS;
+         }
+     }
+@@ -1417,7 +1386,7 @@
+ 
+ {
+     my @args = (
+-                $console->keep_option( $conf{'DialupModemDevice'} ),
++                $console->keep_option( $db->get_value('DialupModemDevice') ),
+                 "COM1", gettext("Set modem port to") . " COM1 (/dev/ttyS0)",
+                 "COM2", gettext("Set modem port to") . " COM2 (/dev/ttyS1)",
+                 "COM3", gettext("Set modem port to") . " COM3 (/dev/ttyS2)",
+@@ -1438,36 +1407,36 @@
+ 
+     if ($choice eq  "COM1")
+     {
+-        db_set(\%conf, 'DialupModemDevice', '/dev/ttyS0');
++        $db->set_value('DialupModemDevice', '/dev/ttyS0');
+     }
+ 
+     if ($choice eq  "COM2")
+     {
+-        db_set(\%conf, 'DialupModemDevice', '/dev/ttyS1');
++        $db->set_value('DialupModemDevice', '/dev/ttyS1');
+     }
+ 
+     if ($choice eq  "COM3")
+     {
+-        db_set(\%conf, 'DialupModemDevice', '/dev/ttyS2');
++        $db->set_value('DialupModemDevice', '/dev/ttyS2');
+     }
+ 
+     if ($choice eq  "COM4")
+     {
+-        db_set(\%conf, 'DialupModemDevice', '/dev/ttyS3');
++        $db->set_value('DialupModemDevice', '/dev/ttyS3');
+     }
+     if ($choice eq gettext("ISDN"))
+     {
+-        db_set(\%conf, 'DialupModemDevice', '/dev/ttyI0');
++        $db->set_value('DialupModemDevice', '/dev/ttyI0');
+     }
+ 
+-    if (db_get(\%conf, 'DialupModemDevice') eq '/dev/ttyI0')
++    if ($db->get_value('DialupModemDevice') eq '/dev/ttyI0')
+     {
+-        db_set_prop(\%conf, 'ippp', 'status', 'enabled');
+-        db_set_prop(\%conf, 'isdn', 'status', 'enabled');
++        $db->set_prop('ippp', 'status', 'enabled');
++        $db->set_prop('isdn', 'status', 'enabled');
+         goto HISAX_OPTIONS
+     }
+-    db_set_prop(\%conf, 'ippp', 'status', 'disabled');
+-    db_set_prop(\%conf, 'isdn', 'status', 'disabled');
++    $db->set_prop('ippp', 'status', 'disabled');
++    $db->set_prop('isdn', 'status', 'disabled');
+     goto MODEM_INIT_STRING;
+ }
+ 
+@@ -1618,12 +1587,12 @@
+         if ($rc == 0)
+         {
+             my $type = $$card{'type'};
+-            db_set_prop(\%conf, 'isdn', 'Type', "$type");
++            $db->set_prop('isdn', 'Type', "$type");
+             goto DIALUP_ACCESS_NUMBER;
+         }
+     }
+ 
+-    my $hisax_options = db_get_prop(\%conf, 'isdn', 'HisaxOptions') || "";
++    my $hisax_options = $db->get_prop('isdn', 'HisaxOptions') || "";
+     ($rc, $choice) = $console->input_page
+         (
+          title => gettext("ISDN driver options"),
+@@ -1644,11 +1613,11 @@
+ 
+     if ($choice)
+     {
+-        db_set_prop(\%conf, 'isdn', 'HisaxOptions', $choice);
++        $db->set_prop('isdn', 'HisaxOptions', $choice);
+     }
+     else
+     {
+-        db_delete_prop(\%conf, 'isdn', 'HisaxOptions');
++        db_delete_prop('isdn', 'HisaxOptions');
+     }
+ }
+ 
+@@ -1658,7 +1627,7 @@
+ goto MODEM_INIT_STRING;         # Skip this page - only for dial-in
+ 
+ {
+-    my $msn = db_get_prop(\%conf, 'isdn', 'Msn');
++    my $msn = $db->get_prop('isdn', 'Msn');
+     $msn = "" unless (defined $msn);
+     ($rc, $choice) = $console->input_page
+         (
+@@ -1680,7 +1649,7 @@
+ 
+         goto ISDN_MSN;
+     }
+-    db_set_prop(\%conf, 'isdn', 'Msn', "$choice");
++    $db->set_prop('isdn', 'Msn', "$choice");
+     goto DIALUP_ACCESS_NUMBER;
+ }
+ #------------------------------------------------------------
+@@ -1688,8 +1657,8 @@
+ #------------------------------------------------------------
+ 
+ {
+-    my $modem_init = db_get(\%conf, 'ModemInit') || "";
+-    my $modem = db_get(\%conf, 'DialupModemDevice') || "";
++    my $modem_init = $db->get_value('ModemInit') || "";
++    my $modem = $db->get_value('DialupModemDevice') || "";
+ 
+     my $isdn_msg =
+         gettext("You have selected an internal ISDN card.") .
+@@ -1718,7 +1687,7 @@
+ 
+     unless ($rc == 0)
+     {
+-        if ($conf{'DialupModemDevice'} eq '/dev/ttyI0')
++        if ($db->get_value('DialupModemDevice') eq '/dev/ttyI0')
+         {
+             goto HISAX_OPTIONS;
+         }
+@@ -1728,13 +1697,14 @@
+         }
+     }
+ 
++    $db->set_value('ModemInit', $choice || '');
+     if ($choice)
+     {
+-        $conf {'ModemInit'} = $choice;
++        $db->set_value('ModemInit', $choice);
+     }
+     else
+     {
+-        delete $conf {'ModemInit'};
++        $db->delete('ModemInit');
+     }
+     goto DIALUP_ACCESS_NUMBER;
+ }
+@@ -1754,7 +1724,7 @@
+         (
+          title   => $title,
+          text    => $msg,
+-         value   => $conf {'DialupPhoneNumber'}
++         value   => $db->get_value('DialupPhoneNumber')
+         );
+ 
+     goto MODEM_INIT_STRING unless ($rc == 0);
+@@ -1763,7 +1733,7 @@
+     {
+         if ($choice =~ /^[-,0-9]+$/)
+         {
+-            db_set(\%conf, 'DialupPhoneNumber', "$choice");
++            $db->set_value('DialupPhoneNumber', "$choice");
+             goto DIALUP_ACCOUNT;
+         }
+     }
+@@ -1794,20 +1764,12 @@
+         (
+          title   => gettext("Select dialup user account"),
+          text    => $msg,
+-         value   => $conf {'DialupUserAccount'}
++         value   => $db->get_value('DialupUserAccount')
+         );
+ 
+     goto DIALUP_ACCESS_NUMBER unless ($rc == 0);
+ 
+-    if ($choice)
+-    {
+-        $conf {'DialupUserAccount'} = $choice;
+-    }
+-    else
+-    {
+-        $conf {'DialupUserAccount'} = '';
+-    }
+-
++    $db->set_value('DialupUserAccount', $choice || '');
+     goto DIALUP_PASSWORD;
+ }
+ 
+@@ -1824,20 +1786,12 @@
+         (
+          title   => gettext("Select dialup password"),
+          text    => $msg,
+-         value   => $conf {'DialupUserPassword'}
++         value   => $db->get_value('DialupUserPassword')
+         );
+ 
+     goto DIALUP_ACCOUNT unless ($rc == 0);
+ 
+-    if ($choice)
+-    {
+-        $conf {'DialupUserPassword'} = $choice;
+-    }
+-    else
+-    {
+-        $conf {'DialupUserPassword'} = '';
+-    }
+-
++    $db->set_value('DialupUserPassword', $choice || '');
+     goto INITIALIZE_CONNECT_TIMES;
+ }
+ 
+@@ -1868,13 +1822,9 @@
+ DIALUP_OFFICE:
+ #------------------------------------------------------------
+ {
+-    unless ($conf {'DialupConnOffice'})
+-    {
+-        $conf {'DialupConnOffice'} = 'medium';
+-    }
+-
++    my $val = $db->get_value('DialupConnOffice') || 'medium';
+     my @args = (
+-                $console->keep_option( gettext($conf{'DialupConnOffice'}) ),
++                $console->keep_option(gettext($val)),
+                 @connect_options,
+                );
+ 
+@@ -1889,9 +1839,8 @@
+ 
+     goto DIALUP_PASSWORD unless ($rc == 0);
+ 
+-    $conf {'DialupConnOffice'} = $choice eq gettext("keep")
+-        ? $conf {'DialupConnOffice'}
+-            : $gettext2policy{$choice};
++    $db->set_value('DialupConnOffice', $choice eq gettext("keep")
++        ? $val : $gettext2policy{$choice});
+ 
+     goto DIALUP_OUTSIDE;
+ }
+@@ -1901,14 +1850,9 @@
+ #------------------------------------------------------------
+ 
+ {
+-    unless ($conf {'DialupConnOutside'})
+-    {
+-        $conf {'DialupConnOutside'} = 'medium';
+-    }
+-
+-
++    my $val = $db->get_value('DialupConnOutside') || 'medium';
+     my @args = (
+-                $console->keep_option( gettext($conf{'DialupConnOutside'}) ),
++                $console->keep_option(gettext($val)),
+                 @connect_options
+                );
+ 
+@@ -1922,9 +1866,8 @@
+ 
+     goto DIALUP_OFFICE unless ($rc == 0);
+ 
+-    $conf {'DialupConnOutside'} = $choice eq gettext("keep")
+-        ? $conf {'DialupConnOutside'}
+-            : $gettext2policy{$choice};
++    $db->set_value('DialupConnOutside', $choice eq gettext("keep")
++        ? $val : $gettext2policy{$choice});
+ 
+     goto DIALUP_WEEKEND;
+ }
+@@ -1934,13 +1877,9 @@
+ #------------------------------------------------------------
+ 
+ {
+-    unless ($conf {'DialupConnWeekend'})
+-    {
+-        $conf {'DialupConnWeekend'} = 'medium';
+-    }
+-
++    my $val = $db->get_value('DialupConnWeekend') || 'medium';
+     my @args = (
+-                $console->keep_option( gettext($conf{'DialupConnWeekend'}) ),
++                $console->keep_option(gettext($val)),
+                 @connect_options
+                );
+ 
+@@ -1954,9 +1893,8 @@
+ 
+     goto DIALUP_OUTSIDE unless ($rc == 0);
+ 
+-    $conf {'DialupConnWeekend'} = $choice eq gettext("keep")
+-        ? $conf {'DialupConnWeekend'}
+-            : $gettext2policy{$choice};
++    $db->set_value('DialupConnWeekend', $choice eq gettext("keep")
++        ? $val : $gettext2policy{$choice});
+ 
+     goto DYNAMIC_DNS_SERVICE;
+ }
+@@ -1975,7 +1913,7 @@
+         {
+             my @args = (
+                     $console->keep_option(gettext(
+-                        db_get_prop(\%conf, 'InternalInterface',
++                        $db->get_prop('InternalInterface',
+                         'NICBonding') || 'disabled')),
+                     gettext("enabled"), gettext("Enable NIC bonding"),
+                     gettext("disabled"), gettext("Disable NIC bonding")
+@@ -1991,21 +1929,21 @@
+ 
+             unless($choice eq gettext("keep"))
+             {
+-                db_set_prop(\%conf, 'InternalInterface', 'NICBonding', 
++                $db->set_prop('InternalInterface', 'NICBonding', 
+                     ($choice eq gettext('enabled')) ? 'enabled' : 'disabled');
+             }
+ 
+-            db_set(\%conf, "EthernetDriver2", 
+-                (db_get_prop(\%conf, 'InternalInterface', 'NICBonding', 
++            $db->set_value("EthernetDriver2", 
++                ($db->get_prop('InternalInterface', 'NICBonding', 
+                     'enabled'))
+-                ? db_get(\%conf, "EthernetDriver1") : 'unknown');
++                ? $db->get_value("EthernetDriver1") : 'unknown');
+         }
+ 
+         # SME 935 - edit NIC bonding option string
+-        if(db_get_prop(\%conf, 'InternalInterface', 'NICBonding') eq 'enabled')
++        if($db->get_prop('InternalInterface', 'NICBonding') eq 'enabled')
+         {
+             my $msg = gettext("The NIC bonding driver allows various modes and performance options. Edit the option string below if the defaults are not suitable.\n\nMost users do not need to change this setting.\n");
+-            my $bond_opts = db_get_prop(\%conf, "InternalInterface", "NICBondingOptions") || '';
++            my $bond_opts = $db->get_prop("InternalInterface", "NICBondingOptions") || '';
+             ($rc, $choice) = $console->input_page
+                 (
+                  title   => gettext("NIC Bonding Options"),
+@@ -2015,20 +1953,20 @@
+ 
+             goto SERVER_ONLY unless ($rc == 0);
+ 
+-            db_set_prop(\%conf, 'InternalInterface', 'NICBondingOptions', 
++            $db->set_prop('InternalInterface', 'NICBondingOptions', 
+                 $choice);
+         }
+     }
+     
+-    goto OTHER_PARAMETERS unless ($conf{'AccessType'} eq 'dedicated');
++    goto OTHER_PARAMETERS unless ($db->get_value('AccessType') eq 'dedicated');
+ 
+-    my $gateway_ip = $conf {'GatewayIP'} || "";
+-    my $netmaskBits = esmith::util::IPquadToAddr ($conf{'LocalNetmask'});
+-    unless ((esmith::util::IPquadToAddr($conf{'LocalIP'}) & $netmaskBits) ==
+-            (esmith::util::IPquadToAddr($conf{'GatewayIP'}) & $netmaskBits)) {
++    my $gateway_ip = $db->get_value('GatewayIP') || "";
++    my $netmaskBits = esmith::util::IPquadToAddr ($db->get_value('LocalNetmask'));
++    unless ((esmith::util::IPquadToAddr($db->get_value('LocalIP')) & $netmaskBits) ==
++            (esmith::util::IPquadToAddr($db->get_value('GatewayIP')) & $netmaskBits)) {
+         $gateway_ip =
+             esmith::util::IPaddrToQuad(
+-                                       (esmith::util::IPquadToAddr($conf{'LocalIP'}) & $netmaskBits)
++                                       (esmith::util::IPquadToAddr($db->get_value('LocalIP')) & $netmaskBits)
+                                        + 1);
+     }
+ 
+@@ -2046,15 +1984,15 @@
+ 
+     if ($choice eq "")
+     {
+-        delete $conf {'GatewayIP'};
+-        $conf{'AccessType'} = "off";
++        $db->delete('GatewayIP');
++        $db->set_value('AccessType', 'off');
+         goto OTHER_PARAMETERS;
+     }
+ 
+     if ( isValidIP($choice) )
+     {
+-        $conf {'GatewayIP'} = cleanIP($choice);
+-        $conf{'AccessType'} = "dedicated";
++        $db->set_value('GatewayIP', cleanIP($choice));
++        $db->set_value('AccessType', 'dedicated');
+         goto OTHER_PARAMETERS;
+     }
+ 
+@@ -2076,16 +2014,16 @@
+ #------------------------------------------------------------
+ if ($bootstrapConsole eq "no")
+ {
+-    $rebootRequired = $conf{'UnsavedChanges'};
++    $rebootRequired = $db->get_value('UnsavedChanges');
+ }
+ #------------------------------------------------------------
+ 
+ DHCP_SERVER:
+ {
+-    my $start = db_get_prop(\%conf, "dhcpd", "start") || '0.0.0.65';
+-    my $end = db_get_prop(\%conf, "dhcpd", "end") || '0.0.0.250';
+-    my $priv_ip = db_get(\%conf, 'LocalIP');
+-    my $priv_mask = db_get(\%conf, 'LocalNetmask');
++    my $start = $db->get_prop("dhcpd", "start") || '0.0.0.65';
++    my $end = $db->get_prop("dhcpd", "end") || '0.0.0.250';
++    my $priv_ip = $db->get_value('LocalIP');
++    my $priv_mask = $db->get_value('LocalNetmask');
+     my $priv_net = ipv4_network($priv_ip, $priv_mask);
+     my $localip = esmith::util::IPquadToAddr($priv_ip);
+     my $netmask = esmith::util::IPquadToAddr($priv_mask);
+@@ -2117,9 +2055,9 @@
+     $start = esmith::util::IPaddrToQuad($start);
+     $end   = esmith::util::IPaddrToQuad($end);
+     # That's it. Set them back. These will hopefully be reasonable defaults.
+-    db_set_prop(\%conf, "dhcpd", "start", $start);
+-    db_set_prop(\%conf, "dhcpd", "end", $end);
+-    my $DHCPServer = (db_get_prop(\%conf, 'dhcpd', 'status') eq 'enabled') ?
++    $db->set_prop("dhcpd", "start", $start);
++    $db->set_prop("dhcpd", "end", $end);
++    my $DHCPServer = ($db->get_prop('dhcpd', 'status') eq 'enabled') ?
+         gettext("On") : gettext("Off");
+ 
+     my @args =
+@@ -2143,23 +2081,23 @@
+ 
+     if ($choice eq gettext("On")
+         || ($choice eq gettext("keep") && $DHCPServer eq gettext("On"))) {
+-        db_set_prop(\%conf, 'dhcpd', 'status', 'enabled');
++        $db->set_prop('dhcpd', 'status', 'enabled');
+         # Initialise Samba DomainMaster setting if it isn't already set
+         # default to yes if DHCP is enabled
+-        unless (defined db_get_prop(\%conf, 'smb', 'DomainMaster') )
++        unless (defined $db->get_prop('smb', 'DomainMaster') )
+         {
+-            db_set_prop(\%conf, 'smb', 'DomainMaster', 'yes');
++            $db->set_prop('smb', 'DomainMaster', 'yes');
+         }
+         goto DHCP_SERVER_BEGIN;
+     }
+ 
+     if ($choice eq gettext("Off"))
+     {
+-        db_set_prop(\%conf, 'dhcpd', 'status', 'disabled');
++        $db->set_prop('dhcpd', 'status', 'disabled');
+         # default to no if DHCP is disabled
+-        unless (defined db_get_prop(\%conf, 'smb', 'DomainMaster') )
++        unless (defined $db->get_prop('smb', 'DomainMaster') )
+         {
+-            db_set_prop(\%conf, 'smb', 'DomainMaster', 'no');
++            $db->set_prop('smb', 'DomainMaster', 'no');
+         }
+         goto DNS_FORWARDER;
+     }
+@@ -2172,9 +2110,9 @@
+ #------------------------------------------------------------
+ 
+ {
+-    my $start = db_get_prop(\%conf, "dhcpd", "start") || '0.0.0.65';
+-    my $priv_ip = db_get(\%conf, 'LocalIP');
+-    my $priv_mask = db_get(\%conf, 'LocalNetmask');
++    my $start = $db->get_prop("dhcpd", "start") || '0.0.0.65';
++    my $priv_ip = $db->get_value('LocalIP');
++    my $priv_mask = $db->get_value('LocalNetmask');
+     my $priv_net = ipv4_network($priv_ip, $priv_mask);
+ 
+     my $errmsg = "";
+@@ -2201,7 +2139,7 @@
+ 		# need to check for valid range as well.
+ 		unless ($choice eq $start)
+ 		{
+-		    db_set_prop(\%conf, 'dhcpd', 'start', cleanIP($choice));
++		    $db->set_prop('dhcpd', 'start', cleanIP($choice));
+ 		}
+ 		goto DHCP_SERVER_END;
+ 	    }
+@@ -2235,10 +2173,10 @@
+ #------------------------------------------------------------
+ 
+ {
+-    my $serverStart = db_get_prop(\%conf, 'dhcpd', 'start');
+-    my $serverEnd   = db_get_prop(\%conf, 'dhcpd', 'end');
+-    my $priv_ip = db_get(\%conf, 'LocalIP');
+-    my $priv_mask = db_get(\%conf, 'LocalNetmask');
++    my $serverStart = $db->get_prop('dhcpd', 'start');
++    my $serverEnd   = $db->get_prop('dhcpd', 'end');
++    my $priv_ip = $db->get_value('LocalIP');
++    my $priv_mask = $db->get_value('LocalNetmask');
+     my $priv_net = ipv4_network($priv_ip, $priv_mask);
+     my $errmsg = "";
+ 
+@@ -2272,7 +2210,7 @@
+ 			# need to check for valid range as well.
+ 			unless ($choice eq $serverEnd)
+ 			{
+-			    db_set_prop(\%conf, 'dhcpd', 'end', cleanIP($choice));
++			    $db->set_prop('dhcpd', 'end', cleanIP($choice));
+ 			}
+ 			goto DNS_FORWARDER;
+ 		    }
+@@ -2318,7 +2256,7 @@
+ #------------------------------------------------------------
+ 
+ {
+-    my $primary = db_get_prop(\%conf, 'dnscache', 'Forwarder') || '';
++    my $primary = $db->get_prop('dnscache', 'Forwarder') || '';
+     ($rc, $choice) = $console->input_page
+         (
+          title => gettext("Corporate DNS server address"),
+@@ -2340,18 +2278,18 @@
+     {
+         if ( isValidIP($choice) )
+         {
+-            db_set_prop(\%conf, 'dnscache', 'Forwarder', cleanIP($choice));
++            $db->set_prop('dnscache', 'Forwarder', cleanIP($choice));
+             goto QUERY_SAVE_CONFIG;
+         }
+         elsif ($choice =~ /^\s*$/)
+         {
+-            db_delete_prop(\%conf, 'dnscache', 'Forwarder');
++            $db->delete_prop('dnscache', 'Forwarder');
+             goto QUERY_SAVE_CONFIG;
+         }
+     }
+     else
+     {
+-        db_delete_prop(\%conf, 'dnscache', 'Forwarder');
++        $db->delete_prop('dnscache', 'Forwarder');
+         goto QUERY_SAVE_CONFIG;
+     }
+ 
+@@ -2369,11 +2307,8 @@
+ #------------------------------------------------------------
+ 
+ {
+-    if ($conf{'UnsavedChanges'} eq "no")
++    if ($db->get_value('UnsavedChanges') eq "no")
+     {
+-        my $old = $conf {'UnsavedChanges'};
+-        $conf {'UnsavedChanges'} = $old;
+-
+         ($rc, $choice) = $console->message_page
+             (
+              title => gettext("No unsaved changes"),
+@@ -2390,8 +2325,8 @@
+     {
+         if ($rebootRequired eq "yes")
+         {
+-            db_set_prop(\%conf, "bootstrap-console", "Run", "yes");
+-            db_set_prop(\%conf, "bootstrap-console", "ForceSave", "yes");
++            $db->set_prop("bootstrap-console", "Run", "yes");
++            $db->set_prop("bootstrap-console", "ForceSave", "yes");
+ 	    ($rc, $choice) = $console->yesno_page
+ 		(
+ 		 title   => gettext("Changes will take effect after reboot"),
+@@ -2426,9 +2361,8 @@
+  SAVE_CONFIG:
+     #------------------------------------------------------------
+     # After saving config we don't need to run it again on the next reboot.
+-    db_set_prop(\%conf, "bootstrap-console", "ForceSave", "no");
+-    db_set_prop(\%conf, "bootstrap-console", "Run", "no");
+-    untie %conf;
++    $db->set_prop("bootstrap-console", "ForceSave", "no");
++    $db->set_prop("bootstrap-console", "Run", "no");
+ 
+     # XXX-FIXME
+     # We call whiptail directly (rather than through the screen function)
+@@ -2452,10 +2386,10 @@
+     else
+     {
+         system("/sbin/e-smith/signal-event", "console-save");
+-        tie %conf, 'esmith::config::unsaved';
++        $db->reload;
+ 
+ 	my $current_mode = (getppid() == 1) ? "auto" : "login";
+-	if ($current_mode ne $conf{ConsoleMode})
++	if ($current_mode ne $db->get_value('ConsoleMode'))
+ 	{
+ 	    # If we switch from login to auto or vv, then we
+ 	    # need to quite here
+@@ -2469,7 +2403,7 @@
+ QUIT:
+ #------------------------------------------------------------
+ {
+-    if ( $conf {'UnsavedChanges'} eq 'no' )
++    if ( $db->get_value('UnsavedChanges') eq 'no' )
+     {
+         goto QUIT1
+     }
+@@ -2508,12 +2442,12 @@
+ 	if ($ifName eq "external")
+ 	{
+ 	    # We'll use a VLAN on eth0 for the "dedicated" WAN link
+-	    $conf{"EthernetDriver2"} = "unknown";
++	    $db->set_value("EthernetDriver2", "unknown");
+ 	    return 'CHANGE';
+ 	}
+ 	# Internal, and there's only one
+         my (undef, $driver, undef) = split (/\s+/, $adapters[0], 3);
+-	$conf{"EthernetDriver1"} = $driver;
++	$db->set_value("EthernetDriver1", $driver);
+ 	return 'CHANGE';
+     }
+ 
+@@ -2524,14 +2458,14 @@
+ 	if ($driver1 eq $driver2)
+ 	{
+ 	    # Choice is obvious!
+-	    $conf{$confEntry} = $driver1;
++	    $db->set_value($confEntry, $driver1);
+ 	    return 'CHANGE';
+ 	}
+     }
+ 
+     if (  ($confEntry eq "EthernetDriver2") ) {
+         my ($parameter, $driver, $chipset) = split (/\s+/, $adapters[0], 3);
+-        if ($driver eq $conf{"EthernetDriver1"})
++        if ($driver eq $db->get_value("EthernetDriver1"))
+         {
+             @adapters = reverse @adapters;
+         }
+@@ -2556,10 +2490,11 @@
+     my %tag2driver;
+     my @args;
+ 
+-    if ($conf{$confEntry} ne "unknown" && $conf{$confEntry} ne "")
++    my $existing_driver = $db->get_value($confEntry);
++    if ($existing_driver ne "unknown" && $existing_driver ne "")
+     {
+-        $tag2driver{keep} = $conf{$confEntry};
+-        push(@args, $console->keep_option( $conf{$confEntry} ) );
++        $tag2driver{keep} = $existing_driver;
++        push(@args, $console->keep_option( $existing_driver ) );
+     }
+ 
+     foreach my $adapter ( @adapters )
+@@ -2567,7 +2502,7 @@
+         my ($parameter, $driver, $chipset) = split (/\s+/, $adapter, 3);
+         chomp($chipset);
+ 
+-        unless ($driver eq $conf{$confEntry})
++        unless ($driver eq $existing_driver)
+         {
+             my $tag = ++$item . ".";
+ 
+@@ -2603,7 +2538,7 @@
+ 
+     return 'CANCEL' unless ($rc == 0);
+ 
+-    my $newDriver = $conf{$confEntry};
++    my $newDriver;
+ 
+     if ( $choice =~ /^${item}/ )
+     {
+@@ -2615,7 +2550,7 @@
+         $newDriver = $tag2driver{$choice};
+     }
+ 
+-    if ( $newDriver eq $conf{$confEntry} )
++    if ( $newDriver eq $existing_driver )
+     {
+         return 'KEEP';
+     }
+@@ -2624,7 +2559,7 @@
+     system($modprobe, $newDriver) == 0
+         or return ('NOLOAD', $newDriver);
+ 
+-    $conf{$confEntry} = $newDriver;
++    $db->set_value($confEntry, $newDriver);
+     return 'CHANGE';
+ }
+ 
+@@ -2740,16 +2675,13 @@
+ 
+ sub displayManager()
+ {
+-    untie %conf;
+-    tie %conf, 'esmith::config::unsaved';
+-
+     ($rc, $choice) = $console->yesno_page
+         (
+          title => gettext("Access server manager"),
+          text  =>
+          gettext("This option will start a text-mode browser to access the server manager from this console.  Normally you would access the server manager from a web browser at the following url:") .
+          "\n\n" .
+-         "https://$conf{'SystemName'}/server-manager/" .
++         "https://${SystemName}/server-manager/" .
+          "\n\n" .
+          gettext("You should only proceed if you are comfortable using a text-mode browser.  Note that you will be prompted for the administrator password in order to access the server manager.") .
+          "\n\n" .
+@@ -2771,7 +2703,7 @@
+ 	$choice =~ /(.+)/;
+         if ($rc == 0)
+         {
+-            my $port = db_get_prop(\%conf, "httpd-admin", "TCPPort") || "980";
++            my $port = $db->get_prop("httpd-admin", "TCPPort") || "980";
+             $ENV{'LYNX_TEMP_SPACE'} = "/tmp";
+             system(
+                    "/usr/bin/lynx",
+@@ -2785,8 +2717,7 @@
+                   );
+         }
+     }
+-
+-    untie %conf;
++    $db->reload;
+ }
+ 
+ #------------------------------------------------------------

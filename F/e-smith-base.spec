@@ -2,13 +2,14 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.17.0
-%define release 01
+%define release 02
 Version: %{version}
 Release: %{release}
 License: GPL
 Vendor: Mitel Networks Corporation
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
+Patch0: e-smith-base-4.17.0-console_db.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -47,6 +48,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sun Aug 13 2006 Charlie Brady <charlie_brady@mitel.com> 4.17.0-02
+- Remove deprecated %conf use in console. Note that UnsavedChanges is
+  not implemented in this version.
+
 * Sun Aug 13 2006 Charlie Brady <charlie_brady@mitel.com> 4.17.0-01
 - Make new development stream.
 
@@ -759,6 +764,7 @@ e-smith server and gateway software - base module.
 
 %prep
 %setup
+%patch0 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
