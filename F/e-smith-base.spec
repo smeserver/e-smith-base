@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.17.0
-%define release 03
+%define release 04
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -11,6 +11,7 @@ Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-base-4.17.0-console_db.patch
 Patch1: e-smith-base-4.17.0-localnetwork_in_serveronly.patch
+Patch2: e-smith-base-4.17.0-masq_merge.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -49,6 +50,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sun Aug 13 2006 Charlie Brady <charlie_brady@mitel.com> 4.17.0-04
+- Move masq fragments to e-smith-packetfilter rpm.
+
 * Sun Aug 13 2006 Charlie Brady <charlie_brady@mitel.com> 4.17.0-03
 - Don't provide a default local network in serveronly mode. [SME: 1793]
 
@@ -770,6 +774,7 @@ e-smith server and gateway software - base module.
 %setup
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
