@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.17.0
-%define release 04
+%define release 05
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -12,6 +12,7 @@ Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-base-4.17.0-console_db.patch
 Patch1: e-smith-base-4.17.0-localnetwork_in_serveronly.patch
 Patch2: e-smith-base-4.17.0-masq_merge.patch
+Patch3: e-smith-base-4.17.0-console_db.patch2
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -50,6 +51,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri Aug 18 2006 Charlie Brady <charlie_brady@mitel.com> 4.17.0-05
+- Re-add UnsavedChanges functionality to the console, and fix a few
+  little problems with the esmith::ConfigDB conversion. [SME: 1856]
+
 * Sun Aug 13 2006 Charlie Brady <charlie_brady@mitel.com> 4.17.0-04
 - Move masq fragments to e-smith-packetfilter rpm.
 
@@ -58,7 +63,7 @@ e-smith server and gateway software - base module.
 
 * Sun Aug 13 2006 Charlie Brady <charlie_brady@mitel.com> 4.17.0-02
 - Remove deprecated %conf use in console. Note that UnsavedChanges is
-  not implemented in this version.
+  not implemented in this version. [SME: 1856]
 
 * Sun Aug 13 2006 Charlie Brady <charlie_brady@mitel.com> 4.17.0-01
 - Make new development stream.
@@ -775,6 +780,7 @@ e-smith server and gateway software - base module.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

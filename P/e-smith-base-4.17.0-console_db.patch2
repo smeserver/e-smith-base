@@ -1,0 +1,127 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.0/root/sbin/e-smith/console mezzanine_patched_e-smith-base-4.17.0/root/sbin/e-smith/console
+--- e-smith-base-4.17.0/root/sbin/e-smith/console	2006-08-18 04:39:58.000000000 -0400
++++ mezzanine_patched_e-smith-base-4.17.0/root/sbin/e-smith/console	2006-08-15 01:42:38.000000000 -0400
+@@ -42,14 +42,14 @@
+ my %menu2object = build_menu();
+ my $modprobe = '/sbin/modprobe';
+ 
+-# Override STORE and DELETE functions in esmith::config to provide
+-# UnsavedChanges automatically
++# Override set_value, delete, set_prop and delete_prop functions in
++# esmith::ConfigDB to provide UnsavedChanges automatically
+ {
+-    package esmith::config::unsaved;
+-    require esmith::config;
+-    @esmith::config::unsaved::ISA = qw(esmith::config);
++    package esmith::ConfigDB::unsaved;
++    require esmith::ConfigDB;
++    @esmith::ConfigDB::unsaved::ISA = qw(esmith::ConfigDB);
+ 
+-    sub STORE {
++    sub set_value {
+         my ($self, $key, $value) = @_;
+ 
+         # The 'UnsavedChanges' entry is automatically set to 'yes'
+@@ -60,24 +60,40 @@
+         # the caller is deliberately trying to set the UnsavedChanges
+         # flag. (That's how they can reset it.)
+ 
+-        return undef if ($self->EXISTS($key) and $self->FETCH($key) eq $value);
++        my $current_value = $self->SUPER::get_value($key);
++        return $current_value if (defined $current_value and $current_value eq $value);
+ 
+-        if (($self->filename =~ m#(^|/)configuration$#)
+-            && ($key ne 'UnsavedChanges')) {
+-            $self->SUPER::STORE('UnsavedChanges', 'yes');
++        if ($key ne 'UnsavedChanges') {
++            $self->SUPER::set_value('UnsavedChanges', 'yes');
+         }
+ 
+-        return $self->SUPER::STORE($key, $value);
++        return $self->SUPER::set_value($key, $value);
++    }
++    sub set_prop {
++        my ($self, $key, $prop, $value) = @_;
++
++        my $current_value = $self->SUPER::get_prop($key, $prop);
++        return $current_value if (defined $current_value and $current_value eq $value);
++
++        $self->SUPER::set_value('UnsavedChanges', 'yes');
++        return $self->SUPER::set_prop($key, $prop, $value);
++    }
++    sub delete_prop {
++        my ($self, $key, $prop) = @_;
++        my $current_value = $self->get_prop($key, $prop);
++        return unless (defined $current_value);
++
++        $self->SUPER::set_value('UnsavedChanges', 'yes');
++        return $self->SUPER::delete_prop($key, $prop);
+     }
+     # Deleting a record is the same as changing one
+-    sub DELETE {
++    sub delete {
+         my ($self, $key) = @_;
+-        if ($self->EXISTS($key)) {
+-            $self->SUPER::STORE('UnsavedChanges', 'yes');
+-        }
+-        return $self->SUPER::DELETE($key);
++        my $current = $self->get($key);
++        return unless (defined $current);
++        $self->SUPER::set_value('UnsavedChanges', 'yes');
++        return $current->delete;
+     }
+-
+ }
+ 
+ sub displayManager();
+@@ -108,8 +124,7 @@
+ my $i18n = new esmith::I18N;
+ $i18n->setLocale("server-console");
+ 
+-my $db = esmith::ConfigDB->open;
+-#$db->{config} = { my %conf; tie %conf, 'esmith::config::unsaved'; ( %conf )};
++my $db = esmith::ConfigDB::unsaved->open;
+ 
+ my $termType = $db->get_prop('serial-console', 'Terminal') || '';
+ my $SystemName = $db->get_value('SystemName');
+@@ -501,9 +516,9 @@
+ 
+     if ($choice)
+     {
+-        if ($choice =~ /^[a-zA-Z0-9\-\.]+$/)
++        if ($choice =~ /^([a-zA-Z0-9\-\.]+)$/)
+         {
+-            $db->set_value('DomainName', $DomainName = lc($choice));
++            $db->set_value('DomainName', $DomainName = lc($1));
+             goto SYSTEM_NAME;
+         }
+     }
+@@ -546,9 +561,9 @@
+ 
+     if ($choice)
+     {
+-        if (($choice =~ /^[a-zA-Z][a-zA-Z0-9\-]*$/)
++        if (($choice =~ /^([a-zA-Z][a-zA-Z0-9\-]*)$/)
+             and ( $choice ne 'mitel-networks-server' )) {
+-            $db->set_value('SystemName', $SystemName = lc($choice));
++            $db->set_value('SystemName', $SystemName = lc($1));
+ 
+             #------------------------------------------------------------
+             # Default the SambaServerName to the SystemName, but only
+@@ -1617,7 +1632,7 @@
+     }
+     else
+     {
+-        db_delete_prop('isdn', 'HisaxOptions');
++        $db->delete_prop('isdn', 'HisaxOptions');
+     }
+ }
+ 
+@@ -1697,7 +1712,6 @@
+         }
+     }
+ 
+-    $db->set_value('ModemInit', $choice || '');
+     if ($choice)
+     {
+         $db->set_value('ModemInit', $choice);
