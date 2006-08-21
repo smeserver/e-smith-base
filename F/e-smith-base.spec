@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.17.0
-%define release 05
+%define release 06
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -13,6 +13,7 @@ Patch0: e-smith-base-4.17.0-console_db.patch
 Patch1: e-smith-base-4.17.0-localnetwork_in_serveronly.patch
 Patch2: e-smith-base-4.17.0-masq_merge.patch
 Patch3: e-smith-base-4.17.0-console_db.patch2
+Patch4: e-smith-base-4.17.0-wan_service.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -63,7 +64,7 @@ e-smith server and gateway software - base module.
 
 * Sun Aug 13 2006 Charlie Brady <charlie_brady@mitel.com> 4.17.0-02
 - Remove deprecated %conf use in console. Note that UnsavedChanges is
-  not implemented in this version. [SME: 1856]
+  not implemented in this version.
 
 * Sun Aug 13 2006 Charlie Brady <charlie_brady@mitel.com> 4.17.0-01
 - Make new development stream.
@@ -781,6 +782,7 @@ e-smith server and gateway software - base module.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p2
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
@@ -821,7 +823,7 @@ mkdir -p root/home/e-smith/files/{users,server-resources}
 mkdir -p root/home/e-smith/files/users/admin/home
 mkdir -p root/home/e-smith/Maildir/{cur,new,tmp}
 mkdir -p root/root/.ssh
-mkdir -p root/var/log/diald
+mkdir -p root/var/log/wan
 mkdir -p root/var/state/httpd
 
 LEXICONS=$(find root/etc/e-smith/web/{functions,panels/password/cgi-bin} \
@@ -886,7 +888,7 @@ done
 mkdir -p root/service
 mkdir -p root/etc/rc.d/init.d/supervise
 
-for service in dhcpd dhcpcd syslog klogd httpd-admin
+for service in dhcpd wan ippp syslog klogd httpd-admin
 do
   ln -s /var/service/$service root/service/$service
   mkdir -p root/var/service/$service/supervise
@@ -906,7 +908,6 @@ rm root/service/{syslog,klogd}
 mkdir -p root/etc/e-smith/events/local
 mkdir -p root/etc/e-smith/events/user-modify-admin
 mkdir -p root/home/e-smith/db
-touch root/home/e-smith/db/configuration
 
 mkdir -p root/etc/e-smith/pam
 mkdir -p root/home/e-smith/ssl.key
@@ -918,21 +919,12 @@ mkdir -p root/var/state/e-smith
 for file in %{dbfiles}
 do
     mkdir -p root/etc/e-smith/db/$file/{defaults,migrate,force}
-    # Create ghost file for rpm
-    touch root/home/e-smith/db/$file
 done
 
 mkdir -p root/etc/tcprules
 
 mkdir -p root/service
-ln -s /var/service/pppoe root/service/pppoe
-
-mkdir -p root/var/service/pppoe/supervise
-touch root/var/service/pppoe/down
-
-mkdir -p root/var/service/pppoe/log/supervise
-
-mkdir -p root/var/log/pppoe
+touch root/var/service/wan/down
 
 ln -s /var/service/raidmonitor root/service/raidmonitor
 
@@ -964,7 +956,6 @@ rm -rf $RPM_BUILD_ROOT
     --dir /var/service/dhcpcd/log/supervise 'attr(0700,root,root)' \
     --dir /var/service/dhcpcd/supervise 'attr(0700,root,root)' \
     --file /var/service/dhcpcd/log/run 'attr(0755,root,root)' \
-    --dir /var/log/dhcpcd 'attr(2750,smelog,smelog)' \
     --file /home/e-smith/db/configuration 'config(noreplace)' \
     --dir /var/service/httpd-admin 'attr(01755,root,root)' \
     --file /var/service/httpd-admin/down 'attr(0644,root,root)' \
@@ -990,14 +981,27 @@ rm -rf $RPM_BUILD_ROOT
     --dir /home/e-smith/ssl.key 'attr(0700,root,root)' \
     --dir /home/e-smith/ssl.crt 'attr(0700,root,root)' \
     --dir /home/e-smith/ssl.pem 'attr(0700,root,root)' \
-    --dir /var/service/pppoe 'attr(1755,root,root)' \
-    --file /var/service/pppoe/down 'attr(0644,root,root)' \
-    --file /var/service/pppoe/run 'attr(0755,root,root)' \
-    --dir /var/service/pppoe/supervise 'attr(0700,root,root)' \
-    --dir /var/service/pppoe/log 'attr(1755,root,root)' \
-    --file /var/service/pppoe/log/run 'attr(0755,root,root)' \
-    --dir /var/service/pppoe/log/supervise 'attr(0700,root,root)' \
-    --dir /var/log/pppoe 'attr(2750,qmaill,nofiles)' \
+    --dir /var/service/wan 'attr(1755,root,root)' \
+    --file /var/service/wan/down 'attr(0644,root,root)' \
+    --file /var/service/wan/run 'attr(0750,root,root)' \
+    --file /var/service/wan/run.dhclient 'attr(0750,root,root)' \
+    --file /var/service/wan/run.pppoe 'attr(0750,root,root)' \
+    --file /var/service/wan/run.static 'attr(0750,root,root)' \
+    --file /var/service/wan/run.dialup 'attr(0750,root,root)' \
+    --file /var/service/wan/run.disabled 'attr(0750,root,root)' \
+    --dir /var/service/wan/supervise 'attr(0700,root,root)' \
+    --dir /var/service/wan/log 'attr(1755,root,root)' \
+    --file /var/service/wan/log/run 'attr(0750,root,root)' \
+    --dir /var/service/wan/log/supervise 'attr(0700,root,root)' \
+    --dir /var/log/wan 'attr(2750,smelog,smelog)' \
+    --dir /var/service/ippp 'attr(1755,root,root)' \
+    --file /var/service/ippp/down 'attr(0644,root,root)' \
+    --file /var/service/ippp/run 'attr(0750,root,root)' \
+    --dir /var/service/ippp/supervise 'attr(0700,root,root)' \
+    --dir /var/service/ippp/log 'attr(1755,root,root)' \
+    --file /var/service/ippp/log/run 'attr(0750,root,root)' \
+    --dir /var/service/ippp/log/supervise 'attr(0700,root,root)' \
+    --dir /var/log/ippp 'attr(2750,smelog,smelog)' \
     --dir /etc/e-smith/skel/user/.ssh 'attr(0700,root,root)' \
     > %{name}-%{version}-%{release}-filelist
 

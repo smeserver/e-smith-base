@@ -1,0 +1,1191 @@
+diff -ruN work/e-smith-base-4.17.0/createlinks work+new/e-smith-base-4.17.0/createlinks
+--- work/e-smith-base-4.17.0/createlinks	2006-08-13 01:56:28.000000000 -0400
++++ work+new/e-smith-base-4.17.0/createlinks	2006-08-15 04:28:38.000000000 -0400
+@@ -17,8 +17,8 @@
+ foreach (qw(
+ 	/var/lib/dhcp/dhclient-eth0.conf
+ 	/var/lib/dhcp/dhclient-eth1.conf
+-	/var/service/pppoe/pppoe.pppd.conf
+-	/var/service/pppoe/run.pppoe.conf
++	/var/service/wan/pppoe.pppd.conf
++	/var/service/wan/run.pppoe.conf
+ 	/etc/ppp/ip-down.local
+ 	/etc/ppp/ip-up.local
+     ))
+@@ -29,11 +29,11 @@
+ 	));
+ }
+ 
+-safe_symlink("daemontools", "root/etc/rc.d/init.d/pppoe");
+-service_link_enhanced("pppoe", "S57", "7");
+-service_link_enhanced("pppoe", "K90", "6");
+-service_link_enhanced("pppoe", "K90", "0");
+-service_link_enhanced("pppoe", "K90", "1");
++safe_symlink("daemontools", "root/etc/rc.d/init.d/wan");
++service_link_enhanced("wan", "S37", "7");
++service_link_enhanced("wan", "K90", "6");
++service_link_enhanced("wan", "K90", "0");
++service_link_enhanced("wan", "K90", "1");
+ 
+ #events2templates("user-delete",
+ #    qw(/etc/httpd/admin-conf/httpd.conf
+@@ -41,7 +41,6 @@
+ 
+ # conf-dialup
+ foreach (qw(
+-    /etc/rc.d/init.d/diald
+     /etc/sysconfig/network-scripts/ifcfg-ppp0
+     /etc/sysconfig/network-scripts/chat-ppp0
+     /etc/ppp/ip-up.local
+@@ -49,7 +48,7 @@
+     /etc/diald.conf
+     /etc/diald.filter
+     /etc/diald/link
+-    /etc/ippp.conf
++    /var/service/ippp/config
+     /etc/ppp/ioptions
+     ))
+ {
+@@ -69,7 +68,7 @@
+     /etc/hosts
+     /etc/resolv.conf
+     /etc/sysctl.conf
+-    /var/service/dhcpcd/config
++    /var/service/wan/dhclient.config
+     ))
+ {
+     templates2events($_, qw(console-save bootstrap-console-save));
+@@ -345,7 +344,7 @@
+ event_link("init-reload", $event, "90");
+ 
+ safe_symlink("adjust", "root/etc/e-smith/events/$event/services2adjust/masq");
+-safe_symlink("restart", "root/etc/e-smith/events/$event/services2adjust/diald");
++safe_symlink("restart", "root/etc/e-smith/events/$event/services2adjust/wan");
+ safe_symlink("restart", "root/etc/e-smith/events/$event/services2adjust/dhcpd");
+ safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-admin");
+ 
+@@ -464,8 +463,7 @@
+ 
+ $event = "reboot";
+ 
+-safe_symlink("stop", "root/etc/e-smith/events/$event/services2adjust/pppoe");
+-safe_symlink("stop", "root/etc/e-smith/events/$event/services2adjust/dhcpcd");
++safe_symlink("stop", "root/etc/e-smith/events/$event/services2adjust/wan");
+ event_link("reboot", $event, "99");
+ 
+ #--------------------------------------------------
+@@ -604,9 +602,6 @@
+     irqbalance 	=> "39",
+     crond    	=> "40",
+     acpid    	=> "44",
+-    dhcpcd    	=> "50",
+-    ippp  	=> "55",
+-    diald    	=> "57",
+     dhcpd    	=> "65",
+     'httpd-admin'	=> "86",
+     messagebus 	=> "97",
+@@ -621,7 +616,6 @@
+ 
+ %service2order =
+ (
+-    dhcpcd 	=> "K35",
+     dhcpd       => "K35",
+ );
+ 
+@@ -642,3 +636,6 @@
+ safe_symlink("daemontools", "root/etc/rc.d/init.d/httpd-admin");
+ service_link_enhanced("httpd-admin", "K15", "6");
+ service_link_enhanced("httpd-admin", "K15", "0");
++
++safe_symlink("run.dhclient", "root/var/service/wan/run.DHCPHostname");
++safe_symlink("run.dhclient", "root/var/service/wan/run.DHCPEthernetAddress");
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/dhcpcd/status work+new/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/dhcpcd/status
+--- work/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/dhcpcd/status	2005-11-20 23:28:04.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/dhcpcd/status	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-disabled
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/dhcpcd/type work+new/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/dhcpcd/type
+--- work/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/dhcpcd/type	2005-11-20 23:28:04.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/dhcpcd/type	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-service
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/pppoe/DemandIdleTime work+new/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/pppoe/DemandIdleTime
+--- work/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/pppoe/DemandIdleTime	2005-11-20 23:28:04.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/pppoe/DemandIdleTime	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-no
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/pppoe/InKernel work+new/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/pppoe/InKernel
+--- work/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/pppoe/InKernel	2005-11-20 23:28:04.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/pppoe/InKernel	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-no
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/pppoe/status work+new/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/pppoe/status
+--- work/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/pppoe/status	2005-11-20 23:28:05.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/pppoe/status	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-disabled
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/pppoe/SynchronousPPP work+new/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/pppoe/SynchronousPPP
+--- work/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/pppoe/SynchronousPPP	2005-11-20 23:28:05.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/pppoe/SynchronousPPP	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-no
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/pppoe/type work+new/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/pppoe/type
+--- work/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/pppoe/type	2005-11-20 23:28:05.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/pppoe/type	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-service
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/wan/status work+new/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/wan/status
+--- work/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/wan/status	1969-12-31 19:00:00.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/wan/status	2006-08-15 06:41:09.000000000 -0400
+@@ -0,0 +1 @@
++enabled
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/wan/type work+new/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/wan/type
+--- work/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/wan/type	1969-12-31 19:00:00.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/defaults/wan/type	2006-08-15 04:20:10.000000000 -0400
+@@ -0,0 +1 @@
++service
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/migrate/10interfaces work+new/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/migrate/10interfaces
+--- work/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/migrate/10interfaces	2006-02-16 22:41:51.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/db/configuration/migrate/10interfaces	2006-08-15 20:15:05.000000000 -0400
+@@ -40,11 +40,13 @@
+                    $DB->new_record("InternalInterface", {type => "interface"});
+ 
+     my $ethernet_assign = $DB->get_value('EthernetAssign') || "normal";
+-    my $diald = $DB->get("diald") || $DB->new_record("diald", { type => 'service' } );
+-    my $diald_status = 'disabled';
++    my $diald = $DB->get("diald");
++    $diald->delete if $diald;
+ 
+-    my $dhcpcd = $DB->get("dhcpcd") || 
+-                 $DB->new_record("dhcpcd", { type => 'service' } );
++    my $dhcpcd = $DB->get("dhcpcd");
++    $dhcpcd->delete if $dhcpcd;
++
++    my $wan = $DB->get("wan") || $DB->new_record("wan", {type => 'service'});
+ 
+     my $mode = $DB->get_value("SystemMode") || "servergateway";
+     my $bonding = $internal->prop('NICBonding') || "disabled";
+@@ -72,17 +74,16 @@
+ 
+     $internal->merge_props(%int_props);
+ 
+-    my $external = $DB->get("ExternalInterface");
++    my $external = $DB->get("ExternalInterface") ||
++        $DB->new_record("ExternalInterface", {type => 'interface'});
+ 
+     if ( $mode eq "serveronly" )
+     {
+-        $external->delete if defined $external;
+-        $diald->merge_props(status => 'disabled');
+-        $dhcpcd->merge_props(status => 'disabled');
++        $external->merge_props(Configuration => 'disabled', Name => 'none');
++        $wan->merge_props(status => 'disabled');
+         return;
+     }
+-
+-    $external ||= $DB->new_record("ExternalInterface");
++    $wan->merge_props(status => 'enabled');
+ 
+     my $pppoe_status = $DB->get_prop('pppoe', 'status') || "disabled";
+     my $access_type = $DB->get_value('AccessType') || "unknown";
+@@ -118,7 +119,6 @@
+ 
+        # XXX FIXME - we should probably have dialup vs. isdn here
+         $ext_props{Configuration} = "dialup";
+-        $diald_status = 'enabled';
+     }
+     elsif ($pppoe_status eq 'enabled' )
+     {
+@@ -143,14 +143,10 @@
+     my $external_dhcp = $DB->get_value("ExternalDHCP") || "off";
+ 
+ 
+-    my %dhcpcd_props = $dhcpcd->props;
+-
+     if ($external_dhcp eq "on")
+     {
+         my $dhcp_config = $DB->get_value("DHCPClient") || "d";
+ 
+-        $dhcpcd_props{status} = "enabled";
+-
+         if ($dhcp_config eq "dhi")
+         {
+             # XXX FIXME - I think this should be "dhcpcd", which
+@@ -163,15 +159,9 @@
+             $ext_props{Configuration} = "DHCPEthernetAddress";
+          }
+     }
+-    else
+-    {
+-        $dhcpcd_props{status} = "disabled";
+-    }
+ 
+     $ext_props{Configuration} ||= "static" ;
+ 
+     # And write back the changes to the config db
+     $external->merge_props(%ext_props);
+-    $dhcpcd->merge_props(%dhcpcd_props);
+-    $diald->merge_props(status => $diald_status);
+ }
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/etc/ippp.conf/00Header work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/etc/ippp.conf/00Header
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/etc/ippp.conf/00Header	2005-11-20 23:28:07.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/etc/ippp.conf/00Header	1969-12-31 19:00:00.000000000 -0500
+@@ -1,2 +0,0 @@
+-# Linkname EAZ/MSN	Device...	Options...
+-
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/etc/ippp.conf/50Generic work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/etc/ippp.conf/50Generic
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/etc/ippp.conf/50Generic	2005-11-20 23:28:07.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/etc/ippp.conf/50Generic	1969-12-31 19:00:00.000000000 -0500
+@@ -1,11 +0,0 @@
+-{# An ippp0 connection for diald outgoing with no dialin (MSN set to "-") }
+-diald	-	ippp0 user {
+-    $OUT .= "$DialupUserAccount name $DialupUserAccount";
+-    # If you really want to change the options used by ipppd, then
+-    # you can set the IpppdOptions property of the 'isdn' service.
+-    # If you do this, you'd better know what you are doing!
+-    my $ppp_options = $isdn{'IpppdOptions'} ||
+-	" noauth debug -vj -vjccomp -bsdcomp -ac -pc " .
+-	    "noipdefault ipcp-accept-local ipcp-accept-remote";
+-    $OUT .= " $ppp_options ipparam diald";
+-}
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/etc/rc.d/init.d/diald/10config-default work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/etc/rc.d/init.d/diald/10config-default
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/etc/rc.d/init.d/diald/10config-default	2005-11-20 23:28:08.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/etc/rc.d/init.d/diald/10config-default	1969-12-31 19:00:00.000000000 -0500
+@@ -1,56 +0,0 @@
+-#
+-# diald   The on demand TCP/IP networking program
+-#              
+-#
+-# chkconfig: 2345 57 5
+-# description: Diald is the smart demand-dial PPP/SLIP networking daemon. \
+-#      It selectively activates the SLIP/PPP link to the Internet when \
+-#      traffic is detected that is considered important.
+-#
+-
+-# Source function library.
+-. /etc/rc.d/init.d/functions
+-
+-# Source networking configuration.
+-. /etc/sysconfig/network
+-
+-# Check that networking is up.
+-[ $\{NETWORKING\} = "no" ] && exit 0
+-
+-[ -f /usr/sbin/diald ] || exit 0
+-
+-[ -f /etc/diald.conf ] || exit 0
+-
+-
+-# See how we were called.
+-case "$1" in
+-  start)
+-	# Start daemons.
+-	echo -n "Starting diald: "
+-        echo 1 > /proc/sys/net/ipv4/ip_forward
+-        echo 2 > /proc/sys/net/ipv4/ip_dynaddr
+-#       echo 7 > /proc/sys/net/ipv4/ip_dynaddr
+-	daemon /usr/sbin/diald 
+-	echo
+-	touch /var/lock/subsys/diald
+-	;;
+-  stop)
+-	# Stop daemons.
+-	echo -n "Shutting down diald: "
+-	killproc /usr/sbin/diald
+-	echo
+-	rm -f /var/lock/subsys/diald
+-	;;
+-  restart)
+-        $0 stop
+-	$0 start
+-	;;
+-  status)
+-	status diald
+-	;;
+-  *)
+-	echo "Usage: diald \{start|stop|restart|status\}"
+-	exit 1
+-esac
+-
+-exit 0
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/dhcpcd/config/device work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/dhcpcd/config/device
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/dhcpcd/config/device	2005-11-20 23:28:09.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/dhcpcd/config/device	1969-12-31 19:00:00.000000000 -0500
+@@ -1,13 +0,0 @@
+-{
+-    my $device = $ExternalInterface{Name} || "eth1";
+-    $OUT .= "/sbin/modprobe eth0\n";
+-    $OUT .= "/sbin/modprobe eth1\n" if $device eq "eth1";
+-    if ($device eq "eth0.4094")
+-    {
+-	$OUT .=
+-	    "/sbin/modprobe 8021q\n" .
+-	    "/sbin/vconfig add eth0 4094\n";
+-    }
+-    $OUT .= "/sbin/ifconfig $device up mtu 1500\n\n";
+-    $OUT .= "interface=$device\n";
+-}
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/ippp/config/LocalIP work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/ippp/config/LocalIP
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/ippp/config/LocalIP	1969-12-31 19:00:00.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/ippp/config/LocalIP	2006-08-15 03:08:02.000000000 -0400
+@@ -0,0 +1,3 @@
++{
++    $OUT = "LocalIP=$LocalIP";
++}
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/ippp/config/ppp_options work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/ippp/config/ppp_options
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/ippp/config/ppp_options	1969-12-31 19:00:00.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/ippp/config/ppp_options	2006-08-15 03:15:11.000000000 -0400
+@@ -0,0 +1,11 @@
++{
++    $OUT = 'ppp_options="';
++    $OUT .= "user $DialupUserAccount name $DialupUserAccount ";
++    # If you really want to change the options used by ipppd, then
++    # you can set the IpppdOptions property of the 'isdn' service.
++    # If you do this, you'd better know what you are doing!
++    $OUT .= $isdn{'IpppdOptions'} ||
++	" noauth debug -vj -vjccomp -bsdcomp -ac -pc " .
++	    "noipdefault ipcp-accept-local ipcp-accept-remote";
++    $OUT .= ' ipparam diald"';
++}
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/comp work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/comp
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/comp	2005-11-20 23:28:09.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/comp	1969-12-31 19:00:00.000000000 -0500
+@@ -1,7 +0,0 @@
+-noaccomp
+-noccp
+-nobsdcomp
+-nodeflate
+-novj
+-novjccomp
+-nopcomp
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/debug work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/debug
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/debug	2005-11-20 23:28:09.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/debug	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-debug
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/default-asyncmap work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/default-asyncmap
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/default-asyncmap	2005-11-20 23:28:09.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/default-asyncmap	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-default-asyncmap
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/defaultroute work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/defaultroute
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/defaultroute	2005-11-20 23:28:09.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/defaultroute	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-defaultroute
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/hide-password work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/hide-password
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/hide-password	2005-11-20 23:28:09.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/hide-password	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-hide-password
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/ipparam work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/ipparam
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/ipparam	2005-11-20 23:28:09.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/ipparam	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-ipparam pppoe
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/lcp-echo work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/lcp-echo
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/lcp-echo	2005-11-20 23:28:09.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/lcp-echo	1969-12-31 19:00:00.000000000 -0500
+@@ -1,2 +0,0 @@
+-lcp-echo-interval 30
+-lcp-echo-failure 2
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/linkname work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/linkname
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/linkname	2005-11-20 23:28:09.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/linkname	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-linkname pppoe
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/mru work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/mru
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/mru	2005-11-20 23:28:09.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/mru	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-mru 1492
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/mtu work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/mtu
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/mtu	2005-11-20 23:28:09.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/mtu	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-mtu 1492
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/noauth work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/noauth
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/noauth	2005-11-20 23:28:09.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/noauth	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-noauth
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/nodetach work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/nodetach
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/nodetach	2005-11-20 23:28:09.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/nodetach	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-nodetach
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/noipdefault work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/noipdefault
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/noipdefault	2005-11-20 23:28:09.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/noipdefault	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-noipdefault
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/pty work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/pty
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/pty	2005-11-20 23:28:09.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/pty	1969-12-31 19:00:00.000000000 -0500
+@@ -1,27 +0,0 @@
+-{
+-    my $inkernel = $pppoe{InKernel} || "no";
+-    my $timeout = $pppoe{Timeout} || 120; # PPPOE_TIMEOUT should be about 4*LCP_INTERVAL
+-    my $device = $pppoe{PhysicalInterface} || "eth1";
+-    my $syncPPP = $pppoe{SynchronousPPP} || "no";
+-    my $syncflag = "";
+-
+-    $OUT = "";
+-    if ($syncPPP eq "yes")
+-    {
+-	$OUT .= "sync\n";
+-	$syncflag = "-s";
+-    }
+-    if ($inkernel eq "yes")
+-    {
+-	# Find Roaring Penguin pppoe plugin
+-	my ($plugin) = glob "/usr/lib/pppd/*/rp-pppoe.so";
+-	$plugin ||= "pppoe_plugin_could_not_be_found";
+-
+-	$OUT .= "plugin $plugin\n";
+-	$OUT .= "$device";
+-    }
+-    else
+-    {
+-	$OUT .= "pty '/usr/sbin/pppoe -I $device -T $timeout -U -m 1412 $syncflag'";
+-    }
+-}
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/username work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/username
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/username	2005-11-20 23:28:09.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/pppoe.pppd.conf/username	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-user "{ "$DialupUserAccount" }"
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/run.pppoe.conf/device work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/run.pppoe.conf/device
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/run.pppoe.conf/device	2005-11-20 23:28:09.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/run.pppoe.conf/device	1969-12-31 19:00:00.000000000 -0500
+@@ -1,16 +0,0 @@
+-{
+-    my $device = $pppoe{PhysicalInterface} || "eth1";
+-    $OUT .= "/sbin/modprobe eth0\n";
+-    $OUT .= "/sbin/modprobe eth1\n" if $device eq "eth1";
+-    if ($device eq "eth0.4094")
+-    {
+-	$OUT .=
+-	    "/sbin/modprobe 8021q\n" .
+-	    "test -f /proc/net/vlan/eth0.4094 || /sbin/vconfig add eth0 4094\n";
+-    }
+-    $OUT .= "/sbin/ifconfig $device up mtu 1500\n";
+-    $OUT .= "/sbin/modprobe ppp_generic\n";
+-    $OUT .= "/sbin/modprobe ppp_async\n";
+-    $OUT .= "/sbin/modprobe ppp_synctty\n";
+-    $OUT .= "DEVICE=$device";
+-}
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/run.pppoe.conf/mlimit work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/run.pppoe.conf/mlimit
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/run.pppoe.conf/mlimit	2006-03-14 11:20:43.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/run.pppoe.conf/mlimit	1969-12-31 19:00:00.000000000 -0500
+@@ -1,5 +0,0 @@
+-{
+-# memory limit to catch any memory leak before it kills the system
+-    my $mlimit = $pppoe{Mlimit} || '25000000';
+-    $OUT = "PPPD_MLIMIT=$mlimit";
+-}
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/run.pppoe.conf/timeout work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/run.pppoe.conf/timeout
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/run.pppoe.conf/timeout	2005-11-20 23:28:09.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/pppoe/run.pppoe.conf/timeout	1969-12-31 19:00:00.000000000 -0500
+@@ -1,2 +0,0 @@
+-# PPPOE_TIMEOUT should be about 4*LCP_INTERVAL
+-PPPOE_TIMEOUT=120
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/dhclient.config/device work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/dhclient.config/device
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/dhclient.config/device	1969-12-31 19:00:00.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/dhclient.config/device	2005-11-20 23:28:09.000000000 -0500
+@@ -0,0 +1,13 @@
++{
++    my $device = $ExternalInterface{Name} || "eth1";
++    $OUT .= "/sbin/modprobe eth0\n";
++    $OUT .= "/sbin/modprobe eth1\n" if $device eq "eth1";
++    if ($device eq "eth0.4094")
++    {
++	$OUT .=
++	    "/sbin/modprobe 8021q\n" .
++	    "/sbin/vconfig add eth0 4094\n";
++    }
++    $OUT .= "/sbin/ifconfig $device up mtu 1500\n\n";
++    $OUT .= "interface=$device\n";
++}
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/comp work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/comp
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/comp	1969-12-31 19:00:00.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/comp	2005-11-20 23:28:09.000000000 -0500
+@@ -0,0 +1,7 @@
++noaccomp
++noccp
++nobsdcomp
++nodeflate
++novj
++novjccomp
++nopcomp
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/debug work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/debug
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/debug	1969-12-31 19:00:00.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/debug	2005-11-20 23:28:09.000000000 -0500
+@@ -0,0 +1 @@
++debug
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/default-asyncmap work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/default-asyncmap
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/default-asyncmap	1969-12-31 19:00:00.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/default-asyncmap	2005-11-20 23:28:09.000000000 -0500
+@@ -0,0 +1 @@
++default-asyncmap
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/defaultroute work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/defaultroute
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/defaultroute	1969-12-31 19:00:00.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/defaultroute	2005-11-20 23:28:09.000000000 -0500
+@@ -0,0 +1 @@
++defaultroute
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/hide-password work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/hide-password
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/hide-password	1969-12-31 19:00:00.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/hide-password	2005-11-20 23:28:09.000000000 -0500
+@@ -0,0 +1 @@
++hide-password
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/ipparam work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/ipparam
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/ipparam	1969-12-31 19:00:00.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/ipparam	2005-11-20 23:28:09.000000000 -0500
+@@ -0,0 +1 @@
++ipparam pppoe
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/lcp-echo work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/lcp-echo
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/lcp-echo	1969-12-31 19:00:00.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/lcp-echo	2005-11-20 23:28:09.000000000 -0500
+@@ -0,0 +1,2 @@
++lcp-echo-interval 30
++lcp-echo-failure 2
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/linkname work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/linkname
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/linkname	1969-12-31 19:00:00.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/linkname	2005-11-20 23:28:09.000000000 -0500
+@@ -0,0 +1 @@
++linkname pppoe
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/mru work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/mru
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/mru	1969-12-31 19:00:00.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/mru	2005-11-20 23:28:09.000000000 -0500
+@@ -0,0 +1 @@
++mru 1492
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/mtu work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/mtu
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/mtu	1969-12-31 19:00:00.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/mtu	2005-11-20 23:28:09.000000000 -0500
+@@ -0,0 +1 @@
++mtu 1492
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/noauth work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/noauth
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/noauth	1969-12-31 19:00:00.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/noauth	2005-11-20 23:28:09.000000000 -0500
+@@ -0,0 +1 @@
++noauth
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/nodetach work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/nodetach
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/nodetach	1969-12-31 19:00:00.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/nodetach	2005-11-20 23:28:09.000000000 -0500
+@@ -0,0 +1 @@
++nodetach
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/noipdefault work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/noipdefault
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/noipdefault	1969-12-31 19:00:00.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/noipdefault	2005-11-20 23:28:09.000000000 -0500
+@@ -0,0 +1 @@
++noipdefault
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/pty work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/pty
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/pty	1969-12-31 19:00:00.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/pty	2005-11-20 23:28:09.000000000 -0500
+@@ -0,0 +1,27 @@
++{
++    my $inkernel = $pppoe{InKernel} || "no";
++    my $timeout = $pppoe{Timeout} || 120; # PPPOE_TIMEOUT should be about 4*LCP_INTERVAL
++    my $device = $pppoe{PhysicalInterface} || "eth1";
++    my $syncPPP = $pppoe{SynchronousPPP} || "no";
++    my $syncflag = "";
++
++    $OUT = "";
++    if ($syncPPP eq "yes")
++    {
++	$OUT .= "sync\n";
++	$syncflag = "-s";
++    }
++    if ($inkernel eq "yes")
++    {
++	# Find Roaring Penguin pppoe plugin
++	my ($plugin) = glob "/usr/lib/pppd/*/rp-pppoe.so";
++	$plugin ||= "pppoe_plugin_could_not_be_found";
++
++	$OUT .= "plugin $plugin\n";
++	$OUT .= "$device";
++    }
++    else
++    {
++	$OUT .= "pty '/usr/sbin/pppoe -I $device -T $timeout -U -m 1412 $syncflag'";
++    }
++}
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/username work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/username
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/username	1969-12-31 19:00:00.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/username	2005-11-20 23:28:09.000000000 -0500
+@@ -0,0 +1 @@
++user "{ "$DialupUserAccount" }"
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/run.pppoe.conf/device work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/run.pppoe.conf/device
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/run.pppoe.conf/device	1969-12-31 19:00:00.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/run.pppoe.conf/device	2005-11-20 23:28:09.000000000 -0500
+@@ -0,0 +1,16 @@
++{
++    my $device = $pppoe{PhysicalInterface} || "eth1";
++    $OUT .= "/sbin/modprobe eth0\n";
++    $OUT .= "/sbin/modprobe eth1\n" if $device eq "eth1";
++    if ($device eq "eth0.4094")
++    {
++	$OUT .=
++	    "/sbin/modprobe 8021q\n" .
++	    "test -f /proc/net/vlan/eth0.4094 || /sbin/vconfig add eth0 4094\n";
++    }
++    $OUT .= "/sbin/ifconfig $device up mtu 1500\n";
++    $OUT .= "/sbin/modprobe ppp_generic\n";
++    $OUT .= "/sbin/modprobe ppp_async\n";
++    $OUT .= "/sbin/modprobe ppp_synctty\n";
++    $OUT .= "DEVICE=$device";
++}
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/run.pppoe.conf/mlimit work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/run.pppoe.conf/mlimit
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/run.pppoe.conf/mlimit	1969-12-31 19:00:00.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/run.pppoe.conf/mlimit	2006-03-14 11:20:43.000000000 -0500
+@@ -0,0 +1,5 @@
++{
++# memory limit to catch any memory leak before it kills the system
++    my $mlimit = $pppoe{Mlimit} || '25000000';
++    $OUT = "PPPD_MLIMIT=$mlimit";
++}
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/run.pppoe.conf/timeout work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/run.pppoe.conf/timeout
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/run.pppoe.conf/timeout	1969-12-31 19:00:00.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates/var/service/wan/run.pppoe.conf/timeout	2005-11-20 23:28:09.000000000 -0500
+@@ -0,0 +1,2 @@
++# PPPOE_TIMEOUT should be about 4*LCP_INTERVAL
++PPPOE_TIMEOUT=120
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates.metadata/var/service/pppoe/pppoe.pppd.conf work+new/e-smith-base-4.17.0/root/etc/e-smith/templates.metadata/var/service/pppoe/pppoe.pppd.conf
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates.metadata/var/service/pppoe/pppoe.pppd.conf	2005-11-20 23:28:10.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates.metadata/var/service/pppoe/pppoe.pppd.conf	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-PERMS=0600
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates.metadata/var/service/pppoe/run.pppoe.conf work+new/e-smith-base-4.17.0/root/etc/e-smith/templates.metadata/var/service/pppoe/run.pppoe.conf
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates.metadata/var/service/pppoe/run.pppoe.conf	2005-11-20 23:28:10.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates.metadata/var/service/pppoe/run.pppoe.conf	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-PERMS=0600
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates.metadata/var/service/wan/pppoe.pppd.conf work+new/e-smith-base-4.17.0/root/etc/e-smith/templates.metadata/var/service/wan/pppoe.pppd.conf
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates.metadata/var/service/wan/pppoe.pppd.conf	1969-12-31 19:00:00.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates.metadata/var/service/wan/pppoe.pppd.conf	2005-11-20 23:28:10.000000000 -0500
+@@ -0,0 +1 @@
++PERMS=0600
+diff -ruN work/e-smith-base-4.17.0/root/etc/e-smith/templates.metadata/var/service/wan/run.pppoe.conf work+new/e-smith-base-4.17.0/root/etc/e-smith/templates.metadata/var/service/wan/run.pppoe.conf
+--- work/e-smith-base-4.17.0/root/etc/e-smith/templates.metadata/var/service/wan/run.pppoe.conf	1969-12-31 19:00:00.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/e-smith/templates.metadata/var/service/wan/run.pppoe.conf	2005-11-20 23:28:10.000000000 -0500
+@@ -0,0 +1 @@
++PERMS=0600
+diff -ruN work/e-smith-base-4.17.0/root/etc/rc.d/init.d/ippp work+new/e-smith-base-4.17.0/root/etc/rc.d/init.d/ippp
+--- work/e-smith-base-4.17.0/root/etc/rc.d/init.d/ippp	2005-11-20 23:28:10.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/etc/rc.d/init.d/ippp	1969-12-31 19:00:00.000000000 -0500
+@@ -1,180 +0,0 @@
+-#!/bin/sh
+-#
+-# (C) Copyright 1995-1999  Mike Jagdis <jaggy@purplet.demon.co.uk>
+-#
+-#
+-# Configure the ippp interfaces according to the descriptions
+-# in the configuration file.
+-#
+-# This script would normally be installed as /etc/rc.ippp,
+-# /etc/init.d/ippp, /etc/rc[1-5].d/SXXippp or similar
+-# depending on your system religion.
+-#
+-# The assumption is that dialds are to be used to manage the ippp
+-# interfaces. If not the ippp interfaces should be reconfigured
+-# afterwards as necessary.
+-#
+-# This should run before dialds are started and before any attempt
+-# is made to reconfigure ippp interfaces differently.
+-
+-
+-# CONFIGURABLE STUFF
+-
+-export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin
+-
+-config_file=/etc/ippp.conf
+-
+-# END OF CONFIGURABLE STUFF
+-
+-
+-action="$1"
+-shift
+-links="$*"
+-
+-
+-if [ -n "$BASH_VERSION" ]; then
+-	enable echo
+-	enable kill
+-	use_escapes='-e'
+-else
+-	use_escapes=''
+-fi
+-
+-
+-start_ipppd()
+-{
+-	link="$1"
+-	eazmsn="$2"
+-	shift; shift
+-
+-	echo $use_escapes " $link\c"
+-
+-	if [ "$eazmsn" = '-' ]; then
+-		eazmsn=
+-	fi
+-
+-	ports=
+-	while [ -n "$1" ]; do
+-		case "$1" in
+-		ippp*)
+-			ports="$ports /dev/$1"
+-
+-			# Set up this interface for syncPPP over HDLC.
+-			# Disable the hangup timeout because diald should be
+-			# managing that.
+-			( isdnctrl delif "$1"; \
+-			  isdnctrl addif "$1"; \
+-			  isdnctrl encap "$1" syncppp; \
+-			  isdnctrl l2_prot "$1" hdlc; \
+-			  isdnctrl huptimeout "$1" 0; \
+-			  isdnctrl eaz "$1" "$eazmsn"; \
+-			  isdnctrl status "$1" on; \
+-			) > /dev/null 2>&1
+-
+-			# Explicitly bind the interface to the matching
+-			# syncPPP manager channel. This is essential if
+-			# any PPP options are specified. It is arguably
+-			# convenient when no options are supplied and a
+-			# single ipppd manages several links too.
+-			unit=`echo "$1" | cut -c5-`
+-			if [ -n "$unit" ]; then
+-				isdnctrl pppbind "$1" "$unit" >/dev/null 2>&1
+-			fi
+-
+-			if [ -z "$eazmsn" ]; then
+-			    # This interface is notavailable for incoming
+-			    # connections.
+-			    isdnctrl secure "$1" on > /dev/null 2>&1
+-			fi
+-			ifconfig "$1" \
+-			    $(/sbin/e-smith/db configuration get LocalIP) \
+-			    pointopoint 0.0.0.0 \
+-			    netmask 255.255.255.255 \
+-			    up > /dev/null 2>&1
+-			;;
+-		*)
+-			break
+-			;;
+-		esac
+-		shift
+-	done
+-
+-	pppopts="$*"
+-
+-	# Diald will add host routes as appropriate. If we
+-	# let ipppd do it diald may never notice the link
+-	# come up as a result of an incoming connection
+-	# where all the traffic is to/from the local
+-	# system. i.e. our reply must go out via the
+-	# diald slip proxy.
+-	ipppd $ports -hostroute $pppopts pidfile "/var/run/ipppd.$link"
+-}
+-
+-
+-case "${action}" in
+-	start)
+-		# Set up ippp interfaces. If a configuration file
+-		# exists we read the details and apply them.
+-		if [ -f "$config_file" ]; then
+-			# Try and load the hisax driver modules
+-			modprobe hisax > /dev/null 2>&1
+-			# Try and load compression modules before doing
+-			# anything that might load SLIP/PPP modules.
+-			# (I don't know why Mike Jagdiss script does this
+-			modprobe bsd_comp ppp_deflate > /dev/null 2>&1
+-
+-			echo $use_escapes "Configuring ippp interfaces:\c"
+-			while read key args; do
+-				# Ignore blank lines and comments.
+-				case "$key" in
+-					'#'*|'')
+-						continue ;;
+-				esac
+-
+-				if [ -z "$links" ]; then
+-					start_ipppd "$key" $args
+-				else
+-					for i in $links; do
+-						if [ "$key" = "$i" ]; then
+-							start_ipppd "$key" $args
+-							break
+-						fi
+-					done
+-				fi
+-			done < "$config_file"
+-
+-			echo
+-		fi
+-		;;
+-
+-	stop)
+-		if [ -z "$links" ]; then
+-			pids=`cat /var/run/ipppd.* 2> /dev/null`
+-		else
+-			pids=`for key in $links; do
+-				cat "/var/run/ipppd.$key"
+-			done 2> /dev/null`
+-		fi
+-
+-		if [ -z "$pids" ]; then
+-			echo "No ippp interfaces to stop"
+-			exit 0
+-		fi
+-
+-		kill $pids > /dev/null 2>&1
+-		sleep 1
+-		for retry in 1 2 3; do
+-			if kill $pids > /dev/null 2>&1; then
+-				: some still exist
+-				sleep 2
+-			else
+-				echo "ippp interfaces stopped"
+-				break
+-			fi
+-		done
+-		;;
+-
+-	*)	echo "usage: ippp start|stop [link ...]"
+-		exit 1
+-		;;
+-esac
+diff -ruN work/e-smith-base-4.17.0/root/var/service/dhcpcd/log/run work+new/e-smith-base-4.17.0/root/var/service/dhcpcd/log/run
+--- work/e-smith-base-4.17.0/root/var/service/dhcpcd/log/run	2005-11-20 23:28:11.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/var/service/dhcpcd/log/run	1969-12-31 19:00:00.000000000 -0500
+@@ -1,26 +0,0 @@
+-#!/bin/sh
+-
+-#----------------------------------------------------------------------
+-# copyright (C) 2003 Mitel Networks Corporation
+-#
+-# This program is free software; you can redistribute it and/or modify
+-# it under the terms of the GNU General Public License as published by
+-# the Free Software Foundation; either version 2 of the License, or
+-# (at your option) any later version.
+-#
+-# This program is distributed in the hope that it will be useful,
+-# but WITHOUT ANY WARRANTY; without even the implied warranty of
+-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-# GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License
+-# along with this program; if not, write to the Free Software
+-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+-#
+-# Technical support for this program is available from Mitel Networks
+-# Please visit our web site www.mitel.com/sme/ for details.
+-#----------------------------------------------------------------------
+-exec                                    \
+-    /usr/local/bin/setuidgid smelog     \
+-    /usr/local/bin/multilog t s5000000  \
+-    /var/log/dhcpcd
+diff -ruN work/e-smith-base-4.17.0/root/var/service/dhcpcd/run work+new/e-smith-base-4.17.0/root/var/service/dhcpcd/run
+--- work/e-smith-base-4.17.0/root/var/service/dhcpcd/run	2006-08-13 01:56:27.000000000 -0400
++++ work+new/e-smith-base-4.17.0/root/var/service/dhcpcd/run	1969-12-31 19:00:00.000000000 -0500
+@@ -1,33 +0,0 @@
+-#!/bin/sh
+-#----------------------------------------------------------------------
+-# copyright (C) 1999-2005 Mitel Networks Corporation
+-#
+-# This program is free software; you can redistribute it and/or modify
+-# it under the terms of the GNU General Public License as published by
+-# the Free Software Foundation; either version 2 of the License, or
+-# (at your option) any later version.
+-#
+-# This program is distributed in the hope that it will be useful,
+-# but WITHOUT ANY WARRANTY; without even the implied warranty of
+-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-# GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License
+-# along with this program; if not, write to the Free Software
+-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+-#
+-# Technical support for this program is available from Mitel Networks
+-# Please visit our web site www.mitel.com/sme/ for details.
+-#----------------------------------------------------------------------
+-exec 2>&1
+-
+-. ./config
+-
+-configfile=/var/lib/dhcp/dhclient-$interface.conf
+-leasefile=/var/lib/dhcp/dhclient-$interface.leases
+-
+-export PEERDNS=no
+-exec /sbin/dhclient -d \
+-    -cf $configfile \
+-    -lf $leasefile \
+-    $interface
+diff -ruN work/e-smith-base-4.17.0/root/var/service/ippp/log/run work+new/e-smith-base-4.17.0/root/var/service/ippp/log/run
+--- work/e-smith-base-4.17.0/root/var/service/ippp/log/run	1969-12-31 19:00:00.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/var/service/ippp/log/run	2006-08-15 04:53:02.000000000 -0400
+@@ -0,0 +1,6 @@
++#! /bin/sh
++
++exec                                    \
++    /usr/local/bin/setuidgid smelog     \
++    /usr/local/bin/multilog t s5000000  \
++    /var/log/ippp
+diff -ruN work/e-smith-base-4.17.0/root/var/service/ippp/run work+new/e-smith-base-4.17.0/root/var/service/ippp/run
+--- work/e-smith-base-4.17.0/root/var/service/ippp/run	1969-12-31 19:00:00.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/var/service/ippp/run	2006-08-15 04:38:26.000000000 -0400
+@@ -0,0 +1,58 @@
++#!/bin/sh
++#
++# Based on /etc/rc.d/init.d/ippp:
++#
++# (C) Copyright 1995-1999  Mike Jagdis <jaggy@purplet.demon.co.uk>
++#
++# The assumption is that dialds are to be used to manage the ippp
++# interfaces. If not the ippp interfaces should be reconfigured
++# afterwards as necessary.
++#
++# This should run before dialds are started and before any attempt
++# is made to reconfigure ippp interfaces differently.
++
++config_file=./config
++
++modprobe hisax
++# TODO should check here for failure!!
++
++# Try and load compression modules before doing
++# anything that might load SLIP/PPP modules.
++# (I don't know why Mike Jagdiss script does this
++
++modprobe bsd_comp ppp_deflate
++
++# Set up this interface for syncPPP over HDLC.
++# Disable the hangup timeout because diald should be
++# managing that.
++ isdnctrl delif ippp0
++ isdnctrl addif ippp0
++ isdnctrl encap ippp0 syncppp
++ isdnctrl l2_prot ippp0 hdlc
++ isdnctrl huptimeout ippp0 0
++ isdnctrl eaz ippp0 ""
++ isdnctrl status ippp0 on
++
++# Explicitly bind the interface to the matching
++# syncPPP manager channel. This is essential if
++# any PPP options are specified. It is arguably
++# convenient when no options are supplied and a
++# single ipppd manages several links too.
++isdnctrl pppbind ippp0 0
++
++# This interface is notavailable for incoming
++# connections.
++isdnctrl secure ippp0 on
++
++ifconfig ippp0 "$LocalIP" \
++    pointopoint 0.0.0.0 \
++    netmask 255.255.255.255 \
++    up
++
++# Diald will add host routes as appropriate. If we
++# let ipppd do it diald may never notice the link
++# come up as a result of an incoming connection
++# where all the traffic is to/from the local
++# system. i.e. our reply must go out via the
++# diald slip proxy.
++exec ipppd ippp0 -detach -hostroute $pppopts
+diff -ruN work/e-smith-base-4.17.0/root/var/service/pppoe/log/run work+new/e-smith-base-4.17.0/root/var/service/pppoe/log/run
+--- work/e-smith-base-4.17.0/root/var/service/pppoe/log/run	2005-11-20 23:28:11.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/var/service/pppoe/log/run	1969-12-31 19:00:00.000000000 -0500
+@@ -1,26 +0,0 @@
+-#!/bin/sh
+-
+-#----------------------------------------------------------------------
+-# copyright (C) 2002 Mitel Networks Corporation
+-# 
+-# This program is free software; you can redistribute it and/or modify
+-# it under the terms of the GNU General Public License as published by
+-# the Free Software Foundation; either version 2 of the License, or
+-# (at your option) any later version.
+-# 		
+-# This program is distributed in the hope that it will be useful,
+-# but WITHOUT ANY WARRANTY; without even the implied warranty of
+-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-# GNU General Public License for more details.
+-# 		
+-# You should have received a copy of the GNU General Public License
+-# along with this program; if not, write to the Free Software
+-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+-# 
+-# Technical support for this program is available from Mitel Networks 
+-# Please visit our web site www.mitel.com/sme/ for details.
+-#----------------------------------------------------------------------
+-exec					\
+-    /usr/local/bin/setuidgid qmaill	\
+-    /usr/local/bin/multilog t s5000000	\
+-    /var/log/pppoe
+diff -ruN work/e-smith-base-4.17.0/root/var/service/pppoe/run work+new/e-smith-base-4.17.0/root/var/service/pppoe/run
+--- work/e-smith-base-4.17.0/root/var/service/pppoe/run	2005-11-20 23:28:11.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/var/service/pppoe/run	1969-12-31 19:00:00.000000000 -0500
+@@ -1,31 +0,0 @@
+-#!/bin/sh
+-#----------------------------------------------------------------------
+-# copyright (C) 2002 Mitel Networks Corporation
+-# 
+-# This program is free software; you can redistribute it and/or modify
+-# it under the terms of the GNU General Public License as published by
+-# the Free Software Foundation; either version 2 of the License, or
+-# (at your option) any later version.
+-# 		
+-# This program is distributed in the hope that it will be useful,
+-# but WITHOUT ANY WARRANTY; without even the implied warranty of
+-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-# GNU General Public License for more details.
+-# 		
+-# You should have received a copy of the GNU General Public License
+-# along with this program; if not, write to the Free Software
+-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+-# 
+-# Technical support for this program is available from Mitel Networks 
+-# Please visit our web site www.mitel.com/sme/ for details.
+-#----------------------------------------------------------------------
+-exec 2>&1
+-
+-. run.pppoe.conf
+-
+-
+-exec \
+-    /usr/local/bin/softlimit -m $PPPD_MLIMIT \
+-    /usr/bin/setsid \
+-    /usr/sbin/pppd \
+-    file pppoe.pppd.conf
+diff -ruN work/e-smith-base-4.17.0/root/var/service/wan/log/run work+new/e-smith-base-4.17.0/root/var/service/wan/log/run
+--- work/e-smith-base-4.17.0/root/var/service/wan/log/run	1969-12-31 19:00:00.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/var/service/wan/log/run	2006-08-15 04:53:28.000000000 -0400
+@@ -0,0 +1,7 @@
++#! /bin/sh
++
++exec                                    \
++    /usr/local/bin/setuidgid smelog     \
++    /usr/local/bin/multilog t s5000000  \
++    /var/log/wan
++
+diff -ruN work/e-smith-base-4.17.0/root/var/service/wan/run work+new/e-smith-base-4.17.0/root/var/service/wan/run
+--- work/e-smith-base-4.17.0/root/var/service/wan/run	1969-12-31 19:00:00.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/var/service/wan/run	2006-08-15 06:42:40.000000000 -0400
+@@ -0,0 +1,12 @@
++#! /bin/sh
++
++exec 2>&1
++config=$(/sbin/e-smith/config getprop ExternalInterface Configuration)
++
++if [ -x run.$config ]
++then
++    exec ./run.$config
++fi
++
++echo script run.$config not found - please report this as a bug
++sleep 100
+diff -ruN work/e-smith-base-4.17.0/root/var/service/wan/run.dhclient work+new/e-smith-base-4.17.0/root/var/service/wan/run.dhclient
+--- work/e-smith-base-4.17.0/root/var/service/wan/run.dhclient	1969-12-31 19:00:00.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/var/service/wan/run.dhclient	2006-08-15 04:18:23.000000000 -0400
+@@ -0,0 +1,31 @@
++#!/bin/sh
++#----------------------------------------------------------------------
++# copyright (C) 1999-2006 Mitel Networks Corporation
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program; if not, write to the Free Software
++# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
++#
++#----------------------------------------------------------------------
++exec 2>&1
++
++. ./dhclient.config
++
++configfile=/var/lib/dhcp/dhclient-$interface.conf
++leasefile=/var/lib/dhcp/dhclient-$interface.leases
++
++export PEERDNS=no
++exec /sbin/dhclient -d \
++    -cf $configfile \
++    -lf $leasefile \
++    $interface
+diff -ruN work/e-smith-base-4.17.0/root/var/service/wan/run.dialup work+new/e-smith-base-4.17.0/root/var/service/wan/run.dialup
+--- work/e-smith-base-4.17.0/root/var/service/wan/run.dialup	1969-12-31 19:00:00.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/var/service/wan/run.dialup	2006-08-15 06:40:35.000000000 -0400
+@@ -0,0 +1,13 @@
++#! /bin/sh
++
++ISDN=$(/sbin/e-smith/config getprop isdn status)
++if [ "$ISDN" = "enabled" ]
++then
++    runsvctrl u /service/ippp
++    sleep 10
++    # TODO check here that ISDN device is available!!
++fi
++echo 1 > /proc/sys/net/ipv4/ip_forward
++echo 2 > /proc/sys/net/ipv4/ip_dynaddr
++#       echo 7 > /proc/sys/net/ipv4/ip_dynaddr
++exec /usr/sbin/diald -daemon
+diff -ruN work/e-smith-base-4.17.0/root/var/service/wan/run.disabled work+new/e-smith-base-4.17.0/root/var/service/wan/run.disabled
+--- work/e-smith-base-4.17.0/root/var/service/wan/run.disabled	1969-12-31 19:00:00.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/var/service/wan/run.disabled	2006-08-15 04:17:05.000000000 -0400
+@@ -0,0 +1,4 @@
++#! /bin/sh
++
++echo run.disabled run - please report this as a bug
++sleep 120
+diff -ruN work/e-smith-base-4.17.0/root/var/service/wan/run.pppoe work+new/e-smith-base-4.17.0/root/var/service/wan/run.pppoe
+--- work/e-smith-base-4.17.0/root/var/service/wan/run.pppoe	1969-12-31 19:00:00.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/var/service/wan/run.pppoe	2006-08-15 01:52:59.000000000 -0400
+@@ -0,0 +1,31 @@
++#!/bin/sh
++#----------------------------------------------------------------------
++# copyright (C) 2002 Mitel Networks Corporation
++# 
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++# 		
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++# 		
++# You should have received a copy of the GNU General Public License
++# along with this program; if not, write to the Free Software
++# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
++# 
++# Technical support for this program is available from Mitel Networks 
++# Please visit our web site www.mitel.com/sme/ for details.
++#----------------------------------------------------------------------
++exec 2>&1
++
++. run.pppoe.conf
++
++
++exec \
++    /usr/local/bin/softlimit -m $PPPD_MLIMIT \
++    /usr/bin/setsid \
++    /usr/sbin/pppd \
++    file pppoe.pppd.conf
+diff -ruN work/e-smith-base-4.17.0/root/var/service/wan/run.static work+new/e-smith-base-4.17.0/root/var/service/wan/run.static
+--- work/e-smith-base-4.17.0/root/var/service/wan/run.static	1969-12-31 19:00:00.000000000 -0500
++++ work+new/e-smith-base-4.17.0/root/var/service/wan/run.static	2006-08-15 04:16:34.000000000 -0400
+@@ -0,0 +1,5 @@
++#! /bin/sh
++
++name=$(/sbin/e-smith/config getprop ExternalInterface Name)
++/sbin/ifup $name
++exec pause
