@@ -52,6 +52,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Aug 21 2006 Charlie Brady <charlie_brady@mitel.com> 4.17.0-06
+- Combine dhcp client, pppoe, dialup and static WAN connections into
+  "wan" service. [SME 1795]
+
 * Fri Aug 18 2006 Charlie Brady <charlie_brady@mitel.com> 4.17.0-05
 - Re-add UnsavedChanges functionality to the console, and fix a few
   little problems with the esmith::ConfigDB conversion. [SME: 1856]
