@@ -1,0 +1,11 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.0/root/etc/e-smith/templates/etc/httpd/admin-conf/httpd.conf/20Manager mezzanine_patched_e-smith-base-4.17.0/root/etc/e-smith/templates/etc/httpd/admin-conf/httpd.conf/20Manager
+--- e-smith-base-4.17.0/root/etc/e-smith/templates/etc/httpd/admin-conf/httpd.conf/20Manager	2005-11-20 23:28:07.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.17.0/root/etc/e-smith/templates/etc/httpd/admin-conf/httpd.conf/20Manager	2006-08-30 01:20:33.000000000 -0400
+@@ -30,6 +30,7 @@
+ LoadModule actions_module     modules/mod_actions.so
+ LoadModule userdir_module     modules/mod_userdir.so
+ LoadModule proxy_module       modules/mod_proxy.so
++LoadModule proxy_http_module  modules/mod_proxy_http.so
+ LoadModule alias_module       modules/mod_alias.so
+ LoadModule rewrite_module     modules/mod_rewrite.so
+ LoadModule access_module      modules/mod_access.so
