@@ -1,0 +1,9 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.0/root/etc/e-smith/templates/var/lib/dhcp/dhclient.conf/50hostname mezzanine_patched_e-smith-base-4.17.0/root/etc/e-smith/templates/var/lib/dhcp/dhclient.conf/50hostname
+--- e-smith-base-4.17.0/root/etc/e-smith/templates/var/lib/dhcp/dhclient.conf/50hostname	2006-08-13 15:56:27.000000000 +1000
++++ mezzanine_patched_e-smith-base-4.17.0/root/etc/e-smith/templates/var/lib/dhcp/dhclient.conf/50hostname	2006-09-02 22:05:20.000000000 +1000
+@@ -1,4 +1,5 @@
+ {
++    return unless $ExternalInterface;
+     return unless $ExternalInterface{Name} eq $THIS_DEVICE;
+     return unless $ExternalInterface{Configuration} eq "DHCPHostname";
+     $OUT .= "    send host-name \"$DialupUserAccount\";\n";

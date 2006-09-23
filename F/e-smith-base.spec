@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.17.0
-%define release 07
+%define release 08
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -15,6 +15,7 @@ Patch2: e-smith-base-4.17.0-masq_merge.patch
 Patch3: e-smith-base-4.17.0-console_db.patch2
 Patch4: e-smith-base-4.17.0-wan_service.patch
 Patch5: e-smith-base-4.17.0-mod_proxy_http.patch
+Patch6: e-smith-base-4.17.0-dhcpTemplateWarning.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -53,6 +54,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sat Sep 09 2006 Gavin Weight <gweight@gmail.com> 4.17.0-08
+- Fix dhcp warnings in server-only mode.  [SME: 1816]
+
 * Wed Aug 30 2006 Charlie Brady <charlie_brady@mitel.com> 4.17.0-07
 - Add missing mod_http_proxy module load to admin httpd.conf.
   [SME: 1853]
@@ -793,6 +797,7 @@ e-smith server and gateway software - base module.
 %patch3 -p1
 %patch4 -p2
 %patch5 -p1
+%patch6 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
