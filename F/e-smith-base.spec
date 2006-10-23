@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.17.0
-%define release 08
+%define release 09
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -16,11 +16,12 @@ Patch3: e-smith-base-4.17.0-console_db.patch2
 Patch4: e-smith-base-4.17.0-wan_service.patch
 Patch5: e-smith-base-4.17.0-mod_proxy_http.patch
 Patch6: e-smith-base-4.17.0-dhcpTemplateWarning.patch
+Patch7: e-smith-base-4.17.0-console_refactor.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
-Requires: e-smith-lib >= 1.15.3-42
+Requires: e-smith-lib >= 1.17.0-03
 Requires: server-manager-images, server-manager
 Requires: e-smith-formmagick >= 0.2.0
 Requires: initscripts >= 6.67-1es17
@@ -54,6 +55,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Oct 23 2006 Charlie Brady <charlie_brady@mitel.com> 4.17.0-09
+- Refactor console code considerably, and add restore from CDROM/USB
+  backup capability to console.
+
 * Sat Sep 09 2006 Gavin Weight <gweight@gmail.com> 4.17.0-08
 - Fix dhcp warnings in server-only mode.  [SME: 1816]
 
@@ -798,6 +803,7 @@ e-smith server and gateway software - base module.
 %patch4 -p2
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
