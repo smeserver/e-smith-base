@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.17.0
-%define release 09
+%define release 10
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -17,6 +17,7 @@ Patch4: e-smith-base-4.17.0-wan_service.patch
 Patch5: e-smith-base-4.17.0-mod_proxy_http.patch
 Patch6: e-smith-base-4.17.0-dhcpTemplateWarning.patch
 Patch7: e-smith-base-4.17.0-console_refactor.patch
+Patch8: e-smith-base-4.17.0-console_refactor.patch2
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -55,6 +56,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Oct 23 2006 Charlie Brady <charlie_brady@mitel.com> 4.17.0-10
+- Add missing include of Locale::gettext in two of the esmith::console::*
+  modules.
+
 * Mon Oct 23 2006 Charlie Brady <charlie_brady@mitel.com> 4.17.0-09
 - Refactor console code considerably, and add restore from CDROM/USB
   backup capability to console.
@@ -804,6 +809,7 @@ e-smith server and gateway software - base module.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
