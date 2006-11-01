@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.17.0
-%define release 10
+%define release 11
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -18,6 +18,7 @@ Patch5: e-smith-base-4.17.0-mod_proxy_http.patch
 Patch6: e-smith-base-4.17.0-dhcpTemplateWarning.patch
 Patch7: e-smith-base-4.17.0-console_refactor.patch
 Patch8: e-smith-base-4.17.0-console_refactor.patch2
+Patch9: e-smith-base-4.17.0-remove_manager.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -56,6 +57,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Wed Nov 01 2006 Charlie Brady <charlie_brady@mitel.com> 4.17.0-11
+- Remove server-manager templates and scripts - move to e-smith-manager.
+  [SME: 2023]
+
 * Mon Oct 23 2006 Charlie Brady <charlie_brady@mitel.com> 4.17.0-10
 - Add missing include of Locale::gettext in two of the esmith::console::*
   modules.
@@ -810,6 +815,7 @@ e-smith server and gateway software - base module.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
@@ -842,9 +848,6 @@ mkdir -p root/etc/e-smith/skel/e-smith/files/users/admin/home
 mkdir -p root/etc/e-smith/skel/e-smith/files/primary/{cgi-bin,files,html}
 mkdir -p root/etc/e-smith/skel/e-smith/Maildir/{cur,new,tmp}
 mkdir -p root/etc/e-smith/templates{,-custom,-user,-user-custom}
-mkdir -p root/etc/e-smith/web/{common,functions}
-mkdir -p root/etc/e-smith/web/panels/manager/{cgi-bin,html}
-mkdir -p root/etc/e-smith/web/panels/password/{cgi-bin,html}
 mkdir -p root/etc/httpd/admin-conf/users
 mkdir -p root/home/e-smith/files/{users,server-resources}
 mkdir -p root/home/e-smith/files/users/admin/home
@@ -876,21 +879,11 @@ mkdir -p root/etc/rc.d/rc1.d
 ln -s ../init.d/diald root/etc/rc6.d/K90diald
 mkdir -p root/usr/share/locale/en_US/LC_MESSAGES
 xgettext -o root/usr/share/locale/en_US/LC_MESSAGES/server-console.po root/sbin/e-smith/console
-xgettext -o root/usr/share/locale/en_US/LC_MESSAGES/foot.tmpl.po root/etc/e-smith/templates/etc/e-smith/web/common/foot.tmpl/25Copyright
-# make header/footer symlinks
-ln -s head.tmpl root/etc/e-smith/web/common/userpassword_head.tmpl
-ln -s head.tmpl root/etc/e-smith/web/common/noframes_head.tmpl
-ln -s foot.tmpl root/etc/e-smith/web/common/noframes_foot.tmpl
 
 mkdir -p root/etc/e-smith/locale
 # Make the fr-ca link in %pre to ease upgrades
 # ln -s fr root/etc/e-smith/locale/fr-ca 
 ln -s en-us root/etc/e-smith/locale/en
-
-for file in index initial
-do
-    ln -s ../../../functions/${file}.cgi root/etc/e-smith/web/panels/manager/html/${file}.cgi
-done
 
 ln -s ../../var/state/httpd root/etc/httpd/state
 

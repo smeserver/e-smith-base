@@ -1,0 +1,258 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.0/createlinks mezzanine_patched_e-smith-base-4.17.0/createlinks
+--- e-smith-base-4.17.0/createlinks	2006-11-01 14:54:03.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.17.0/createlinks	2006-11-01 14:22:42.000000000 -0500
+@@ -84,28 +84,6 @@
+ 	remoteaccess-update
+ 	logrotate
+ 	));
+-templates2events("/etc/e-smith/web/panels/manager/html/header.htm", qw(
+-	console-save
+-	bootstrap-console-save
+-	network-create
+-	network-delete
+-	logrotate
+-	));
+-templates2events("/etc/e-smith/web/common/head.tmpl", qw(
+-	console-save
+-	bootstrap-console-save
+-	network-create
+-	network-delete
+-	logrotate
+-	));
+-templates2events("/etc/e-smith/web/common/foot.tmpl", qw(
+-	console-save
+-	bootstrap-console-save
+-	network-create
+-	network-delete
+-	logrotate
+-	));
+-
+ # conf-masq
+ 
+ templates2events("/etc/rc.d/init.d/masq", qw(
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.0/root/etc/e-smith/templates/etc/e-smith/web/common/foot.tmpl/10Setup mezzanine_patched_e-smith-base-4.17.0/root/etc/e-smith/templates/etc/e-smith/web/common/foot.tmpl/10Setup
+--- e-smith-base-4.17.0/root/etc/e-smith/templates/etc/e-smith/web/common/foot.tmpl/10Setup	2005-11-20 23:28:06.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.17.0/root/etc/e-smith/templates/etc/e-smith/web/common/foot.tmpl/10Setup	1969-12-31 19:00:00.000000000 -0500
+@@ -1,21 +0,0 @@
+-\{
+-    # we can snag lexical $fi_filename from Text::Template to find out how
+-    # we were called
+-    $NO_FRAMES = ($fi_filename =~ /noframes_.*\.tmpl$/) ? 1 : 0;
+-    $OUT;
+-\}
+-<P>
+-<HR class="sme-copyrightbar">
+-<FONT class="sme-copyright">
+-  \{
+-    use esmith::ConfigDB;
+-    my $db = esmith::ConfigDB->open();
+-
+-    my $sysconfig = $db->get("sysconfig");
+-    
+-    my $lang = (split(/,/, $ENV\{"HTTP_ACCEPT_LANGUAGE"\}))[0];
+-    # convert xx_XX lang format to xx-xx
+-    ($lang = lc($lang)) =~ s/_/-/;
+-    
+-    my $releaseVersion = $sysconfig->prop("ReleaseVersion");
+-
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.0/root/etc/e-smith/templates/etc/e-smith/web/common/foot.tmpl/25Copyright mezzanine_patched_e-smith-base-4.17.0/root/etc/e-smith/templates/etc/e-smith/web/common/foot.tmpl/25Copyright
+--- e-smith-base-4.17.0/root/etc/e-smith/templates/etc/e-smith/web/common/foot.tmpl/25Copyright	2006-02-16 22:41:51.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.17.0/root/etc/e-smith/templates/etc/e-smith/web/common/foot.tmpl/25Copyright	1969-12-31 19:00:00.000000000 -0500
+@@ -1,10 +0,0 @@
+-    $OUT .= "Copyright 1999-2006 Mitel Corporation<BR>";
+-
+-    use Locale::gettext;
+-    use esmith::I18N;
+-    my $i18n = esmith::I18N->new();
+-    $i18n->setLocale('foot.tmpl', $i18n->preferredLanguage());
+-    $OUT .= gettext("All rights reserved.");
+-    $OUT;
+-  \}
+-
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.0/root/etc/e-smith/templates/etc/e-smith/web/common/foot.tmpl/90Finish mezzanine_patched_e-smith-base-4.17.0/root/etc/e-smith/templates/etc/e-smith/web/common/foot.tmpl/90Finish
+--- e-smith-base-4.17.0/root/etc/e-smith/templates/etc/e-smith/web/common/foot.tmpl/90Finish	2005-11-20 23:28:06.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.17.0/root/etc/e-smith/templates/etc/e-smith/web/common/foot.tmpl/90Finish	1969-12-31 19:00:00.000000000 -0500
+@@ -1,10 +0,0 @@
+-</FONT>
+-</BODY>
+-\{
+-    if ($NO_FRAMES) 
+-    \{
+-	$OUT .= "</NOFRAMES>\n";
+-    \}
+-    $OUT;
+-\}
+-</HTML>
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.0/root/etc/e-smith/templates/etc/e-smith/web/common/head.tmpl/10Setup mezzanine_patched_e-smith-base-4.17.0/root/etc/e-smith/templates/etc/e-smith/web/common/head.tmpl/10Setup
+--- e-smith-base-4.17.0/root/etc/e-smith/templates/etc/e-smith/web/common/head.tmpl/10Setup	2005-11-20 23:28:06.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.17.0/root/etc/e-smith/templates/etc/e-smith/web/common/head.tmpl/10Setup	1969-12-31 19:00:00.000000000 -0500
+@@ -1,12 +0,0 @@
+-\{
+-    # we can snag lexical $fi_filename from Text::Template to find out how
+-    # we were called
+-    $NO_FRAMES = ($fi_filename =~ /noframes_.*\.tmpl$/) ? 1 : 0;
+-    $USER_PASSWORD = ($fi_filename =~ /userpassword_.*\.tmpl$/) ? 1 : 0;
+-    $OUT;
+-\}
+-<!DOCTYPE html
+-    PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+-    "http://www.w3.org/TR/html4/loose.dtd">
+-<html>
+-<head>
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.0/root/etc/e-smith/templates/etc/e-smith/web/common/head.tmpl/30FrameSetup00 mezzanine_patched_e-smith-base-4.17.0/root/etc/e-smith/templates/etc/e-smith/web/common/head.tmpl/30FrameSetup00
+--- e-smith-base-4.17.0/root/etc/e-smith/templates/etc/e-smith/web/common/head.tmpl/30FrameSetup00	2005-11-20 23:28:06.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.17.0/root/etc/e-smith/templates/etc/e-smith/web/common/head.tmpl/30FrameSetup00	1969-12-31 19:00:00.000000000 -0500
+@@ -1,30 +0,0 @@
+-\{ 
+-    unless ($NO_FRAMES)
+-    \{
+-       $OUT .= <<EOF;
+-  <link rev="made" href="mailto:bugs%40e-smith.com">
+-  <meta name="copyright" content="(head.tmpl)Copyright 2003-2004 Mitel Corporation">
+-  <link rel="stylesheet" type="text/css" href="/server-common/css/sme_core.css">
+-  <style type="text/css"> 
+-  \@import url("/server-common/css/sme_main.css");
+-  </style>
+-  <script language="JavaScript" type="text/javascript">
+-  <!-- Hide script
+-  //This swap the class of the selected item.
+-    function swapClass() \{
+-    var i,x,tB,j=0,tA=new Array(),arg=swapClass.arguments;
+-    if(document.getElementsByTagName)\{for(i=4;i<arg.length;i++)\{tB=document.getElementsByTagName(arg[i]);
+-    for(x=0;x<tB.length;x++)\{tA[j]=tB[x];j++;\}\}for(i=0;i<tA.length;i++)\{
+-    if(tA[i].className)\{if(tA[i].id==arg[1])\{if(arg[0]==1)\{
+-    tA[i].className=(tA[i].className==arg[3])?arg[2]:arg[3];\}else\{tA[i].className=arg[2];\}
+-    \}else if(arg[0]==1 && arg[1]=='none')\{if(tA[i].className==arg[2] || tA[i].className==arg[3])\{
+-    tA[i].className=(tA[i].className==arg[3])?arg[2]:arg[3];\}
+-    \}else if(tA[i].className==arg[2])\{tA[i].className=arg[3];\}\}\}\}\}
+-    // End script hiding -->
+-    </script>
+-
+-EOF
+-    \}
+-    $OUT;
+-\}
+-</head>
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.0/root/etc/e-smith/templates/etc/e-smith/web/common/head.tmpl/30FrameSetup01 mezzanine_patched_e-smith-base-4.17.0/root/etc/e-smith/templates/etc/e-smith/web/common/head.tmpl/30FrameSetup01
+--- e-smith-base-4.17.0/root/etc/e-smith/templates/etc/e-smith/web/common/head.tmpl/30FrameSetup01	2005-11-20 23:28:07.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.17.0/root/etc/e-smith/templates/etc/e-smith/web/common/head.tmpl/30FrameSetup01	1969-12-31 19:00:00.000000000 -0500
+@@ -1,39 +0,0 @@
+-\{
+-  if ($NO_FRAMES)
+-  \{
+-    $OUT .= <<EOF;
+-<frameset rows="68,*" cols="*" frameborder="NO" border="0" framespacing="0">
+-  <frame src="/server-manager/header.htm" name="header" scrolling="NO" noresize >
+-  <frameset rows="*" cols="192,*" framespacing="0" frameborder="NO" border="0">
+-    <frame src="/server-manager/navigation" name="navigation" scrolling="auto" noresize>
+-    <frame src="/server-manager/initial.cgi" name="main">
+-  </frameset>
+-</frameset>
+-
+-</FRAMESET>
+-
+-<NOFRAMES>
+-EOF
+-  \}
+-  else
+-  \{
+-     my $panel = "Server manager";
+-     my $img = "server-manager.jpg";
+-
+-     $OUT .= <<EOF;
+-<body>
+-EOF
+-  \}
+-
+-  $DB = esmith::ConfigDB->open();
+-  $OUT .= qq(<div class="sme-error"><h5>
+-    Warning: you have not yet changed the default system password.</h5></div>)
+-    unless ($DB->get('PasswordSet')->value eq "yes");
+-
+-  $OUT .= qq(<div class="sme-error"><h5>
+-    Warning: a reboot is required before proceeding! Failure to reboot now
+-    may leave your system in an unknown state!</h5></div>)
+-    if ($DB->get('bootstrap-console') and $DB->get('bootstrap-console')->prop('Run') eq 'yes');
+-
+-  $OUT;
+-\}
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.0/root/etc/e-smith/web/functions/index.cgi mezzanine_patched_e-smith-base-4.17.0/root/etc/e-smith/web/functions/index.cgi
+--- e-smith-base-4.17.0/root/etc/e-smith/web/functions/index.cgi	2006-03-14 11:20:43.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.17.0/root/etc/e-smith/web/functions/index.cgi	1969-12-31 19:00:00.000000000 -0500
+@@ -1,36 +0,0 @@
+-#!/usr/bin/perl -wT
+-
+-#----------------------------------------------------------------------
+-# copyright (C) 1999-2006 Mitel Networks Corporation
+-# 
+-# This program is free software; you can redistribute it and/or modify
+-# it under the terms of the GNU General Public License as published by
+-# the Free Software Foundation; either version 2 of the License, or
+-# (at your option) any later version.
+-# 		
+-# This program is distributed in the hope that it will be useful,
+-# but WITHOUT ANY WARRANTY; without even the implied warranty of
+-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-# GNU General Public License for more details.
+-# 		
+-# You should have received a copy of the GNU General Public License
+-# along with this program; if not, write to the Free Software
+-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+-# 
+-#----------------------------------------------------------------------
+-
+-use strict;
+-use esmith::FormMagick;
+-
+-my $fm = new esmith::FormMagick;
+-$fm->display();
+-
+-exit 0;
+-
+-__DATA__
+-<form title="FORM_TITLE" header="/etc/e-smith/web/common/noframes_head.tmpl" footer="/etc/e-smith/web/common/noframes_foot.tmpl">
+-    <page name="First">
+-        <description>NOFRAMES_BODY</description>
+-    </page>
+- 
+-</form>
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.0/root/etc/e-smith/web/functions/initial.cgi mezzanine_patched_e-smith-base-4.17.0/root/etc/e-smith/web/functions/initial.cgi
+--- e-smith-base-4.17.0/root/etc/e-smith/web/functions/initial.cgi	2006-03-14 11:20:43.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.17.0/root/etc/e-smith/web/functions/initial.cgi	1969-12-31 19:00:00.000000000 -0500
+@@ -1,36 +0,0 @@
+-#!/usr/bin/perl -wT
+-
+-#----------------------------------------------------------------------
+-# copyright (C) 1999-2006 Mitel Networks Corporation
+-# 
+-# This program is free software; you can redistribute it and/or modify
+-# it under the terms of the GNU General Public License as published by
+-# the Free Software Foundation; either version 2 of the License, or
+-# (at your option) any later version.
+-# 		
+-# This program is distributed in the hope that it will be useful,
+-# but WITHOUT ANY WARRANTY; without even the implied warranty of
+-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-# GNU General Public License for more details.
+-# 		
+-# You should have received a copy of the GNU General Public License
+-# along with this program; if not, write to the Free Software
+-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+-# 
+-#----------------------------------------------------------------------
+-use strict;
+-use esmith::FormMagick;
+-
+-my $fm = new esmith::FormMagick;
+-
+-$fm->display();
+-
+-exit 0;
+-
+-__DATA__
+-<form title="FORM_TITLE" header="/etc/e-smith/web/common/head.tmpl" footer="/etc/e-smith/web/common/foot.tmpl">
+-    <page name="First">
+-        <description>FRAMES_BODY</description>
+-    </page>
+-  
+-</form>
