@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.17.0
-%define release 11
+%define release 12
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -19,6 +19,7 @@ Patch6: e-smith-base-4.17.0-dhcpTemplateWarning.patch
 Patch7: e-smith-base-4.17.0-console_refactor.patch
 Patch8: e-smith-base-4.17.0-console_refactor.patch2
 Patch9: e-smith-base-4.17.0-remove_manager.patch
+Patch10: e-smith-base-4.17.0-remove_manager.patch2
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -816,6 +817,7 @@ e-smith server and gateway software - base module.
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
+%patch10 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
@@ -908,7 +910,7 @@ done
 mkdir -p root/service
 mkdir -p root/etc/rc.d/init.d/supervise
 
-for service in dhcpd wan ippp syslog klogd httpd-admin
+for service in dhcpd wan ippp syslog klogd
 do
   ln -s /var/service/$service root/service/$service
   mkdir -p root/var/service/$service/supervise
@@ -977,14 +979,6 @@ rm -rf $RPM_BUILD_ROOT
     --dir /var/service/dhcpcd/supervise 'attr(0700,root,root)' \
     --file /var/service/dhcpcd/log/run 'attr(0755,root,root)' \
     --file /home/e-smith/db/configuration 'config(noreplace)' \
-    --dir /var/service/httpd-admin 'attr(01755,root,root)' \
-    --file /var/service/httpd-admin/down 'attr(0644,root,root)' \
-    --file /var/service/httpd-admin/run 'attr(0755,root,root)' \
-    --dir /var/service/httpd-admin/log 'attr(0755,root,root)' \
-    --dir /var/service/httpd-admin/log/supervise 'attr(0700,root,root)' \
-    --dir /var/service/httpd-admin/supervise 'attr(0700,root,root)' \
-    --file /var/service/httpd-admin/log/run 'attr(0755,root,root)' \
-    --dir /var/log/httpd-admin 'attr(0750,smelog,smelog)' \
     --dir /var/service/raidmonitor 'attr(01755,root,root)' \
     --file /var/service/raidmonitor/down 'attr(0644,root,root)' \
     --file /var/service/raidmonitor/run 'attr(0755,root,root)' \
