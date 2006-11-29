@@ -58,6 +58,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Thu Nov 02 2006 Charlie Brady <charlie_brady@mitel.com> 4.17.0-12
+- Remove httpd-admin supervise service directory - moved to
+  e-smith-manager. [SME: 2023]
+
 * Wed Nov 01 2006 Charlie Brady <charlie_brady@mitel.com> 4.17.0-11
 - Remove server-manager templates and scripts - move to e-smith-manager.
   [SME: 2023]
