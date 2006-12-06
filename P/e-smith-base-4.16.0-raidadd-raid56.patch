@@ -1,0 +1,362 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.16.0/root/sbin/e-smith/add_drive_to_raid mezzanine_patched_e-smith-base-4.16.0/root/sbin/e-smith/add_drive_to_raid
+--- e-smith-base-4.16.0/root/sbin/e-smith/add_drive_to_raid	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.16.0/root/sbin/e-smith/add_drive_to_raid	2006-12-05 22:42:10.000000000 -0700
+@@ -0,0 +1,126 @@
++#!/usr/bin/perl -w
++#----------------------------------------------------------------------
++# add_drive_to_raid: Add spare disk to existing raid arrays
++#----------------------------------------------------------------------
++# Copyright (C) 2005 Gordon Rowell <gordonr@gormand.com.au>
++# Copyright (C) 2006 Shad L. Lords <slords@mail.com>
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program; if not, write to the Free Software
++# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
++#----------------------------------------------------------------------
++
++use strict;
++use warnings;
++
++use Getopt::Long;
++use Data::Dumper;
++
++my %options = ();
++
++GetOptions(\%options, 'f', 'force');
++
++my $force = $options{f} || $options{force};
++
++my $newdev = $ARGV[0] || die "usage:\n\n\tadd_drive_to_raid [-f] dev\n\n";
++
++my $raid = require "/sbin/e-smith/console-menu-items/manageRAID.pl";
++
++my %devices = $raid->get_raid_details();
++my @devices = sort keys %devices;
++
++my %partitions = $raid->get_partitions();
++
++my $minsize = 0;
++
++die "/dev/$newdev is not a block special device" unless -b "/dev/$newdev";
++
++die "/dev/$newdev is not large enough" unless $partitions{$newdev}{blocks} >= $minsize;
++
++for my $dev (@devices)
++{
++    die "/dev/$newdev is already in use" if grep m#^$newdev$#, @{$devices{$dev}{UsedDisks}};
++    $minsize += $devices{$dev}{DeviceSize} + 65;
++}
++
++die "/dev/$newdev already contains partitions" unless $force or ! grep m#^$newdev.+$#, keys %partitions;
++
++my $pid = open(STDERR, "|-");
++die gettext("Can't fork"), ": $!\n" unless defined $pid;
++
++unless ($pid)
++{
++    exec qw(/usr/bin/logger -p local1.info -t add_drive_to_raid);
++}
++
++unless (open(OUTPUT, "-|"))
++{
++    my $boot = "*";
++    my $pid = open(SFDISK, "|-");
++    if ($pid)
++    {
++	# parent
++	for my $dev (sort keys %devices)
++	{
++	    print SFDISK ",", $devices{$dev}{DeviceSize} + 65, ",fd,$boot\n";
++	    $boot = "-";
++	}
++	print SFDISK ",0\n" for (1..4);
++	close(SFDISK) || die "SFDISK kid exited $?";
++    }
++    else
++    {
++	# child
++	exec("/sbin/sfdisk", "-uB", "--no-reread", "--force", "/dev/$newdev")
++	    or die "can't exec program: $!";
++	# NOTREACHED
++    }
++
++    %partitions = $raid->get_partitions();
++
++    my @partitions = sort grep m#^$newdev.+$#, keys %partitions;
++
++    foreach my $part (0..$#devices)
++    {
++	system("/sbin/mdadm", $devices[$part], "--add", "/dev/$partitions[$part]");
++
++    }
++
++    #system("/sbin/grub", "--no-floppy", "--recheck", "/dev/$newdev");
++
++    $pid = open(GRUB, "|-");
++    if ($pid)
++    {
++	# parent
++	print GRUB "device (hd0) /dev/$newdev\n";
++	print GRUB "root (hd0,0)\n";
++	print GRUB "setup (hd0)\n";
++	print GRUB "quit\n";
++	close(GRUB) || die "GRUB kid exited $?";
++	exit(0);
++    }
++    else
++    {
++	# child
++	exec("/sbin/grub", "--no-floppy", "--batch")
++	    or die "can't exec program: $!";
++	# NOTREACHED
++    }
++}
++while(<OUTPUT>)
++{
++	print "$_";
++	warn "$_";
++}
++close(OUTPUT) or die "Closing stdin pipe reported: $!";
++
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.16.0/root/sbin/e-smith/add_mirror mezzanine_patched_e-smith-base-4.16.0/root/sbin/e-smith/add_mirror
+--- e-smith-base-4.16.0/root/sbin/e-smith/add_mirror	2006-03-14 09:20:43.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.16.0/root/sbin/e-smith/add_mirror	1969-12-31 17:00:00.000000000 -0700
+@@ -1,94 +0,0 @@
+-#!/bin/sh
+-#----------------------------------------------------------------------
+-# add_mirror: Add second half of mirror to one-way RAID
+-#----------------------------------------------------------------------
+-# Copyright (C) 2005 Gordon Rowell <gordonr@gormand.com.au>
+-#
+-# This program is free software; you can redistribute it and/or modify
+-# it under the terms of the GNU General Public License as published by
+-# the Free Software Foundation; either version 2 of the License, or
+-# (at your option) any later version.
+-#
+-# This program is distributed in the hope that it will be useful,
+-# but WITHOUT ANY WARRANTY; without even the implied warranty of
+-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-# GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License
+-# along with this program; if not, write to the Free Software
+-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+-#----------------------------------------------------------------------
+-
+-PATH=$PATH:/sbin
+-export PATH
+-
+-usage()
+-{
+-    echo $@
+-    echo "Usage: add_mirror [-f] existing_disk new_disk"
+-    exit 1
+-}
+-
+-FORCE="no"
+-
+-while getopts ":f" Option
+-do
+-    case $Option in
+-	f) FORCE="yes" ;;
+-	*) echo "Uknown options $Options" ;;
+-    esac
+-done
+-
+-shift $(($OPTIND - 1))
+-
+-OLD=$1
+-NEW=$2
+-
+-[ "$OLD" = "$NEW" ] && usage "$OLD and $NEW are the same disk"
+-
+-metadevices=$(mdadm --detail --scan | grep "/dev/${NEW}1")
+-[ -z "$metadevices" ] || usage "$NEW is already in use"
+-
+-for disk in $OLD $NEW
+-do
+-    [ -b /dev/$disk ] || usage "/dev/$disk is not a block special device"
+-done
+-
+-case $OLD in
+-    hd*) IDE=/proc/ide
+-
+-        [ $(cat $IDE/$OLD/media) = 'disk' ] || usage "$OLD is not a disk"
+-
+-        [ $(cat $IDE/$NEW/media) = 'disk' ] || usage "$NEW is not a disk"
+-
+-        [ $(cat $IDE/$NEW/capacity) = $(cat $IDE/$OLD/capacity) ] || \
+-            usage "$OLD and $NEW are different size disks"
+-        # XXX - FIXME - should we check geometry here?
+-        
+-        ;;
+-
+-        *)  # XXX - FIXME - we should do the same tests for SCSI disks ;;
+-esac
+-
+-if [ "$FORCE" = "no" ]
+-then
+-    part_check='No partitions found'
+-
+-    NEW_parts=$(LC_ALL=C sfdisk -l /dev/$NEW 2>&1 | grep "$part_check")
+-
+-    [ "$NEW_parts" = "$part_check" ] || \
+-        usage "$NEW already has partitions configured"
+-fi
+-
+-sfdisk -d /dev/$OLD >/var/tmp/oldparts.$OLD
+-
+-sfdisk --no-reread --force /dev/$NEW < /var/tmp/oldparts.$OLD
+-
+-for part in 1 2 3
+-do
+-    grep -s "^md${part} "  /proc/mdstat || continue
+-
+-    mdadm --add /dev/md$part /dev/${NEW}${part}
+-done
+-
+-exec /sbin/e-smith/update-bootloader
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.16.0/root/sbin/e-smith/console-menu-items/manageRAID.pl mezzanine_patched_e-smith-base-4.16.0/root/sbin/e-smith/console-menu-items/manageRAID.pl
+--- e-smith-base-4.16.0/root/sbin/e-smith/console-menu-items/manageRAID.pl	2006-12-05 22:42:23.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.16.0/root/sbin/e-smith/console-menu-items/manageRAID.pl	2006-12-05 22:41:46.000000000 -0700
+@@ -42,7 +42,7 @@
+     my %devices = get_raid_details();
+ 
+     warn $text if DEBUG_MANAGE_RAID;
+-    warn "devices: " . Dumper(%devices) . "\n" if DEBUG_MANAGE_RAID;
++    warn "devices: " . Dumper(\%devices) . "\n" if DEBUG_MANAGE_RAID;
+ 
+     unless (scalar %devices)
+     {
+@@ -51,26 +51,6 @@
+         return;
+     }
+ 
+-    unless (scalar keys %devices == 2)
+-    {
+-        $text .= gettext("There should be two RAID devices, not ") . 
+-                    scalar keys %devices;
+-        ($rc, $choice) = $console->message_page(title => $title, text => $text);
+-        return;
+-    }
+-
+-    for my $dev (keys %devices)
+-    {
+-        unless ($devices{$dev}{RaidLevel} eq "raid1")
+-        {
+-            $text .= gettext("One or more devices is not RAID1") . "\n\n" .
+-                gettext("This configuration is not yet fully supported in these screens.") . "\n\n";
+-            ($rc, $choice) = $console->message_page(title => $title, 
+-                            text => $text);
+-            return;
+-        }
+-    }
+-
+     my @unclean = ();
+     my @recovering = ();
+     my %used_disks = ();
+@@ -90,7 +70,7 @@
+         push @unclean, "$dev => " . $devices{$dev}{State};
+     }
+ 
+-    warn "used_disks: " . Dumper(%used_disks) . "\n" if DEBUG_MANAGE_RAID;
++    warn "used_disks: " . Dumper(\%used_disks) . "\n" if DEBUG_MANAGE_RAID;
+ 
+     warn "unclean: @unclean\n" if DEBUG_MANAGE_RAID;
+ 
+@@ -124,7 +104,7 @@
+ 
+     delete $free_disks{$_} for keys %used_disks;
+ 
+-    warn "free_disks: " . Dumper(%free_disks) . "\n" if DEBUG_MANAGE_RAID;
++    warn "free_disks: " . Dumper(\%free_disks) . "\n" if DEBUG_MANAGE_RAID;
+ 
+     my $disk_status = gettext("Current disk status:") . "\n\n";
+     $disk_status .= gettext("Installed disks") . ": " . 
+@@ -142,10 +122,9 @@
+         return;
+     }
+ 
+-    unless (scalar keys %used_disks == 1 and 
+-            scalar keys %free_disks == scalar keys %used_disks)
++    unless (scalar keys %free_disks == 1)
+     {
+-        $text .= gettext("The free and used disk count must equal one.") .
++        $text .= gettext("The free disk count must equal one.") .
+                 "\n\n" .
+                 gettext("Manual intervention may be required.") . "\n\n" .
+                 $disk_status;
+@@ -154,12 +133,11 @@
+         return;
+     }
+ 
+-    my @cmd = ("/sbin/e-smith/add_mirror", "-f", join("", keys %used_disks), 
+-              join(" ", keys %free_disks));
++    my @cmd = ("/sbin/e-smith/add_drive_to_raid", "-f", join("", keys %free_disks));
+ 
+     $text = $disk_status . 
+         "\n\n" . 
+-        gettext("There is an unused disk drive in your system. Do you want to add it to the existing drive to make a RAID pair?") . 
++        gettext("There is an unused disk drive in your system. Do you want to add it to the existing RAID array(s)?") . 
+ 	"\n\n" .
+ 	gettext("WARNING: ALL DATA ON THE NEW DISK WILL BE DESTROYED!") .
+ 	"\n"
+@@ -189,7 +167,7 @@
+ 
+     while (<MDSTAT>)
+     {
+-	push @mdstat, "$1\n" if (/(.*)/);
++	push @mdstat, "$1\n" if (/(.*\w.*)/);
+     }
+     close MDSTAT;
+     return @mdstat;
+@@ -217,14 +195,20 @@
+ 
+         while ( <MDADM> )
+         {
+-            if ( /\s*(.*)\s+:\s+(.*)\s*/ )
++            if ( /\s*(.*)\s+:\s+(\d+)\s+\(.*\)\s*/ )
++            {
++                my ($key, $value) = ($1, $2);
++                $key =~ s/\s//g;
++                $devices{$dev}{$key} = $value;
++            }
++            elsif ( /\s*(.*)\s+:\s+(.*)\s*/ )
+             {
+                 my ($key, $value) = ($1, $2);
+                 $key =~ s/\s//g;
+                 $devices{$dev}{$key} = $value;
+             }
+ 
+-            if ( m:\s+(\d+)\s+(\d+)\s+(\d+).*/dev/(\w+): )
++            if ( m:\s+(\d+)\s+(\d+)\s+(\d+).*/dev/([\w\/]+): )
+             {
+                 $devices{$dev}{$1} = $_;
+ 		my $used_disk = $4;
+@@ -247,7 +231,7 @@
+ 
+     while (<PARTITIONS>)
+     {
+-        if ( /\s+(\d+)\s+(\d+)\s+(\d+)\s+(\w+)\s+/ )
++        if ( /\s+(\d+)\s+(\d+)\s+(\d+)\s+([\w\/]+)\s+/ )
+         {
+             my $name = $4;
+ 
+@@ -270,6 +254,7 @@
+     for (keys %parts)
+     {
+         push @disks, $_ unless (/[0-9]$/);
++        push @disks, $_ if (/(rd|ida|cciss|i2o)\// && ! /p\d+$/);
+     }
+ 
+     return @disks;
