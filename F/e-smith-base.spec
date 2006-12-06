@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.16.0
-%define release 27
+%define release 30
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -31,6 +31,9 @@ Patch19: e-smith-base-4.16.0-LockNullPasswords.patch3
 Patch20: e-smith-base-4.16.0-UserAccountText.patch
 Patch21: e-smith-base-4.16.0-raidadd-warning.patch3
 Patch22: e-smith-base-4.16.0-cert_issuer.patch2
+Patch23: e-smith-base-4.16.0-mod_proxy_http.patch
+Patch24: e-smith-base-4.16.0-dhcpTemplateWarning.patch
+Patch25: e-smith-base-4.16.0-raidadd-raid56.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -69,6 +72,16 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Dec 05 2006 Shad L. Lords <slords@mail.com> 4.16.0-30
+- Update manage raid console functions to handle all raid types [SME: 2131]
+
+* Tue Nov 21 2006 Charlie Brady <charlie_brady@mitel.com> 4.16.0-29
+- Fix warning from dhclient.conf template expansion.
+
+* Wed Aug 30 2006 Charlie Brady <charlie_brady@mitel.com> 4.16.0-28
+- Add missing LocalModule for mod_proxy_http to admin apache conf.
+  [SME: 1853]
+
 * Fri Jul 14 2006 Charlie Brady <charlie_brady@mitel.com> 4.16.0-27
 - Prevent daily regeneration of SSL cert if City/Company/Department are
   empty. [SME: 1602]
@@ -800,6 +813,9 @@ e-smith server and gateway software - base module.
 %patch20 -p1
 %patch21 -p1
 %patch22 -p1
+%patch23 -p1
+%patch24 -p1
+%patch25 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
