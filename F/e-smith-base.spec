@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.17.0
-%define release 12
+%define release 13
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -20,6 +20,7 @@ Patch7: e-smith-base-4.17.0-console_refactor.patch
 Patch8: e-smith-base-4.17.0-console_refactor.patch2
 Patch9: e-smith-base-4.17.0-remove_manager.patch
 Patch10: e-smith-base-4.17.0-remove_manager.patch2
+Patch11: e-smith-base-4.16.0-raidadd-raid56.patch
 Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -58,6 +59,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Dec 05 2006 Shad L. Lords <slords@mail.com> 4.17.0-13
+- Update manage raid console functions to handle all raid types [SME: 2131]
+
 * Thu Nov 02 2006 Charlie Brady <charlie_brady@mitel.com> 4.17.0-12
 - Remove httpd-admin supervise service directory - moved to
   e-smith-manager. [SME: 2023]
@@ -822,6 +826,7 @@ e-smith server and gateway software - base module.
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
+%patch11 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
