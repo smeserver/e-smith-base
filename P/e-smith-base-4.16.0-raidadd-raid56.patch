@@ -97,10 +97,10 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.16.0/root/sbin/e-smith/add_drive
 +    foreach my $part (0..$#devices)
 +    {
 +	system("/sbin/mdadm", $devices[$part], "--add", "/dev/$partitions[$part]");
-+
++	sleep(2);
 +    }
 +
-+    #system("/sbin/grub", "--no-floppy", "--recheck", "/dev/$newdev");
++    sleep(10);
 +
 +    $pid = open(GRUB, "|-");
 +    if ($pid)
