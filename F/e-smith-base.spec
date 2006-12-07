@@ -4,7 +4,8 @@ Name: %{name}
 %define version 4.17.0
 %define release 13
 Version: %{version}
-Release: %{release}
+Release: %smerelease %{release}
+Packager: %{_packager}
 License: GPL
 Vendor: Mitel Networks Corporation
 Group: Networking/Daemons
@@ -21,7 +22,6 @@ Patch8: e-smith-base-4.17.0-console_refactor.patch2
 Patch9: e-smith-base-4.17.0-remove_manager.patch
 Patch10: e-smith-base-4.17.0-remove_manager.patch2
 Patch11: e-smith-base-4.16.0-raidadd-raid56.patch
-Packager: SME Server developers <bugteam@contribs.org>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -59,6 +59,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Thu Dec 07 2006 Shad L. Lords <slords@mail.com>
+- Update to new release naming.  No functional changes.
+- Make Packager generic
+
 * Tue Dec 05 2006 Shad L. Lords <slords@mail.com> 4.17.0-13
 - Update manage raid console functions to handle all raid types [SME: 2131]
 
