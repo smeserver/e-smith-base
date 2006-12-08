@@ -1,0 +1,54 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.0/root/sbin/e-smith/add_drive_to_raid mezzanine_patched_e-smith-base-4.17.0/root/sbin/e-smith/add_drive_to_raid
+--- e-smith-base-4.17.0/root/sbin/e-smith/add_drive_to_raid	2006-12-08 10:31:07.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.17.0/root/sbin/e-smith/add_drive_to_raid	2006-12-08 10:10:50.000000000 -0700
+@@ -37,7 +37,7 @@
+ my $raid = require "/sbin/e-smith/console-menu-items/manageRAID.pl";
+ 
+ my %devices = $raid->get_raid_details();
+-my @devices = sort keys %devices;
++my @devices = sort { $devices{$a}{DeviceSize} <=> $devices{$b}{DeviceSize} } keys %devices;
+ 
+ my %partitions = $raid->get_partitions();
+ 
+@@ -70,9 +70,16 @@
+     if ($pid)
+     {
+ 	# parent
+-	for my $dev (sort keys %devices)
++	for my $dev (@devices)
+ 	{
+-	    print SFDISK ",", $devices{$dev}{DeviceSize} + 65, ",fd,$boot\n";
++	    unless ($dev eq $devices[$#devices])
++	    {
++		print SFDISK ",", $devices{$dev}{DeviceSize} + 65, ",fd,$boot\n";
++	    }
++	    else
++	    {
++		print SFDISK ",,fd,$boot\n";
++	    }
+ 	    $boot = "-";
+ 	}
+ 	print SFDISK ",0\n" for (1..4);
+@@ -92,11 +99,13 @@
+ 
+     foreach my $part (0..$#devices)
+     {
++	print "Going to add /dev/$partitions[$part] to  $devices[$part]\n";
+ 	system("/sbin/mdadm", $devices[$part], "--add", "/dev/$partitions[$part]");
+ 	sleep(2);
+     }
+ 
+-    sleep(10);
++    print "\nWaiting for things to settle down before installing GRUB...\n";
++    sleep(15);
+ 
+     $pid = open(GRUB, "|-");
+     if ($pid)
+@@ -120,6 +129,7 @@
+ while(<OUTPUT>)
+ {
+ 	print "$_";
++	next unless $_;
+ 	warn "$_";
+ }
+ close(OUTPUT) or die "Closing stdin pipe reported: $!";

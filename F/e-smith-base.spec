@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.17.0
-%define release 13
+%define release 14
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -22,6 +22,7 @@ Patch8: e-smith-base-4.17.0-console_refactor.patch2
 Patch9: e-smith-base-4.17.0-remove_manager.patch
 Patch10: e-smith-base-4.17.0-remove_manager.patch2
 Patch11: e-smith-base-4.16.0-raidadd-raid56.patch
+Patch12: e-smith-base-4.16.0-raidadd-raid56.patch2
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -59,6 +60,11 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri Dec 08 2006 Shad L. Lords <slords@mail.com>
+- Create partitions in order of size.  This makes sure boot is first and
+  / is last.  Also last partitions fills all available space making resizing
+  easier.
+
 * Thu Dec 07 2006 Shad L. Lords <slords@mail.com>
 - Update to new release naming.  No functional changes.
 - Make Packager generic
@@ -831,6 +837,7 @@ e-smith server and gateway software - base module.
 %patch9 -p1
 %patch10 -p1
 %patch11 -p1
+%patch12 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
