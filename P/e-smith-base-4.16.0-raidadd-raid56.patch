@@ -49,13 +49,13 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.16.0/root/sbin/e-smith/add_drive
 +
 +die "/dev/$newdev is not a block special device" unless -b "/dev/$newdev";
 +
-+die "/dev/$newdev is not large enough" unless $partitions{$newdev}{blocks} >= $minsize;
-+
 +for my $dev (@devices)
 +{
 +    die "/dev/$newdev is already in use" if grep m#^$newdev$#, @{$devices{$dev}{UsedDisks}};
 +    $minsize += $devices{$dev}{DeviceSize} + 65;
 +}
++
++die "/dev/$newdev is not large enough" unless $partitions{$newdev}{blocks} >= $minsize;
 +
 +die "/dev/$newdev already contains partitions" unless $force or ! grep m#^$newdev.+$#, keys %partitions;
 +

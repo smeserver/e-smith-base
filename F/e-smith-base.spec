@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.16.0
-%define release 31
+%define release 32
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -73,6 +73,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri Dec 22 2006 Shad L. Lords <slords@mail.com>
+- Check device size after calculating space needed.
+
 * Fri Dec 08 2006 Shad L. Lords <slords@mail.com>
 - Create partitions in order of size.  This makes sure boot is first and
   / is last.  Also last partitions fills all available space making resizing
