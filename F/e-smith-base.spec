@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.16.0
-%define release 32
+%define release 33
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -36,6 +36,7 @@ Patch23: e-smith-base-4.16.0-mod_proxy_http.patch
 Patch24: e-smith-base-4.16.0-dhcpTemplateWarning.patch
 Patch25: e-smith-base-4.16.0-raidadd-raid56.patch
 Patch26: e-smith-base-4.16.0-raidadd-raid56.patch2
+Patch27: e-smith-base-4.16.0-procraid.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -73,6 +74,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sat Dec 23 2006 Shad L. Lords <slords@mail.com>
+- Disable raid based on /proc/partitions (which is dynamic) instead 
+  of grub/device.map (which is static)
+
 * Fri Dec 22 2006 Shad L. Lords <slords@mail.com>
 - Check device size after calculating space needed.
 
@@ -830,6 +835,7 @@ e-smith server and gateway software - base module.
 %patch24 -p1
 %patch25 -p1
 %patch26 -p1
+%patch27 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
