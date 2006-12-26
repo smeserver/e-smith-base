@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.17.0
-%define release 16
+%define release 17
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -24,6 +24,7 @@ Patch10: e-smith-base-4.17.0-remove_manager.patch2
 Patch11: e-smith-base-4.16.0-raidadd-raid56.patch
 Patch12: e-smith-base-4.16.0-raidadd-raid56.patch2
 Patch13: e-smith-base-4.17.0-procraid.patch
+Patch14: e-smith-base-4.17.0-admin_raidreport.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -61,6 +62,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Dec 26 2006 Gordon Rowell <gordonr@gormand.com.au> 4.17.0-17
+- Send raidmonitor output to admin_raidreport pseudonym [SME: 2139]
+
 * Sat Dec 23 2006 Shad L. Lords <slords@mail.com>
 - Disable raid based on /proc/partitions (which is dynamic) instead
   of grub/device.map (which is static)
@@ -847,6 +851,7 @@ e-smith server and gateway software - base module.
 %patch11 -p1
 %patch12 -p1
 %patch13 -p1
+%patch14 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
