@@ -86,17 +86,17 @@ e-smith server and gateway software - base module.
 - Send raidmonitor output to admin_raidreport pseudonym [SME: 2139]
 - And mark admin_raidreport as non-Removable [SME: 2139]
 
-* Sat Dec 23 2006 Shad L. Lords <slords@mail.com>
+* Sat Dec 23 2006 Shad L. Lords <slords@mail.com> 4.16.0-33
 - Disable raid based on /proc/partitions (which is dynamic) instead 
-  of grub/device.map (which is static)
+  of grub/device.map (which is static) [SME: 2131]
 
-* Fri Dec 22 2006 Shad L. Lords <slords@mail.com>
-- Check device size after calculating space needed.
+* Fri Dec 22 2006 Shad L. Lords <slords@mail.com> 4.16.0-32
+- Check device size after calculating space needed. [SME: 2131]
 
-* Fri Dec 08 2006 Shad L. Lords <slords@mail.com>
+* Fri Dec 08 2006 Shad L. Lords <slords@mail.com> 4.16.0-31
 - Create partitions in order of size.  This makes sure boot is first and
   / is last.  Also last partitions fills all available space making resizing
-  easier.
+  easier. [SME: 2131]
 
 * Thu Dec 07 2006 Shad L. Lords <slords@mail.com>
 - Update to new release naming.  No functional changes.
