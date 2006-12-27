@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.16.0
-%define release 34
+%define release 35
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -39,6 +39,7 @@ Patch26: e-smith-base-4.16.0-raidadd-raid56.patch2
 Patch27: e-smith-base-4.16.0-procraid.patch
 Patch28: e-smith-base-4.17.0-admin_raidreport.patch
 Patch29: e-smith-base-4.17.0-admin_raidreport.patch2
+Patch30: e-smith-base-4.17.0-admin_raidreport.patch3
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -76,6 +77,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Dec 26 2006 Gordon Rowell <gordonr@gormand.com.au> 4.16.0-35
+- [Back-port from 4.17.0-19]
+- And mark admin_raidreport as only available for local mail [SME: 2139]
+
 * Tue Dec 26 2006 Gordon Rowell <gordonr@gormand.com.au> 4.16.0-34
 - [Back-port from 4.17.0-17, 4.17.0-18]
 - Send raidmonitor output to admin_raidreport pseudonym [SME: 2139]
@@ -845,6 +850,7 @@ e-smith server and gateway software - base module.
 %patch27 -p1
 %patch28 -p1
 %patch29 -p1
+%patch30 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
