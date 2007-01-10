@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.16.0
-%define release 35
+%define release 36
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -40,6 +40,7 @@ Patch27: e-smith-base-4.16.0-procraid.patch
 Patch28: e-smith-base-4.17.0-admin_raidreport.patch
 Patch29: e-smith-base-4.17.0-admin_raidreport.patch2
 Patch30: e-smith-base-4.17.0-admin_raidreport.patch3
+Patch31: e-smith-base-4.17.0-crtregen.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -77,6 +78,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Wed Jan 10 2007 Shad L. Lords <slords@mail.com> 4.16.0-36
+- [Back-port from 4.17.0-20]
+- Don't regenerate key and only regenerate crt when expired. [SME: 2035]
+
 * Tue Dec 26 2006 Gordon Rowell <gordonr@gormand.com.au> 4.16.0-35
 - [Back-port from 4.17.0-19]
 - And mark admin_raidreport as only available for local mail [SME: 2139]
@@ -851,6 +856,7 @@ e-smith server and gateway software - base module.
 %patch28 -p1
 %patch29 -p1
 %patch30 -p1
+%patch31 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
