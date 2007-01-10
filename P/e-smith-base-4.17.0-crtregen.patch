@@ -1,0 +1,81 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.0/root/etc/e-smith/templates/home/e-smith/ssl.crt mezzanine_patched_e-smith-base-4.17.0/root/etc/e-smith/templates/home/e-smith/ssl.crt
+--- e-smith-base-4.17.0/root/etc/e-smith/templates/home/e-smith/ssl.crt	2006-08-12 23:56:28.000000000 -0600
++++ mezzanine_patched_e-smith-base-4.17.0/root/etc/e-smith/templates/home/e-smith/ssl.crt	2007-01-10 08:57:35.000000000 -0700
+@@ -1,5 +1,6 @@
+ {
+     use constant KEYLIFEINDAYS => 365;
++    use Date::Manip;
+     use Cwd;
+     my $here = getcwd;
+ 
+@@ -11,28 +12,34 @@
+     my $defaultDepartment = $ldap{defaultDepartment};
+     my $email = "admin\@$FQDN";
+ 
+-    if ( -f $crt && (-M $crt < KEYLIFEINDAYS))
++    if ( -f $crt )
+     {
+-        my $expected_issuer = '/C=--' .
++        my $expire = `openssl x509 -enddate -noout -in $crt`;
++        $expire =~ s/^notAfter=//;
++        $expire =~ s#(\d{4}) (\w{3})#$2 $1#;
++
++        if ( Date_Cmp('tomorrow', ParseDate($expire)) < 0 ) {
++            my $expected_issuer = '/C=--' .
+                               '/ST=----';
+-        $expected_issuer .= '/L=' . ($defaultCity ? $defaultCity : 'Newbury');
+-        $expected_issuer .= '/O=' . ($defaultCompany ? $defaultCompany : 'My Company Ltd');
+-        $expected_issuer .= "/OU=$defaultDepartment" if $defaultDepartment;
+-        $expected_issuer .= "/CN=$FQDN" .
+-                              "/emailAddress=$email";
+-        my $issuer = `openssl x509 -issuer -noout -in $crt`;
+-        chomp $issuer;
+-        $issuer =~ s/^issuer= //;
+-        if ($issuer eq $expected_issuer)
+-	{
+-	    # Old key file is still good. Read it out - processTemplate will work
+-	    # out that it hasn't changed, and leave the old one in place
+-	    open(C, "$crt") or die "Couldn't open crt file: $!";
+-	    my @crt = <C>;
+-	    chomp @crt;
+-	    $OUT = join "\n", @crt;
+-	    close(C);
+-	    return;
++            $expected_issuer .= '/L=' . ($defaultCity ? $defaultCity : 'Newbury');
++            $expected_issuer .= '/O=' . ($defaultCompany ? $defaultCompany : 'My Company Ltd');
++            $expected_issuer .= "/OU=$defaultDepartment" if $defaultDepartment;
++            $expected_issuer .= "/CN=$FQDN" .
++                                  "/emailAddress=$email";
++            my $issuer = `openssl x509 -issuer -noout -in $crt`;
++            chomp $issuer;
++            $issuer =~ s/^issuer= //;
++            if ($issuer eq $expected_issuer)
++	    {
++	        # Old key file is still good. Read it out - processTemplate will work
++	        # out that it hasn't changed, and leave the old one in place
++	        open(C, "$crt") or die "Couldn't open crt file: $!";
++	        my @crt = <C>;
++	        chomp @crt;
++	        $OUT = join "\n", @crt;
++	        close(C);
++	        return;
++	    }
+ 	}
+     }
+     # go to somewhere private and safe where we can run programs
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.0/root/etc/e-smith/templates/home/e-smith/ssl.key mezzanine_patched_e-smith-base-4.17.0/root/etc/e-smith/templates/home/e-smith/ssl.key
+--- e-smith-base-4.17.0/root/etc/e-smith/templates/home/e-smith/ssl.key	2005-11-20 21:28:09.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.17.0/root/etc/e-smith/templates/home/e-smith/ssl.key	2007-01-10 08:44:07.000000000 -0700
+@@ -1,11 +1,10 @@
+ {
+-    use constant KEYLIFEINDAYS => 365;
+     use Cwd;
+     my $here = getcwd;
+ 
+     my $FQDN = "$SystemName.$DomainName";
+     my $key = "/home/e-smith/ssl.key/$FQDN.key";
+-    if ( -f $key && (-M $key < KEYLIFEINDAYS))
++    if ( -f $key )
+     {
+ 	# Old key file is still good. Read it out - processTemplate will work
+ 	# out that it hasn't changed, and leave the old one in place
