@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.17.0
-%define release 20
+%define release 21
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -28,6 +28,7 @@ Patch14: e-smith-base-4.17.0-admin_raidreport.patch
 Patch15: e-smith-base-4.17.0-admin_raidreport.patch2
 Patch16: e-smith-base-4.17.0-admin_raidreport.patch3
 Patch17: e-smith-base-4.17.0-crtregen.patch
+Patch18: e-smith-base-4.17.0-purgelog.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -65,6 +66,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sat Jan 13 2007 Shad L. Lords <slords@mail.com> 4.17.0-21
+- Make purge-old-logs configurable via db [SME: 1034]
+
 * Wed Jan 10 2007 Gordon Rowell <gordonr@gormand.com.au> 4.17.0-20
 - Don't regenerate key and only regenerate crt when expired. [SME: 2035]
 
@@ -867,6 +871,7 @@ e-smith server and gateway software - base module.
 %patch15 -p1
 %patch16 -p1
 %patch17 -p1
+%patch18 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
