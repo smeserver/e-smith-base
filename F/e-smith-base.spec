@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.17.0
-%define release 22
+%define release 23
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -30,6 +30,7 @@ Patch16: e-smith-base-4.17.0-admin_raidreport.patch3
 Patch17: e-smith-base-4.17.0-crtregen.patch
 Patch18: e-smith-base-4.17.0-purgelog.patch
 Patch19: e-smith-base-4.17.0-purgelog.patch2
+Patch20: e-smith-base-4.17.0-adminemail.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -67,7 +68,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
-* Sat Jan 13 2007 Shad L. Lords <slords@mail.com> 4.17.0-21
+* Sun Jan 14 2007 Shad L. Lords <slords@mail.com> 4.17.0-23
+- Add admin email forwarding to modify user panel [SME: 827]
+
+* Sat Jan 13 2007 Shad L. Lords <slords@mail.com> 4.17.0-22
 - Fix last patch so that data is pulled correctly [SME: 1034]
 
 * Sat Jan 13 2007 Shad L. Lords <slords@mail.com> 4.17.0-21
@@ -877,6 +881,7 @@ e-smith server and gateway software - base module.
 %patch17 -p1
 %patch18 -p1
 %patch19 -p1
+%patch20 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
