@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.17.0
-%define release 23
+%define release 24
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -31,6 +31,7 @@ Patch17: e-smith-base-4.17.0-crtregen.patch
 Patch18: e-smith-base-4.17.0-purgelog.patch
 Patch19: e-smith-base-4.17.0-purgelog.patch2
 Patch20: e-smith-base-4.17.0-adminemail.patch
+Patch21: e-smith-base-4.17.0-remove_console_remnants.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -68,6 +69,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Thu Jan 18 2007 Charlie Brady <charlieb@e-smith.com> 4.17.0-24
+- Remove unused files left over from earlier attempt at console
+  refactoring, and a bad patch. [SME: 2328]
+
 * Sun Jan 14 2007 Shad L. Lords <slords@mail.com> 4.17.0-23
 - Add admin email forwarding to modify user panel [SME: 827]
 
@@ -882,6 +887,7 @@ e-smith server and gateway software - base module.
 %patch18 -p1
 %patch19 -p1
 %patch20 -p1
+%patch21 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
