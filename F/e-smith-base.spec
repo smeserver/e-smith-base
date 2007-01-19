@@ -1,8 +1,8 @@
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
-%define version 4.17.0
-%define release 24
+%define version 4.17.1
+%define release 1
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -10,28 +10,6 @@ License: GPL
 Vendor: Mitel Networks Corporation
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
-Patch0: e-smith-base-4.17.0-console_db.patch
-Patch1: e-smith-base-4.17.0-localnetwork_in_serveronly.patch
-Patch2: e-smith-base-4.17.0-masq_merge.patch
-Patch3: e-smith-base-4.17.0-console_db.patch2
-Patch4: e-smith-base-4.17.0-wan_service.patch
-Patch5: e-smith-base-4.17.0-mod_proxy_http.patch
-Patch6: e-smith-base-4.17.0-dhcpTemplateWarning.patch
-Patch7: e-smith-base-4.17.0-console_refactor.patch
-Patch8: e-smith-base-4.17.0-console_refactor.patch2
-Patch9: e-smith-base-4.17.0-remove_manager.patch
-Patch10: e-smith-base-4.17.0-remove_manager.patch2
-Patch11: e-smith-base-4.16.0-raidadd-raid56.patch
-Patch12: e-smith-base-4.16.0-raidadd-raid56.patch2
-Patch13: e-smith-base-4.17.0-procraid.patch
-Patch14: e-smith-base-4.17.0-admin_raidreport.patch
-Patch15: e-smith-base-4.17.0-admin_raidreport.patch2
-Patch16: e-smith-base-4.17.0-admin_raidreport.patch3
-Patch17: e-smith-base-4.17.0-crtregen.patch
-Patch18: e-smith-base-4.17.0-purgelog.patch
-Patch19: e-smith-base-4.17.0-purgelog.patch2
-Patch20: e-smith-base-4.17.0-adminemail.patch
-Patch21: e-smith-base-4.17.0-remove_console_remnants.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -56,6 +34,7 @@ Requires: bridge-utils
 Requires: vconfig
 Requires: e-smith-bootloader
 Requires: mdadm
+Requires: pam_abl
 Obsoletes: rlinetd, e-smith-mod_ssl
 Obsoletes: e-smith-serial-console
 Obsoletes: sshell
@@ -69,6 +48,11 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Thu Jan 18 2007 Charlie Brady <charlieb@e-smith.com> 4.17.1-1
+- Ensure changes from e-smith-base+ldap are in sync.
+- Ensure changes from e-smith-base-4.16.0 are in sync.
+- Roll new dev stream.
+
 * Thu Jan 18 2007 Charlie Brady <charlieb@e-smith.com> 4.17.0-24
 - Remove unused files left over from earlier attempt at console
   refactoring, and a bad patch. [SME: 2328]
@@ -866,28 +850,6 @@ e-smith server and gateway software - base module.
 
 %prep
 %setup
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p2
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
-%patch10 -p1
-%patch11 -p1
-%patch12 -p1
-%patch13 -p1
-%patch14 -p1
-%patch15 -p1
-%patch16 -p1
-%patch17 -p1
-%patch18 -p1
-%patch19 -p1
-%patch20 -p1
-%patch21 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
@@ -920,13 +882,11 @@ mkdir -p root/etc/e-smith/skel/e-smith/files/users/admin/home
 mkdir -p root/etc/e-smith/skel/e-smith/files/primary/{cgi-bin,files,html}
 mkdir -p root/etc/e-smith/skel/e-smith/Maildir/{cur,new,tmp}
 mkdir -p root/etc/e-smith/templates{,-custom,-user,-user-custom}
-mkdir -p root/etc/httpd/admin-conf/users
 mkdir -p root/home/e-smith/files/{users,server-resources}
 mkdir -p root/home/e-smith/files/users/admin/home
 mkdir -p root/home/e-smith/Maildir/{cur,new,tmp}
 mkdir -p root/root/.ssh
 mkdir -p root/var/log/wan
-mkdir -p root/var/state/httpd
 
 LEXICONS=$(find root/etc/e-smith/web/{functions,panels/password/cgi-bin} \
     -type f | grep -v CVS | grep -v pleasewait)
@@ -957,13 +917,11 @@ mkdir -p root/etc/e-smith/locale
 # ln -s fr root/etc/e-smith/locale/fr-ca 
 ln -s en-us root/etc/e-smith/locale/en
 
-ln -s ../../var/state/httpd root/etc/httpd/state
-
 mkdir -p root/etc/e-smith/templates/etc/dhcpc/dhcpcd.exe
 ln -s /etc/e-smith/templates-default/template-begin-shell \
       root/etc/e-smith/templates/etc/dhcpc/dhcpcd.exe/template-begin
 
-for file in masq diald
+for file in diald
 do
     mkdir -p root/etc/e-smith/templates/etc/rc.d/init.d/$file
     ln -s /etc/e-smith/templates-default/template-begin-shell \
