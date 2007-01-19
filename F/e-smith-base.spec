@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.17.1
-%define release 1
+%define release 2
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -35,6 +35,7 @@ Requires: vconfig
 Requires: e-smith-bootloader
 Requires: mdadm
 Requires: pam_abl
+Requires: dialog
 Obsoletes: rlinetd, e-smith-mod_ssl
 Obsoletes: e-smith-serial-console
 Obsoletes: sshell
@@ -48,6 +49,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Thu Jan 18 2007 Charlie Brady <charlieb@e-smith.com> 4.17.1-2
+- Add requires for dialog so console works.
+
 * Thu Jan 18 2007 Charlie Brady <charlieb@e-smith.com> 4.17.1-1
 - Ensure changes from e-smith-base+ldap are in sync.
 - Ensure changes from e-smith-base-4.16.0 are in sync.
