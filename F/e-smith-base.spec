@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.17.1
-%define release 2
+%define release 3
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -10,6 +10,8 @@ License: GPL
 Vendor: Mitel Networks Corporation
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
+Patch1: e-smith-base-4.17.1-tuigui.patch
+Patch2: e-smith-base-4.17.1-consolerestore.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -49,10 +51,14 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
-* Thu Jan 18 2007 Charlie Brady <charlieb@e-smith.com> 4.17.1-2
+* Fri Jan 19 2007 Shad L. Lords <slords@mail.com> 4.17.1-3
+- Change {gui,tui}_auth to {gui,tui}-auth.
+- Exit gracefully if restore database doesn't exist.
+
+* Thu Jan 18 2007 Shad L. Lords <slords@mail.com> 4.17.1-2
 - Add requires for dialog so console works.
 
-* Thu Jan 18 2007 Charlie Brady <charlieb@e-smith.com> 4.17.1-1
+* Thu Jan 18 2007 Shad L. Lords <slords@mail.com> 4.17.1-1
 - Ensure changes from e-smith-base+ldap are in sync.
 - Ensure changes from e-smith-base-4.16.0 are in sync.
 - Roll new dev stream.
@@ -854,6 +860,8 @@ e-smith server and gateway software - base module.
 
 %prep
 %setup
+%patch1 -p1
+%patch2 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

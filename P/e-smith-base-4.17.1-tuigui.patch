@@ -1,0 +1,12 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.1/createlinks mezzanine_patched_e-smith-base-4.17.1/createlinks
+--- e-smith-base-4.17.1/createlinks	2007-01-18 20:01:57.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.17.1/createlinks	2007-01-19 07:57:24.000000000 -0700
+@@ -201,7 +201,7 @@
+ 	email-update
+ 	remoteaccess-update
+ 	));
+-foreach my $file (qw(/etc/pam.d/system-auth /etc/pam.d/gui_auth /etc/pam.d/tui_auth /etc/pam.d/passwd
++foreach my $file (qw(/etc/pam.d/system-auth /etc/pam.d/gui-auth /etc/pam.d/tui-auth /etc/pam.d/passwd
+                      /etc/security/pam_abl.conf /etc/security/tui_pam_abl.conf
+     ))
+ {
