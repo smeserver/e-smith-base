@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.17.1
-%define release 3
+%define release 4
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -12,6 +12,7 @@ Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch1: e-smith-base-4.17.1-tuigui.patch
 Patch2: e-smith-base-4.17.1-consolerestore.patch
+Patch3: e-smith-base-4.17.1-migratenetworks.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -51,6 +52,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri Jan 19 2007 Shad L. Lords <slords@mail.com> 4.17.1-4
+- Reverse 10SystemLocalNetwork change.
+
 * Fri Jan 19 2007 Shad L. Lords <slords@mail.com> 4.17.1-3
 - Change {gui,tui}_auth to {gui,tui}-auth.
 - Exit gracefully if restore database doesn't exist.
@@ -862,6 +866,7 @@ e-smith server and gateway software - base module.
 %setup
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

@@ -1,0 +1,51 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.1/root/etc/e-smith/db/configuration/migrate/10SystemLocalNetwork mezzanine_patched_e-smith-base-4.17.1/root/etc/e-smith/db/configuration/migrate/10SystemLocalNetwork
+--- e-smith-base-4.17.1/root/etc/e-smith/db/configuration/migrate/10SystemLocalNetwork	2007-01-18 20:01:57.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.17.1/root/etc/e-smith/db/configuration/migrate/10SystemLocalNetwork	2005-11-20 21:28:05.000000000 -0700
+@@ -2,13 +2,13 @@
+     use esmith::util;
+     use esmith::NetworksDB;
+ 
+-    my $InternalInterface = $DB->get('InternalInterface');
+-    return unless $InternalInterface;;    # Nothing to migrate yet
+-
+-    my $LocalIP = $InternalInterface->prop('IPAddress');
+-    my $LocalNetmask = $InternalInterface->prop('Netmask');
+-
+-    my $server_only = ($DB->get_value('SystemMode') eq 'serveronly');
++    my $LocalIP = $DB->get('LocalIP');
++    return unless defined $LocalIP;    # Nothing to migrate yet
++    $LocalIP = $LocalIP->value;
++
++    my $LocalNetmask = $DB->get('LocalNetmask');
++    return unless defined $LocalNetmask;
++    $LocalNetmask = $LocalNetmask->value;
+ 
+     my $ndb = esmith::NetworksDB->open
+       || esmith::NetworksDB->create;
+@@ -17,21 +17,13 @@
+     my ($localnet) = $ndb->get_all_by_prop( SystemLocalNetwork => 'yes' );
+     my ($local_network) =
+       esmith::util::computeNetworkAndBroadcast( $LocalIP, $LocalNetmask );
+-    if (defined $localnet)
++    if ( defined $localnet && $localnet->key ne $local_network )
+     {
+-        if ($localnet->key ne $local_network)
+-        {
+-            # We need to delete the old record
+-            $localnet->delete;
+-            $localnet = undef;
+-        }
+-        if ($server_only)
+-        {
+-            $localnet->delete_prop('SystemLocalNetwork');
+-        }
+-    }
+-    return if $server_only; # serveronly mode does not get a 'local network' by default
+ 
++        # We need to delete the old record
++        $localnet->delete;
++        $localnet = undef;
++    }
+     if ( !defined $localnet )
+     {
+         # We need to convert an existing local network to system network
