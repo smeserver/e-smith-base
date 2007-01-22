@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.17.2
-%define release 3
+%define release 4
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -13,6 +13,7 @@ Source: %{name}-%{version}.tar.gz
 Patch1: e-smith-base-4.17.2-wan_service.patch
 Patch2: e-smith-base-4.17.2-remove_manager.patch
 Patch3: e-smith-base-4.17.2-masq_remove.patch
+Patch4: e-smith-base-4.17.2-pam_abl.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -37,6 +38,7 @@ Requires: bridge-utils
 Requires: vconfig
 Requires: e-smith-bootloader
 Requires: mdadm
+Requires: pam_abl
 Obsoletes: rlinetd, e-smith-mod_ssl
 Obsoletes: e-smith-serial-console
 Obsoletes: sshell
@@ -50,6 +52,13 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri Jan 19 2007 Shad L. Lords <slords@mail.com> 4.17.2-4
+- [Forward-ported from 4.17.0]
+- Add support for use of pam_tally and/or pam_abl modules. Both
+  are disabled by default.
+- Update /etc/pam.d/{ftp,passwd} templates.
+- Add template for /etc/pam.d/system-auth.
+
 * Fri Jan 19 2007 Shad L. Lords <slords@mail.com> 4.17.2-3
 - [Forward-ported from 4.17.0]
 - Move masq fragments to e-smith-packetfilter rpm.
@@ -830,6 +839,7 @@ e-smith server and gateway software - base module.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root//etc/e-smith/templates/etc/identd.masq
@@ -902,7 +912,7 @@ mkdir -p root/etc/e-smith/templates/etc/dhcpc/dhcpcd.exe
 ln -s /etc/e-smith/templates-default/template-begin-shell \
       root/etc/e-smith/templates/etc/dhcpc/dhcpcd.exe/template-begin
 
-for file in ftp imap login passwd
+for file in ftp imap login passwd system-auth
 do
     mkdir -p root/etc/e-smith/templates/etc/pam.d/$file
     ln -s /etc/e-smith/templates-default/template-begin-pam \
