@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.17.2
-%define release 2
+%define release 3
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -12,6 +12,7 @@ Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch1: e-smith-base-4.17.2-wan_service.patch
 Patch2: e-smith-base-4.17.2-remove_manager.patch
+Patch3: e-smith-base-4.17.2-masq_remove.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -49,6 +50,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri Jan 19 2007 Shad L. Lords <slords@mail.com> 4.17.2-3
+- [Forward-ported from 4.17.0]
+- Move masq fragments to e-smith-packetfilter rpm.
+
 * Fri Jan 19 2007 Shad L. Lords <slords@mail.com> 4.17.2-2
 - [Forward-ported from 4.17.0]
 - Remove server-manager templates and scripts - move to e-smith-manager.
@@ -824,8 +829,10 @@ e-smith server and gateway software - base module.
 %setup
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
+rm -rf root//etc/e-smith/templates/etc/identd.masq
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
@@ -894,13 +901,6 @@ ln -s en-us root/etc/e-smith/locale/en
 mkdir -p root/etc/e-smith/templates/etc/dhcpc/dhcpcd.exe
 ln -s /etc/e-smith/templates-default/template-begin-shell \
       root/etc/e-smith/templates/etc/dhcpc/dhcpcd.exe/template-begin
-
-for file in masq
-do
-    mkdir -p root/etc/e-smith/templates/etc/rc.d/init.d/$file
-    ln -s /etc/e-smith/templates-default/template-begin-shell \
-      root/etc/e-smith/templates/etc/rc.d/init.d/$file/template-begin
-done
 
 for file in ftp imap login passwd
 do
