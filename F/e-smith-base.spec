@@ -60,7 +60,7 @@ e-smith server and gateway software - base module.
 - Remove deprecated %conf use in console. [SME: 1856]
 
 * Fri Jan 19 2007 Shad L. Lords <slords@mail.com> 4.17.2-4
-- [Forward-ported from 4.17.0]
+- [Ported from e-smith-base+ldap]
 - Add support for use of pam_tally and/or pam_abl modules. Both
   are disabled by default.
 - Update /etc/pam.d/{ftp,passwd} templates.
