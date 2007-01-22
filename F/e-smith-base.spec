@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.17.2
-%define release 1
+%define release 2
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -11,6 +11,7 @@ Vendor: Mitel Networks Corporation
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch1: e-smith-base-4.17.2-wan_service.patch
+Patch2: e-smith-base-4.17.2-remove_manager.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -48,6 +49,11 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri Jan 19 2007 Shad L. Lords <slords@mail.com> 4.17.2-2
+- [Forward-ported from 4.17.0]
+- Remove server-manager templates and scripts - move to e-smith-manager.
+  [SME: 2023]
+
 * Fri Jan 19 2007 Shad L. Lords <slords@mail.com> 4.17.2-1
 - [Forward-ported from 4.17.0]
 - Combine dhcp client, pppoe, dialup and static WAN connections into
@@ -817,6 +823,9 @@ e-smith server and gateway software - base module.
 %prep
 %setup
 %patch1 -p1
+%patch2 -p1
+
+rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
@@ -849,16 +858,11 @@ mkdir -p root/etc/e-smith/skel/e-smith/files/users/admin/home
 mkdir -p root/etc/e-smith/skel/e-smith/files/primary/{cgi-bin,files,html}
 mkdir -p root/etc/e-smith/skel/e-smith/Maildir/{cur,new,tmp}
 mkdir -p root/etc/e-smith/templates{,-custom,-user,-user-custom}
-mkdir -p root/etc/e-smith/web/{common,functions}
-mkdir -p root/etc/e-smith/web/panels/manager/{cgi-bin,html}
-mkdir -p root/etc/e-smith/web/panels/password/{cgi-bin,html}
-mkdir -p root/etc/httpd/admin-conf/users
 mkdir -p root/home/e-smith/files/{users,server-resources}
 mkdir -p root/home/e-smith/files/users/admin/home
 mkdir -p root/home/e-smith/Maildir/{cur,new,tmp}
 mkdir -p root/root/.ssh
 mkdir -p root/var/log/wan
-mkdir -p root/var/state/httpd
 
 LEXICONS=$(find root/etc/e-smith/web/{functions,panels/password/cgi-bin} \
     -type f | grep -v CVS | grep -v pleasewait)
@@ -881,23 +885,11 @@ mkdir -p root/etc/rc.d/rc1.d
 
 mkdir -p root/usr/share/locale/en_US/LC_MESSAGES
 xgettext -o root/usr/share/locale/en_US/LC_MESSAGES/server-console.po root/sbin/e-smith/console
-xgettext -o root/usr/share/locale/en_US/LC_MESSAGES/foot.tmpl.po root/etc/e-smith/templates/etc/e-smith/web/common/foot.tmpl/25Copyright
-# make header/footer symlinks
-ln -s head.tmpl root/etc/e-smith/web/common/userpassword_head.tmpl
-ln -s head.tmpl root/etc/e-smith/web/common/noframes_head.tmpl
-ln -s foot.tmpl root/etc/e-smith/web/common/noframes_foot.tmpl
 
 mkdir -p root/etc/e-smith/locale
 # Make the fr-ca link in %pre to ease upgrades
 # ln -s fr root/etc/e-smith/locale/fr-ca 
 ln -s en-us root/etc/e-smith/locale/en
-
-for file in index initial
-do
-    ln -s ../../../functions/${file}.cgi root/etc/e-smith/web/panels/manager/html/${file}.cgi
-done
-
-ln -s ../../var/state/httpd root/etc/httpd/state
 
 mkdir -p root/etc/e-smith/templates/etc/dhcpc/dhcpcd.exe
 ln -s /etc/e-smith/templates-default/template-begin-shell \
@@ -920,7 +912,7 @@ done
 mkdir -p root/service
 mkdir -p root/etc/rc.d/init.d/supervise
 
-for service in dhcpd wan ippp syslog klogd httpd-admin
+for service in dhcpd wan ippp syslog klogd
 do
   ln -s /var/service/$service root/service/$service
   mkdir -p root/var/service/$service/supervise
@@ -985,14 +977,6 @@ rm -rf $RPM_BUILD_ROOT
     --file /var/service/dhcpd/log/run 'attr(0755,root,root)' \
     --dir /var/log/dhcpd 'attr(2750,smelog,smelog)' \
     --file /home/e-smith/db/configuration 'config(noreplace)' \
-    --dir /var/service/httpd-admin 'attr(01755,root,root)' \
-    --file /var/service/httpd-admin/down 'attr(0644,root,root)' \
-    --file /var/service/httpd-admin/run 'attr(0755,root,root)' \
-    --dir /var/service/httpd-admin/log 'attr(0755,root,root)' \
-    --dir /var/service/httpd-admin/log/supervise 'attr(0700,root,root)' \
-    --dir /var/service/httpd-admin/supervise 'attr(0700,root,root)' \
-    --file /var/service/httpd-admin/log/run 'attr(0755,root,root)' \
-    --dir /var/log/httpd-admin 'attr(0750,smelog,smelog)' \
     --dir /var/service/raidmonitor 'attr(01755,root,root)' \
     --file /var/service/raidmonitor/down 'attr(0644,root,root)' \
     --file /var/service/raidmonitor/run 'attr(0755,root,root)' \
