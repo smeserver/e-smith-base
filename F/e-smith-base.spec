@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.17.2
-%define release 4
+%define release 5
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -14,10 +14,11 @@ Patch1: e-smith-base-4.17.2-wan_service.patch
 Patch2: e-smith-base-4.17.2-remove_manager.patch
 Patch3: e-smith-base-4.17.2-masq_remove.patch
 Patch4: e-smith-base-4.17.2-pam_abl.patch
+Patch5: e-smith-base-4.17.2-console_refactor.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
-Requires: e-smith-lib >= 1.15.3-42
+Requires: e-smith-lib >= 1.17.0-03
 Requires: server-manager-images, server-manager
 Requires: e-smith-formmagick >= 0.2.0
 Requires: initscripts >= 6.67-1es17
@@ -52,6 +53,12 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri Jan 19 2007 Shad L. Lords <slords@mail.com> 4.17.2-5
+- [Forward-ported from 4.17.0]
+- Refactor console code considerably, and add restore from CDROM/USB
+  backup capability to console.
+- Remove deprecated %conf use in console. [SME: 1856]
+
 * Fri Jan 19 2007 Shad L. Lords <slords@mail.com> 4.17.2-4
 - [Forward-ported from 4.17.0]
 - Add support for use of pam_tally and/or pam_abl modules. Both
@@ -840,6 +847,7 @@ e-smith server and gateway software - base module.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root//etc/e-smith/templates/etc/identd.masq
