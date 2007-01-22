@@ -1,8 +1,8 @@
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
-%define version 4.17.1
-%define release 4
+%define version 4.17.2
+%define release 0
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -10,13 +10,10 @@ License: GPL
 Vendor: Mitel Networks Corporation
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
-Patch1: e-smith-base-4.17.1-tuigui.patch
-Patch2: e-smith-base-4.17.1-consolerestore.patch
-Patch3: e-smith-base-4.17.1-migratenetworks.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
-Requires: e-smith-lib >= 1.17.0-03
+Requires: e-smith-lib >= 1.15.3-42
 Requires: server-manager-images, server-manager
 Requires: e-smith-formmagick >= 0.2.0
 Requires: initscripts >= 6.67-1es17
@@ -37,8 +34,6 @@ Requires: bridge-utils
 Requires: vconfig
 Requires: e-smith-bootloader
 Requires: mdadm
-Requires: pam_abl
-Requires: dialog
 Obsoletes: rlinetd, e-smith-mod_ssl
 Obsoletes: e-smith-serial-console
 Obsoletes: sshell
@@ -52,54 +47,42 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
-* Fri Jan 19 2007 Shad L. Lords <slords@mail.com> 4.17.1-4
-- Reverse 10SystemLocalNetwork change.
+* Fri Jan 19 2007 Shad L. Lords <slords@mail.com> 4.17.2-0
+- Make new development stream. Based from 4.16.0-39.
 
-* Fri Jan 19 2007 Shad L. Lords <slords@mail.com> 4.17.1-3
-- Change {gui,tui}_auth to {gui,tui}-auth.
-- Exit gracefully if restore database doesn't exist.
-
-* Thu Jan 18 2007 Shad L. Lords <slords@mail.com> 4.17.1-2
-- Add requires for dialog so console works.
-
-* Thu Jan 18 2007 Shad L. Lords <slords@mail.com> 4.17.1-1
-- Ensure changes from e-smith-base+ldap are in sync.
-- Ensure changes from e-smith-base-4.16.0 are in sync.
-- Roll new dev stream.
-
-* Thu Jan 18 2007 Charlie Brady <charlieb@e-smith.com> 4.17.0-24
-- Remove unused files left over from earlier attempt at console
-  refactoring, and a bad patch. [SME: 2328]
-
-* Sun Jan 14 2007 Shad L. Lords <slords@mail.com> 4.17.0-23
+* Sun Jan 14 2007 Shad L. Lords <slords@mail.com> 4.16.0-39
+- [Back-port from 4.17.0-23]
 - Add admin email forwarding to modify user panel [SME: 827]
 
-* Sat Jan 13 2007 Shad L. Lords <slords@mail.com> 4.17.0-22
+* Sat Jan 13 2007 Shad L. Lords <slords@mail.com> 4.16.0-38
+- [Back-port from 4.17.0-22]
 - Fix last patch so that data is pulled correctly [SME: 1034]
 
-* Sat Jan 13 2007 Shad L. Lords <slords@mail.com> 4.17.0-21
+* Sat Jan 13 2007 Shad L. Lords <slords@mail.com> 4.16.0-37
+- [Back-port from 4.17.0-21]
 - Make purge-old-logs configurable via db [SME: 1034]
 
-* Wed Jan 10 2007 Gordon Rowell <gordonr@gormand.com.au> 4.17.0-20
+* Wed Jan 10 2007 Shad L. Lords <slords@mail.com> 4.16.0-36
+- [Back-port from 4.17.0-20]
 - Don't regenerate key and only regenerate crt when expired. [SME: 2035]
 
-* Tue Dec 26 2006 Gordon Rowell <gordonr@gormand.com.au> 4.17.0-19
+* Tue Dec 26 2006 Gordon Rowell <gordonr@gormand.com.au> 4.16.0-35
+- [Back-port from 4.17.0-19]
 - And mark admin_raidreport as only available for local mail [SME: 2139]
 
-* Tue Dec 26 2006 Gordon Rowell <gordonr@gormand.com.au> 4.17.0-18
+* Tue Dec 26 2006 Gordon Rowell <gordonr@gormand.com.au> 4.16.0-34
+- [Back-port from 4.17.0-17, 4.17.0-18]
+- Send raidmonitor output to admin_raidreport pseudonym [SME: 2139]
 - And mark admin_raidreport as non-Removable [SME: 2139]
 
-* Tue Dec 26 2006 Gordon Rowell <gordonr@gormand.com.au> 4.17.0-17
-- Send raidmonitor output to admin_raidreport pseudonym [SME: 2139]
-
-* Sat Dec 23 2006 Shad L. Lords <slords@mail.com> 4.17.0-16
-- Disable raid based on /proc/partitions (which is dynamic) instead
+* Sat Dec 23 2006 Shad L. Lords <slords@mail.com> 4.16.0-33
+- Disable raid based on /proc/partitions (which is dynamic) instead 
   of grub/device.map (which is static) [SME: 2131]
 
-* Fri Dec 22 2006 Shad L. Lords <slords@mail.com> 4.17.0-15
+* Fri Dec 22 2006 Shad L. Lords <slords@mail.com> 4.16.0-32
 - Check device size after calculating space needed. [SME: 2131]
 
-* Fri Dec 08 2006 Shad L. Lords <slords@mail.com> 4.17.0-14
+* Fri Dec 08 2006 Shad L. Lords <slords@mail.com> 4.16.0-31
 - Create partitions in order of size.  This makes sure boot is first and
   / is last.  Also last partitions fills all available space making resizing
   easier. [SME: 2131]
@@ -108,52 +91,15 @@ e-smith server and gateway software - base module.
 - Update to new release naming.  No functional changes.
 - Make Packager generic
 
-* Tue Dec 05 2006 Shad L. Lords <slords@mail.com> 4.17.0-13
+* Tue Dec 05 2006 Shad L. Lords <slords@mail.com> 4.16.0-30
 - Update manage raid console functions to handle all raid types [SME: 2131]
 
-* Thu Nov 02 2006 Charlie Brady <charlie_brady@mitel.com> 4.17.0-12
-- Remove httpd-admin supervise service directory - moved to
-  e-smith-manager. [SME: 2023]
+* Tue Nov 21 2006 Charlie Brady <charlie_brady@mitel.com> 4.16.0-29
+- Fix warning from dhclient.conf template expansion.
 
-* Wed Nov 01 2006 Charlie Brady <charlie_brady@mitel.com> 4.17.0-11
-- Remove server-manager templates and scripts - move to e-smith-manager.
-  [SME: 2023]
-
-* Mon Oct 23 2006 Charlie Brady <charlie_brady@mitel.com> 4.17.0-10
-- Add missing include of Locale::gettext in two of the esmith::console::*
-  modules.
-
-* Mon Oct 23 2006 Charlie Brady <charlie_brady@mitel.com> 4.17.0-09
-- Refactor console code considerably, and add restore from CDROM/USB
-  backup capability to console.
-
-* Sat Sep 09 2006 Gavin Weight <gweight@gmail.com> 4.17.0-08
-- Fix dhcp warnings in server-only mode.  [SME: 1816]
-
-* Wed Aug 30 2006 Charlie Brady <charlie_brady@mitel.com> 4.17.0-07
-- Add missing mod_http_proxy module load to admin httpd.conf.
+* Wed Aug 30 2006 Charlie Brady <charlie_brady@mitel.com> 4.16.0-28
+- Add missing LocalModule for mod_proxy_http to admin apache conf.
   [SME: 1853]
-
-* Mon Aug 21 2006 Charlie Brady <charlie_brady@mitel.com> 4.17.0-06
-- Combine dhcp client, pppoe, dialup and static WAN connections into
-  "wan" service. [SME 1795]
-
-* Fri Aug 18 2006 Charlie Brady <charlie_brady@mitel.com> 4.17.0-05
-- Re-add UnsavedChanges functionality to the console, and fix a few
-  little problems with the esmith::ConfigDB conversion. [SME: 1856]
-
-* Sun Aug 13 2006 Charlie Brady <charlie_brady@mitel.com> 4.17.0-04
-- Move masq fragments to e-smith-packetfilter rpm.
-
-* Sun Aug 13 2006 Charlie Brady <charlie_brady@mitel.com> 4.17.0-03
-- Don't provide a default local network in serveronly mode. [SME: 1793]
-
-* Sun Aug 13 2006 Charlie Brady <charlie_brady@mitel.com> 4.17.0-02
-- Remove deprecated %conf use in console. Note that UnsavedChanges is
-  not implemented in this version.
-
-* Sun Aug 13 2006 Charlie Brady <charlie_brady@mitel.com> 4.17.0-01
-- Make new development stream.
 
 * Fri Jul 14 2006 Charlie Brady <charlie_brady@mitel.com> 4.16.0-27
 - Prevent daily regeneration of SSL cert if City/Company/Department are
@@ -864,9 +810,6 @@ e-smith server and gateway software - base module.
 
 %prep
 %setup
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
@@ -899,11 +842,16 @@ mkdir -p root/etc/e-smith/skel/e-smith/files/users/admin/home
 mkdir -p root/etc/e-smith/skel/e-smith/files/primary/{cgi-bin,files,html}
 mkdir -p root/etc/e-smith/skel/e-smith/Maildir/{cur,new,tmp}
 mkdir -p root/etc/e-smith/templates{,-custom,-user,-user-custom}
+mkdir -p root/etc/e-smith/web/{common,functions}
+mkdir -p root/etc/e-smith/web/panels/manager/{cgi-bin,html}
+mkdir -p root/etc/e-smith/web/panels/password/{cgi-bin,html}
+mkdir -p root/etc/httpd/admin-conf/users
 mkdir -p root/home/e-smith/files/{users,server-resources}
 mkdir -p root/home/e-smith/files/users/admin/home
 mkdir -p root/home/e-smith/Maildir/{cur,new,tmp}
 mkdir -p root/root/.ssh
-mkdir -p root/var/log/wan
+mkdir -p root/var/log/diald
+mkdir -p root/var/state/httpd
 
 LEXICONS=$(find root/etc/e-smith/web/{functions,panels/password/cgi-bin} \
     -type f | grep -v CVS | grep -v pleasewait)
@@ -928,17 +876,29 @@ mkdir -p root/etc/rc.d/rc1.d
 ln -s ../init.d/diald root/etc/rc6.d/K90diald
 mkdir -p root/usr/share/locale/en_US/LC_MESSAGES
 xgettext -o root/usr/share/locale/en_US/LC_MESSAGES/server-console.po root/sbin/e-smith/console
+xgettext -o root/usr/share/locale/en_US/LC_MESSAGES/foot.tmpl.po root/etc/e-smith/templates/etc/e-smith/web/common/foot.tmpl/25Copyright
+# make header/footer symlinks
+ln -s head.tmpl root/etc/e-smith/web/common/userpassword_head.tmpl
+ln -s head.tmpl root/etc/e-smith/web/common/noframes_head.tmpl
+ln -s foot.tmpl root/etc/e-smith/web/common/noframes_foot.tmpl
 
 mkdir -p root/etc/e-smith/locale
 # Make the fr-ca link in %pre to ease upgrades
 # ln -s fr root/etc/e-smith/locale/fr-ca 
 ln -s en-us root/etc/e-smith/locale/en
 
+for file in index initial
+do
+    ln -s ../../../functions/${file}.cgi root/etc/e-smith/web/panels/manager/html/${file}.cgi
+done
+
+ln -s ../../var/state/httpd root/etc/httpd/state
+
 mkdir -p root/etc/e-smith/templates/etc/dhcpc/dhcpcd.exe
 ln -s /etc/e-smith/templates-default/template-begin-shell \
       root/etc/e-smith/templates/etc/dhcpc/dhcpcd.exe/template-begin
 
-for file in diald
+for file in masq diald
 do
     mkdir -p root/etc/e-smith/templates/etc/rc.d/init.d/$file
     ln -s /etc/e-smith/templates-default/template-begin-shell \
@@ -955,7 +915,7 @@ done
 mkdir -p root/service
 mkdir -p root/etc/rc.d/init.d/supervise
 
-for service in dhcpd wan ippp syslog klogd
+for service in dhcpd dhcpcd syslog klogd httpd-admin
 do
   ln -s /var/service/$service root/service/$service
   mkdir -p root/var/service/$service/supervise
@@ -975,6 +935,7 @@ rm root/service/{syslog,klogd}
 mkdir -p root/etc/e-smith/events/local
 mkdir -p root/etc/e-smith/events/user-modify-admin
 mkdir -p root/home/e-smith/db
+touch root/home/e-smith/db/configuration
 
 mkdir -p root/etc/e-smith/pam
 mkdir -p root/home/e-smith/ssl.key
@@ -986,12 +947,21 @@ mkdir -p root/var/state/e-smith
 for file in %{dbfiles}
 do
     mkdir -p root/etc/e-smith/db/$file/{defaults,migrate,force}
+    # Create ghost file for rpm
+    touch root/home/e-smith/db/$file
 done
 
 mkdir -p root/etc/tcprules
 
 mkdir -p root/service
-touch root/var/service/wan/down
+ln -s /var/service/pppoe root/service/pppoe
+
+mkdir -p root/var/service/pppoe/supervise
+touch root/var/service/pppoe/down
+
+mkdir -p root/var/service/pppoe/log/supervise
+
+mkdir -p root/var/log/pppoe
 
 ln -s /var/service/raidmonitor root/service/raidmonitor
 
@@ -1023,7 +993,16 @@ rm -rf $RPM_BUILD_ROOT
     --dir /var/service/dhcpcd/log/supervise 'attr(0700,root,root)' \
     --dir /var/service/dhcpcd/supervise 'attr(0700,root,root)' \
     --file /var/service/dhcpcd/log/run 'attr(0755,root,root)' \
+    --dir /var/log/dhcpcd 'attr(2750,smelog,smelog)' \
     --file /home/e-smith/db/configuration 'config(noreplace)' \
+    --dir /var/service/httpd-admin 'attr(01755,root,root)' \
+    --file /var/service/httpd-admin/down 'attr(0644,root,root)' \
+    --file /var/service/httpd-admin/run 'attr(0755,root,root)' \
+    --dir /var/service/httpd-admin/log 'attr(0755,root,root)' \
+    --dir /var/service/httpd-admin/log/supervise 'attr(0700,root,root)' \
+    --dir /var/service/httpd-admin/supervise 'attr(0700,root,root)' \
+    --file /var/service/httpd-admin/log/run 'attr(0755,root,root)' \
+    --dir /var/log/httpd-admin 'attr(0750,smelog,smelog)' \
     --dir /var/service/raidmonitor 'attr(01755,root,root)' \
     --file /var/service/raidmonitor/down 'attr(0644,root,root)' \
     --file /var/service/raidmonitor/run 'attr(0755,root,root)' \
@@ -1040,27 +1019,14 @@ rm -rf $RPM_BUILD_ROOT
     --dir /home/e-smith/ssl.key 'attr(0700,root,root)' \
     --dir /home/e-smith/ssl.crt 'attr(0700,root,root)' \
     --dir /home/e-smith/ssl.pem 'attr(0700,root,root)' \
-    --dir /var/service/wan 'attr(1755,root,root)' \
-    --file /var/service/wan/down 'attr(0644,root,root)' \
-    --file /var/service/wan/run 'attr(0750,root,root)' \
-    --file /var/service/wan/run.dhclient 'attr(0750,root,root)' \
-    --file /var/service/wan/run.pppoe 'attr(0750,root,root)' \
-    --file /var/service/wan/run.static 'attr(0750,root,root)' \
-    --file /var/service/wan/run.dialup 'attr(0750,root,root)' \
-    --file /var/service/wan/run.disabled 'attr(0750,root,root)' \
-    --dir /var/service/wan/supervise 'attr(0700,root,root)' \
-    --dir /var/service/wan/log 'attr(1755,root,root)' \
-    --file /var/service/wan/log/run 'attr(0750,root,root)' \
-    --dir /var/service/wan/log/supervise 'attr(0700,root,root)' \
-    --dir /var/log/wan 'attr(2750,smelog,smelog)' \
-    --dir /var/service/ippp 'attr(1755,root,root)' \
-    --file /var/service/ippp/down 'attr(0644,root,root)' \
-    --file /var/service/ippp/run 'attr(0750,root,root)' \
-    --dir /var/service/ippp/supervise 'attr(0700,root,root)' \
-    --dir /var/service/ippp/log 'attr(1755,root,root)' \
-    --file /var/service/ippp/log/run 'attr(0750,root,root)' \
-    --dir /var/service/ippp/log/supervise 'attr(0700,root,root)' \
-    --dir /var/log/ippp 'attr(2750,smelog,smelog)' \
+    --dir /var/service/pppoe 'attr(1755,root,root)' \
+    --file /var/service/pppoe/down 'attr(0644,root,root)' \
+    --file /var/service/pppoe/run 'attr(0755,root,root)' \
+    --dir /var/service/pppoe/supervise 'attr(0700,root,root)' \
+    --dir /var/service/pppoe/log 'attr(1755,root,root)' \
+    --file /var/service/pppoe/log/run 'attr(0755,root,root)' \
+    --dir /var/service/pppoe/log/supervise 'attr(0700,root,root)' \
+    --dir /var/log/pppoe 'attr(2750,qmaill,nofiles)' \
     --dir /etc/e-smith/skel/user/.ssh 'attr(0700,root,root)' \
     > %{name}-%{version}-%{release}-filelist
 
