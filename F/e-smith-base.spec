@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.17.2
-%define release 0
+%define release 1
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -10,6 +10,7 @@ License: GPL
 Vendor: Mitel Networks Corporation
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
+Patch1: e-smith-base-4.17.2-wan_service.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -47,6 +48,11 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri Jan 19 2007 Shad L. Lords <slords@mail.com> 4.17.2-1
+- [Forward-ported from 4.17.0]
+- Combine dhcp client, pppoe, dialup and static WAN connections into
+  "wan" service. [SME 1795]
+
 * Fri Jan 19 2007 Shad L. Lords <slords@mail.com> 4.17.2-0
 - Make new development stream. Based from 4.16.0-39.
 
@@ -810,6 +816,7 @@ e-smith server and gateway software - base module.
 
 %prep
 %setup
+%patch1 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
@@ -850,7 +857,7 @@ mkdir -p root/home/e-smith/files/{users,server-resources}
 mkdir -p root/home/e-smith/files/users/admin/home
 mkdir -p root/home/e-smith/Maildir/{cur,new,tmp}
 mkdir -p root/root/.ssh
-mkdir -p root/var/log/diald
+mkdir -p root/var/log/wan
 mkdir -p root/var/state/httpd
 
 LEXICONS=$(find root/etc/e-smith/web/{functions,panels/password/cgi-bin} \
@@ -872,8 +879,6 @@ ln -s /etc/rc.d/rc7.d root/etc/rc7.d
 # Improve "telinit 1 behaviour
 mkdir -p root/etc/rc.d/rc1.d
 
-# Add shutdown symlink for diald
-ln -s ../init.d/diald root/etc/rc6.d/K90diald
 mkdir -p root/usr/share/locale/en_US/LC_MESSAGES
 xgettext -o root/usr/share/locale/en_US/LC_MESSAGES/server-console.po root/sbin/e-smith/console
 xgettext -o root/usr/share/locale/en_US/LC_MESSAGES/foot.tmpl.po root/etc/e-smith/templates/etc/e-smith/web/common/foot.tmpl/25Copyright
@@ -898,7 +903,7 @@ mkdir -p root/etc/e-smith/templates/etc/dhcpc/dhcpcd.exe
 ln -s /etc/e-smith/templates-default/template-begin-shell \
       root/etc/e-smith/templates/etc/dhcpc/dhcpcd.exe/template-begin
 
-for file in masq diald
+for file in masq
 do
     mkdir -p root/etc/e-smith/templates/etc/rc.d/init.d/$file
     ln -s /etc/e-smith/templates-default/template-begin-shell \
@@ -915,7 +920,7 @@ done
 mkdir -p root/service
 mkdir -p root/etc/rc.d/init.d/supervise
 
-for service in dhcpd dhcpcd syslog klogd httpd-admin
+for service in dhcpd wan ippp syslog klogd httpd-admin
 do
   ln -s /var/service/$service root/service/$service
   mkdir -p root/var/service/$service/supervise
@@ -954,14 +959,7 @@ done
 mkdir -p root/etc/tcprules
 
 mkdir -p root/service
-ln -s /var/service/pppoe root/service/pppoe
-
-mkdir -p root/var/service/pppoe/supervise
-touch root/var/service/pppoe/down
-
-mkdir -p root/var/service/pppoe/log/supervise
-
-mkdir -p root/var/log/pppoe
+touch root/var/service/wan/down
 
 ln -s /var/service/raidmonitor root/service/raidmonitor
 
@@ -986,14 +984,6 @@ rm -rf $RPM_BUILD_ROOT
     --dir /var/service/dhcpd/supervise 'attr(0700,root,root)' \
     --file /var/service/dhcpd/log/run 'attr(0755,root,root)' \
     --dir /var/log/dhcpd 'attr(2750,smelog,smelog)' \
-    --dir /var/service/dhcpcd 'attr(01755,root,root)' \
-    --file /var/service/dhcpcd/down 'attr(0644,root,root)' \
-    --file /var/service/dhcpcd/run 'attr(0755,root,root)' \
-    --dir /var/service/dhcpcd/log 'attr(0755,root,root)' \
-    --dir /var/service/dhcpcd/log/supervise 'attr(0700,root,root)' \
-    --dir /var/service/dhcpcd/supervise 'attr(0700,root,root)' \
-    --file /var/service/dhcpcd/log/run 'attr(0755,root,root)' \
-    --dir /var/log/dhcpcd 'attr(2750,smelog,smelog)' \
     --file /home/e-smith/db/configuration 'config(noreplace)' \
     --dir /var/service/httpd-admin 'attr(01755,root,root)' \
     --file /var/service/httpd-admin/down 'attr(0644,root,root)' \
@@ -1019,14 +1009,27 @@ rm -rf $RPM_BUILD_ROOT
     --dir /home/e-smith/ssl.key 'attr(0700,root,root)' \
     --dir /home/e-smith/ssl.crt 'attr(0700,root,root)' \
     --dir /home/e-smith/ssl.pem 'attr(0700,root,root)' \
-    --dir /var/service/pppoe 'attr(1755,root,root)' \
-    --file /var/service/pppoe/down 'attr(0644,root,root)' \
-    --file /var/service/pppoe/run 'attr(0755,root,root)' \
-    --dir /var/service/pppoe/supervise 'attr(0700,root,root)' \
-    --dir /var/service/pppoe/log 'attr(1755,root,root)' \
-    --file /var/service/pppoe/log/run 'attr(0755,root,root)' \
-    --dir /var/service/pppoe/log/supervise 'attr(0700,root,root)' \
-    --dir /var/log/pppoe 'attr(2750,qmaill,nofiles)' \
+    --dir /var/service/wan 'attr(1755,root,root)' \
+    --file /var/service/wan/down 'attr(0644,root,root)' \
+    --file /var/service/wan/run 'attr(0750,root,root)' \
+    --file /var/service/wan/run.dhclient 'attr(0750,root,root)' \
+    --file /var/service/wan/run.pppoe 'attr(0750,root,root)' \
+    --file /var/service/wan/run.static 'attr(0750,root,root)' \
+    --file /var/service/wan/run.dialup 'attr(0750,root,root)' \
+    --file /var/service/wan/run.disabled 'attr(0750,root,root)' \
+    --dir /var/service/wan/supervise 'attr(0700,root,root)' \
+    --dir /var/service/wan/log 'attr(1755,root,root)' \
+    --file /var/service/wan/log/run 'attr(0750,root,root)' \
+    --dir /var/service/wan/log/supervise 'attr(0700,root,root)' \
+    --dir /var/log/wan 'attr(2750,smelog,smelog)' \
+    --dir /var/service/ippp 'attr(1755,root,root)' \
+    --file /var/service/ippp/down 'attr(0644,root,root)' \
+    --file /var/service/ippp/run 'attr(0750,root,root)' \
+    --dir /var/service/ippp/supervise 'attr(0700,root,root)' \
+    --dir /var/service/ippp/log 'attr(1755,root,root)' \
+    --file /var/service/ippp/log/run 'attr(0750,root,root)' \
+    --dir /var/service/ippp/log/supervise 'attr(0700,root,root)' \
+    --dir /var/log/ippp 'attr(2750,smelog,smelog)' \
     --dir /etc/e-smith/skel/user/.ssh 'attr(0700,root,root)' \
     > %{name}-%{version}-%{release}-filelist
 
