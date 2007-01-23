@@ -1,0 +1,32 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.2/root/etc/e-smith/templates/etc/sysconfig/network-scripts/ifcfg-ethX/10ETHTOOL mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/sysconfig/network-scripts/ifcfg-ethX/10ETHTOOL
+--- e-smith-base-4.17.2/root/etc/e-smith/templates/etc/sysconfig/network-scripts/ifcfg-ethX/10ETHTOOL	1969-12-31 19:00:00.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/sysconfig/network-scripts/ifcfg-ethX/10ETHTOOL	2007-01-23 17:04:41.000000000 -0500
+@@ -0,0 +1,12 @@
++{
++    my $this_device;
++
++    $this_device = \%InternalInterface if $is_internal;
++    $this_device = \%ExternalInterface if $is_external;
++    return unless $this_device;
++
++    my $ethtool_options = $this_device->{EthtoolOpts};
++    return unless $ethtool_options;
++
++    return "ETHTOOL_OPTS=\"$ethtool_options\"";
++}
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.2/root/etc/e-smith/templates/etc/sysconfig/network-scripts/ifcfg-ppp0/10ETHTOOL mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/sysconfig/network-scripts/ifcfg-ppp0/10ETHTOOL
+--- e-smith-base-4.17.2/root/etc/e-smith/templates/etc/sysconfig/network-scripts/ifcfg-ppp0/10ETHTOOL	1969-12-31 19:00:00.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/sysconfig/network-scripts/ifcfg-ppp0/10ETHTOOL	2007-01-23 17:04:53.000000000 -0500
+@@ -0,0 +1,12 @@
++{
++    my $this_device;
++
++    $this_device = \%InternalInterface if $is_internal;
++    $this_device = \%ExternalInterface if $is_external;
++    return unless $this_device;
++
++    my $ethtool_options = $this_device->{EthtoolOpts};
++    return unless $ethtool_options;
++
++    return "ETHTOOL_OPTS=\"$ethtool_options\"";
++}
