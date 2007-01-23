@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.17.2
-%define release 7
+%define release 8
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -17,6 +17,7 @@ Patch4: e-smith-base-4.17.2-pam_abl.patch
 Patch5: e-smith-base-4.17.2-console_refactor.patch
 Patch6: e-smith-base-4.17.2-unused_pam.patch
 Patch7: e-smith-base-4.17.2-ethtool_options.patch
+Patch8: e-smith-base-4.17.2-unused_ifcfg.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -55,6 +56,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Jan 23 2007 Charlie Brady <charlieb@e-smith.com> 4.17.2-8
+- Remove unused ifcfg-log:0 templates. [SME: 2368]
+
 * Tue Jan 23 2007 Charlie Brady <charlieb@e-smith.com> 4.17.2-7
 - Add template fragments to allow forcing of ethernet negotiation
   parameters [SME: 2362]
@@ -860,6 +864,7 @@ e-smith server and gateway software - base module.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq

@@ -1,0 +1,26 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.2/root/etc/e-smith/templates/etc/sysconfig/network-scripts/ifcfg-lo:0/10definitions mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/sysconfig/network-scripts/ifcfg-lo:0/10definitions
+--- e-smith-base-4.17.2/root/etc/e-smith/templates/etc/sysconfig/network-scripts/ifcfg-lo:0/10definitions	2005-11-20 23:28:08.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/sysconfig/network-scripts/ifcfg-lo:0/10definitions	1969-12-31 19:00:00.000000000 -0500
+@@ -1,15 +0,0 @@
+-{
+-    $OUT = "DEVICE=lo:0\n" .
+-	   "USERCTL=no\n";
+-    my ($network, $broadcast) = esmith::util::computeNetworkAndBroadcast ($LocalIP, $LocalNetmask);
+-    $OUT .= 
+-	($SystemMode eq "servergateway-publicserver") ?
+-	    "ONBOOT=yes\n".
+-	    "BOOTPROTO=none\n" .
+-	    "IPADDR=$LocalIP\n" .
+-	    "NETMASK=$LocalNetmask\n" .
+-	    "NETWORK=$network\n" .
+-	    "BROADCAST=$broadcast"
+-	:
+-	    "ONBOOT=no";
+-}
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.2/root/etc/e-smith/templates.metadata/etc/sysconfig/network-scripts/ifcfg-lo:0 mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates.metadata/etc/sysconfig/network-scripts/ifcfg-lo:0
+--- e-smith-base-4.17.2/root/etc/e-smith/templates.metadata/etc/sysconfig/network-scripts/ifcfg-lo:0	2005-11-20 23:28:10.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates.metadata/etc/sysconfig/network-scripts/ifcfg-lo:0	1969-12-31 19:00:00.000000000 -0500
+@@ -1,3 +0,0 @@
+-TEMPLATE_PATH="/etc/sysconfig/network-scripts/ifcfg-ethX"
+-OUTPUT_FILENAME="/etc/sysconfig/network-scripts/ifcfg-lo:0"
+-MORE_DATA={ THIS_DEVICE => "lo:0" }
