@@ -1,0 +1,104 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.2/createlinks mezzanine_patched_e-smith-base-4.17.2/createlinks
+--- e-smith-base-4.17.2/createlinks	2007-01-23 16:19:38.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.17.2/createlinks	2007-01-23 16:18:45.000000000 -0500
+@@ -201,8 +201,10 @@
+ 	email-update
+ 	remoteaccess-update
+ 	));
+-foreach my $file (qw(/etc/pam.d/system-auth /etc/pam.d/gui-auth /etc/pam.d/tui-auth /etc/pam.d/passwd
+-                     /etc/security/pam_abl.conf /etc/security/tui_pam_abl.conf
++foreach my $file (qw(
++	/etc/pam.d/system-auth
++	/etc/pam.d/passwd
++	/etc/security/pam_abl.conf
+     ))
+ {
+     templates2events($file, qw(console-save bootstrap-console-save));
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.2/root/etc/e-smith/templates/etc/pam.d/gui-auth/10auth mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/pam.d/gui-auth/10auth
+--- e-smith-base-4.17.2/root/etc/e-smith/templates/etc/pam.d/gui-auth/10auth	2007-01-23 16:19:38.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/pam.d/gui-auth/10auth	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-auth       required     pam_stack.so service=system-auth
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.2/root/etc/e-smith/templates/etc/pam.d/gui-auth/20account mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/pam.d/gui-auth/20account
+--- e-smith-base-4.17.2/root/etc/e-smith/templates/etc/pam.d/gui-auth/20account	2007-01-23 16:19:38.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/pam.d/gui-auth/20account	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-account    required     pam_stack.so service=system-auth
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.2/root/etc/e-smith/templates/etc/pam.d/gui-auth/40password mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/pam.d/gui-auth/40password
+--- e-smith-base-4.17.2/root/etc/e-smith/templates/etc/pam.d/gui-auth/40password	2007-01-23 16:19:38.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/pam.d/gui-auth/40password	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-password   required     pam_stack.so service=system-auth
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.2/root/etc/e-smith/templates/etc/pam.d/gui-auth/50session mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/pam.d/gui-auth/50session
+--- e-smith-base-4.17.2/root/etc/e-smith/templates/etc/pam.d/gui-auth/50session	2007-01-23 16:19:38.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/pam.d/gui-auth/50session	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-session   required     pam_stack.so service=system-auth
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.2/root/etc/e-smith/templates/etc/pam.d/tui-auth/10auth mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/pam.d/tui-auth/10auth
+--- e-smith-base-4.17.2/root/etc/e-smith/templates/etc/pam.d/tui-auth/10auth	2007-01-23 16:19:38.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/pam.d/tui-auth/10auth	1969-12-31 19:00:00.000000000 -0500
+@@ -1,14 +0,0 @@
+-{
+-    my $status = $pam_tally{status} || 'disabled';
+-    return unless $status eq 'enabled';
+-    $OUT .= "auth        required      /lib/security/$ISA/pam_tally.so onerr=fail no_magic_root";
+-}
+-auth        required      /lib/security/$ISA/pam_env.so
+-{
+-    my $status = $pam_abl{status} || 'disabled';
+-    return unless $status eq 'enabled';
+-    $OUT .= "auth        required      /lib/security/$ISA/pam_abl.so config=/etc/security/tui_pam_abl.conf";
+-}
+-auth        sufficient    /lib/security/$ISA/pam_unix.so likeauth nullok
+-auth        required      /lib/security/$ISA/pam_deny.so
+-
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.2/root/etc/e-smith/templates/etc/pam.d/tui-auth/20account mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/pam.d/tui-auth/20account
+--- e-smith-base-4.17.2/root/etc/e-smith/templates/etc/pam.d/tui-auth/20account	2007-01-23 16:19:38.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/pam.d/tui-auth/20account	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-account    required     pam_stack.so service=system-auth
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.2/root/etc/e-smith/templates/etc/pam.d/tui-auth/40password mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/pam.d/tui-auth/40password
+--- e-smith-base-4.17.2/root/etc/e-smith/templates/etc/pam.d/tui-auth/40password	2007-01-23 16:19:38.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/pam.d/tui-auth/40password	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-password   required     pam_stack.so service=system-auth
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.2/root/etc/e-smith/templates/etc/pam.d/tui-auth/50session mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/pam.d/tui-auth/50session
+--- e-smith-base-4.17.2/root/etc/e-smith/templates/etc/pam.d/tui-auth/50session	2007-01-23 16:19:38.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/pam.d/tui-auth/50session	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-session   required     pam_stack.so service=system-auth
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.2/root/etc/e-smith/templates/etc/security/tui_pam_abl.conf/05debug mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/security/tui_pam_abl.conf/05debug
+--- e-smith-base-4.17.2/root/etc/e-smith/templates/etc/security/tui_pam_abl.conf/05debug	2007-01-23 16:19:38.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/security/tui_pam_abl.conf/05debug	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-debug
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.2/root/etc/e-smith/templates/etc/security/tui_pam_abl.conf/10host_db mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/security/tui_pam_abl.conf/10host_db
+--- e-smith-base-4.17.2/root/etc/e-smith/templates/etc/security/tui_pam_abl.conf/10host_db	2007-01-23 16:19:38.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/security/tui_pam_abl.conf/10host_db	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-host_db=/var/run/abl/tui_hosts.db
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.2/root/etc/e-smith/templates/etc/security/tui_pam_abl.conf/15host_purge mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/security/tui_pam_abl.conf/15host_purge
+--- e-smith-base-4.17.2/root/etc/e-smith/templates/etc/security/tui_pam_abl.conf/15host_purge	2007-01-23 16:19:38.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/security/tui_pam_abl.conf/15host_purge	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-host_purge=2d
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.2/root/etc/e-smith/templates/etc/security/tui_pam_abl.conf/20host_rule mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/security/tui_pam_abl.conf/20host_rule
+--- e-smith-base-4.17.2/root/etc/e-smith/templates/etc/security/tui_pam_abl.conf/20host_rule	2007-01-23 16:19:38.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/security/tui_pam_abl.conf/20host_rule	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-host_rule=*:10/1h,30/1d
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.2/root/etc/e-smith/templates/etc/security/tui_pam_abl.conf/30user_db mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/security/tui_pam_abl.conf/30user_db
+--- e-smith-base-4.17.2/root/etc/e-smith/templates/etc/security/tui_pam_abl.conf/30user_db	2007-01-23 16:19:38.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/security/tui_pam_abl.conf/30user_db	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-user_db=/var/run/abl/tui_users.db
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.2/root/etc/e-smith/templates/etc/security/tui_pam_abl.conf/35user_purge mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/security/tui_pam_abl.conf/35user_purge
+--- e-smith-base-4.17.2/root/etc/e-smith/templates/etc/security/tui_pam_abl.conf/35user_purge	2007-01-23 16:19:38.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/security/tui_pam_abl.conf/35user_purge	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-user_purge=2d
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.17.2/root/etc/e-smith/templates/etc/security/tui_pam_abl.conf/40user_rules mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/security/tui_pam_abl.conf/40user_rules
+--- e-smith-base-4.17.2/root/etc/e-smith/templates/etc/security/tui_pam_abl.conf/40user_rules	2007-01-23 16:19:38.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.17.2/root/etc/e-smith/templates/etc/security/tui_pam_abl.conf/40user_rules	1969-12-31 19:00:00.000000000 -0500
+@@ -1 +0,0 @@
+-user_rule=!root:10/1h,30/1d

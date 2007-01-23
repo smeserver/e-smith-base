@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.17.2
-%define release 5
+%define release 6
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -15,6 +15,7 @@ Patch2: e-smith-base-4.17.2-remove_manager.patch
 Patch3: e-smith-base-4.17.2-masq_remove.patch
 Patch4: e-smith-base-4.17.2-pam_abl.patch
 Patch5: e-smith-base-4.17.2-console_refactor.patch
+Patch6: e-smith-base-4.17.2-unused_pam.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -53,6 +54,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Jan 23 2007 Charlie Brady <charlieb@e-smith.com> 4.17.2-6
+- Remove unused pam and abl templates (remnants of some stuff I
+  was prototyping).
+
 * Fri Jan 19 2007 Shad L. Lords <slords@mail.com> 4.17.2-5
 - [Forward-ported from 4.17.0]
 - Refactor console code considerably, and add restore from CDROM/USB
@@ -848,9 +853,10 @@ e-smith server and gateway software - base module.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
-rm -rf root//etc/e-smith/templates/etc/identd.masq
+rm -rf root/etc/e-smith/templates/etc/identd.masq
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
