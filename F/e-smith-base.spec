@@ -1,8 +1,8 @@
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
-%define version 4.17.2
-%define release 8
+%define version 4.18.0
+%define release 1
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -10,18 +10,10 @@ License: GPL
 Vendor: Mitel Networks Corporation
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
-Patch1: e-smith-base-4.17.2-wan_service.patch
-Patch2: e-smith-base-4.17.2-remove_manager.patch
-Patch3: e-smith-base-4.17.2-masq_remove.patch
-Patch4: e-smith-base-4.17.2-pam_abl.patch
-Patch5: e-smith-base-4.17.2-console_refactor.patch
-Patch6: e-smith-base-4.17.2-unused_pam.patch
-Patch7: e-smith-base-4.17.2-ethtool_options.patch
-Patch8: e-smith-base-4.17.2-unused_ifcfg.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
-Requires: e-smith-lib >= 1.17.0-03
+Requires: e-smith-lib >= 1.18.0
 Requires: server-manager-images, server-manager
 Requires: e-smith-formmagick >= 0.2.0
 Requires: initscripts >= 6.67-1es17
@@ -56,6 +48,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri Jan 26 2007 Shad L. Lords <slords@mail.com> 4.18.0-1
+- Roll stable stream. [SME: 2328]
+
 * Tue Jan 23 2007 Charlie Brady <charlieb@e-smith.com> 4.17.2-8
 - Remove unused ifcfg-log:0 templates. [SME: 2368]
 
@@ -857,14 +852,6 @@ e-smith server and gateway software - base module.
 
 %prep
 %setup
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
