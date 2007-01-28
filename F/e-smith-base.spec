@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 1
+%define release 2
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -10,6 +10,7 @@ License: GPL
 Vendor: Mitel Networks Corporation
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
+Patch1: e-smith-base-4.18.0-backtitle.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -48,6 +49,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sun Jan 28 2007 Shad L. Lords <slords@mail.com> 4.18.0-2
+- Fix backtitle for saving changes [SME: 2328]
+
 * Fri Jan 26 2007 Shad L. Lords <slords@mail.com> 4.18.0-1
 - Roll stable stream. [SME: 2328]
 
@@ -852,6 +856,7 @@ e-smith server and gateway software - base module.
 
 %prep
 %setup
+%patch1 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
