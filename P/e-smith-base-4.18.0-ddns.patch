@@ -1,0 +1,6 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/etc/e-smith/templates/etc/dhcpd.conf/10DDNS-Update-Style mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates/etc/dhcpd.conf/10DDNS-Update-Style
+--- e-smith-base-4.18.0/root/etc/e-smith/templates/etc/dhcpd.conf/10DDNS-Update-Style	2005-11-20 21:28:06.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates/etc/dhcpd.conf/10DDNS-Update-Style	2007-01-27 20:53:12.000000000 -0700
+@@ -1 +1 @@
+-ddns-update-style none;
++ddns-update-style ad-hoc;
