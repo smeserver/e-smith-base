@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 2
+%define release 4
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -11,6 +11,8 @@ Vendor: Mitel Networks Corporation
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch1: e-smith-base-4.18.0-backtitle.patch
+Patch2: e-smith-base-4.18.0-consolebackup.patch
+Patch3: e-smith-base-4.18.0-backupcancel.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -35,6 +37,7 @@ Requires: bridge-utils
 Requires: vconfig
 Requires: e-smith-bootloader
 Requires: mdadm
+Requires: pv
 Requires: pam_abl
 Obsoletes: rlinetd, e-smith-mod_ssl
 Obsoletes: e-smith-serial-console
@@ -49,6 +52,12 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Jan 29 2007 Shad L. Lords <slords@mail.com> 4.18.0-4
+- Add cancel button to backup/restore panels [SME: 2393]
+
+* Mon Jan 29 2007 Shad L. Lords <slords@mail.com> 4.18.0-3
+- Add console backup to USB [SME: 2317]
+
 * Sun Jan 28 2007 Shad L. Lords <slords@mail.com> 4.18.0-2
 - Fix backtitle for saving changes [SME: 2328]
 
@@ -857,6 +866,8 @@ e-smith server and gateway software - base module.
 %prep
 %setup
 %patch1 -p1
+%patch2 -p1
+%patch3 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
