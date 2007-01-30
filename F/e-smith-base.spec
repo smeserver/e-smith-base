@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 4
+%define release 5
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -13,6 +13,7 @@ Source: %{name}-%{version}.tar.gz
 Patch1: e-smith-base-4.18.0-backtitle.patch
 Patch2: e-smith-base-4.18.0-consolebackup.patch
 Patch3: e-smith-base-4.18.0-backupcancel.patch
+Patch4: e-smith-base-4.18.0-gatewaydev.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -52,6 +53,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Jan 30 2007 Shad L. Lords <slords@mail.com> 4.18.0-5
+- Ensure gateway dev is correct for server-only [SME: 2404]
+
 * Mon Jan 29 2007 Shad L. Lords <slords@mail.com> 4.18.0-4
 - Add cancel button to backup/restore panels [SME: 2393]
 
@@ -868,6 +872,7 @@ e-smith server and gateway software - base module.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
