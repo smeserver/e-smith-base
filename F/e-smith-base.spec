@@ -884,8 +884,6 @@ e-smith server and gateway software - base module.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-rmdir -f root/etc/e-smith/templates/etc/dhcpc/dhcpcd.exe
-rmdir -f root/etc/e-smith/templates/etc/dhcpc
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
