@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 5
+%define release 6
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -14,6 +14,7 @@ Patch1: e-smith-base-4.18.0-backtitle.patch
 Patch2: e-smith-base-4.18.0-consolebackup.patch
 Patch3: e-smith-base-4.18.0-backupcancel.patch
 Patch4: e-smith-base-4.18.0-gatewaydev.patch
+Patch5: e-smith-base-4.18.0-elinks_caching.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -53,6 +54,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Wed Feb 07 2007 Charlie Brady <charlieb@e-smith.com> 4.18.0-6
+- Configure elinks to obey cache control directives. I have
+  no idea why that would not be the default! [SME: 2443]
+
 * Tue Jan 30 2007 Shad L. Lords <slords@mail.com> 4.18.0-5
 - Ensure gateway dev is correct for server-only [SME: 2404]
 
@@ -873,6 +878,7 @@ e-smith server and gateway software - base module.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
