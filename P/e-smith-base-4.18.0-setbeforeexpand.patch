@@ -1,0 +1,12 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/createlinks mezzanine_patched_e-smith-base-4.18.0/createlinks
+--- e-smith-base-4.18.0/createlinks	2007-01-26 18:56:31.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.18.0/createlinks	2007-02-11 13:23:30.000000000 -0700
+@@ -345,7 +345,7 @@
+ 
+ $event = "ip-change";
+ 
+-event_link("set-external-ip", $event, "15");
++event_link("set-external-ip", $event, "03");
+ event_link("update-dns", $event, "85");
+ 
+ #--------------------------------------------------

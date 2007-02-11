@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 9
+%define release 10
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -18,6 +18,7 @@ Patch5: e-smith-base-4.18.0-elinks_caching.patch
 Patch6: e-smith-base-4.18.0-unused_templates.patch
 Patch7: e-smith-base-4.18.0-backuphome.patch
 Patch8: e-smith-base-4.18.0-mediaglob.patch
+Patch9: e-smith-base-4.18.0-setbeforeexpand.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -57,6 +58,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sun Feb 11 2007 Shad L. Lords <slords@mail.com> 4.18.0-10
+- Set db value for external ip before expanding templates [SME: 1977]
+
 * Sun Feb 11 2007 Shad L. Lords <slords@mail.com> 4.18.0-9
 - Do better detection of possible devices for backup/restore [SME: 2317]
 
@@ -894,6 +898,7 @@ e-smith server and gateway software - base module.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
