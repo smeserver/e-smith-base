@@ -34,6 +34,7 @@ Requires: perl(Data::UUID)
 Requires: perl(Net::IPv4Addr)
 Requires: /usr/sbin/irqbalance
 Requires: /usr/sbin/cpuspeed
+Requires: /sbin/microcode_ctl
 Requires: dbus
 Requires: hal
 Requires: acpid
@@ -60,7 +61,7 @@ e-smith server and gateway software - base module.
 
 %changelog
 * Fri Feb 16 2007 Charlie Brady <charlie_brady@mitel.com> 4.18.0-11
-- Restart irqbalance/cpuspeed dependencies. [SME: 2490]
+- Restate microcode_ctl/irqbalance/cpuspeed dependencies. [SME: 2490]
 
 * Sun Feb 11 2007 Shad L. Lords <slords@mail.com> 4.18.0-10
 - Set db value for external ip before expanding templates [SME: 1977]
