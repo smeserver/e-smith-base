@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 10
+%define release 11
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -32,7 +32,8 @@ Requires: perl(Crypt::Cracklib)
 Requires: perl(Date::Manip)
 Requires: perl(Data::UUID)
 Requires: perl(Net::IPv4Addr)
-Requires: kernel-utils
+Requires: /usr/sbin/irqbalance
+Requires: /usr/sbin/cpuspeed
 Requires: dbus
 Requires: hal
 Requires: acpid
@@ -58,6 +59,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri Feb 16 2007 Charlie Brady <charlie_brady@mitel.com> 4.18.0-11
+- Restart irqbalance/cpuspeed dependencies. [SME: 2490]
+
 * Sun Feb 11 2007 Shad L. Lords <slords@mail.com> 4.18.0-10
 - Set db value for external ip before expanding templates [SME: 1977]
 
