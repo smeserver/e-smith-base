@@ -26,7 +26,7 @@ Patch13: e-smith-base-4.18.0-mediaglob.patch2
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
-Requires: e-smith-lib >= 1.18.0
+Requires: e-smith-lib >= 1.18.0-5
 Requires: server-manager-images, server-manager
 Requires: e-smith-formmagick >= 0.2.0
 Requires: initscripts >= 6.67-1es17
