@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 13
+%define release 15
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -21,6 +21,8 @@ Patch8: e-smith-base-4.18.0-mediaglob.patch
 Patch9: e-smith-base-4.18.0-setbeforeexpand.patch
 Patch10: e-smith-base-4.18.0-runit17.patch
 Patch11: e-smith-base-4.18.0-infobox.patch
+Patch12: e-smith-base-4.18.0-infobox.patch2
+Patch13: e-smith-base-4.18.0-mediaglob.patch2
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -62,8 +64,14 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri Feb 23 2007 Shad L. Lords <slords@mail.com> 4.18.0-15
+- Fix glob for selecting backup devices. [SME: 2521]
+
+* Fri Feb 23 2007 Shad L. Lords <slords@mail.com> 4.18.0-14
+- User new console infobox for console backup. [SME: 2533]
+
 * Thu Feb 22 2007 Charlie Brady <charlie_brady@mitel.com> 4.18.0-13
-- Use new esmith::console::infobox widget in console.
+- Use new esmith::console::infobox widget in console. [SME: 2533]
 
 * Fri Feb 16 2007 Shad L. Lords <slords@mail.com> 4.18.0-12
 - Change runsvctrl to sv to support runit v1.7.x
@@ -914,6 +922,8 @@ e-smith server and gateway software - base module.
 %patch9 -p1
 %patch10 -p1
 %patch11 -p1
+%patch12 -p1
+%patch13 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
