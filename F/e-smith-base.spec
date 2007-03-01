@@ -27,7 +27,7 @@ Patch14: e-smith-base-4.18.0-run.static.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
-Requires: e-smith-lib >= 1.18.0-5
+Requires: e-smith-lib >= 1.18.0-7
 Requires: server-manager-images, server-manager
 Requires: e-smith-formmagick >= 0.2.0
 Requires: initscripts >= 6.67-1es17
