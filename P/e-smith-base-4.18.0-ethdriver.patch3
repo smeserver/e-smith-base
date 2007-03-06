@@ -1,0 +1,20 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm mezzanine_patched_e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm
+--- e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm	2007-03-06 16:04:55.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm	2007-03-06 16:04:48.000000000 -0700
+@@ -80,6 +80,7 @@
+     my $default;
+ 
+     my $existing_driver = $db->get_value($confEntry);
++    my $driver1 = $db->get_value("EthernetDriver1");
+ 
+     foreach my $adapter ( @adapters )
+     {
+@@ -98,7 +99,7 @@
+ 
+ 	push(@args, $tag, substr($display_name, 0, 65));
+ 
+-        $default = $tag if ${driver} eq $db->get_value($confEntry);
++        $default = $tag if (${driver} eq $existing_driver || ${driver} ne $driver1);
+     }
+ 
+     push( @args,
