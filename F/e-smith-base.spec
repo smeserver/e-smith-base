@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 19
+%define release 20
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -27,6 +27,7 @@ Patch14: e-smith-base-4.18.0-run.static.patch
 Patch15: e-smith-base-4.18.0-ethdriver.patch
 Patch16: e-smith-base-4.18.0-ethdriver.patch2
 Patch17: e-smith-base-4.18.0-ethdriver.patch3
+Patch18: e-smith-base-4.18.0-ethdriver.patch4
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -68,6 +69,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Mar 06 2007 Shad L. Lords <slords@mail.com> 4.18.0-20
+- Allow nics to swap if different LAN chosen [SME: 2612]
+
 * Tue Mar 06 2007 Shad L. Lords <slords@mail.com> 4.18.0-19
 - Default WAN NIC to the *other* NIC than the one selected for LAN [SME: 2612]
 
@@ -945,6 +949,7 @@ e-smith server and gateway software - base module.
 %patch15 -p1
 %patch16 -p1
 %patch17 -p1
+%patch18 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
