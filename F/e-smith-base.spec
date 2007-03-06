@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 17
+%define release 18
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -25,6 +25,7 @@ Patch12: e-smith-base-4.18.0-infobox.patch2
 Patch13: e-smith-base-4.18.0-mediaglob.patch2
 Patch14: e-smith-base-4.18.0-run.static.patch
 Patch15: e-smith-base-4.18.0-ethdriver.patch
+Patch16: e-smith-base-4.18.0-ethdriver.patch2
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -66,6 +67,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Mar 06 2007 Charlie Brady <charlie_brady@mitel.com> 4.18.0-17
+- Combine two similar loops in selectEthernet and break overly
+  long string constant. [SME: 2612]
+
 * Tue Mar 06 2007 Shad L. Lords <slords@mail.com> 4.18.0-16
 - Fix network selection dialog to include all drivers. [SME: 2612]
 
@@ -934,6 +939,7 @@ e-smith server and gateway software - base module.
 %patch13 -p1
 %patch14 -p1
 %patch15 -p1
+%patch16 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
