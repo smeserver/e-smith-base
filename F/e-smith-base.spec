@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 20
+%define release 21
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -28,6 +28,7 @@ Patch15: e-smith-base-4.18.0-ethdriver.patch
 Patch16: e-smith-base-4.18.0-ethdriver.patch2
 Patch17: e-smith-base-4.18.0-ethdriver.patch3
 Patch18: e-smith-base-4.18.0-ethdriver.patch4
+Patch19: e-smith-base-4.18.0-raid_no.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -69,6 +70,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Wed Mar 07 2007 Shad L. Lords <slords@mail.com> 4.18.0-21
+- Default adding drive to raid to no [SME: 2644]
+
 * Tue Mar 06 2007 Shad L. Lords <slords@mail.com> 4.18.0-20
 - Allow nics to swap if different LAN chosen [SME: 2612]
 
@@ -950,6 +954,7 @@ e-smith server and gateway software - base module.
 %patch16 -p1
 %patch17 -p1
 %patch18 -p1
+%patch19 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
