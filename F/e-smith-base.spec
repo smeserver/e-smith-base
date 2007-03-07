@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 22
+%define release 23
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -30,6 +30,7 @@ Patch17: e-smith-base-4.18.0-ethdriver.patch3
 Patch18: e-smith-base-4.18.0-ethdriver.patch4
 Patch19: e-smith-base-4.18.0-raid_no.patch
 Patch20: e-smith-base-4.18.0-commonname.patch
+Patch21: e-smith-base-4.18.0-noutf.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -71,6 +72,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Wed Mar 07 2007 Shad L. Lords <slords@mail.com> 4.18.0-23
+- Make elinks display correctly with xterm display [SME: 444]
+
 * Wed Mar 07 2007 Shad L. Lords <slords@mail.com> 4.18.0-22
 - Add db override for crt common name [SME: 1689]
 
@@ -960,6 +964,7 @@ e-smith server and gateway software - base module.
 %patch18 -p1
 %patch19 -p1
 %patch20 -p1
+%patch21 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
