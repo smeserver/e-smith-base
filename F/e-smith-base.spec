@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 23
+%define release 24
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -31,6 +31,7 @@ Patch18: e-smith-base-4.18.0-ethdriver.patch4
 Patch19: e-smith-base-4.18.0-raid_no.patch
 Patch20: e-smith-base-4.18.0-commonname.patch
 Patch21: e-smith-base-4.18.0-noutf.patch
+Patch22: e-smith-base-4.18.0-commonname.patch2
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -72,6 +73,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Thu Mar 08 2007 Shad L. Lords <slords@mail.com> 4.18.0-24
+- Call cropLeft function correctly in crt expansion [SME: 1689]
+
 * Wed Mar 07 2007 Shad L. Lords <slords@mail.com> 4.18.0-23
 - Make elinks display correctly with xterm display [SME: 444]
 
@@ -965,6 +969,7 @@ e-smith server and gateway software - base module.
 %patch19 -p1
 %patch20 -p1
 %patch21 -p1
+%patch22 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
