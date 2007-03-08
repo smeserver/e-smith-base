@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 24
+%define release 25
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -73,6 +73,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Thu Mar 08 2007 Gavin Weight <gweight@gmail.com> 4.18.0-25
+- Fix missing en-gb language noise. [SME: 2633]
+
 * Thu Mar 08 2007 Shad L. Lords <slords@mail.com> 4.18.0-24
 - Call cropLeft function correctly in crt expansion [SME: 1689]
 
@@ -1037,6 +1040,7 @@ mkdir -p root/etc/e-smith/locale
 # Make the fr-ca link in %pre to ease upgrades
 # ln -s fr root/etc/e-smith/locale/fr-ca 
 ln -s en-us root/etc/e-smith/locale/en
+ln -s en-us root/etc/e-smith/locale/en-gb
 
 mkdir -p root/etc/e-smith/templates/etc/dhcpc/dhcpcd.exe
 ln -s /etc/e-smith/templates-default/template-begin-shell \
