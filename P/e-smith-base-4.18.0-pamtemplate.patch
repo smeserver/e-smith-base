@@ -14,56 +14,56 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/etc/e-smith/templates/
 +++ mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/ftp/20auth	2007-03-19 15:14:44.000000000 -0600
 @@ -1 +1 @@
 -auth       required     pam_stack.so service=system-auth
-+auth       { -f /lib/security/pam_pwdb.so ? "required     pam_stack.so service=system-auth" : "include     system-auth" }
++auth       { -f "/lib/security/pam_pwdb.so" ? "required     pam_stack.so service=system-auth" : "include     system-auth" }
 diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/ftp/30account mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/ftp/30account
 --- e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/ftp/30account	2007-01-26 18:56:31.000000000 -0700
 +++ mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/ftp/30account	2007-03-19 15:14:48.000000000 -0600
 @@ -1 +1 @@
 -account    required     pam_stack.so service=system-auth
-+account    { -f /lib/security/pam_pwdb.so ? "required     pam_stack.so service=system-auth" : "include     system-auth" }
++account    { -f "/lib/security/pam_pwdb.so" ? "required     pam_stack.so service=system-auth" : "include     system-auth" }
 diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/ftp/40session mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/ftp/40session
 --- e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/ftp/40session	2007-01-26 18:56:31.000000000 -0700
 +++ mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/ftp/40session	2007-03-19 15:14:51.000000000 -0600
 @@ -1 +1 @@
 -session    required     pam_stack.so service=system-auth
-+session    { -f /lib/security/pam_pwdb.so ? "required     pam_stack.so service=system-auth" : "include     system-auth" }
++session    { -f "/lib/security/pam_pwdb.so" ? "required     pam_stack.so service=system-auth" : "include     system-auth" }
 diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/login/30account mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/login/30account
 --- e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/login/30account	2005-11-20 21:28:07.000000000 -0700
 +++ mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/login/30account	2007-03-19 15:14:54.000000000 -0600
 @@ -1 +1 @@
 -account    required	/lib/security/pam_stack.so service=system-auth
-+account    { -f /lib/security/pam_pwdb.so ? "required     pam_stack.so service=system-auth" : "include     system-auth" }
++account    { -f "/lib/security/pam_pwdb.so" ? "required     pam_stack.so service=system-auth" : "include     system-auth" }
 diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/login/40password mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/login/40password
 --- e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/login/40password	2005-11-20 21:28:07.000000000 -0700
 +++ mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/login/40password	2007-03-19 15:14:57.000000000 -0600
 @@ -1 +1 @@
 -password   required	/lib/security/pam_stack.so service=system-auth
-+password   { -f /lib/security/pam_pwdb.so ? "required     pam_stack.so service=system-auth" : "include     system-auth" }
++password   { -f "/lib/security/pam_pwdb.so" ? "required     pam_stack.so service=system-auth" : "include     system-auth" }
 diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/login/50session mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/login/50session
 --- e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/login/50session	2005-11-20 21:28:07.000000000 -0700
 +++ mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/login/50session	2007-03-19 15:15:00.000000000 -0600
 @@ -1,2 +1,2 @@
 -session    required	/lib/security/pam_stack.so service=system-auth
-+session    { -f /lib/security/pam_pwdb.so ? "required     pam_stack.so service=system-auth" : "include     system-auth" }
++session    { -f "/lib/security/pam_pwdb.so" ? "required     pam_stack.so service=system-auth" : "include     system-auth" }
  session    optional	/lib/security/pam_console.so
 diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/passwd/10auth mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/passwd/10auth
 --- e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/passwd/10auth	2007-01-26 18:56:31.000000000 -0700
 +++ mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/passwd/10auth	2007-03-19 15:15:06.000000000 -0600
 @@ -1 +1 @@
 -auth       required     pam_stack.so service=system-auth
-+auth       { -f /lib/security/pam_pwdb.so ? "required     pam_stack.so service=system-auth" : "include     system-auth" }
++auth       { -f "/lib/security/pam_pwdb.so" ? "required     pam_stack.so service=system-auth" : "include     system-auth" }
 diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/passwd/20account mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/passwd/20account
 --- e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/passwd/20account	2007-01-26 18:56:31.000000000 -0700
 +++ mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/passwd/20account	2007-03-19 15:15:10.000000000 -0600
 @@ -1 +1 @@
 -account    required     pam_stack.so service=system-auth
-+account    { -f /lib/security/pam_pwdb.so ? "required     pam_stack.so service=system-auth" : "include     system-auth" }
++account    { -f "/lib/security/pam_pwdb.so" ? "required     pam_stack.so service=system-auth" : "include     system-auth" }
 diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/passwd/40password mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/passwd/40password
 --- e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/passwd/40password	2007-01-26 18:56:31.000000000 -0700
 +++ mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/passwd/40password	2007-03-19 15:15:14.000000000 -0600
 @@ -1 +1 @@
 -password   required     pam_stack.so service=system-auth
-+password   { -f /lib/security/pam_pwdb.so ? "required     pam_stack.so service=system-auth" : "include     system-auth" }
++password   { -f "/lib/security/pam_pwdb.so" ? "required     pam_stack.so service=system-auth" : "include     system-auth" }
 diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/proftpd/10authFTPusers mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/proftpd/10authFTPusers
 --- e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/proftpd/10authFTPusers	1969-12-31 17:00:00.000000000 -0700
 +++ mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/proftpd/10authFTPusers	2005-11-20 21:28:07.000000000 -0700
@@ -73,26 +73,26 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/etc/e-smith/templates/
 --- e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/proftpd/20auth	1969-12-31 17:00:00.000000000 -0700
 +++ mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/proftpd/20auth	2007-03-19 15:14:44.000000000 -0600
 @@ -0,0 +2 @@
-+auth       { -f /lib/security/pam_pwdb.so ? "required     pam_stack.so service=system-auth" : "include     system-auth" }
++auth       { -f "/lib/security/pam_pwdb.so" ? "required     pam_stack.so service=system-auth" : "include     system-auth" }
 +auth       required     pam_shells.so
 diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/proftpd/30account mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/proftpd/30account
 --- e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/proftpd/30account	1969-12-31 17:00:00.000000000 -0700
 +++ mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/proftpd/30account	2007-03-19 15:14:48.000000000 -0600
 @@ -0,0 +1 @@
-+account    { -f /lib/security/pam_pwdb.so ? "required     pam_stack.so service=system-auth" : "include     system-auth" }
++account    { -f "/lib/security/pam_pwdb.so" ? "required     pam_stack.so service=system-auth" : "include     system-auth" }
 diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/proftpd/40session mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/proftpd/40session
 --- e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/proftpd/40session	1969-12-31 17:00:00.000000000 -0700
 +++ mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/proftpd/40session	2007-03-19 15:14:51.000000000 -0600
 @@ -0,0 +1 @@
-+session    { -f /lib/security/pam_pwdb.so ? "required     pam_stack.so service=system-auth" : "include     system-auth" }
++session    { -f "/lib/security/pam_pwdb.so" ? "required     pam_stack.so service=system-auth" : "include     system-auth" }
 diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/pwauth/20auth mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/pwauth/20auth
 --- e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/pwauth/20auth	1969-12-31 17:00:00.000000000 -0700
 +++ mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/pwauth/20auth	2007-03-19 15:14:44.000000000 -0600
 @@ -0,0 +2 @@
-+auth       { -f /lib/security/pam_pwdb.so ? "required     pam_stack.so service=system-auth" : "include     system-auth" }
++auth       { -f "/lib/security/pam_pwdb.so" ? "required     pam_stack.so service=system-auth" : "include     system-auth" }
 +auth       required     /lib/security/pam_nologin.so
 diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/pwauth/30account mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/pwauth/30account
 --- e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/pwauth/30account	1969-12-31 17:00:00.000000000 -0700
 +++ mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates/etc/pam.d/pwauth/30account	2007-03-19 15:14:48.000000000 -0600
 @@ -0,0 +1 @@
-+account    { -f /lib/security/pam_pwdb.so ? "required     pam_stack.so service=system-auth" : "include     system-auth" }
++account    { -f "/lib/security/pam_pwdb.so" ? "required     pam_stack.so service=system-auth" : "include     system-auth" }
