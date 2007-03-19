@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 25
+%define release 26
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -32,6 +32,7 @@ Patch19: e-smith-base-4.18.0-raid_no.patch
 Patch20: e-smith-base-4.18.0-commonname.patch
 Patch21: e-smith-base-4.18.0-noutf.patch
 Patch22: e-smith-base-4.18.0-commonname.patch2
+Patch23: e-smith-base-4.18.0-pamtemplate.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -73,6 +74,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Mar 19 2007 Gavin Weight <gweight@gmail.com> 4.18.0-26
+- Update pam_stack to new include for el5 [SME: 2551]
+
 * Thu Mar 08 2007 Gavin Weight <gweight@gmail.com> 4.18.0-25
 - Fix missing en-gb language noise. [SME: 2633]
 
@@ -973,6 +977,7 @@ e-smith server and gateway software - base module.
 %patch20 -p1
 %patch21 -p1
 %patch22 -p1
+%patch23 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
@@ -1046,7 +1051,7 @@ mkdir -p root/etc/e-smith/templates/etc/dhcpc/dhcpcd.exe
 ln -s /etc/e-smith/templates-default/template-begin-shell \
       root/etc/e-smith/templates/etc/dhcpc/dhcpcd.exe/template-begin
 
-for file in ftp imap login passwd system-auth
+for file in ftp imap login passwd proftpd pwauth system-auth
 do
     mkdir -p root/etc/e-smith/templates/etc/pam.d/$file
     ln -s /etc/e-smith/templates-default/template-begin-pam \
