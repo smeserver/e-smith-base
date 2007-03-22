@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 27
+%define release 28
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -34,6 +34,7 @@ Patch21: e-smith-base-4.18.0-noutf.patch
 Patch22: e-smith-base-4.18.0-commonname.patch2
 Patch23: e-smith-base-4.18.0-pamtemplate.patch
 Patch24: e-smith-base-4.18.0-pamtemplate.patch2
+Patch25: e-smith-base-4.18.0-rcscript.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -75,14 +76,20 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
-* Mon Mar 19 2007 Gavin Weight <gweight@gmail.com> 4.18.0-27
+* Thu Mar 22 2007 Shad L. Lords <slords@mail.com> 4.18.0-28
+- Fix rc.e-smith to work with el4 and el5 [SME: 2510]
+
+* Mon Mar 19 2007 Shad L. Lords <slords@mail.com> 4.18.0-27
 - Add missing elements in prior pam updates [SME: 2551]
 
-* Mon Mar 19 2007 Gavin Weight <gweight@gmail.com> 4.18.0-26
+* Mon Mar 19 2007 Shad L. Lords <slords@mail.com> 4.18.0-26
 - Update pam_stack to new include for el5 [SME: 2551]
 
 * Thu Mar 08 2007 Gavin Weight <gweight@gmail.com> 4.18.0-25
 - Fix missing en-gb language noise. [SME: 2633]
+
+* Thu Mar 08 2007 Shad L. Lords <slords@mail.com> 4.18.0-24
+- Call cropLeft function correctly in crt expansion [SME: 1689]
 
 * Thu Mar 08 2007 Shad L. Lords <slords@mail.com> 4.18.0-24
 - Call cropLeft function correctly in crt expansion [SME: 1689]
@@ -983,6 +990,7 @@ e-smith server and gateway software - base module.
 %patch22 -p1
 %patch23 -p1
 %patch24 -p1
+%patch25 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
