@@ -91,9 +91,6 @@ e-smith server and gateway software - base module.
 * Thu Mar 08 2007 Shad L. Lords <slords@mail.com> 4.18.0-24
 - Call cropLeft function correctly in crt expansion [SME: 1689]
 
-* Thu Mar 08 2007 Shad L. Lords <slords@mail.com> 4.18.0-24
-- Call cropLeft function correctly in crt expansion [SME: 1689]
-
 * Wed Mar 07 2007 Shad L. Lords <slords@mail.com> 4.18.0-23
 - Make elinks display correctly with xterm display [SME: 444]
 
