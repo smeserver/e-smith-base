@@ -35,6 +35,7 @@ Patch22: e-smith-base-4.18.0-commonname.patch2
 Patch23: e-smith-base-4.18.0-pamtemplate.patch
 Patch24: e-smith-base-4.18.0-pamtemplate.patch2
 Patch25: e-smith-base-4.18.0-rcscript.patch
+Patch26: e-smith-base-4.18.0-logfile_rotation.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -76,6 +77,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Mar 26 2007 Charlie Brady <charlie_brady@mitel.com> 1.18.0-11
+- Add rotate_timestamped_logfiles action, split from
+  generic_template_expand. [SME: 2795]
+
 * Thu Mar 22 2007 Shad L. Lords <slords@mail.com> 4.18.0-28
 - Fix rc.e-smith to work with el4 and el5 [SME: 2510]
 
@@ -988,6 +993,7 @@ e-smith server and gateway software - base module.
 %patch23 -p1
 %patch24 -p1
 %patch25 -p1
+%patch26 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
