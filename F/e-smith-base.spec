@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 28
+%define release 29
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -77,7 +77,7 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
-* Mon Mar 26 2007 Charlie Brady <charlie_brady@mitel.com> 1.18.0-11
+* Mon Mar 26 2007 Charlie Brady <charlie_brady@mitel.com> 4.18.0-29
 - Add rotate_timestamped_logfiles action, split from
   generic_template_expand. [SME: 2795]
 
