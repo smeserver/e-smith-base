@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 30
+%define release 31
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -37,6 +37,7 @@ Patch24: e-smith-base-4.18.0-pamtemplate.patch2
 Patch25: e-smith-base-4.18.0-rcscript.patch
 Patch26: e-smith-base-4.18.0-logfile_rotation.patch
 Patch27: e-smith-base-4.18.0-login_pam.patch
+Patch28: e-smith-base-4.18.0-depmod.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -78,6 +79,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Thu Apr 05 2007 Shad L. Lords <slords@mail.com> 4.18.0-31
+- Simplify depmod call in conf-modules [SME: 2554]
+
 * Wed Apr 04 2007 Charlie Brady <charlie_brady@mitel.com> 4.18.0-30
 - Fix login pam configuration file. TODO - expand the template
   during bootstrap-console-save. [SME: 2831]
@@ -1000,6 +1004,7 @@ e-smith server and gateway software - base module.
 %patch25 -p1
 %patch26 -p1
 %patch27 -p1
+%patch28 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
