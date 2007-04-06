@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 32
+%define release 33
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -80,6 +80,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri Apr 06 2007 Shad L. Lords <slords@mail.com> 4.18.0-33
+- Remove fix for ftpusers.  Belongs in e-smith-proftpd. [SME: 2841]
+
 * Fri Apr 06 2007 Shad L. Lords <slords@mail.com> 4.18.0-32
 - Fix permissions on ftpusers file [SME: 2841]
 - Fix permissions on pwauth file [SME: 2842]
