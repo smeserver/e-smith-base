@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 33
+%define release 34
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -39,6 +39,7 @@ Patch26: e-smith-base-4.18.0-logfile_rotation.patch
 Patch27: e-smith-base-4.18.0-login_pam.patch
 Patch28: e-smith-base-4.18.0-depmod.patch
 Patch29: e-smith-base-4.18.0-perms.patch
+Patch30: e-smith-base-4.18.0-dhcpd_perms.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -80,6 +81,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri Apr 06 2007 Shad L. Lords <slords@mail.com> 4.18.0-34
+- Add fix for perms on dhcpd.conf file [SME: 2715]
+
 * Fri Apr 06 2007 Shad L. Lords <slords@mail.com> 4.18.0-33
 - Remove fix for ftpusers.  Belongs in e-smith-proftpd. [SME: 2841]
 
@@ -1014,6 +1018,7 @@ e-smith server and gateway software - base module.
 %patch27 -p1
 %patch28 -p1
 %patch29 -p1
+%patch30 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
