@@ -1,0 +1,12 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/sbin/e-smith/add_drive_to_raid mezzanine_patched_e-smith-base-4.18.0/root/sbin/e-smith/add_drive_to_raid
+--- e-smith-base-4.18.0/root/sbin/e-smith/add_drive_to_raid	2007-01-19 14:33:22.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.18.0/root/sbin/e-smith/add_drive_to_raid	2007-04-09 10:13:21.000000000 -0600
+@@ -39,6 +39,8 @@
+ my %devices = $raid->get_raid_details();
+ my @devices = sort { $devices{$a}{DeviceSize} <=> $devices{$b}{DeviceSize} } keys %devices;
+ 
++die "System doesn't contain any raid devices" unless $#devices >= 0;
++
+ my %partitions = $raid->get_partitions();
+ 
+ my $minsize = 0;
