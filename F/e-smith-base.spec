@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 36
+%define release 37
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -83,6 +83,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Wed Apr 11 2007 Stephen Noble <support@dungog.net> 4.18.0-37
+- Fix missing en-au & en-nz language noise. [SME: 2093]
+
 * Wed Apr 11 2007 Stephen Noble <support@dungog.net> 4.18.0-36
 - Fix missing list items for console [SME: 2642]
 
@@ -1096,7 +1099,9 @@ mkdir -p root/etc/e-smith/locale
 # Make the fr-ca link in %pre to ease upgrades
 # ln -s fr root/etc/e-smith/locale/fr-ca 
 ln -s en-us root/etc/e-smith/locale/en
+ln -s en-us root/etc/e-smith/locale/en-au
 ln -s en-us root/etc/e-smith/locale/en-gb
+ln -s en-us root/etc/e-smith/locale/en-nz
 
 mkdir -p root/etc/e-smith/templates/etc/dhcpc/dhcpcd.exe
 ln -s /etc/e-smith/templates-default/template-begin-shell \
