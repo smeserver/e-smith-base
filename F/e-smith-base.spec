@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 35
+%define release 36
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -41,6 +41,7 @@ Patch28: e-smith-base-4.18.0-depmod.patch
 Patch29: e-smith-base-4.18.0-perms.patch
 Patch30: e-smith-base-4.18.0-dhcpd_perms.patch
 Patch31: e-smith-base-4.18.0-noraid.patch
+Patch32: e-smith-base-4.18.0-suborder.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -82,6 +83,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Wed Apr 11 2007 Stephen Noble <support@dungog.net> 4.18.0-36
+- Fix missing list items for console [SME: 2642]
+
 * Mon Apr 09 2007 Shad L. Lords <slords@mail.com> 4.18.0-35
 - Don't attempt to add_raid_device if no raid [SME: 2484]
 
@@ -1024,6 +1028,7 @@ e-smith server and gateway software - base module.
 %patch29 -p1
 %patch30 -p1
 %patch31 -p1
+%patch32 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
