@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 38
+%define release 39
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -43,6 +43,7 @@ Patch30: e-smith-base-4.18.0-dhcpd_perms.patch
 Patch31: e-smith-base-4.18.0-noraid.patch
 Patch32: e-smith-base-4.18.0-suborder.patch
 Patch33: e-smith-base-4.18.0-standby.patch
+Patch34: e-smith-base-4.18.0-enableslocate.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -84,6 +85,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Thu Apr 12 2007 Stephen Noble <support@dungog.net> 4.18.0-39
+- Enable slocate in /etc/updatedb.conf [SME: 102]
+
 * Wed Apr 11 2007 Stephen Noble <support@dungog.net> 4.18.0-38
 - Make console text consistent 'Please stand by' [SME: 2493]
 
@@ -1037,6 +1041,7 @@ e-smith server and gateway software - base module.
 %patch31 -p1
 %patch32 -p1
 %patch33 -p1
+%patch34 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
