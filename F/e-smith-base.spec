@@ -43,7 +43,7 @@ Patch30: e-smith-base-4.18.0-dhcpd_perms.patch
 Patch31: e-smith-base-4.18.0-noraid.patch
 Patch32: e-smith-base-4.18.0-suborder.patch
 Patch33: e-smith-base-4.18.0-standby.patch
-Patch34: e-smith-base-4.18.0-enableslocate.patch
+Patch34: e-smith-base-4.18.0-enableslocate2.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
