@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 42
+%define release 43
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -85,6 +85,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri Apr 13 2007 Shad L. Lords <slords@mail.com> 4.18.0-43
+- Adjust perm for dhcpd.conf again [SME: 2715]
+
 * Thu Apr 12 2007 Shad L. Lords <slords@mail.com> 4.18.0-42
 - Put usbback patch back in. [SME: 2483]
 
