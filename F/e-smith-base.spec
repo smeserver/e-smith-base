@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 43
+%define release 44
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -85,6 +85,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri Apr 13 2007 Shad L. Lords <slords@mail.com> 4.18.0-44
+- Make configuration dbs config(noreplace) [SME: 2527]
+
 * Fri Apr 13 2007 Shad L. Lords <slords@mail.com> 4.18.0-43
 - Adjust perm for dhcpd.conf again [SME: 2715]
 
@@ -1203,7 +1206,6 @@ rm -rf $RPM_BUILD_ROOT
     --dir /var/service/dhcpd/supervise 'attr(0700,root,root)' \
     --file /var/service/dhcpd/log/run 'attr(0755,root,root)' \
     --dir /var/log/dhcpd 'attr(2750,smelog,smelog)' \
-    --file /home/e-smith/db/configuration 'config(noreplace)' \
     --dir /var/service/raidmonitor 'attr(01755,root,root)' \
     --file /var/service/raidmonitor/down 'attr(0644,root,root)' \
     --file /var/service/raidmonitor/run 'attr(0755,root,root)' \
@@ -1249,7 +1251,7 @@ for file in %{dbfiles}
 do
     # Create ghost file for rpm
     touch $RPM_BUILD_ROOT/home/e-smith/db/$file
-    echo "%config %attr(0640,root,admin) /home/e-smith/db/$file" \
+    echo "%config(noreplace) %attr(0640,root,admin) /home/e-smith/db/$file" \
         >> %{name}-%{version}-%{release}-filelist
 done
 echo "%doc COPYING"          >> %{name}-%{version}-%{release}-filelist
