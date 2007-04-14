@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 45
+%define release 46
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -45,6 +45,7 @@ Patch32: e-smith-base-4.18.0-suborder.patch
 Patch33: e-smith-base-4.18.0-standby.patch
 Patch34: e-smith-base-4.18.0-usbback.patch
 Patch35: e-smith-base-4.18.0-remoteaccess.pmfm2self.patch
+Patch36: e-smith-base-4.18.0-SSHport.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -86,6 +87,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sat Apr 14 2007 Stephen Noble <support@dungog.net> 4.18.0-46
+- Field to change ssh port [SME: 2382]
+
 * Sat Apr 14 2007 Stephen Noble <support@dungog.net> 4.18.0-45
 - Change fm to self in remoteaccess.pm [SME: 2382]
 
@@ -1062,6 +1066,7 @@ e-smith server and gateway software - base module.
 %patch33 -p1
 %patch34 -p1
 %patch35 -p1
+%patch36 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
