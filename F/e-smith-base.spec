@@ -80,7 +80,7 @@ Obsoletes: sshell
 Obsoletes: e-smith-rp-pppoe
 BuildRequires: perl, perl(Test::Inline) >= 0.12
 BuildRequires: e-smith-devtools >= 1.13.1-03
-%ifarch i386
+%if "%_build_arch" == "i386"
 Requires: apmd
 %endif
 
