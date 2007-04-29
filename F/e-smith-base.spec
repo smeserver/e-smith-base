@@ -2,9 +2,9 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 47
+%define release 48
 Version: %{version}
-Release: %smerelease %{release}
+Release: %{release}%{?dist}
 Packager: %{_packager}
 License: GPL
 Vendor: Mitel Networks Corporation
@@ -66,7 +66,6 @@ Requires: /sbin/microcode_ctl
 Requires: dbus
 Requires: hal
 Requires: acpid
-Requires: apmd
 Requires: whiptail
 Requires: rssh
 Requires: bridge-utils
@@ -81,6 +80,10 @@ Obsoletes: sshell
 Obsoletes: e-smith-rp-pppoe
 BuildRequires: perl, perl(Test::Inline) >= 0.12
 BuildRequires: e-smith-devtools >= 1.13.1-03
+%ifarch i386
+Requires: apmd
+%endif
+
 %define dbfiles accounts configuration domains hosts networks
 AutoReqProv: no
 
@@ -88,6 +91,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sun Apr 29 2007 Shad L. Lords <slords@mail.com> 4.18.0-48
+- Change to dist for tagging release
+- Only include apmd for i386 platforms
+
 * Fri Apr 27 2007 Charlie Brady <charlie_brady@mitel.com> 4.18.0-47
 - Validate GatewayIP address more carefully. [SME: 2928]
 
