@@ -1120,6 +1120,12 @@ mkdir -p root/home/e-smith/Maildir/{cur,new,tmp}
 mkdir -p root/root/.ssh
 mkdir -p root/var/log/wan
 
+%if "%_build_arch" == "i386"
+echo "enabled" >  root/etc/e-smith/db/configuration/defaults/apmd/status
+%else
+echo "disabled" >  root/etc/e-smith/db/configuration/defaults/apmd/status
+%endif
+
 LEXICONS=$(find root/etc/e-smith/web/{functions,panels/password/cgi-bin} \
     -type f | grep -v CVS | grep -v pleasewait)
 
