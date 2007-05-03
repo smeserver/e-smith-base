@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 29
+%define release 30
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -36,6 +36,7 @@ Patch23: e-smith-base-4.18.0-pamtemplate.patch
 Patch24: e-smith-base-4.18.0-pamtemplate.patch2
 Patch25: e-smith-base-4.18.0-rcscript.patch
 Patch26: e-smith-base-4.18.0-logfile_rotation.patch
+Patch27: e-smith-base-4.18.0-service_re.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -77,6 +78,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Thu May  3 2007 Charlie Brady <charlie_brady@mitel.com> 4.18.0-30
+- Fix service match RE in /sbin/e-smith/service. [SME: 2959]
+
 * Mon Mar 26 2007 Charlie Brady <charlie_brady@mitel.com> 4.18.0-29
 - Add rotate_timestamped_logfiles action, split from
   generic_template_expand. [SME: 2795]
@@ -994,6 +998,7 @@ e-smith server and gateway software - base module.
 %patch24 -p1
 %patch25 -p1
 %patch26 -p1
+%patch27 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq

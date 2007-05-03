@@ -1,0 +1,15 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/sbin/e-smith/service mezzanine_patched_e-smith-base-4.18.0/root/sbin/e-smith/service
+--- e-smith-base-4.18.0/root/sbin/e-smith/service	2005-11-20 23:28:11.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.18.0/root/sbin/e-smith/service	2007-05-03 18:42:37.000000000 -0400
+@@ -4,9 +4,9 @@
+ 
+ if [ "$runlevel" = "7" ]
+ then
+-    if ls /etc/rc7.d/S*$1 >/dev/null 2>/dev/null
++    if ls /etc/rc7.d/S??$1 >/dev/null 2>/dev/null
+     then
+-       script=$(ls /etc/rc7.d/S*$1 | head -1)
++       script=$(ls /etc/rc7.d/S??$1 | head -1)
+        exec $script $2
+     fi
+ 
