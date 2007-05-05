@@ -5,9 +5,7 @@ Name: %{name}
 %define release 48
 Version: %{version}
 Release: %{release}%{?dist}
-Packager: %{_packager}
 License: GPL
-Vendor: Mitel Networks Corporation
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch1: e-smith-base-4.18.0-backtitle.patch
@@ -48,7 +46,6 @@ Patch35: e-smith-base-4.18.0-remoteaccess.pmfm2self.patch
 Patch36: e-smith-base-4.18.0-SSHport.patch
 Patch37: e-smith-base-4.18.0-gateway_validation.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
-BuildArchitectures: noarch
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-7
 Requires: server-manager-images, server-manager
@@ -80,7 +77,8 @@ Obsoletes: sshell
 Obsoletes: e-smith-rp-pppoe
 BuildRequires: perl, perl(Test::Inline) >= 0.12
 BuildRequires: e-smith-devtools >= 1.13.1-03
-%if "%_build_arch" == "i386"
+BuildRequires: gettext
+%ifarch i386
 Requires: apmd
 %endif
 
@@ -91,6 +89,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sun Apr 29 2007 Shad L. Lords <slords@mail.com>
+- Clean up spec so package can be built by koji/plague
+
 * Sun Apr 29 2007 Shad L. Lords <slords@mail.com> 4.18.0-48
 - Change to dist for tagging release
 - Only include apmd for i386 platforms
