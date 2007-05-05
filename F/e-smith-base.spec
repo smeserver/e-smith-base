@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 48
+%define release 49
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -45,6 +45,7 @@ Patch34: e-smith-base-4.18.0-usbback.patch
 Patch35: e-smith-base-4.18.0-remoteaccess.pmfm2self.patch
 Patch36: e-smith-base-4.18.0-SSHport.patch
 Patch37: e-smith-base-4.18.0-gateway_validation.patch
+Patch38: e-smith-base-4.18.0-service_re.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-7
@@ -89,6 +90,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sat May 05 2007 Gavin Weight <gweight@gmail.com> 4.18.0-49
+- Fix service match RE in /sbin/e-smith/service. [SME: 2959]
+
 * Sun Apr 29 2007 Shad L. Lords <slords@mail.com>
 - Clean up spec so package can be built by koji/plague
 
@@ -1080,6 +1084,7 @@ e-smith server and gateway software - base module.
 %patch35 -p1
 %patch36 -p1
 %patch37 -p1
+%patch38 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
