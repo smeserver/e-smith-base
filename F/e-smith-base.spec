@@ -4,10 +4,8 @@ Name: %{name}
 %define version 4.16.0
 %define release 39
 Version: %{version}
-Release: %smerelease %{release}
-Packager: %{_packager}
+Release: %{release}%{?dist}
 License: GPL
-Vendor: Mitel Networks Corporation
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-base-4.16.0-RenameAnacondaLogs.patch
@@ -81,6 +79,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sun Apr 29 2007 Shad L. Lords <slords@mail.com>
+- Clean up spec so package can be built by koji/plague
+
 * Sun Jan 14 2007 Shad L. Lords <slords@mail.com> 4.16.0-39
 - [Back-port from 4.17.0-23]
 - Add admin email forwarding to modify user panel [SME: 827]
