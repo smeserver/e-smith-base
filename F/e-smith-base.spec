@@ -4,10 +4,8 @@ Name: %{name}
 %define version 4.18.0
 %define release 30
 Version: %{version}
-Release: %smerelease %{release}
-Packager: %{_packager}
+Release: %{release}%{?dist}
 License: GPL
-Vendor: Mitel Networks Corporation
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch1: e-smith-base-4.18.0-backtitle.patch
@@ -80,6 +78,9 @@ e-smith server and gateway software - base module.
 %changelog
 * Thu May  3 2007 Charlie Brady <charlie_brady@mitel.com> 4.18.0-30
 - Fix service match RE in /sbin/e-smith/service. [SME: 2959]
+
+* Sun Apr 29 2007 Shad L. Lords <slords@mail.com>
+- Clean up spec so package can be built by koji/plague
 
 * Mon Mar 26 2007 Charlie Brady <charlie_brady@mitel.com> 4.18.0-29
 - Add rotate_timestamped_logfiles action, split from
