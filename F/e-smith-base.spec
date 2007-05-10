@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 49
+%define release 50
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -76,6 +76,9 @@ Obsoletes: rlinetd, e-smith-mod_ssl
 Obsoletes: e-smith-serial-console
 Obsoletes: sshell
 Obsoletes: e-smith-rp-pppoe
+%if "%{?dist}" = "5"
+Obsoletes: perl-Data-UUID
+%endif
 BuildRequires: perl, perl(Test::Inline) >= 0.12
 BuildRequires: e-smith-devtools >= 1.13.1-03
 BuildRequires: gettext
@@ -90,6 +93,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Wed May 9 2007 Shad L. Lords <slords@mail.com> 4.18.0-50
+- Updates to support SME Server 8
+
 * Sat May 05 2007 Gavin Weight <gweight@gmail.com> 4.18.0-49
 - Fix service match RE in /sbin/e-smith/service. [SME: 2959]
 
