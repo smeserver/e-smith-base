@@ -76,7 +76,7 @@ Obsoletes: rlinetd, e-smith-mod_ssl
 Obsoletes: e-smith-serial-console
 Obsoletes: sshell
 Obsoletes: e-smith-rp-pppoe
-%if "%{?dist}" = "5"
+%if "%{?rhel}" = "5"
 Obsoletes: perl-Data-UUID
 %endif
 BuildRequires: perl, perl(Test::Inline) >= 0.12
