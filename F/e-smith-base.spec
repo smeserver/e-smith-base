@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 51
+%define release 52
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -47,6 +47,7 @@ Patch36: e-smith-base-4.18.0-SSHport.patch
 Patch37: e-smith-base-4.18.0-gateway_validation.patch
 Patch38: e-smith-base-4.18.0-service_re.patch
 Patch39: e-smith-base-4.18.0-xencons.patch
+Patch40: e-smith-base-4.18.0-lib64.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-7
@@ -94,6 +95,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri May 18 2007 Shad L. Lords <slords@mail.com> 4.18.0-52
+- Use correct lib for modules
+
 * Thu May 17 2007 Shad L. Lords <slords@mail.com> 4.18.0-51
 - Updates to support xenU instance
 
@@ -1096,6 +1100,7 @@ e-smith server and gateway software - base module.
 %patch37 -p1
 %patch38 -p1
 %patch39 -p1
+%patch40 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
