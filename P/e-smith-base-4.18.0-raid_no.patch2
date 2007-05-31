@@ -1,0 +1,32 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/sbin/e-smith/add_drive_to_raid mezzanine_patched_e-smith-base-4.18.0/root/sbin/e-smith/add_drive_to_raid
+--- e-smith-base-4.18.0/root/sbin/e-smith/add_drive_to_raid	2007-05-31 11:04:43.000000000 -0600
++++ mezzanine_patched_e-smith-base-4.18.0/root/sbin/e-smith/add_drive_to_raid	2007-05-31 11:04:26.000000000 -0600
+@@ -39,23 +39,23 @@
+ my %devices = $raid->get_raid_details();
+ my @devices = sort { $devices{$a}{DeviceSize} <=> $devices{$b}{DeviceSize} } keys %devices;
+ 
+-die "System doesn't contain any raid devices" unless $#devices >= 0;
++die "There are no RAID devices configured\n" unless $#devices >= 0;
+ 
+ my %partitions = $raid->get_partitions();
+ 
+ my $minsize = 0;
+ 
+-die "/dev/$newdev is not a block special device" unless -b "/dev/$newdev";
++die "/dev/$newdev is not a block special device\n" unless -b "/dev/$newdev";
+ 
+ for my $dev (@devices)
+ {
+-    die "/dev/$newdev is already in use" if grep m#^$newdev$#, @{$devices{$dev}{UsedDisks}};
++    die "/dev/$newdev is already in use\n" if grep m#^$newdev$#, @{$devices{$dev}{UsedDisks}};
+     $minsize += $devices{$dev}{DeviceSize} + 65;
+ }
+ 
+-die "/dev/$newdev is not large enough" unless $partitions{$newdev}{blocks} >= $minsize;
++die "/dev/$newdev is not large enough\n" unless $partitions{$newdev}{blocks} >= $minsize;
+ 
+-die "/dev/$newdev already contains partitions" unless $force or ! grep m#^$newdev.+$#, keys %partitions;
++die "/dev/$newdev already contains partitions\n" unless $force or ! grep m#^$newdev.+$#, keys %partitions;
+ 
+ my $pid = open(STDERR, "|-");
+ die gettext("Can't fork"), ": $!\n" unless defined $pid;
