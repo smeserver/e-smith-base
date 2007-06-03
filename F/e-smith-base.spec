@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 54
+%define release 55
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -50,6 +50,7 @@ Patch39: e-smith-base-4.18.0-xencons.patch
 Patch40: e-smith-base-4.18.0-lib64.patch
 Patch41: e-smith-base-4.18.0-cracklib.patch
 Patch42: e-smith-base-4.18.0-raid_no.patch2
+Patch43: e-smith-base-4.18.0-raidfix.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-7
@@ -97,6 +98,11 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sun Jun 3 2007 Gavin Weight <gweight@gmail.com> 4.18.0-55
+- Clean up some more newlines [SME: 3035]
+- Make raid failures more verbose [SME: 3032]
+- Fix add_drive_to_raid and partition issues [SME: 2155, 2232]
+
 * Wed May 30 2007 Gavin Weight <gweight@gmail.com> 4.18.0-54
 - Update noraid text and add newline after text. [SME: 3035]
 
@@ -1111,6 +1117,7 @@ e-smith server and gateway software - base module.
 %patch40 -p1
 %patch41 -p1
 %patch42 -p1
+%patch43 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
