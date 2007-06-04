@@ -98,7 +98,7 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
-* Sun Jun 3 2007 Gavin Weight <gweight@gmail.com> 4.18.0-55
+* Sun Jun 3 2007 Shad L. Lords <slords@mail.com> 4.18.0-55
 - Clean up some more newlines [SME: 3035]
 - Make raid failures more verbose [SME: 3032]
 - Fix add_drive_to_raid and partition issues [SME: 2155, 2232]
