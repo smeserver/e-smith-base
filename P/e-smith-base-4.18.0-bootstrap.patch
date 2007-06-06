@@ -1,0 +1,46 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/sbin/e-smith/bootstrap-console mezzanine_patched_e-smith-base-4.18.0/root/sbin/e-smith/bootstrap-console
+--- e-smith-base-4.18.0/root/sbin/e-smith/bootstrap-console	2007-01-26 20:56:31.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.18.0/root/sbin/e-smith/bootstrap-console	2007-06-06 16:00:53.000000000 -0400
+@@ -43,7 +43,7 @@
+ esmith::console::system_password->new->doit($console, $db);
+ 
+ use esmith::console::configure;
+-esmith::console::configure->new->doit($console, $db);
++esmith::console::configure->new(bootstrap => 1)->doit($console, $db);
+ 
+ use esmith::console::save_config;
+ esmith::console::save_config->new->doit($console, $db);
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm mezzanine_patched_e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm
+--- e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm	2007-06-06 16:01:00.000000000 -0400
++++ mezzanine_patched_e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm	2007-06-06 16:00:52.000000000 -0400
+@@ -18,6 +18,8 @@
+     my $self = {
+ 		    name => "Configure this server",
+ 		    order => 20,
++		    bootstrap => 0,
++		    @_,
+ 		};
+     bless $self, $class;
+     return $self;
+@@ -242,6 +244,7 @@
+     my $self = shift;
+     $console = shift;
+     $db = shift;
++
+     return if ($db->get_prop('bootstrap-console', 'ForceSave') eq 'yes'); # We can skip the menus
+     my $SystemName = $db->get_value('SystemName');
+     my $DomainName = $db->get_value('DomainName');
+@@ -275,7 +278,12 @@
+          value   => $DomainName
+         );
+ 
+-    return unless ($rc == 0);
++    if ($rc != 0)
++    {
++	# If user cancelled, either loop or go back to main menu
++	goto DOMAIN_NAME if $self->{bootstrap};
++	return;
++    }
+ 
+     if ($choice)
+     {
