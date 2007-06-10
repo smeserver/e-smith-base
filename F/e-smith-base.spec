@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 56
+%define release 57
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -52,6 +52,7 @@ Patch41: e-smith-base-4.18.0-cracklib.patch
 Patch42: e-smith-base-4.18.0-raid_no.patch2
 Patch43: e-smith-base-4.18.0-raidfix.patch
 Patch44: e-smith-base-4.18.0-bootstrap.patch
+Patch45: e-smith-base-4.18.0-pamtemplate.patch3
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-7
@@ -99,6 +100,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sun Jun 10 2007 Stephen Noble <support@dungog.net> 4.18.0-57
+- expand /etc/pam.d/login [SME: 2831]
+
 * Wed Jun 06 2007 Charlie Brady <charlie_brady@mitel.com> 4.18.0-56
 - Prevent backout from console config during initial setup.
   [SME: 2540]
@@ -1124,6 +1128,7 @@ e-smith server and gateway software - base module.
 %patch42 -p1
 %patch43 -p1
 %patch44 -p1
+%patch45 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
