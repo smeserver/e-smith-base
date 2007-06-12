@@ -1,0 +1,11 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/createlinks mezzanine_patched_e-smith-base-4.18.0/createlinks
+--- e-smith-base-4.18.0/createlinks	2007-06-10 05:53:26.000000000 -0600
++++ mezzanine_patched_e-smith-base-4.18.0/createlinks	2007-06-10 05:51:11.000000000 -0600
+@@ -202,6 +202,7 @@
+ 	remoteaccess-update
+ 	));
+ foreach my $file (qw(
++        /etc/pam.d/login
+ 	/etc/pam.d/system-auth
+ 	/etc/pam.d/passwd
+ 	/etc/pam.d/pwauth

@@ -1,0 +1,18 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/var/service/wan/run.static mezzanine_patched_e-smith-base-4.18.0/root/var/service/wan/run.static
+--- e-smith-base-4.18.0/root/var/service/wan/run.static	2007-01-26 20:56:31.000000000 -0500
++++ mezzanine_patched_e-smith-base-4.18.0/root/var/service/wan/run.static	2007-03-01 12:28:23.000000000 -0500
+@@ -1,5 +1,10 @@
+-#! /bin/sh
++#! /usr/bin/perl
+ 
+-name=$(/sbin/e-smith/config getprop ExternalInterface Name)
+-/sbin/ifup $name
+-exec pause
++use warnings;
++use strict;
++use esmith::ConfigDB;
++use POSIX;
++
++my $db = esmith::ConfigDB->open_ro;
++system("/sbin/ifup", $db->get_prop('ExternalInterface', 'Name'));
++pause();

@@ -1,0 +1,40 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/perform_backup.pm mezzanine_patched_e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/perform_backup.pm
+--- e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/perform_backup.pm	2007-01-29 20:11:25.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/perform_backup.pm	2007-01-29 20:10:52.000000000 -0700
+@@ -54,12 +54,15 @@
+         );
+     return unless $rc == 0;
+     INITIATE_BACKUP:
+-    ($rc, $choice) = $console->message_page
++    ($rc, $choice) = $console->yesno_page
+         (
+          title   => gettext("Insert media to use for backup"),
++         left => gettext("Next"),
++         right => gettext("Cancel"),
+          text =>
+          gettext("Insert memory stick or USB disk, then hit the enter key."),
+         );
++    return unless $rc == 0;
+     sleep(3);
+     my @dirs = map { m:^(/media/usbdisk*):; $1 } glob '/media/usbdisk*';
+     unless ($dirs[0])
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/perform_restore.pm mezzanine_patched_e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/perform_restore.pm
+--- e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/perform_restore.pm	2007-01-26 18:56:31.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/perform_restore.pm	2007-01-29 20:10:52.000000000 -0700
+@@ -26,12 +26,15 @@
+         );
+     return unless $rc == 0;
+     INITIATE_RESTORE:
+-    ($rc, $choice) = $console->message_page
++    ($rc, $choice) = $console->yesno_page
+         (
+          title   => gettext("Insert media containing backup"),
++         left => gettext("Next"),
++         right => gettext("Cancel"),
+          text =>
+          gettext("Insert memory stick or CDROM containing your backup file, then hit the enter key."),
+         );
++    return unless $rc == 0;
+     sleep(1);
+     my @dirs = glob '/media/*';
+     unless ($dirs[0])

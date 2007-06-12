@@ -1,0 +1,22 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/save_config.pm mezzanine_patched_e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/save_config.pm
+--- e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/save_config.pm	2007-01-26 18:56:31.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/save_config.pm	2007-01-28 09:30:48.000000000 -0700
+@@ -15,8 +15,6 @@
+ sub doit
+ {
+     my ($self, $console, $db) = @_;
+-    my $release = esmith::util::determineRelease();
+-    my $release_string = "Mitel Networks server ${release}";
+     #------------------------------------------------------------
+  SAVE_CONFIG:
+     #------------------------------------------------------------
+@@ -31,8 +29,7 @@
+ 
+     system(
+            "/usr/bin/whiptail",
+-           "--backtitle",
+-	   "$release_string Copyright 1999-2004 Mitel Networks Corporation",
++           "--backtitle", $console->backtitle,
+            "--title", gettext("Activating configuration settings"),
+            "--infobox", gettext("Please standby while your configuration settings are activated ..."),
+            8, esmith::console::SCREEN_COLUMNS,
