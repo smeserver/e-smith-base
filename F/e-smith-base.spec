@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 57
+%define release 58
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -53,6 +53,7 @@ Patch42: e-smith-base-4.18.0-raid_no.patch2
 Patch43: e-smith-base-4.18.0-raidfix.patch
 Patch44: e-smith-base-4.18.0-bootstrap.patch
 Patch45: e-smith-base-4.18.0-pamtemplate.patch3
+Patch46: e-smith-base-4.18.0-restoredev.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-7
@@ -100,6 +101,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Jun 11 2007 Shad L. Lords <slords@mail.com> 4.18.0-58
+- Start messagebus/haldaemon so restore works [SME: 3058]
+
 * Sun Jun 10 2007 Stephen Noble <support@dungog.net> 4.18.0-57
 - expand /etc/pam.d/login [SME: 2831]
 
@@ -1129,6 +1133,7 @@ e-smith server and gateway software - base module.
 %patch43 -p1
 %patch44 -p1
 %patch45 -p1
+%patch46 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
