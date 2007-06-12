@@ -1,0 +1,60 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm mezzanine_patched_e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm
+--- e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm	2007-03-06 11:16:06.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm	2007-03-06 11:15:35.000000000 -0700
+@@ -70,14 +70,6 @@
+ 	}
+     }
+ 
+-    if (  ($confEntry eq "EthernetDriver2") ) {
+-        my ($parameter, $driver, $chipset) = split (/\s+/, $adapters[0], 3);
+-        if ($driver eq $db->get_value("EthernetDriver1"))
+-        {
+-            @adapters = reverse @adapters;
+-        }
+-    }
+-
+     if ( scalar @adapters == 0 )
+     {
+         $adapterList = "    (none)";
+@@ -96,6 +88,7 @@
+ 
+     my %tag2driver;
+     my @args;
++    my $default;
+ 
+     my $existing_driver = $db->get_value($confEntry);
+ 
+@@ -104,17 +97,16 @@
+         my ($parameter, $driver, $chipset) = split (/\s+/, $adapter, 3);
+         chomp($chipset);
+ 
+-        unless ($driver eq $existing_driver)
+-        {
+-            my $tag = ++$item . ".";
++	my $tag = ++$item . ".";
+ 
+-            $tag2driver{$tag} = $driver;
++	$tag2driver{$tag} = $driver;
+ 
+-            my $display_name = gettext("Use") . " " . ${driver} . " " .
+-                gettext("for chipset") . " " . ${chipset};
++	my $display_name = gettext("Use") . " " . ${driver} . " " .
++	    gettext("for chipset") . " " . ${chipset};
+ 
+-            push(@args, $tag, substr($display_name, 0, 65));
+-        }
++	push(@args, $tag, substr($display_name, 0, 65));
++
++        $default = $tag if ${driver} eq $db->get_value($confEntry);
+     }
+ 
+     push( @args,
+@@ -128,7 +120,7 @@
+         (
+          title => sprintf(gettext("Select %s network ethernet driver"),
+                           $ifName),
+-	 default => $db->get_value($confEntry),
++	 default => $default,
+          text  =>
+          sprintf(gettext("You now need to select the proper driver for your %s network ethernet adapter. The server can attempt to do this automatically, or you can do it manually - either by specifying the model of your ethernet adapter or by directly choosing a driver."),
+                  $ifName) .

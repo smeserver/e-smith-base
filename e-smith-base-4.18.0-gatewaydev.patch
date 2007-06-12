@@ -1,0 +1,14 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/etc/e-smith/templates/etc/sysconfig/network/40GATEWAYDEV mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates/etc/sysconfig/network/40GATEWAYDEV
+--- e-smith-base-4.18.0/root/etc/e-smith/templates/etc/sysconfig/network/40GATEWAYDEV	2005-11-20 21:28:08.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates/etc/sysconfig/net40GATEWAYDEV	2007-01-30 16:16:44.000000000 -0700
+@@ -1,5 +1,8 @@
+ {
+-    return "" unless (defined $ExternalInterface);
++    return "" unless (defined $ExternalInterface && defined $GatewayIP);
+ 
+-    return "GATEWAYDEV=$ExternalInterface{Name}";
++    my $dev = ($ExternalInterface{Configuration} eq 'disabled') ?
++	$InternalInterface{Name} :
++	$ExternalInterface{Name};
++    return "GATEWAYDEV=$dev";
+ }

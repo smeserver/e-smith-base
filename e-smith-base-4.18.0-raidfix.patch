@@ -1,0 +1,110 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/sbin/e-smith/add_drive_to_raid mezzanine_patched_e-smith-base-4.18.0/root/sbin/e-smith/add_drive_to_raid
+--- e-smith-base-4.18.0/root/sbin/e-smith/add_drive_to_raid	2007-06-03 16:07:36.000000000 -0600
++++ mezzanine_patched_e-smith-base-4.18.0/root/sbin/e-smith/add_drive_to_raid	2007-06-03 16:07:29.000000000 -0600
+@@ -42,6 +42,7 @@
+ die "There are no RAID devices configured\n" unless $#devices >= 0;
+ 
+ my %partitions = $raid->get_partitions();
++my @partitions;
+ 
+ my $minsize = 0;
+ 
+@@ -85,20 +86,43 @@
+ 	    $boot = "-";
+ 	}
+ 	print SFDISK ",0\n" for (1..4);
+-	close(SFDISK) || die "SFDISK kid exited $?";
++	close(SFDISK) || die "SFDISK kid exited $?\n";
+     }
+     else
+     {
+ 	# child
+ 	exec("/sbin/sfdisk", "-uB", "--no-reread", "--force", "/dev/$newdev")
+-	    or die "can't exec program: $!";
++	    or die "can't exec program: $!\n";
+ 	# NOTREACHED
+     }
+ 
+-    %partitions = $raid->get_partitions();
++    print "\nChecking partitions on /dev/$newdev...\n";
++    sleep(3);
++    my $good;
++    my $cnt = 0;
++    do {
++	$cnt++;
++	$good = 1;
++	sleep(1);
++
++	%partitions = $raid->get_partitions();
++	@partitions = sort grep m#^$newdev.+$#, keys %partitions;
++	if ( $#devices == $#partitions ) {
++	    foreach my $part ( 0..($#devices-1) ) {
++		$good &= $partitions{$partitions[$part]}{blocks} == $devices{$devices[$part]}{DeviceSize} + 64;
++		$good &= -b "/dev/$partitions[$part]" || 0;
++	    }
++	    $good &= $partitions{$partitions[$#devices]}{blocks} >= $devices{$devices[$#devices]}{DeviceSize} + 64;
++	    $good &= -b "/dev/$partitions[$#devices]" || 0;
++	} else {
++	    $good = 0;
++	}
++    } until ( $good || $cnt > 60 );
++    print "\n";
+ 
+-    my @partitions = sort grep m#^$newdev.+$#, keys %partitions;
++    die "\nPartitions on /dev/$newdev aren't correct.  Reboot may be necessary.\n" unless $good;
+ 
++    sleep(3);
+     foreach my $part (0..$#devices)
+     {
+ 	print "Going to add /dev/$partitions[$part] to  $devices[$part]\n";
+@@ -106,7 +130,7 @@
+ 	sleep(2);
+     }
+ 
+-    print "\nWaiting for things to settle down before installing GRUB...\n";
++    print "\nWaiting for boot partition to sync before installing grub...\n";
+     sleep(15);
+ 
+     $pid = open(GRUB, "|-");
+@@ -117,14 +141,14 @@
+ 	print GRUB "root (hd0,0)\n";
+ 	print GRUB "setup (hd0)\n";
+ 	print GRUB "quit\n";
+-	close(GRUB) || die "GRUB kid exited $?";
++	close(GRUB) || die "GRUB kid exited $?\n";
+ 	exit(0);
+     }
+     else
+     {
+ 	# child
+ 	exec("/sbin/grub", "--no-floppy", "--batch")
+-	    or die "can't exec program: $!";
++	    or die "can't exec program: $!\n";
+ 	# NOTREACHED
+     }
+ }
+@@ -134,5 +158,5 @@
+ 	next unless $_;
+ 	warn "$_";
+ }
+-close(OUTPUT) or die "Closing stdin pipe reported: $!";
++close(OUTPUT) or die "Closing stdin pipe reported: $!\n";
+ 
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/sbin/e-smith/console-menu-items/manageRAID.pl mezzanine_patched_e-smith-base-4.18.0/root/sbin/e-smith/console-menu-items/manageRAID.pl
+--- e-smith-base-4.18.0/root/sbin/e-smith/console-menu-items/manageRAID.pl	2007-06-03 16:07:36.000000000 -0600
++++ mezzanine_patched_e-smith-base-4.18.0/root/sbin/e-smith/console-menu-items/manageRAID.pl	2007-06-03 15:59:03.000000000 -0600
+@@ -147,10 +147,11 @@
+     ($rc, $choice) = $console->yesno_page(title => $title, text => $text, defaultno => 1);
+     return unless ($rc == 0);
+ 
+-    unless (system(@cmd) == 0)
++    my $cmd_out = qx( @cmd 2>&1 );
++    unless ($? == 0)
+     {
+-        $text = gettext("The command @cmd failed.") .
+-                "\n\n" .
++        $text = gettext("The command @cmd failed:") .
++                "\n\n" . $cmd_out . "\n\n" .
+                 gettext("This configuration is not yet fully supported in these screens.");
+ 
+         ($rc, $choice) = $console->message_page(title => $title, text => $text);

@@ -1,0 +1,5 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/etc/e-smith/templates.metadata/etc/pam.d/pwauth mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates.metadata/etc/pam.d/pwauth
+--- e-smith-base-4.18.0/root/etc/e-smith/templates.metadata/etc/pam.d/pwauth	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates.metadata/etc/pam.d/pwauth	2007-04-06 11:54:01.000000000 -0600
+@@ -0,0 +1 @@
++PERMS=0444

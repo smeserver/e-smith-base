@@ -1,0 +1,42 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/perform_backup.pm mezzanine_patched_e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/perform_backup.pm
+--- e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/perform_backup.pm	2007-02-11 13:06:45.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/perform_backup.pm	2007-02-11 13:05:45.000000000 -0700
+@@ -65,7 +65,15 @@
+         );
+     return unless $rc == 0;
+     sleep(3);
+-    my @dirs = map { m:^(/media/usbdisk*):; $1 } glob '/media/usbdisk*';
++    my @dirs;
++    open(FSTAB, "</etc/fstab");
++    while (<FSTAB>)
++    {
++        next unless m:^(\S+)\s+(/media/\S+)\s+(\S+)\s+(\S+):;
++        my ($dev, $mount, $filesys, $options) = ($1, $2, $3, $4);
++        push @dirs, $mount if ($options =~ /rw/);
++    }
++    close FSTAB;
+     unless ($dirs[0])
+     {
+ 	($rc, $choice) = $console->message_page
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/perform_restore.pm mezzanine_patched_e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/perform_restore.pm
+--- e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/perform_restore.pm	2007-02-11 13:06:45.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/perform_restore.pm	2007-02-11 13:06:30.000000000 -0700
+@@ -35,8 +35,16 @@
+          gettext("Insert memory stick or CDROM containing your backup file, then hit the enter key."),
+         );
+     return unless $rc == 0;
+-    sleep(1);
+-    my @dirs = glob '/media/*';
++    sleep(3);
++    my @dirs;
++    open(FSTAB, "</etc/fstab");
++    while (<FSTAB>)
++    {
++        next unless m:^(\S+)\s+(/media/\S+)\s+(\S+)\s+(\S+):;
++        my ($dev, $mount, $filesys, $options) = ($1, $2, $3, $4);
++        push @dirs, $mount if ($options =~ /rw/);
++    }
++    close FSTAB;
+     unless ($dirs[0])
+     {
+ 	($rc, $choice) = $console->message_page
