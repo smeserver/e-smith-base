@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 30
+%define release 31
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -35,6 +35,7 @@ Patch24: e-smith-base-4.18.0-pamtemplate.patch2
 Patch25: e-smith-base-4.18.0-rcscript.patch
 Patch26: e-smith-base-4.18.0-logfile_rotation.patch
 Patch27: e-smith-base-4.18.0-service_re.patch
+Patch28: e-smith-base-4.18.0-no_kmodule.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_auth_external
@@ -76,6 +77,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Jun 19 2007 Charlie Brady <charlie_brady@mitel.com> 4.18.0-31
+- Have nonetworkdrivers script exit silently if kmodule bin not found.
+  [SME: 2549]
+
 * Thu May  3 2007 Charlie Brady <charlie_brady@mitel.com> 4.18.0-30
 - Fix service match RE in /sbin/e-smith/service. [SME: 2959]
 
@@ -1000,6 +1005,7 @@ e-smith server and gateway software - base module.
 %patch25 -p1
 %patch26 -p1
 %patch27 -p1
+%patch28 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
