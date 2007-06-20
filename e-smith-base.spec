@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 58
+%define release 59
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -54,6 +54,7 @@ Patch43: e-smith-base-4.18.0-raidfix.patch
 Patch44: e-smith-base-4.18.0-bootstrap.patch
 Patch45: e-smith-base-4.18.0-pamtemplate.patch3
 Patch46: e-smith-base-4.18.0-restoredev.patch
+Patch47: e-smith-base-4.18.0-no_kmodule.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-7
@@ -101,6 +102,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Jun 19 2007 Charlie Brady <charlie_brady@mitel.com> 4.18.0-59
+- Have nonetworkdrivers script exit silently if kmodule bin not found.
+  [SME: 2549]
+
 * Mon Jun 11 2007 Shad L. Lords <slords@mail.com> 4.18.0-58
 - Start messagebus/haldaemon so restore works [SME: 3058]
 
@@ -1134,6 +1139,7 @@ e-smith server and gateway software - base module.
 %patch44 -p1
 %patch45 -p1
 %patch46 -p1
+%patch47 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
