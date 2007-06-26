@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 59
+%define release 60
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -55,6 +55,7 @@ Patch44: e-smith-base-4.18.0-bootstrap.patch
 Patch45: e-smith-base-4.18.0-pamtemplate.patch3
 Patch46: e-smith-base-4.18.0-restoredev.patch
 Patch47: e-smith-base-4.18.0-no_kmodule.patch
+Patch48: e-smith-base-4-18-0-MovePam_d_ftpTemplates.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-7
@@ -102,6 +103,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Jun 26 2007 Gavin Weight <gweight@gmail.com> 4.18.0-60
+- Move the pam.d ftp/proftpd templates to e-smith-proftpd.
+  [SME: 2762]
+
 * Tue Jun 19 2007 Charlie Brady <charlie_brady@mitel.com> 4.18.0-59
 - Have nonetworkdrivers script exit silently if kmodule bin not found.
   [SME: 2549]
@@ -1140,6 +1145,7 @@ e-smith server and gateway software - base module.
 %patch45 -p1
 %patch46 -p1
 %patch47 -p1
+%patch48 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
@@ -1221,7 +1227,7 @@ mkdir -p root/etc/e-smith/templates/etc/dhcpc/dhcpcd.exe
 ln -s /etc/e-smith/templates-default/template-begin-shell \
       root/etc/e-smith/templates/etc/dhcpc/dhcpcd.exe/template-begin
 
-for file in ftp imap login passwd proftpd pwauth system-auth
+for file in imap login passwd pwauth system-auth
 do
     mkdir -p root/etc/e-smith/templates/etc/pam.d/$file
     ln -s /etc/e-smith/templates-default/template-begin-pam \
