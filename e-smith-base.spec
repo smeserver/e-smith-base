@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 60
+%define release 61
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -56,6 +56,7 @@ Patch45: e-smith-base-4.18.0-pamtemplate.patch3
 Patch46: e-smith-base-4.18.0-restoredev.patch
 Patch47: e-smith-base-4.18.0-no_kmodule.patch
 Patch48: e-smith-base-4-18-0-MovePam_d_ftpTemplates.patch
+Patch49: e-smith-base-4.18.0-usbback_errcheck.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-7
@@ -103,6 +104,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Thu Jun 28 2007 Shad L. Lords <slords@mail.com> 4.18.0-61
+- Improve usb backup error reporting [SME: 2772]
+
 * Tue Jun 26 2007 Gavin Weight <gweight@gmail.com> 4.18.0-60
 - Move the pam.d ftp/proftpd templates to e-smith-proftpd.
   [SME: 2762]
@@ -1146,6 +1150,7 @@ e-smith server and gateway software - base module.
 %patch46 -p1
 %patch47 -p1
 %patch48 -p1
+%patch49 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
