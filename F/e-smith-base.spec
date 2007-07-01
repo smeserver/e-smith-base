@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 61
+%define release 62
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -57,6 +57,7 @@ Patch46: e-smith-base-4.18.0-restoredev.patch
 Patch47: e-smith-base-4.18.0-no_kmodule.patch
 Patch48: e-smith-base-4-18-0-MovePam_d_ftpTemplates.patch
 Patch49: e-smith-base-4.18.0-usbback_errcheck.patch
+Patch50: e-smith-base-4.18.0-devicechk.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-7
@@ -104,6 +105,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sun Jul 1 2007 Shad L. Lords <slords@mail.com> 4.18.0-62
+- Clean up loop var and mount point for backup/restore [SME: 3116]
+
 * Thu Jun 28 2007 Shad L. Lords <slords@mail.com> 4.18.0-61
 - Improve usb backup error reporting [SME: 2772]
 
@@ -1151,6 +1155,7 @@ e-smith server and gateway software - base module.
 %patch47 -p1
 %patch48 -p1
 %patch49 -p1
+%patch50 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
