@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 62
+%define release 63
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -105,6 +105,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sun Jul 1 2007 Shad L. Lords <slords@mail.com> 4.18.0-62
+- Really clear devices variable [SME: 3116]
+
 * Sun Jul 1 2007 Shad L. Lords <slords@mail.com> 4.18.0-62
 - Clean up loop var and mount point for backup/restore [SME: 3116]
 
