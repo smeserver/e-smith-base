@@ -6,7 +6,7 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/usr/lib/perl5/site_per
      return unless $rc == 0;
      sleep(3);
 -    my @dirs;
-+    my @dirs = ();
++    my @dirs = 0;
      open(FSTAB, "</etc/fstab");
      while (<FSTAB>)
      {
@@ -18,7 +18,7 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/usr/lib/perl5/site_per
      }
      sleep(3);
 -    my @dirs;
-+    my @dirs = ();
++    my @dirs = 0;
      open(FSTAB, "</etc/fstab");
      while (<FSTAB>)
      {
