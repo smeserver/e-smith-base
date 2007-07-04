@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 63
+%define release 64
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -58,6 +58,7 @@ Patch47: e-smith-base-4.18.0-no_kmodule.patch
 Patch48: e-smith-base-4-18-0-MovePam_d_ftpTemplates.patch
 Patch49: e-smith-base-4.18.0-usbback_errcheck.patch
 Patch50: e-smith-base-4.18.0-devicechk.patch
+Patch51: e-smith-base-4.18.0-devicechk.patch2
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-7
@@ -105,7 +106,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
-* Sun Jul 1 2007 Shad L. Lords <slords@mail.com> 4.18.0-62
+* Wed Jul 04 2007 Charlie Brady <charlie_brady@mitel.com> 4.18.0-64
+- Really really clear devices variable [SME: 3116]
+
+* Sun Jul 1 2007 Shad L. Lords <slords@mail.com> 4.18.0-63
 - Really clear devices variable [SME: 3116]
 
 * Sun Jul 1 2007 Shad L. Lords <slords@mail.com> 4.18.0-62
@@ -1159,6 +1163,7 @@ e-smith server and gateway software - base module.
 %patch48 -p1
 %patch49 -p1
 %patch50 -p1
+%patch51 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
