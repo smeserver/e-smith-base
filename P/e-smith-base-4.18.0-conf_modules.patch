@@ -1,0 +1,37 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/etc/e-smith/events/actions/conf-modules mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/events/actions/conf-modules
+--- e-smith-base-4.18.0/root/etc/e-smith/events/actions/conf-modules	2007-08-03 14:42:46.000000000 -0400
++++ mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/events/actions/conf-modules	2007-08-03 14:42:07.000000000 -0400
+@@ -1,7 +1,7 @@
+ #!/usr/bin/perl -w
+ 
+ #----------------------------------------------------------------------
+-# copyright (C) 1999-2005 Mitel Networks Corporation
++# copyright (C) 1999-2007 Mitel Networks Corporation
+ # 
+ # This program is free software; you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+@@ -16,23 +16,19 @@
+ # You should have received a copy of the GNU General Public License
+ # along with this program; if not, write to the Free Software
+ # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+-# 
+-# Technical support for this program is available from Mitel Networks 
+-# Please visit our web site www.mitel.com/sme/ for details.
+ #----------------------------------------------------------------------
+ 
+ package esmith;
+ 
+ use strict;
+ use Errno;
+-use esmith::templates;
+ 
+ opendir(BOOT, "/boot") or die("Can't open /boot directory: $!\n");
+ 
+ while (defined (my $file = readdir(BOOT)))
+ {
+     next unless $file =~ /System.map-(.*)/;
+-    exec("/sbin/depmod", "-a", "-F", "/boot/System.map-$1", "$1")
++    system("/sbin/depmod", "-a", "-F", "/boot/System.map-$1", "$1")
+ }
+ closedir(BOOT) or die("Can't close /boot: $!\n");
+ 
