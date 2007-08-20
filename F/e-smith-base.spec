@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 64
+%define release 65
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
