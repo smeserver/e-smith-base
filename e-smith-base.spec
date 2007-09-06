@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 64
+%define release 66
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -59,6 +59,8 @@ Patch48: e-smith-base-4-18-0-MovePam_d_ftpTemplates.patch
 Patch49: e-smith-base-4.18.0-usbback_errcheck.patch
 Patch50: e-smith-base-4.18.0-devicechk.patch
 Patch51: e-smith-base-4.18.0-devicechk.patch2
+Patch52: e-smith-base-4.18.0-conf_modules.patch
+Patch53: e-smith-base-4.18.0-restoredev.patch2
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-7
@@ -106,6 +108,13 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Wed Aug 22 2007 Charlie Brady <charlie_brady@mitel.com> 4.18.0-66
+- Relax restrictions on restore devices, to allow CDR and DVDR.
+  [SME: 3126]
+
+* Fri Aug 03 2007 Charlie Brady <charlie_brady@mitel.com> 4.18.0-65
+- Ensure that depmod is run for all installed kernels. [SME: 3235]
+
 * Wed Jul 04 2007 Charlie Brady <charlie_brady@mitel.com> 4.18.0-64
 - Really really clear devices variable [SME: 3116]
 
@@ -1164,6 +1173,8 @@ e-smith server and gateway software - base module.
 %patch49 -p1
 %patch50 -p1
 %patch51 -p1
+%patch52 -p1
+%patch53 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq

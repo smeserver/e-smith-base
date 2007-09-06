@@ -1,0 +1,12 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/perform_restore.pm mezzanine_patched_e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/perform_restore.pm
+--- e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/perform_restore.pm	2007-08-22 19:44:15.000000000 -0400
++++ mezzanine_patched_e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/perform_restore.pm	2007-08-22 19:42:56.000000000 -0400
+@@ -49,7 +49,7 @@
+     {
+         next unless m:^(\S+)\s+(/media/\S+)\s+(\S+)\s+(\S+):;
+         my ($dev, $mount, $filesys, $options) = ($1, $2, $3, $4);
+-        push @dirs, $mount unless $mount =~ m{/floppy|/cd|/dvd};
++        push @dirs, $mount;
+     }
+     close FSTAB;
+     unless ($dirs[0])
