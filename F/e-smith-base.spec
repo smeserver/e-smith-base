@@ -109,7 +109,7 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
-* Fri Sep 07 2007 Charlie Brady <charlie_brady@mitel.com> 4.18.0-66
+* Fri Sep 07 2007 Charlie Brady <charlie_brady@mitel.com> 4.18.0-67
 - Fix pod in groups.pm file. [SME: 3379]
 
 * Wed Aug 22 2007 Charlie Brady <charlie_brady@mitel.com> 4.18.0-66
