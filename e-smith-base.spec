@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 66
+%define release 67
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -61,6 +61,7 @@ Patch50: e-smith-base-4.18.0-devicechk.patch
 Patch51: e-smith-base-4.18.0-devicechk.patch2
 Patch52: e-smith-base-4.18.0-conf_modules.patch
 Patch53: e-smith-base-4.18.0-restoredev.patch2
+Patch54: e-smith-base-4.18.0-groups.pm.pod.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-7
@@ -108,6 +109,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri Sep 07 2007 Charlie Brady <charlie_brady@mitel.com> 4.18.0-67
+- Fix pod in groups.pm file. [SME: 3379]
+
 * Wed Aug 22 2007 Charlie Brady <charlie_brady@mitel.com> 4.18.0-66
 - Relax restrictions on restore devices, to allow CDR and DVDR.
   [SME: 3126]
@@ -1175,6 +1179,7 @@ e-smith server and gateway software - base module.
 %patch51 -p1
 %patch52 -p1
 %patch53 -p1
+%patch54 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
