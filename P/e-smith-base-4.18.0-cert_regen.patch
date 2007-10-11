@@ -9,7 +9,7 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/etc/e-smith/templates/
 +    $defaultCity = substr($defaultCity, 0, 128); 
 +    $defaultCompany = substr($defaultCompany, 0, 64); 
 +    $defaultDepartment = substr($defaultDepartment, 0, 64); 
-+    $email = substr($email, 0, 40);
++    $email = substr($email, 0, 64);
 +    $commonName = substr($commonName, 0, 64);
 +
      if ( -f $crt )
