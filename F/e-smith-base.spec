@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 69
+%define release 71
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -64,6 +64,7 @@ Patch53: e-smith-base-4.18.0-restoredev.patch2
 Patch54: e-smith-base-4.18.0-groups.pm.pod.patch
 Patch55: e-smith-base-4.18.0-rename_apache2httpd.patch
 Patch56: e-smith-base-4.18.0-remove_httpd__logrotate.patch
+Patch57: e-smith-base-4.18.0-cert_regen.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-7
@@ -111,6 +112,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Thu Oct 11 2007 Charlie Brady <charlie_brady@mitel.com> 4.18.0-70
+- Fix comparison of expected to actual SSL cert data. [SME: 1736].
+
 * Tue Sep 11 2007 Gavin Weight <gweight@gmail.com> 4.18.0-69
 - Move httpd logrotate.d directory to e-smith-apache. [SME: 3380]
 
@@ -1190,6 +1194,7 @@ e-smith server and gateway software - base module.
 %patch54 -p1
 %patch55 -p1
 %patch56 -p1
+%patch57 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
