@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 71
+%define release 72
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -65,6 +65,7 @@ Patch54: e-smith-base-4.18.0-groups.pm.pod.patch
 Patch55: e-smith-base-4.18.0-rename_apache2httpd.patch
 Patch56: e-smith-base-4.18.0-remove_httpd__logrotate.patch
 Patch57: e-smith-base-4.18.0-cert_regen.patch
+Patch58: e-smith-base-4.18.0-useracc_text_adjust.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-7
@@ -112,9 +113,13 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
-* Thu Oct 11 2007 Charlie Brady <charlie_brady@mitel.com> 4.18.0-70
+* Sun Oct 14 2007 Gavin Weight <gweight@gmail.com> 4.18.0-72
+- Adjust success text when changing admin password. [SME: 2442]
+
+* Thu Oct 11 2007 Charlie Brady <charlie_brady@mitel.com> 4.18.0-71
 - Fix comparison of expected to actual SSL cert data. Also change
   truncation point for email address from 40 chars to 64. [SME: 1736].
+  [Note that -70 was inadvertently skipped.]
 
 * Tue Sep 11 2007 Gavin Weight <gweight@gmail.com> 4.18.0-69
 - Move httpd logrotate.d directory to e-smith-apache. [SME: 3380]
@@ -1196,6 +1201,7 @@ e-smith server and gateway software - base module.
 %patch55 -p1
 %patch56 -p1
 %patch57 -p1
+%patch58 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
