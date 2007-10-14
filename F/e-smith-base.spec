@@ -112,9 +112,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
-* Thu Oct 11 2007 Charlie Brady <charlie_brady@mitel.com> 4.18.0-70
+* Thu Oct 11 2007 Charlie Brady <charlie_brady@mitel.com> 4.18.0-71
 - Fix comparison of expected to actual SSL cert data. Also change
   truncation point for email address from 40 chars to 64. [SME: 1736].
+  [Note that -70 was inadvertently skipped.]
 
 * Tue Sep 11 2007 Gavin Weight <gweight@gmail.com> 4.18.0-69
 - Move httpd logrotate.d directory to e-smith-apache. [SME: 3380]
