@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 73
+%define release 75
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -114,6 +114,12 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri Nov 02 2007 Gavin Weight <gweight@gmail.com> 4.18.0-75
+- Remove previous change, applied to wrong package.  [SME: 3512]
+
+* Fri Nov 02 2007 Gavin Weight <gweight@gmail.com> 4.18.0-74
+- Add WPAD feature for DHCP (Thanks Hector Perez).  [SME: 3512]
+
 * Tue Oct 16 2007 Gavin Weight <gweight@gmail.com> 4.18.0-73
 - Make non-Removable pseudonyms point to admin when reassigned.  [SME: 2214]
 
