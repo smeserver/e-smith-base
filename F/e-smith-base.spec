@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 75
+%define release 76
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -67,6 +67,7 @@ Patch56: e-smith-base-4.18.0-remove_httpd__logrotate.patch
 Patch57: e-smith-base-4.18.0-cert_regen.patch
 Patch58: e-smith-base-4.18.0-useracc_text_adjust.patch
 Patch59: e-smith-base-4.18.0-non_Removable_pseudonyms.patch
+Patch60: e-smith-base-4.18.0-delete_forwarder.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-7
@@ -114,6 +115,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sun Nov 09 2007 Gavin Weight <gweight@gmail.com> 4.18.0-76
+- Fix removal of Corporate DNS from console.  [SME: 3532]
+
 * Fri Nov 02 2007 Gavin Weight <gweight@gmail.com> 4.18.0-75
 - Remove previous change, applied to wrong package.  [SME: 3512]
 
@@ -1213,6 +1217,7 @@ e-smith server and gateway software - base module.
 %patch57 -p1
 %patch58 -p1
 %patch59 -p1
+%patch60 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
