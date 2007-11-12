@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 76
+%define release 77
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -68,6 +68,7 @@ Patch57: e-smith-base-4.18.0-cert_regen.patch
 Patch58: e-smith-base-4.18.0-useracc_text_adjust.patch
 Patch59: e-smith-base-4.18.0-non_Removable_pseudonyms.patch
 Patch60: e-smith-base-4.18.0-delete_forwarder.patch
+Patch61: e-smith-base-4.18.0-part_size.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-7
@@ -115,7 +116,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
-* Sun Nov 09 2007 Gavin Weight <gweight@gmail.com> 4.18.0-76
+* Mon Nov 12 2007 Shad L. Lords <slords@mail.com> 4.18.0-77
+- Add fix for varying partition sizes in add_raid [SME: 3547]
+
+* Sun Nov 11 2007 Gavin Weight <gweight@gmail.com> 4.18.0-76
 - Fix removal of Corporate DNS from console.  [SME: 3532]
 
 * Fri Nov 02 2007 Gavin Weight <gweight@gmail.com> 4.18.0-75
@@ -1218,6 +1222,7 @@ e-smith server and gateway software - base module.
 %patch58 -p1
 %patch59 -p1
 %patch60 -p1
+%patch61 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq

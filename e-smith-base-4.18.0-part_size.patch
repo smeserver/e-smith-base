@@ -1,0 +1,13 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/sbin/e-smith/add_drive_to_raid mezzanine_patched_e-smith-base-4.18.0/root/sbin/e-smith/add_drive_to_raid
+--- e-smith-base-4.18.0/root/sbin/e-smith/add_drive_to_raid	2007-11-12 10:26:22.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.18.0/root/sbin/e-smith/add_drive_to_raid	2007-11-12 10:25:49.000000000 -0700
+@@ -109,7 +109,8 @@
+ 	@partitions = sort grep m#^$newdev.+$#, keys %partitions;
+ 	if ( $#devices == $#partitions ) {
+ 	    foreach my $part ( 0..($#devices-1) ) {
+-		$good &= $partitions{$partitions[$part]}{blocks} == $devices{$devices[$part]}{DeviceSize} + 64;
++		$good &= $partitions{$partitions[$part]}{blocks} >= $devices{$devices[$part]}{DeviceSize} + 64;
++		$good &= $partitions{$partitions[$part]}{blocks} <= $devices{$devices[$part]}{DeviceSize} + 68;
+ 		$good &= -b "/dev/$partitions[$part]" || 0;
+ 	    }
+ 	    $good &= $partitions{$partitions[$#devices]}{blocks} >= $devices{$devices[$#devices]}{DeviceSize} + 64;
