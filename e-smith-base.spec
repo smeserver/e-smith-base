@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 77
+%define release 78
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -116,6 +116,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sun Dec 16 2007 Gavin Weight <gweight@gmail.com> 4.18.0-78
+- Add symlink to fr-fr locale. [SME: 3648]
+
 * Mon Nov 12 2007 Shad L. Lords <slords@mail.com> 4.18.0-77
 - Add fix for varying partition sizes in add_raid [SME: 3547]
 
@@ -1294,7 +1297,8 @@ xgettext -o root/usr/share/locale/en_US/LC_MESSAGES/server-console.po root/sbin/
 
 mkdir -p root/etc/e-smith/locale
 # Make the fr-ca link in %pre to ease upgrades
-# ln -s fr root/etc/e-smith/locale/fr-ca 
+# ln -s fr root/etc/e-smith/locale/fr-ca
+ln -s fr root/etc/e-smith/locale/fr-fr 
 ln -s en-us root/etc/e-smith/locale/en
 ln -s en-us root/etc/e-smith/locale/en-au
 ln -s en-us root/etc/e-smith/locale/en-gb
