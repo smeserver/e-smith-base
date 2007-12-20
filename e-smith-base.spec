@@ -69,7 +69,7 @@ Patch58: e-smith-base-4.18.0-useracc_text_adjust.patch
 Patch59: e-smith-base-4.18.0-non_Removable_pseudonyms.patch
 Patch60: e-smith-base-4.18.0-delete_forwarder.patch
 Patch61: e-smith-base-4.18.0-part_size.patch
-Patch62: e-smith-base-4.18.0-passwdlock.patck
+Patch62: e-smith-base-4.18.0-passwdlock.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-7
