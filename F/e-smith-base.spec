@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 80
+%define release 81
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -71,6 +71,7 @@ Patch60: e-smith-base-4.18.0-delete_forwarder.patch
 Patch61: e-smith-base-4.18.0-part_size.patch
 Patch62: e-smith-base-4.18.0-passwdlock.patck
 Patch63: e-smith-base-4.18.0-smartd.patch
+Patch64: e-smith-base-4.18.0-smartdtemplates2expand.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-7
@@ -118,6 +119,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Dec 24 2007 Gavin Weight <gweight@gmail.com> 4.18.0-81
+- Link smartd.conf to bootstrap-save-console and console-save. [SME: 1445]
+
 * Mon Dec 24 2007 Stephen Noble <support@dungog.net> 4.18-80
 - Add smartd as a disabled service with template [SME: 1445]
 
@@ -1236,6 +1240,7 @@ e-smith server and gateway software - base module.
 %patch61 -p1
 %patch62 -p1
 %patch63 -p1
+%patch64 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
