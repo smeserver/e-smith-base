@@ -73,7 +73,7 @@ Patch62: e-smith-base-4.18.0-passwdlock.patch
 Patch63: e-smith-base-4.18.0-smartd.patch
 Patch64: e-smith-base-4.18.0-smartdtemplates2expand.patch
 Patch65: e-smith-base-4.18.0-consoleValidatePassword.patch
-Patch66: e-smith-email-4.16.0-backupstatus.patch
+Patch66: e-smith-base-4.18.0-backupstatus.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-7
