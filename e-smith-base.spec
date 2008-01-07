@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 82
+%define release 83
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -73,6 +73,7 @@ Patch62: e-smith-base-4.18.0-passwdlock.patch
 Patch63: e-smith-base-4.18.0-smartd.patch
 Patch64: e-smith-base-4.18.0-smartdtemplates2expand.patch
 Patch65: e-smith-base-4.18.0-consoleValidatePassword.patch
+Patch66: e-smith-base-4.18.0-backupstatus.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-7
@@ -120,6 +121,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sun Jan 06 2008 Stephen Noble <support@dungog.net> 4.18-83
+- ignore error returns from tar [SME: 3127]
+
 * Sun Jan 06 2008 Stephen Noble <support@dungog.net> 4.18-82
 - Use esmith::util::validatePassword on console [SME: 2173]
 
@@ -1246,6 +1250,7 @@ e-smith server and gateway software - base module.
 %patch63 -p1
 %patch64 -p1
 %patch65 -p1
+%patch66 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
