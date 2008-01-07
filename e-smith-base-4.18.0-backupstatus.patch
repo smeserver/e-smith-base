@@ -1,0 +1,13 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/perform_backup.pm mezzanine_patched_e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/perform_backup.pm
+--- e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/perform_backup.pm	2008-01-06 23:04:25.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/perform_backup.pm	2008-01-06 23:03:34.000000000 -0700
+@@ -103,8 +103,7 @@
+             exec qw(tar cf -), grep { -e $_ } @backup_list;
+         }
+         waitpid($tar, 0);
+-        $status |= $?;
+-        #warn "status from tar is $status\n" if $status;
++        warn "status from tar was $?\n" if $?;
+         unless (close PV)
+         {
+             $status |= $! ? $! : $?;
