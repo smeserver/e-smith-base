@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 83
+%define release 84
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -74,6 +74,7 @@ Patch63: e-smith-base-4.18.0-smartd.patch
 Patch64: e-smith-base-4.18.0-smartdtemplates2expand.patch
 Patch65: e-smith-base-4.18.0-consoleValidatePassword.patch
 Patch66: e-smith-base-4.18.0-backupstatus.patch
+Patch67: e-smith-base-4.18.0-usb-revDrive.patch 
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-7
@@ -121,6 +122,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Jan 08 2008 Stephen Noble <support@dungog.net> 4.18-84
+- Auto-mount USB REV-drive as usbdisk [SME: 2972]
+
 * Sun Jan 06 2008 Stephen Noble <support@dungog.net> 4.18-83
 - ignore error returns from tar [SME: 3127]
 
@@ -1251,6 +1255,7 @@ e-smith server and gateway software - base module.
 %patch64 -p1
 %patch65 -p1
 %patch66 -p1
+%patch67 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
