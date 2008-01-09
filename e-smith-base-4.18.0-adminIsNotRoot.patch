@@ -1,0 +1,21 @@
+ 
+--- e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm	2007-01-19 22:33:22.000000000 +0100
++++ e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm	2007-07-01 14:56:56.000000000 +0200
+@@ -1178,7 +1178,7 @@ 
+     my $self = shift;
+     my $pass = shift;
+ 
+-    if (esmith::util::authenticateUnixPassword('root', $pass))
++    if (esmith::util::authenticateUnixPassword( ($configdb->get_value("AdminIsNotRoot") eq 'enabled') ? 'admin' : 'root', $pass))
+     {
+         return "OK";
+     }
+@@ -1199,7 +1199,7 @@ 
+     my ($self) = @_;
+     my $pass = $self->{cgi}->param('pass');
+ 
+-    esmith::util::setUnixSystemPassword($pass);
++    ($configdb->get_value("AdminIsNotRoot") eq 'enabled') ? esmith::util::setUnixPassword('admin',$pass) : esmith::util::setUnixSystemPassword($pass);
+     esmith::util::setServerSystemPassword($pass);
+ 
+     my $result = system("/sbin/e-smith/signal-event password-modify admin");
