@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 84
+%define release 85
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -75,9 +75,10 @@ Patch64: e-smith-base-4.18.0-smartdtemplates2expand.patch
 Patch65: e-smith-base-4.18.0-consoleValidatePassword.patch
 Patch66: e-smith-base-4.18.0-backupstatus.patch
 Patch67: e-smith-base-4.18.0-usb-revDrive.patch 
+Patch68: e-smith-base-4.18.0-consoleValidateFirst.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
-Requires: e-smith-lib >= 1.18.0-7
+Requires: e-smith-lib >= 1.18.0-19
 Requires: server-manager-images, server-manager
 Requires: e-smith-formmagick >= 0.2.0
 Requires: initscripts >= 6.67-1es17
@@ -122,6 +123,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Jan 08 2008 Stephen Noble <support@dungog.net> 4.18-85
+- console to strength validate password choice on first entry [SME: 3131]
+
 * Tue Jan 08 2008 Stephen Noble <support@dungog.net> 4.18-84
 - Auto-mount USB REV-drive as usbdisk [SME: 2972]
 
@@ -1256,6 +1260,7 @@ e-smith server and gateway software - base module.
 %patch65 -p1
 %patch66 -p1
 %patch67 -p1
+%patch68 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
