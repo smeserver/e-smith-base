@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 85
+%define release 86
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -76,6 +76,8 @@ Patch65: e-smith-base-4.18.0-consoleValidatePassword.patch
 Patch66: e-smith-base-4.18.0-backupstatus.patch
 Patch67: e-smith-base-4.18.0-usb-revDrive.patch 
 Patch68: e-smith-base-4.18.0-consoleValidateFirst.patch
+Patch69: e-smith-base-4.18.0-MTU.patch
+
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-19
@@ -123,6 +125,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Wed Jan 09 2008 Stephen Noble <support@dungog.net> 4.18-86
+- pptp connections setting mtu/mru > 1400 [SME: 549]
+
 * Tue Jan 08 2008 Stephen Noble <support@dungog.net> 4.18-85
 - console to strength validate password choice on first entry [SME: 3131]
 
@@ -1261,6 +1266,7 @@ e-smith server and gateway software - base module.
 %patch66 -p1
 %patch67 -p1
 %patch68 -p1
+%patch69 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
