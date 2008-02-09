@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 88
+%define release 89
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -79,6 +79,7 @@ Patch68: e-smith-base-4.18.0-consoleValidateFirst.patch
 Patch69: e-smith-base-4.18.0-MTU.patch
 Patch70: e-smith-base-4.18.0-adminIsNotRoot.patch
 Patch71: e-smith-base-4.18.0-noMTU.patch
+Patch72: e-smith-base-4.18.0-ROUTER_DESC.patch
 
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
@@ -127,6 +128,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sat Feb 09 2008 Stephen Noble <support@dungog.net> 4.18-89
+- remove unused ROUTER_DESC token from lexicon [SME: 3879]
+
 * Sat Jan 12 2008 Shad L. Lords <slords@mail.com> 4.18-88
 - remove default of 1400 MTU for interfaces [SME: 549]
 
@@ -1277,6 +1281,7 @@ e-smith server and gateway software - base module.
 %patch69 -p1
 %patch70 -p1
 %patch71 -p1
+%patch72 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
