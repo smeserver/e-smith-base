@@ -1,0 +1,15 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/localnetworks mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/localnetworks
+--- e-smith-base-4.18.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/localnetworks	2005-11-21 15:28:05.000000000 +1100
++++ mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/localnetworks	2008-02-09 21:53:34.000000000 +1100
+@@ -190,11 +190,6 @@
+         <trans>Action</trans>
+     </entry>
+     <entry>
+-        <base>ROUTER_DESC</base>
+-        <trans>
+-        </trans>
+-    </entry>
+-    <entry>
+         <base>CANCEL</base>
+         <trans>Cancel</trans>
+     </entry>
