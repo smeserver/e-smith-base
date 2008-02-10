@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 89
+%define release 90
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -80,6 +80,7 @@ Patch69: e-smith-base-4.18.0-MTU.patch
 Patch70: e-smith-base-4.18.0-adminIsNotRoot.patch
 Patch71: e-smith-base-4.18.0-noMTU.patch
 Patch72: e-smith-base-4.18.0-ROUTER_DESC.patch
+Patch73: e-smith-base-4.18.0-rmDuplicates.patch
 
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
@@ -128,6 +129,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sun Feb 10 2008 Stephen Noble <support@dungog.net> 4.18-90
+- Remove duplicate <base> entries [SME: 3894]
+
 * Sat Feb 09 2008 Stephen Noble <support@dungog.net> 4.18-89
 - remove unused ROUTER_DESC token from lexicon [SME: 3879]
 
@@ -1282,6 +1286,7 @@ e-smith server and gateway software - base module.
 %patch70 -p1
 %patch71 -p1
 %patch72 -p1
+%patch73 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
