@@ -1,0 +1,130 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/localnetworks mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/localnetworks
+--- e-smith-base-4.18.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/localnetworks	2008-02-10 11:19:05.000000000 +1100
++++ mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/localnetworks	2008-02-10 11:17:26.000000000 +1100
+@@ -2,7 +2,7 @@
+     <!-- vim: ft=xml:
+     -->
+     <entry>
+-        <base>FORM_TITLE</base>
++        <base>Local networks</base>
+         <trans>Local networks</trans>
+     </entry>
+     <entry>
+@@ -43,10 +43,6 @@
+         <trans>Subnet mask</trans>
+     </entry>
+     <entry>
+-        <base>ROUTER</base>
+-        <trans>Router</trans>
+-    </entry>
+-    <entry>
+         <base>INVALID_IP_ADDRESS</base>
+         <trans>Invalid IP address</trans>
+     </entry>
+@@ -71,18 +67,6 @@
+         <trans>default</trans>
+     </entry>
+     <entry>
+-        <base>ADD</base>
+-        <trans>Add</trans>
+-    </entry>
+-    <entry>
+-        <base>REMOVE</base>
+-        <trans>Remove</trans>
+-    </entry>
+-    <entry>
+-        <base>NETWORK</base>
+-        <trans>Network</trans>
+-    </entry>
+-    <entry>
+         <base>NUMBER_OF_HOSTS</base>
+         <trans>Number of hosts</trans>
+     </entry>
+@@ -178,22 +162,10 @@
+         <trans>Security</trans>
+     </entry>
+     <entry>
+-        <base>Local networks</base>
+-        <trans>Local networks</trans>
+-    </entry>
+-    <entry>
+         <base>NO_ADDITIONAL_NETWORKS</base>
+         <trans>No additional networks</trans>
+     </entry>
+     <entry>
+-        <base>ACTION</base>
+-        <trans>Action</trans>
+-    </entry>
+-    <entry>
+-        <base>CANCEL</base>
+-        <trans>Cancel</trans>
+-    </entry>
+-    <entry>
+         <base>REMOVE_HOSTS_DESC</base>
+         <trans>
+             Local hosts configured on the network you are about to remove have
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/review mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/review
+--- e-smith-base-4.18.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/review	2005-11-21 15:28:05.000000000 +1100
++++ mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/review	2008-02-10 11:14:02.000000000 +1100
+@@ -1,6 +1,6 @@
+ <lexicon lang="en-us">
+     <entry>
+-        <base>FORM_TITLE</base>
++        <base>Review configuration</base>
+         <trans>Review configuration</trans>
+     </entry>	
+     <entry>
+@@ -111,15 +111,6 @@
+         <base>NO_NETWORKS</base>
+         <trans>No additional networks defined</trans>
+     </entry>
+-
+-    <entry>
+-        <base>Configuration</base>
+-        <trans>Configuration</trans>
+-    </entry>
+-    <entry>
+-        <base>Review configuration</base>
+-        <trans>Review configuration</trans>
+-    </entry>
+     <entry>
+         <base>INTERNET_VISIBLE_ADDRESS</base>
+         <trans>Internet Visible IP Address</trans>
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/useraccounts mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/useraccounts
+--- e-smith-base-4.18.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/useraccounts	2008-02-10 11:19:05.000000000 +1100
++++ mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/useraccounts	2008-02-10 11:12:42.000000000 +1100
+@@ -127,10 +127,6 @@
+         <trans>Street address</trans>
+     </entry>
+     <entry>
+-        <base>DEPARTMENT</base>
+-        <trans>Department</trans>
+-    </entry>
+-    <entry>
+         <base>CITY</base>
+         <trans>City</trans>
+     </entry>
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/etc/e-smith/web/functions/localnetworks mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/web/functions/localnetworks
+--- e-smith-base-4.18.0/root/etc/e-smith/web/functions/localnetworks	2006-03-15 03:20:43.000000000 +1100
++++ mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/web/functions/localnetworks	2008-02-10 11:17:38.000000000 +1100
+@@ -124,7 +124,7 @@
+ 
+ 
+ __DATA__
+-<form title="FORM_TITLE" header="/etc/e-smith/web/common/head.tmpl" footer="/etc/e-smith/web/common/foot.tmpl">
++<form title="Local networks" header="/etc/e-smith/web/common/head.tmpl" footer="/etc/e-smith/web/common/foot.tmpl">
+     <page name="First" pre-event="print_status_message()">
+         <description>FIRSTPAGE_DESC</description>
+         <subroutine src="print_network_table()" />
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/etc/e-smith/web/functions/review mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/web/functions/review
+--- e-smith-base-4.18.0/root/etc/e-smith/web/functions/review	2005-11-21 15:28:10.000000000 +1100
++++ mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/web/functions/review	2008-02-10 11:14:14.000000000 +1100
+@@ -68,7 +68,7 @@
+ =cut
+ 
+ __DATA__
+-<form title="FORM_TITLE" header="/etc/e-smith/web/common/head.tmpl" footer="/etc/e-smith/web/common/foot.tmpl">
++<form title="Review configuration" header="/etc/e-smith/web/common/head.tmpl" footer="/etc/e-smith/web/common/foot.tmpl">
+     <page name="First"  post-event="change_settings()" pre-event="turn_off_buttons()">
+       <description>DESCRIPTION</description>
+ 
