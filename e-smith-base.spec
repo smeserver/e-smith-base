@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 90
+%define release 92
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -81,12 +81,14 @@ Patch70: e-smith-base-4.18.0-adminIsNotRoot.patch
 Patch71: e-smith-base-4.18.0-noMTU.patch
 Patch72: e-smith-base-4.18.0-ROUTER_DESC.patch
 Patch73: e-smith-base-4.18.0-rmDuplicates.patch
+Patch74: e-smith-base-4.18.0-tags2general.patch
+Patch75: e-smith-base-4.18.0-useracc_single_char-fix.patch
 
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-19
 Requires: server-manager-images, server-manager
-Requires: e-smith-formmagick >= 0.2.0
+Requires: e-smith-formmagick >= 1.4.0-9
 Requires: initscripts >= 6.67-1es17
 Requires: e-smith-daemontools >= 1.7.1-04
 Requires: perl(Locale::gettext)
@@ -129,6 +131,13 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Wed Feb 13 2008 chris burnat <devlist@burnat.com> 4.18-92
+- Fix creation of usernames and pseudonyms with one character
+- [SME: 2451]
+
+* Wed Feb 13 2008 Stephen Noble <support@dungog.net> 4.18-91
+- Remove <base> tags now in general [SME: 3911]
+
 * Sun Feb 10 2008 Stephen Noble <support@dungog.net> 4.18-90
 - Remove duplicate <base> entries [SME: 3894]
 
@@ -1287,6 +1296,8 @@ e-smith server and gateway software - base module.
 %patch71 -p1
 %patch72 -p1
 %patch73 -p1
+%patch74 -p1
+%patch75 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
