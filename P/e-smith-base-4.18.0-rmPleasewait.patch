@@ -1,0 +1,33 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/etc/e-smith/web/functions/pleasewait mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/web/functions/pleasewait
+--- e-smith-base-4.18.0/root/etc/e-smith/web/functions/pleasewait	2005-11-21 15:28:10.000000000 +1100
++++ mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/web/functions/pleasewait	1970-01-01 10:00:00.000000000 +1000
+@@ -1,29 +0,0 @@
+-#!/bin/sh
+-
+-case $HTTP_ACCEPT_LANGUAGE in
+-    de*)        PLEASEWAIT="Bitte einen Moment warten..." ;;
+-    es*)	PLEASEWAIT="Espere un momento..."	;;
+-    fr*)	PLEASEWAIT="Veuillez patienter..."	;;
+-    it*)	PLEASEWAIT="Attendere..." ;; 
+-    *)		PLEASEWAIT="Please wait a moment..."	;;
+-esac
+-
+-
+-cat <<EndOfPleaseWaitHTML
+-Expires: 0
+-Refresh: 1; URL=$QUERY_STRING
+-Content-type: text/html
+-
+-<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+-
+-<HTML>
+-<HEAD>
+-  <META HTTP-EQUIV="refresh" CONTENT="1;URL=$QUERY_STRING">
+-<TITLE>server manager</TITLE>
+-<LINK REL="stylesheet" TYPE="text/css" HREF="/server-common/css/sme_core.css">
+-</HEAD>
+-<BODY TOPMARGIN="0" LEFTMARGIN="0" MARGINHEIGHT="0" MARGINWIDTH="0">
+-<BR><center><H2>${PLEASEWAIT}</H2></center>
+-</BODY>
+-</HTML>
+-EndOfPleaseWaitHTML
