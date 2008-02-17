@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 92
+%define release 93
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -83,6 +83,7 @@ Patch72: e-smith-base-4.18.0-ROUTER_DESC.patch
 Patch73: e-smith-base-4.18.0-rmDuplicates.patch
 Patch74: e-smith-base-4.18.0-tags2general.patch
 Patch75: e-smith-base-4.18.0-useracc_single_char-fix.patch
+Patch76: e-smith-base-4.18.0-gettextErrors.patch
 
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
@@ -131,6 +132,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sun Feb 17 2008 Stephen Noble <support@dungog.net> 4.18-93
+- fix gettext formatting in three files [SME: 3938]
+
 * Wed Feb 13 2008 chris burnat <devlist@burnat.com> 4.18-92
 - Fix creation of usernames and pseudonyms with one character
 - [SME: 2451]
@@ -1298,6 +1302,7 @@ e-smith server and gateway software - base module.
 %patch73 -p1
 %patch74 -p1
 %patch75 -p1
+%patch76 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
