@@ -1,0 +1,39 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/sbin/e-smith/console-menu-items/manageRAID.pl mezzanine_patched_e-smith-base-4.18.0/root/sbin/e-smith/console-menu-items/manageRAID.pl
+--- e-smith-base-4.18.0/root/sbin/e-smith/console-menu-items/manageRAID.pl	2008-02-17 11:01:13.000000000 +1100
++++ mezzanine_patched_e-smith-base-4.18.0/root/sbin/e-smith/console-menu-items/manageRAID.pl	2008-02-17 11:00:02.000000000 +1100
+@@ -150,7 +150,7 @@
+     my $cmd_out = qx( @cmd 2>&1 );
+     unless ($? == 0)
+     {
+-        $text = gettext("The command @cmd failed:") .
++        $text = gettext("The command failed:") . " @cmd" .
+                 "\n\n" . $cmd_out . "\n\n" .
+                 gettext("This configuration is not yet fully supported in these screens.");
+ 
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/perform_restore.pm mezzanine_patched_e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/perform_restore.pm
+--- e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/perform_restore.pm	2008-02-17 11:01:13.000000000 +1100
++++ mezzanine_patched_e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/perform_restore.pm	2008-02-17 10:59:32.000000000 +1100
+@@ -105,7 +105,8 @@
+         (
+          title => gettext("Start restore from backup"),
+          text  =>
+-         gettext("Backup file $device/smeserver.tgz (size $size bytes) found") .
++         gettext("Backup file found:") . " $device/smeserver.tgz " .
++         gettext("size") . " $size " . gettext("bytes") .
+          "\n\n" .
+          gettext("Do you wish to restore from this file?"),
+         );
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/system_password.pm mezzanine_patched_e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/system_password.pm
+--- e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/system_password.pm	2008-02-17 11:01:14.000000000 +1100
++++ mezzanine_patched_e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/system_password.pm	2008-02-17 03:15:18.000000000 +1100
+@@ -95,8 +95,8 @@
+             (
+              title => gettext("Bad Password Choice"),
+              text  =>
+-             gettext("The password you have chosen is not a good choice, because") .
+-             gettext( " $reason" ) . "." .
++             gettext("The password you have chosen is not a good choice, because ") .
++             gettext($reason) . "." .
+              "\n\n" .
+              gettext("Do you wish to choose a better one?"),
+             );
