@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 96
+%define release 97
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -87,6 +87,7 @@ Patch76: e-smith-base-4.18.0-gettextErrors.patch
 Patch77: e-smith-base-4.18.0-rmPleasewait.patch
 Patch78: e-smith-base-4.18.0-gettextErrors.patch2
 Patch79: e-smith-base-4.18.0-rmDuplicates.patch2
+Patch80: e-smith-base-4.18.0-gettextStrings.patch
 
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
@@ -135,6 +136,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sat Mar 07 2008 Stephen Noble <support@dungog.net> 4.18-97
+- gettext messages [SME: 631]
+
 * Sat Mar 07 2008 Stephen Noble <support@dungog.net> 4.18-96
 - remove duplicate system password has been changed [SME: 3974]
 
@@ -1318,6 +1322,7 @@ e-smith server and gateway software - base module.
 %patch77 -p1
 %patch78 -p1
 %patch79 -p1
+%patch80 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
