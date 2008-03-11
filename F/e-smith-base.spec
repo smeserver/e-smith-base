@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 98
+%define release 99
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -88,7 +88,7 @@ Patch77: e-smith-base-4.18.0-rmPleasewait.patch
 Patch78: e-smith-base-4.18.0-gettextErrors.patch2
 Patch79: e-smith-base-4.18.0-rmDuplicates.patch2
 Patch80: e-smith-base-4.18.0-gettextStrings.patch2
-
+Patch81: e-smith-base-4.18.0-customDynDNS.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-19
@@ -136,6 +136,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sat Mar 10 2008 Shad L. Lords <slords@mail.com> 4.18-99
+- Fix dyndns custom gettext [SME: 4032]
+
 * Sat Mar 07 2008 Stephen Noble <support@dungog.net> 4.18-98
 - revised gettext messages [SME: 631]
 
@@ -1326,6 +1329,7 @@ e-smith server and gateway software - base module.
 %patch78 -p1
 %patch79 -p1
 %patch80 -p1
+%patch81 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
