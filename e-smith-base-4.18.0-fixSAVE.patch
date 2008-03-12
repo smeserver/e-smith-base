@@ -1,0 +1,38 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/groups mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/groups
+--- e-smith-base-4.18.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/groups	2008-03-12 09:49:10.000000000 -0600
++++ mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/groups	2008-03-12 09:47:47.000000000 -0600
+@@ -81,14 +81,6 @@
+         <trans>Error: That is not an existing group account.</trans>
+     </entry>
+     <entry>
+-        <base>SAVE</base>
+-        <trans>Add</trans>
+-    </entry>
+-    <entry>
+-        <base>MODIFY_SAVE</base>
+-        <trans>Save</trans>
+-    </entry>
+-    <entry>
+         <base>GROUP_NAME</base>
+         <trans>Group Name</trans>
+     </entry>
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/etc/e-smith/web/functions/groups mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/web/functions/groups
+--- e-smith-base-4.18.0/root/etc/e-smith/web/functions/groups	2005-11-20 21:28:10.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/web/functions/groups	2008-03-12 09:47:39.000000000 -0600
+@@ -123,7 +123,7 @@
+             <description>GROUP_DESC_EXPL</description>
+         </field>
+         <subroutine src="genUsers()"/>
+-        <subroutine src="print_button('SAVE')" />
++        <subroutine src="print_button('ADD')" />
+     </page>
+     <page name="Delete"  pre-event="turn_off_buttons()" 
+         post-event="delete_group()">
+@@ -144,6 +144,6 @@
+             <label>GROUP_DESC</label>
+         </field>
+         <subroutine src="genUsers()"/>
+-        <subroutine src="print_button('MODIFY_SAVE')" />
++        <subroutine src="print_button('SAVE')" />
+     </page>
+ </form>
