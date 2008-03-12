@@ -137,7 +137,7 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
-* Wed Mar 12 2008 Shad L. Lords <slords@mail.com> 4.18.0-99
+* Wed Mar 12 2008 Shad L. Lords <slords@mail.com> 4.18.0-100
 - Cleanup SAVE/ADD tag mixup [SME: 4045]
 
 * Sat Mar 10 2008 Shad L. Lords <slords@mail.com> 4.18-99
