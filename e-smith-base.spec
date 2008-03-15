@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 101
+%define release 102
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -91,6 +91,7 @@ Patch80: e-smith-base-4.18.0-gettextStrings.patch2
 Patch81: e-smith-base-4.18.0-customDynDNS.patch
 Patch82: e-smith-base-4.18.0-fixSAVE.patch
 Patch83: e-smith-base-4.18.0-test_FORM_TITLE.patch
+Patch84: e-smith-base-4.18.0-translationfix.patch 
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-19
@@ -138,6 +139,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sat Mar 10 2008 Stephen Noble <support@dungog.net> 4.18-102
+- Minor translation fixes [SME: 4058] [SME: 4059]
+
 * Wed Mar 12 2008 Shad L. Lords <slords@mail.com> 4.18.0-101
 - Remove tests for removed FORM_TITLE's [SME: 4050]
 
@@ -1340,6 +1344,7 @@ e-smith server and gateway software - base module.
 %patch81 -p1
 %patch82 -p1
 %patch83 -p1
+%patch84 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
