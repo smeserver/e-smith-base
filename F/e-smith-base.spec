@@ -139,7 +139,7 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
-* Sat Mar 10 2008 Stephen Noble <support@dungog.net> 4.18-102
+* Sat Mar 10 2008 Stephen Noble <support@dungog.net> 4.18.0-102
 - Minor translation fixes [SME: 4058] [SME: 4059]
 
 * Wed Mar 12 2008 Shad L. Lords <slords@mail.com> 4.18.0-101
