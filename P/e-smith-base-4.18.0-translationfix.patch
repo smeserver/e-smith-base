@@ -1,0 +1,24 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/remoteaccess mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/remoteaccess
+--- e-smith-base-4.18.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/remoteaccess	2008-03-15 12:13:23.000000000 +1100
++++ mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/remoteaccess	2008-03-15 12:07:26.000000000 +1100
+@@ -147,7 +147,7 @@
+ 	<base>VALIDFROM_DESC</base>
+ 	<trans>
+ 	    <![CDATA[ <hr class="sectionbar" /><h2>{$REMOTE_MANAGEMENT}</h2>
+-	    <P>It is possible to allow hosts on remote networks to access the
++	    <p>It is possible to allow hosts on remote networks to access the
+ 		server manager by entering those networks here. Use a subnet
+ 		mask of 255.255.255.255 to limit the access to the specified host.
+ 		Any hosts within the specified range will be able to access the
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/useraccounts mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/useraccounts
+--- e-smith-base-4.18.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/useraccounts	2008-03-15 12:13:23.000000000 +1100
++++ mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/useraccounts	2008-03-15 12:11:30.000000000 +1100
+@@ -206,7 +206,7 @@
+         <base>PSEUDONYM_CLASH</base>
+         <trans>Error: the pseudonym "{$pseudonym}" is already taken by the
+             existing user account "{$clashName}".  To differentiate, add
+-            initials to this field."</trans>
++            initials to this field.</trans>
+     </entry>
+     <entry>
+         <base>RESET_PASSWORD</base>
