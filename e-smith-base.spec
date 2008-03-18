@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 102
+%define release 103
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -92,6 +92,7 @@ Patch81: e-smith-base-4.18.0-customDynDNS.patch
 Patch82: e-smith-base-4.18.0-fixSAVE.patch
 Patch83: e-smith-base-4.18.0-test_FORM_TITLE.patch
 Patch84: e-smith-base-4.18.0-translationfix.patch 
+Patch85: e-smith-base-4.18.0-gettextConsole.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-19
@@ -139,6 +140,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Mar 18 2008 Shad L. Lords <slords@mail.com> 4.18.0-103
+- Add gettext to console titles.
+
 * Sat Mar 15 2008 Stephen Noble <support@dungog.net> 4.18.0-102
 - Minor translation fixes [SME: 4058] [SME: 4059]
 
@@ -1345,6 +1349,7 @@ e-smith server and gateway software - base module.
 %patch82 -p1
 %patch83 -p1
 %patch84 -p1
+%patch85 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq

@@ -1,0 +1,96 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/sbin/e-smith/console-menu-items/manageRAID.pl mezzanine_patched_e-smith-base-4.18.0/root/sbin/e-smith/console-menu-items/manageRAID.pl
+--- e-smith-base-4.18.0/root/sbin/e-smith/console-menu-items/manageRAID.pl	2008-03-18 16:18:06.000000000 -0600
++++ mezzanine_patched_e-smith-base-4.18.0/root/sbin/e-smith/console-menu-items/manageRAID.pl	2008-03-18 16:11:35.000000000 -0600
+@@ -12,7 +12,7 @@
+ {
+     my $class = shift;
+     my $self = {
+-		    name => "Manage disk redundancy",
++		    name => gettext("Manage disk redundancy"),
+ 		    order => 45,
+ 		};
+     bless $self, $class;
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/sbin/e-smith/console-menu-items/reboot.pl mezzanine_patched_e-smith-base-4.18.0/root/sbin/e-smith/console-menu-items/reboot.pl
+--- e-smith-base-4.18.0/root/sbin/e-smith/console-menu-items/reboot.pl	2007-01-26 18:56:31.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.18.0/root/sbin/e-smith/console-menu-items/reboot.pl	2008-03-18 16:12:20.000000000 -0600
+@@ -8,7 +8,7 @@
+ {
+     my $class = shift;
+     my $self = {
+-		    name => "Reboot, reconfigure or shut down this server",
++		    name => gettext("Reboot, reconfigure or shut down this server"),
+ 		    order => 40,
+ 		};
+     bless $self, $class;
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/sbin/e-smith/console-menu-items/serverManager.pl mezzanine_patched_e-smith-base-4.18.0/root/sbin/e-smith/console-menu-items/serverManager.pl
+--- e-smith-base-4.18.0/root/sbin/e-smith/console-menu-items/serverManager.pl	2007-01-26 18:56:31.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.18.0/root/sbin/e-smith/console-menu-items/serverManager.pl	2008-03-18 16:12:45.000000000 -0600
+@@ -8,7 +8,7 @@
+ {
+     my $class = shift;
+     my $self = {
+-		    name => "Access server manager",
++		    name => gettext("Access server manager"),
+ 		    order => 50,
+ 		};
+     bless $self, $class;
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/sbin/e-smith/console-menu-items/status.pl mezzanine_patched_e-smith-base-4.18.0/root/sbin/e-smith/console-menu-items/status.pl
+--- e-smith-base-4.18.0/root/sbin/e-smith/console-menu-items/status.pl	2007-01-26 18:56:31.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.18.0/root/sbin/e-smith/console-menu-items/status.pl	2008-03-18 16:13:06.000000000 -0600
+@@ -8,7 +8,7 @@
+ {
+     my $class = shift;
+     my $self = {
+-		    name => "Check status of this server",
++		    name => gettext("Check status of this server"),
+ 		    order => 10,
+ 		};
+     bless $self, $class;
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/sbin/e-smith/console-menu-items/support.pl mezzanine_patched_e-smith-base-4.18.0/root/sbin/e-smith/console-menu-items/support.pl
+--- e-smith-base-4.18.0/root/sbin/e-smith/console-menu-items/support.pl	2007-01-26 18:56:31.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.18.0/root/sbin/e-smith/console-menu-items/support.pl	2008-03-18 16:13:35.000000000 -0600
+@@ -8,7 +8,7 @@
+ {
+     my $class = shift;
+     my $self = {
+-		    name => "View support and licensing information",
++		    name => gettext("View support and licensing information"),
+ 		    order => 60,
+ 		};
+     bless $self, $class;
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm mezzanine_patched_e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm
+--- e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm	2008-03-18 16:18:06.000000000 -0600
++++ mezzanine_patched_e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm	2008-03-18 16:15:25.000000000 -0600
+@@ -16,7 +16,7 @@
+ {
+     my $class = shift;
+     my $self = {
+-		    name => "Configure this server",
++		    name => gettext("Configure this server"),
+ 		    order => 20,
+ 		    bootstrap => 0,
+ 		    @_,
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/perform_backup.pm mezzanine_patched_e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/perform_backup.pm
+--- e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/perform_backup.pm	2008-03-18 16:18:06.000000000 -0600
++++ mezzanine_patched_e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/perform_backup.pm	2008-03-18 16:16:14.000000000 -0600
+@@ -13,7 +13,7 @@
+ {
+     my $class = shift;
+     my $self = {
+-		    name => "Perform backup to USB device",
++		    name => gettext("Perform backup to USB device"),
+ 		    order => 80,
+ 		};
+     bless $self, $class;
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/quitConsole.pm mezzanine_patched_e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/quitConsole.pm
+--- e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/quitConsole.pm	2008-03-18 16:18:05.000000000 -0600
++++ mezzanine_patched_e-smith-base-4.18.0/root/usr/lib/perl5/site_perl/esmith/console/quitConsole.pm	2008-03-18 16:16:52.000000000 -0600
+@@ -7,7 +7,7 @@
+ {
+     my $class = shift;
+     my $self = {
+-		    name => "Exit from the server console",
++		    name => gettext("Exit from the server console"),
+ 		    order => 100,
+ 		};
+     bless $self, $class;
