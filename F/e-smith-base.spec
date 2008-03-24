@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.0
-%define release 103
+%define release 104
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -93,6 +93,7 @@ Patch82: e-smith-base-4.18.0-fixSAVE.patch
 Patch83: e-smith-base-4.18.0-test_FORM_TITLE.patch
 Patch84: e-smith-base-4.18.0-translationfix.patch 
 Patch85: e-smith-base-4.18.0-gettextConsole.patch
+Patch86: e-smith-base-4.18.0-rmPleasewait.patch2
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-19
@@ -140,6 +141,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Mar 24 2008 Shad L. Lords <slords@mail.com> 4.18.0-104
+- Finish removing pleasewait [SME: 126]
+
 * Tue Mar 18 2008 Shad L. Lords <slords@mail.com> 4.18.0-103
 - Add gettext to console titles. [SME: 4089]
 
@@ -1350,6 +1354,7 @@ e-smith server and gateway software - base module.
 %patch83 -p1
 %patch84 -p1
 %patch85 -p1
+%patch86 -p1
 
 rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
 rm -rf root/etc/e-smith/templates/etc/identd.masq
@@ -1398,7 +1403,7 @@ echo "disabled" >  root/etc/e-smith/db/configuration/defaults/apmd/status
 %endif
 
 LEXICONS=$(find root/etc/e-smith/web/{functions,panels/password/cgi-bin} \
-    -type f | grep -v CVS | grep -v pleasewait)
+    -type f | grep -v CVS)
 
 for lexicon in $LEXICONS
 do
