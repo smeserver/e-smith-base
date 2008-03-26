@@ -1,5 +1,0 @@
-diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/etc/e-smith/templates/etc/elinks.conf/10obey_cache_control mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates/etc/elinks.conf/10obey_cache_control
---- e-smith-base-4.18.0/root/etc/e-smith/templates/etc/elinks.conf/10obey_cache_control	1969-12-31 19:00:00.000000000 -0500
-+++ mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates/etc/elinks.conf/10obey_cache_control	2007-02-07 15:48:50.000000000 -0500
-@@ -0,0 +1 @@
-+set document.cache.ignore_cache_control = 0

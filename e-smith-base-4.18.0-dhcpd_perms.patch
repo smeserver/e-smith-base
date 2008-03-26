@@ -1,7 +1,0 @@
-diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.0/root/etc/e-smith/templates.metadata/etc/dhcpd.conf mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates.metadata/etc/dhcpd.conf
---- e-smith-base-4.18.0/root/etc/e-smith/templates.metadata/etc/dhcpd.conf	1969-12-31 17:00:00.000000000 -0700
-+++ mezzanine_patched_e-smith-base-4.18.0/root/etc/e-smith/templates.metadata/etc/dhcpd.conf	2007-04-06 15:06:38.000000000 -0600
-@@ -0,0 +1,3 @@
-+PERMS=0644
-+UID="root"
-+GID="root"
