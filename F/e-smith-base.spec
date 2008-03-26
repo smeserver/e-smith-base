@@ -1,99 +1,13 @@
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
-%define version 4.18.0
-%define release 104
+%define version 4.18.1
+%define release 1
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
-Patch1: e-smith-base-4.18.0-backtitle.patch
-Patch2: e-smith-base-4.18.0-consolebackup.patch
-Patch3: e-smith-base-4.18.0-backupcancel.patch
-Patch4: e-smith-base-4.18.0-gatewaydev.patch
-Patch5: e-smith-base-4.18.0-elinks_caching.patch
-Patch6: e-smith-base-4.18.0-unused_templates.patch
-Patch7: e-smith-base-4.18.0-backuphome.patch
-Patch8: e-smith-base-4.18.0-mediaglob.patch
-Patch9: e-smith-base-4.18.0-setbeforeexpand.patch
-Patch10: e-smith-base-4.18.0-runit17.patch
-Patch11: e-smith-base-4.18.0-infobox.patch
-Patch12: e-smith-base-4.18.0-infobox.patch2
-Patch13: e-smith-base-4.18.0-mediaglob.patch2
-Patch14: e-smith-base-4.18.0-run.static.patch
-Patch15: e-smith-base-4.18.0-ethdriver.patch
-Patch16: e-smith-base-4.18.0-ethdriver.patch2
-Patch17: e-smith-base-4.18.0-ethdriver.patch3
-Patch18: e-smith-base-4.18.0-ethdriver.patch4
-Patch19: e-smith-base-4.18.0-raid_no.patch
-Patch20: e-smith-base-4.18.0-commonname.patch
-Patch21: e-smith-base-4.18.0-noutf.patch
-Patch22: e-smith-base-4.18.0-commonname.patch2
-Patch23: e-smith-base-4.18.0-pamtemplate.patch
-Patch24: e-smith-base-4.18.0-pamtemplate.patch2
-Patch25: e-smith-base-4.18.0-rcscript.patch
-Patch26: e-smith-base-4.18.0-logfile_rotation.patch
-Patch27: e-smith-base-4.18.0-login_pam.patch
-Patch28: e-smith-base-4.18.0-depmod.patch
-Patch29: e-smith-base-4.18.0-perms.patch
-Patch30: e-smith-base-4.18.0-dhcpd_perms.patch
-Patch31: e-smith-base-4.18.0-noraid.patch
-Patch32: e-smith-base-4.18.0-suborder.patch
-Patch33: e-smith-base-4.18.0-standby.patch
-Patch34: e-smith-base-4.18.0-usbback.patch
-Patch35: e-smith-base-4.18.0-remoteaccess.pmfm2self.patch
-Patch36: e-smith-base-4.18.0-SSHport.patch
-Patch37: e-smith-base-4.18.0-gateway_validation.patch
-Patch38: e-smith-base-4.18.0-service_re.patch
-Patch39: e-smith-base-4.18.0-xencons.patch
-Patch40: e-smith-base-4.18.0-lib64.patch
-Patch41: e-smith-base-4.18.0-cracklib.patch
-Patch42: e-smith-base-4.18.0-raid_no.patch2
-Patch43: e-smith-base-4.18.0-raidfix.patch
-Patch44: e-smith-base-4.18.0-bootstrap.patch
-Patch45: e-smith-base-4.18.0-pamtemplate.patch3
-Patch46: e-smith-base-4.18.0-restoredev.patch
-Patch47: e-smith-base-4.18.0-no_kmodule.patch
-Patch48: e-smith-base-4-18-0-MovePam_d_ftpTemplates.patch
-Patch49: e-smith-base-4.18.0-usbback_errcheck.patch
-Patch50: e-smith-base-4.18.0-devicechk.patch
-Patch51: e-smith-base-4.18.0-devicechk.patch2
-Patch52: e-smith-base-4.18.0-conf_modules.patch
-Patch53: e-smith-base-4.18.0-restoredev.patch2
-Patch54: e-smith-base-4.18.0-groups.pm.pod.patch
-Patch55: e-smith-base-4.18.0-rename_apache2httpd.patch
-Patch56: e-smith-base-4.18.0-remove_httpd__logrotate.patch
-Patch57: e-smith-base-4.18.0-cert_regen.patch
-Patch58: e-smith-base-4.18.0-useracc_text_adjust.patch
-Patch59: e-smith-base-4.18.0-non_Removable_pseudonyms.patch
-Patch60: e-smith-base-4.18.0-delete_forwarder.patch
-Patch61: e-smith-base-4.18.0-part_size.patch
-Patch62: e-smith-base-4.18.0-passwdlock.patch
-Patch63: e-smith-base-4.18.0-smartd.patch
-Patch64: e-smith-base-4.18.0-smartdtemplates2expand.patch
-Patch65: e-smith-base-4.18.0-consoleValidatePassword.patch
-Patch66: e-smith-base-4.18.0-backupstatus.patch
-Patch67: e-smith-base-4.18.0-usb-revDrive.patch 
-Patch68: e-smith-base-4.18.0-consoleValidateFirst.patch
-Patch69: e-smith-base-4.18.0-MTU.patch
-Patch70: e-smith-base-4.18.0-adminIsNotRoot.patch
-Patch71: e-smith-base-4.18.0-noMTU.patch
-Patch72: e-smith-base-4.18.0-ROUTER_DESC.patch
-Patch73: e-smith-base-4.18.0-rmDuplicates.patch
-Patch74: e-smith-base-4.18.0-tags2general.patch
-Patch75: e-smith-base-4.18.0-useracc_single_char-fix.patch
-Patch76: e-smith-base-4.18.0-gettextErrors.patch
-Patch77: e-smith-base-4.18.0-rmPleasewait.patch
-Patch78: e-smith-base-4.18.0-gettextErrors.patch2
-Patch79: e-smith-base-4.18.0-rmDuplicates.patch2
-Patch80: e-smith-base-4.18.0-gettextStrings.patch2
-Patch81: e-smith-base-4.18.0-customDynDNS.patch
-Patch82: e-smith-base-4.18.0-fixSAVE.patch
-Patch83: e-smith-base-4.18.0-test_FORM_TITLE.patch
-Patch84: e-smith-base-4.18.0-translationfix.patch 
-Patch85: e-smith-base-4.18.0-gettextConsole.patch
-Patch86: e-smith-base-4.18.0-rmPleasewait.patch2
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-19
@@ -141,6 +55,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Wed Mar 26 2008 Shad L. Lords <slords@mail.com> 4.18.1-1
+- Roll new stable stream consolidating patches.
+
 * Mon Mar 24 2008 Shad L. Lords <slords@mail.com> 4.18.0-104
 - Finish removing pleasewait [SME: 126]
 
@@ -1269,95 +1186,6 @@ e-smith server and gateway software - base module.
 
 %prep
 %setup
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
-%patch10 -p1
-%patch11 -p1
-%patch12 -p1
-%patch13 -p1
-%patch14 -p1
-%patch15 -p1
-%patch16 -p1
-%patch17 -p1
-%patch18 -p1
-%patch19 -p1
-%patch20 -p1
-%patch21 -p1
-%patch22 -p1
-%patch23 -p1
-%patch24 -p1
-%patch25 -p1
-%patch26 -p1
-%patch27 -p1
-%patch28 -p1
-%patch29 -p1
-%patch30 -p1
-%patch31 -p1
-%patch32 -p1
-%patch33 -p1
-%patch34 -p1
-%patch35 -p1
-%patch36 -p1
-%patch37 -p1
-%patch38 -p1
-%patch39 -p1
-%patch40 -p1
-%patch41 -p1
-%patch42 -p1
-%patch43 -p1
-%patch44 -p1
-%patch45 -p1
-%patch46 -p1
-%patch47 -p1
-%patch48 -p1
-%patch49 -p1
-%patch50 -p1
-%patch51 -p1
-%patch52 -p1
-%patch53 -p1
-%patch54 -p1
-%patch55 -p1
-%patch56 -p1
-%patch57 -p1
-%patch58 -p1
-%patch59 -p1
-%patch60 -p1
-%patch61 -p1
-%patch62 -p1
-%patch63 -p1
-%patch64 -p1
-%patch65 -p1
-%patch66 -p1
-%patch67 -p1
-%patch68 -p1
-%patch69 -p1
-%patch70 -p1
-%patch71 -p1
-%patch72 -p1
-%patch73 -p1
-%patch74 -p1
-%patch75 -p1
-%patch76 -p1
-%patch77 -p1
-%patch78 -p1
-%patch79 -p1
-%patch80 -p1
-%patch81 -p1
-%patch82 -p1
-%patch83 -p1
-%patch84 -p1
-%patch85 -p1
-%patch86 -p1
-
-rm -rf root/etc/e-smith/db/configuration/defaults/httpd-admin
-rm -rf root/etc/e-smith/templates/etc/identd.masq
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
