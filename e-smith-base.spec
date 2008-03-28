@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.1
-%define release 3
+%define release 4
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -10,6 +10,7 @@ Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch1: e-smith-base-4.18.1-fixgettext.patch
 Patch2: e-smith-base-4.18.1-deleteorder.patch
+Patch3: e-smith-base-4.18.1-insertmode.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-19
@@ -57,6 +58,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri Mar 28 2008 Shad L. Lords <slords@mail.com> 4.18.1-4
+- Fix insert_mode for elinks on el5 platform [SME: 4127]
+
 * Wed Mar 26 2008 Shad L. Lords <slords@mail.com> 4.18.1-3
 - Set accounts to deleted before template expansion [SME: 4122]
 
@@ -1196,6 +1200,9 @@ e-smith server and gateway software - base module.
 %setup
 %patch1 -p1
 %patch2 -p1
+%if "%{?rhel}" == "5"
+%patch3 -p1
+%endif
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
