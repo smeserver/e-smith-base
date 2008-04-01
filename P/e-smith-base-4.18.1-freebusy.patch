@@ -1,0 +1,76 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/useraccounts mezzanine_patched_e-smith-base-4.18.1/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/useraccounts
+--- e-smith-base-4.18.1/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/useraccounts	2008-03-26 10:49:00.000000000 -0600
++++ mezzanine_patched_e-smith-base-4.18.1/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/useraccounts	2008-04-01 09:14:53.000000000 -0600
+@@ -377,4 +377,19 @@
+             An error occurred while trying to delete the user.
+         </trans>
+     </entry>
++    <entry>
++        <base>FREEBUSY_URL</base>
++        <trans>Calendar Free/Busy URL</trans>
++    </entry>
++    <entry>
++        <base>FREEBUSY_DESCRIPTION</base>
++        <trans>
++            <![CDATA[
++            The Calendar Free/Busy URL needs to be in the following format:<br>
++            https://www.<b>domain.com</b>/horde/kronolith/fb.php?u=<b>user%40domain.com.&nbsp;&nbsp;Note:</b>
++            %40 translates to the @ character.<br>
++            </p>
++            ]]>
++        </trans>
++    </entry>
+ </lexicon>
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/etc/e-smith/web/functions/useraccounts mezzanine_patched_e-smith-base-4.18.1/root/etc/e-smith/web/functions/useraccounts
+--- e-smith-base-4.18.1/root/etc/e-smith/web/functions/useraccounts	2007-01-19 14:33:22.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.18.1/root/etc/e-smith/web/functions/useraccounts	2008-04-01 09:13:23.000000000 -0600
+@@ -213,6 +213,11 @@
+             >
+             <label>FORWARDING_ADDRESS</label>
+         </field>
++        <field type="text" id="FreeBusy" size="85"
++            display="get_prop('horde', 'freebusy')">
++            <label>FREEBUSY_URL</label>
++            <description>FREEBUSY_DESCRIPTION</description>
++        </field>
+         <field type="select" id="VPNClientAccess" options="'yes' => 'YES',
+             'no' => 'NO'" validation="nonblank" value="get_pptp_value()">
+             <label>VPN_CLIENT_ACCESS</label>
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm mezzanine_patched_e-smith-base-4.18.1/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm
+--- e-smith-base-4.18.1/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm	2008-03-26 10:49:00.000000000 -0600
++++ mezzanine_patched_e-smith-base-4.18.1/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm	2008-04-01 09:24:23.000000000 -0600
+@@ -283,6 +283,9 @@
+         my $fwd = $cgi->param('ForwardAddress') ? 
+             $cgi->param('ForwardAddress') :
+             ($rec ? ($rec->prop('ForwardAddress')) : '');
++        my $fb = $cgi->param('FreeBusy') ? 
++            $cgi->param('FreeBusy') :
++            ($rec ? ($rec->prop('FreeBusy')) : '');
+         my $pptp = $cgi->param('VPNClientAccess') ?
+             $cgi->param('VPNClientAccess') : 
+             ($rec ? ($rec->prop('VPNClientAccess')) : 'no');
+@@ -296,6 +299,7 @@
+         $cgi->param(-name=>'Phone', -value=>$phone);
+         $cgi->param(-name=>'EmailForward', -value=>$emf);
+         $cgi->param(-name=>'ForwardAddress', -value=>$fwd);
++        $cgi->param(-name=>'FreeBusy', -value=>$fb);
+         $cgi->param(-name=>'VPNClientAccess', -value=>$pptp);
+     } else {
+         print qq(
+@@ -752,6 +756,7 @@
+             'Street'         => $self->{cgi}->param('Street'),
+             'EmailForward'   => $self->{cgi}->param('EmailForward'),
+             'ForwardAddress' => $self->{cgi}->param('ForwardAddress'),
++            'FreeBusy'       => $self->{cgi}->param('FreeBusy'),
+             'VPNClientAccess'=> $self->{cgi}->param('VPNClientAccess'),
+         );
+         $acct->merge_props(%newProperties);
+@@ -807,7 +812,7 @@
+ 
+     my %userprops;
+     foreach my $field ( qw( FirstName LastName Phone Company Dept
+-        City Street EmailForward ForwardAddress VPNClientAccess) )
++        City Street EmailForward ForwardAddress FreeBusy VPNClientAccess) )
+     {
+         $userprops{$field} = $q->param($field);
+     }
