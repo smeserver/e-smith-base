@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.1
-%define release 5
+%define release 7
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -12,6 +12,7 @@ Patch1: e-smith-base-4.18.1-fixgettext.patch
 Patch2: e-smith-base-4.18.1-deleteorder.patch
 Patch3: e-smith-base-4.18.1-insertmode.patch
 Patch4: e-smith-base-4.18.1-freebusy.patch
+Patch5: e-smith-base-4.18.1-frames.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-19
@@ -59,6 +60,13 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Wed Apr 2 2008 Shad L. Lords <slords@mail.com> 4.18.1-7
+- Use frames in elinks [SME: 4156]
+- Set homepage for elinks [SME: 4160]
+
+* Wed Apr 2 2008 Shad L. Lords <slords@mail.com> 4.18.1-6
+- Fix free/busy field in useraccounts [SME: 4157]
+
 * Tue Apr 1 2008 Shad L. Lords <slords@mail.com> 4.18.1-5
 - Add free/busy URL entry to help kronolith contribs [SME: 1806]
 
@@ -1208,6 +1216,7 @@ e-smith server and gateway software - base module.
 %patch3 -p1
 %endif
 %patch4 -p1
+%patch5 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
