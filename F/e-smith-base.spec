@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.1
-%define release 7
+%define release 8
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -60,6 +60,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Wed Apr 2 2008 Shad L. Lords <slords@mail.com> 4.18.1-8
+- Really fix free/busy in usermanager [SME: 4157]
+
 * Wed Apr 2 2008 Shad L. Lords <slords@mail.com> 4.18.1-7
 - Use frames in elinks [SME: 4156]
 - Set homepage for elinks [SME: 4160]
