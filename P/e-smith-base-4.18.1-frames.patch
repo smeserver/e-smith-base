@@ -1,0 +1,28 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/etc/e-smith/templates/etc/elinks.conf/10homepage mezzanine_patched_e-smith-base-4.18.1/root/etc/e-smith/templates/etc/elinks.conf/10homepage
+--- e-smith-base-4.18.1/root/etc/e-smith/templates/etc/elinks.conf/10homepage	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.18.1/root/etc/e-smith/templates/etc/elinks.conf/10homepage	2008-04-02 10:27:33.000000000 -0600
+@@ -0,0 +1 @@
++set ui.sessions.homepage  = "http://localhost/server-manager"
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/etc/e-smith/templates/etc/lynx.cfg/40startfile mezzanine_patched_e-smith-base-4.18.1/root/etc/e-smith/templates/etc/lynx.cfg/40startfile
+--- e-smith-base-4.18.1/root/etc/e-smith/templates/etc/lynx.cfg/40startfile	2005-11-20 21:28:07.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.18.1/root/etc/e-smith/templates/etc/lynx.cfg/40startfile	2008-04-02 10:27:21.000000000 -0600
+@@ -1 +1 @@
+-STARTFILE:http://localhost/common/noframes
++STARTFILE:http://localhost/server-manager/noframes
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/etc/e-smith/templates/etc/lynx.cfg/50forcessl mezzanine_patched_e-smith-base-4.18.1/root/etc/e-smith/templates/etc/lynx.cfg/50forcessl
+--- e-smith-base-4.18.1/root/etc/e-smith/templates/etc/lynx.cfg/50forcessl	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.18.1/root/etc/e-smith/templates/etc/lynx.cfg/50forcessl	2008-04-02 10:23:28.000000000 -0600
+@@ -0,0 +1 @@
++FORCE_SSL_PROMPT:yes
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/sbin/e-smith/console-menu-items/serverManager.pl mezzanine_patched_e-smith-base-4.18.1/root/sbin/e-smith/console-menu-items/serverManager.pl
+--- e-smith-base-4.18.1/root/sbin/e-smith/console-menu-items/serverManager.pl	2008-03-26 10:49:00.000000000 -0600
++++ mezzanine_patched_e-smith-base-4.18.1/root/sbin/e-smith/console-menu-items/serverManager.pl	2008-04-02 10:26:34.000000000 -0600
+@@ -51,7 +51,7 @@
+     {
+ 	system(
+                    "/usr/bin/links",
+-                   "http://localhost/server-manager/noframes"
++                   "http://localhost/server-manager"
+ 	      );
+     }
+     $db->reload;

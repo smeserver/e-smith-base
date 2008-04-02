@@ -39,6 +39,14 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/etc/e-smith/web/functi
 diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm mezzanine_patched_e-smith-base-4.18.1/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm
 --- e-smith-base-4.18.1/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm	2008-03-26 10:49:00.000000000 -0600
 +++ mezzanine_patched_e-smith-base-4.18.1/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm	2008-04-01 09:24:23.000000000 -0600
+@@ -54,6 +54,7 @@
+     print_save_or_add_button
+     get_pptp_value
+     print_ipsec_client_section
++    get_prop
+ 
+     system_password_compare 
+     system_valid_password 
 @@ -283,6 +283,9 @@
          my $fwd = $cgi->param('ForwardAddress') ? 
              $cgi->param('ForwardAddress') :
@@ -74,3 +82,24 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/usr/lib/perl5/site_per
      {
          $userprops{$field} = $q->param($field);
      }
+@@ -1108,6 +1109,20 @@
+ }
+ 
+ 
++=head2 get_prop ITEM PROP
++
++A simple accessor for esmith::ConfigDB::Record::prop
++
++=cut
++
++sub get_prop
++{
++    my ($fm, $item, $prop, $default) = @_;
++
++    return $db->get_prop($item, $prop) || $default;
++}
++
++
+ =head1 System Password manipulation routines
+ 
+ XXX FIXME - These should be merged with the useraccouts versions
