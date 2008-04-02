@@ -96,7 +96,7 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/usr/lib/perl5/site_per
 +{
 +    my ($fm, $item, $prop, $default) = @_;
 +
-+    return $db->get_prop($item, $prop) || $default;
++    return $configdb->get_prop($item, $prop) || $default;
 +}
 +
 +
