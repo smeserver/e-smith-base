@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.1
-%define release 8
+%define release 9
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -13,6 +13,7 @@ Patch2: e-smith-base-4.18.1-deleteorder.patch
 Patch3: e-smith-base-4.18.1-insertmode.patch
 Patch4: e-smith-base-4.18.1-freebusy.patch
 Patch5: e-smith-base-4.18.1-frames.patch
+Patch6: e-smith-base-4.18.1-quitconsole.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-19
@@ -60,6 +61,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Wed Apr 2 2008 Shad L. Lords <slords@mail.com> 4.18.1-9
+- Remove quitConsole from menu [SME: 4154]
+
 * Wed Apr 2 2008 Shad L. Lords <slords@mail.com> 4.18.1-8
 - Really fix free/busy in usermanager [SME: 4157]
 
@@ -1220,6 +1224,7 @@ e-smith server and gateway software - base module.
 %endif
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
