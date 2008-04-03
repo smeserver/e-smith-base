@@ -1,0 +1,7 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/sbin/e-smith/console-menu-items/quitConsole.pl mezzanine_patched_e-smith-base-4.18.1/root/sbin/e-smith/console-menu-items/quitConsole.pl
+--- e-smith-base-4.18.1/root/sbin/e-smith/console-menu-items/quitConsole.pl	2007-01-26 18:56:31.000000000 -0700
++++ mezzanine_patched_e-smith-base-4.18.1/root/sbin/e-smith/console-menu-items/quitConsole.pl	1969-12-31 17:00:00.000000000 -0700
+@@ -1,3 +0,0 @@
+-package esmith::console::quitConsole;
+-use esmith::console::quitConsole;
+-return new esmith::console::quitConsole;
