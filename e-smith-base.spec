@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.1
-%define release 10
+%define release 11
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -15,6 +15,7 @@ Patch4: e-smith-base-4.18.1-freebusy.patch
 Patch5: e-smith-base-4.18.1-frames.patch
 Patch6: e-smith-base-4.18.1-quitconsole.patch
 Patch7: e-smith-base-4.18.1-freebusy.patch2
+Patch8: e-smith-base-4.18.1-dateManip.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-19
@@ -62,6 +63,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Apr 22 2008 Shad L. Lords <slords@mail.com> 4.18.1-11
+- Remove use of Date::Manip from ssl.crt [SME: 3155]
+
 * Sat Apr 19 2008 Shad L. Lords <slords@mail.com> 4.18.1-10
 - Fix FreeBusy param when disabled [SME: 1806]
 - Remove .orig file [SME: 4228]
@@ -1231,6 +1235,7 @@ e-smith server and gateway software - base module.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

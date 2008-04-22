@@ -1,0 +1,24 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/etc/e-smith/templates/home/e-smith/ssl.crt mezzanine_patched_e-smith-base-4.18.1/root/etc/e-smith/templates/home/e-smith/ssl.crt
+--- e-smith-base-4.18.1/root/etc/e-smith/templates/home/e-smith/ssl.crt	2008-03-26 10:49:00.000000000 -0600
++++ mezzanine_patched_e-smith-base-4.18.1/root/etc/e-smith/templates/home/e-smith/ssl.crt	2008-04-22 15:25:43.000000000 -0600
+@@ -1,6 +1,6 @@
+ {
+     use constant KEYLIFEINDAYS => 365;
+-    use Date::Manip;
++    use Date::Parse;
+     use Cwd;
+     my $here = getcwd;
+ 
+@@ -24,9 +24,10 @@
+     {
+         my $expire = `openssl x509 -enddate -noout -in $crt`;
+         $expire =~ s/^notAfter=//;
+-        $expire =~ s#(\d{4}) (\w{3})#$2 $1#;
++        $expire = str2time($expire);
++        my $ttl_days = ($expire - time()) / 60 / 60 / 24;
+ 
+-        if ( Date_Cmp('today', ParseDate($expire)) < 0 ) {
++        if ( $ttl_days > 2 ) {
+             my $expected_issuer = '/C=--' .
+                               '/ST=----';
+             $expected_issuer .= '/L=' . ($defaultCity ? $defaultCity : 'Newbury');
