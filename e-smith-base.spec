@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.1
-%define release 11
+%define release 12
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -16,6 +16,7 @@ Patch5: e-smith-base-4.18.1-frames.patch
 Patch6: e-smith-base-4.18.1-quitconsole.patch
 Patch7: e-smith-base-4.18.1-freebusy.patch2
 Patch8: e-smith-base-4.18.1-dateManip.patch
+Patch9: e-smith-base-4.18.1-ethernetlist.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-19
@@ -63,6 +64,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Wed Apr 23 2008 Shad L. Lords <slords@mail.com> 4.18.1-12
+- Fix for > 5 nics detected [SME: 4232]
+
 * Tue Apr 22 2008 Shad L. Lords <slords@mail.com> 4.18.1-11
 - Remove use of Date::Manip from ssl.crt [SME: 3155]
 
@@ -1236,6 +1240,7 @@ e-smith server and gateway software - base module.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
