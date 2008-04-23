@@ -1,0 +1,47 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/usr/lib/perl5/site_perl/esmith/console/configure.pm mezzanine_patched_e-smith-base-4.18.1/root/usr/lib/perl5/site_perl/esmith/console/configure.pm
+--- e-smith-base-4.18.1/root/usr/lib/perl5/site_perl/esmith/console/configure.pm	2008-03-26 10:49:00.000000000 -0600
++++ mezzanine_patched_e-smith-base-4.18.1/root/usr/lib/perl5/site_perl/esmith/console/configure.pm	2008-04-23 10:00:35.000000000 -0600
+@@ -44,7 +44,6 @@
+ {
+     my ($ifName, $confEntry) = @_;
+     my $item = 0;
+-    my $adapterList;
+ 
+     if (scalar @adapters == 1)
+     {
+@@ -72,11 +71,6 @@
+ 	}
+     }
+ 
+-    if ( scalar @adapters == 0 )
+-    {
+-        $adapterList = "    (none)";
+-    }
+-
+     my %tag2driver;
+     my @args;
+     my $default;
+@@ -89,9 +83,6 @@
+         my ($parameter, $driver, $chipset) = split (/\s+/, $adapter, 3);
+         chomp($chipset);
+ 
+-	$adapterList .= "    " .
+-                substr("${chipset} (driver ${driver})", 0, 72) . "\n";
+-
+ 	my $tag = ++$item . ".";
+ 
+ 	$tag2driver{$tag} = $driver;
+@@ -125,12 +116,7 @@
+ 	      "%s network ethernet adapter. The server can attempt to do " .
+ 	      "this automatically, or you can do it manually - either by " .
+ 	      "specifying the model of your ethernet adapter or by " .
+-	      "directly choosing a driver."),
+-                 $ifName) .
+-         "\n\n" .
+-         gettext("The server has detected these ethernet adapters:") .
+-         "\n\n" .
+-         $adapterList,
++	      "directly choosing a driver.\n"), $ifName),
+          argsref => \@args,
+         );
+ 
