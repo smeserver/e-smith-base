@@ -367,3 +367,158 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/etc/e-smith/locale/en-
  	<base>RECONFIGURE_SUCCEEDED</base>
  	<trans>Reconfiguration request initiated successfully.</trans>
      </entry>
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/etc/e-smith/locale/en-us/etc/e-smith/web/panels/password/cgi-bin/userpassword mezzanine_patched_e-smith-base-4.18.1/root/etc/e-smith/locale/en-us/etc/e-smith/web/panels/password/cgi-bin/userpassword
+--- e-smith-base-4.18.1/root/etc/e-smith/locale/en-us/etc/e-smith/web/panels/password/cgi-bin/userpassword	2005-11-21 05:28:05.000000000 +0100
++++ mezzanine_patched_e-smith-base-4.18.1/root/etc/e-smith/locale/en-us/etc/e-smith/web/panels/password/cgi-bin/userpassword	2008-04-27 18:49:34.000000000 +0200
+@@ -1,11 +1,6 @@
+ <lexicon lang="en-us">
+ 
+     <entry>
+-      <base>FORM_TITLE</base>
+-      <trans>Change account password</trans>
+-    </entry>
+-
+-    <entry>
+       <base>DESCRIPTION</base>
+       <trans>
+ 	<![CDATA[
+@@ -22,63 +17,5 @@
+     </entry>
+ 
+     <entry>
+-      <base>ACCOUNT_NAME</base>
+-      <trans>Your account: </trans>
+-    </entry>
+-
+-    <entry>
+-      <base>OLD_SYSTEM_PASSWORD</base>
+-      <trans>Old password: </trans>
+-    </entry>
+-
+-    <entry>
+-      <base>NEW_SYSTEM_PASSWORD</base>
+-      <trans>New password: </trans>
+-    </entry>
+-
+-    <entry>
+-      <base>NEW_SYSTEM_PASSWORD_VERIFY</base>
+-      <trans>New password (verify): </trans>
+-    </entry>
+-
+-    <entry>
+-      <base>CHANGE_PASSWORD</base>
+-      <trans>Change Password</trans>
+-    </entry>
+-
+-    <entry>
+-      <base>PASSWORD_VERIFY_ERROR</base>
+-      <trans>The passwords you entered did not match.</trans>
+-    </entry>
+-
+-    <entry>
+-      <base>PASSWORD_CHANGE_FAILURE</base>
+-      <trans>An error occurred while attempting to change your password.  Please make sure that the old password entered is correct.</trans>
+-    </entry>
+-
+-    <entry>
+-      <base>PASSWORD_CHANGED</base>
+-      <trans>Your password has been successfully changed.</trans>
+-    </entry>
+-
+-    <entry>
+-      <base>TAINED_OLDPASS</base>
+-      <trans>The old password you entered contained invalid characters.</trans>
+-    </entry>
+-
+-    <entry>
+-      <base>TAINED_PASS</base>
+-      <trans>The password you entered contained invalid characters.</trans>
+-    </entry>
+-
+-    <entry>
+-      <base>TAINED_ACCOUNT</base>
+-      <trans>The account name you entered contained invalid characters.</trans>
+-    </entry>
+-
+-    <entry>
+-      <base>NO_SUCH_USER</base>
+-      <trans>The account name entered is invalid.</trans>
+-    </entry>
+ 
+ </lexicon>
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/etc/e-smith/web/panels/password/cgi-bin/userpassword mezzanine_patched_e-smith-base-4.18.1/root/etc/e-smith/web/panels/password/cgi-bin/userpassword
+--- e-smith-base-4.18.1/root/etc/e-smith/web/panels/password/cgi-bin/userpassword	2005-11-21 05:28:10.000000000 +0100
++++ mezzanine_patched_e-smith-base-4.18.1/root/etc/e-smith/web/panels/password/cgi-bin/userpassword	2008-04-27 18:51:05.000000000 +0200
+@@ -66,13 +66,13 @@
+     my $acct;
+     unless ($acct = $accountdb->get($acctName))
+     {
+-        $q->param(-name => 'status_message', -value => 'NO_SUCH_USER');    
++        $q->param(-name => 'status_message', -value => 'YOUR_ACCOUNT_INVALID');    
+ 	return;
+     }
+ 
+     unless ($acct->prop('type') eq 'user')
+     {
+-	$q->param(-name=>'status_message', -value=>"NO_SUCH_USER");
++	$q->param(-name=>'status_message', -value=>"YOUR_ACCOUNT_INVALID");
+ 	return;
+     }
+ 
+@@ -82,7 +82,7 @@
+ 		$pass))
+     {
+ 	$q->param(-name => 'status_message', 
+-		    -value => 'PASSWORD_CHANGE_FAILURE');
++		    -value => 'ERROR_PASSWORD_CHANGE');
+ 	return;
+     }
+     $acct->set_prop("PasswordSet", "yes");
+@@ -92,7 +92,7 @@
+ 	or die ("Error occurred while modifying password for $acctName.\n");
+     $accountdb = esmith::AccountsDB->open();
+ 
+-    $q->param(-name => 'status_message', -value => 'PASSWORD_CHANGED');    
++    $q->param(-name => 'status_message', -value => 'PASSWORD_CHANGE_SUCCESS');    
+     return;
+ }
+ 
+@@ -103,7 +103,7 @@
+ 	my $pass1 = $fm->{cgi}->param('pass');
+     	unless ($pass1 eq $pass2) {
+     		$fm->{cgi}->param( -name => 'wherenext', -value => 'Password' );
+-       	 	return "PASSWORD_VERIFY_ERROR";
++       	 	return "PASSWORD_NO_MATCH";
+     	}
+         return "OK";
+ }
+@@ -128,23 +128,23 @@
+ }
+ 
+ __DATA__
+-<form title="FORM_TITLE" header="/etc/e-smith/web/common/userpassword_head.tmpl" footer="/etc/e-smith/web/common/foot.tmpl">
++<form title="ACCOUNT_PASSWORD_CHANGE" header="/etc/e-smith/web/common/userpassword_head.tmpl" footer="/etc/e-smith/web/common/foot.tmpl">
+     <page name="Password"  post-event="change_password" pre-event="turn_off_buttons()" header="/etc/e-smith/web/common/head.tmpl" footer="/etc/e-smith/web/common/foot.tmpl">
+         <description>DESCRIPTION</description>
+ 
+         <field type="text" id="account" validation="nonblank" value="">
+-            <label>ACCOUNT_NAME</label>
++            <label>YOUR_ACCOUNT</label>
+         </field>
+         <field type="password" id="oldPass" validation="nonblank" value="">
+-            <label>OLD_SYSTEM_PASSWORD</label>
++            <label>PASSWORD_OLD</label>
+         </field>
+         <field type="password" id="pass" validation="nonblank, check_password" value="">
+-            <label>NEW_SYSTEM_PASSWORD</label>
++            <label>PASSWORD_NEW</label>
+         </field>
+         <field type="password" id="passVerify" validation="password_compare" value="">
+-            <label>NEW_SYSTEM_PASSWORD_VERIFY</label>
++            <label>PASSWORD_NEW_VERIFY</label>
+         </field>
+-        <subroutine src="print_button('CHANGE_PASSWORD')" />
++        <subroutine src="print_button('PASSWORD_CHANGE')" />
+     </page>
+     <page name="Done" pre-event="print_status_message()">
+     </page>
