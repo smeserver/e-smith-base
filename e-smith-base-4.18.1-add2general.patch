@@ -1,0 +1,336 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/groups mezzanine_patched_e-smith-base-4.18.1/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/groups
+--- e-smith-base-4.18.1/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/groups	2008-03-26 17:49:00.000000000 +0100
++++ mezzanine_patched_e-smith-base-4.18.1/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/groups	2008-04-27 12:11:51.000000000 +0200
+@@ -6,18 +6,6 @@
+         <trans>Create, modify, or remove user groups</trans>
+     </entry>	
+     <entry>
+-        <base>CREATE_TITLE</base>
+-        <trans>Create user group</trans>
+-    </entry>
+-    <entry>
+-        <base>MODIFY_TITLE</base>
+-        <trans>Modify user group</trans>
+-    </entry>
+-    <entry>
+-        <base>REMOVE_TITLE</base>
+-        <trans>Remove user group</trans>
+-    </entry>
+-    <entry>
+         <base>GROUP_TOO_LONG</base>
+         <trans>Error: group name is too long.The maximum is {$maxLength}
+             characters.</trans>
+@@ -81,10 +69,6 @@
+         <trans>Error: That is not an existing group account.</trans>
+     </entry>
+     <entry>
+-        <base>GROUP_NAME</base>
+-        <trans>Group Name</trans>
+-    </entry>
+-    <entry>
+         <base>GROUP_DESC</base>
+         <trans>Brief Description/Windows Group Alias</trans>
+     </entry>
+@@ -109,37 +93,13 @@
+             ]]></trans>
+     </entry>
+     <entry>
+-        <base>USERNAME</base>
+-        <trans>User Name</trans>
+-    </entry>
+-    <entry>
+-        <base>CLICK_TO_CREATE</base>
+-        <trans>Add group</trans>
+-    </entry>
+-    <entry>
+-        <base>NO_GROUPS</base>
+-        <trans>There are no user groups in the system.</trans>
+-    </entry>
+-    <entry>
+         <base>CURRENT_LIST</base>
+         <trans><![CDATA[<p>Current list of User Groups</p>]]></trans>
+     </entry>
+     <entry>
+-        <base>GROUP_MEMBERS</base>
+-        <trans>Group Members</trans>
+-    </entry>
+-    <entry>
+-        <base>DESCRIPTION</base>
+-        <trans>Description</trans>
+-    </entry>
+-    <entry>
+ 		<base>DELETE_DESCRIPTION</base>
+        	<trans><![CDATA[
+         You are about to remove the user group "<b>{$group}</b>."
+ 		]]></trans>
+     </entry>
+-    <entry>
+-        <base>Groups</base>
+-        <trans>Groups</trans>
+-    </entry>
+ </lexicon>  
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/remoteaccess mezzanine_patched_e-smith-base-4.18.1/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/remoteaccess
+--- e-smith-base-4.18.1/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/remoteaccess	2008-03-26 17:49:00.000000000 +0100
++++ mezzanine_patched_e-smith-base-4.18.1/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/remoteaccess	2008-04-27 12:19:22.000000000 +0200
+@@ -20,14 +20,6 @@
+ 	<trans>The new remote access settings have been saved.</trans>
+     </entry>
+     <entry>
+-        <base>ERROR_UPDATING</base>
+-        <trans>Error occurred while updating system configuration.</trans>
+-    </entry>
+-    <entry>
+-	<base>OFF</base>
+-	<trans>Off</trans>
+-    </entry>
+-    <entry>
+ 	<base>NO_ACCESS</base>
+ 	<trans>No Access</trans>
+     </entry>
+@@ -40,14 +32,6 @@
+ 	<trans>Accept passwords from anywhere</trans>
+     </entry>
+     <entry>
+-	<base>PUBLIC</base>
+-	<trans>Allow public access (entire Internet)</trans>
+-    </entry>
+-    <entry>
+-	<base>PRIVATE</base>
+-	<trans>Allow access only from local networks</trans>
+-    </entry>
+-    <entry>
+ 	<base>LABEL_TELNET_ACCESS</base>
+ 	<trans>Telnet access</trans>
+     </entry>
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/useraccounts mezzanine_patched_e-smith-base-4.18.1/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/useraccounts
+--- e-smith-base-4.18.1/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/useraccounts	2008-04-27 12:20:21.000000000 +0200
++++ mezzanine_patched_e-smith-base-4.18.1/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/useraccounts	2008-04-27 12:16:36.000000000 +0200
+@@ -155,22 +155,6 @@
+         <trans>Group memberships</trans>
+     </entry>
+     <entry>
+-        <base>USER_NAME</base>
+-        <trans>User name</trans>
+-    </entry>
+-    <entry>
+-        <base>PASSWORD1</base>
+-        <trans>New password</trans>
+-    </entry>
+-    <entry>
+-        <base>PASSWORD2</base>
+-        <trans>New password (verify)</trans>
+-    </entry>
+-    <entry>
+-        <base>PASSWORD_VERIFY_ERROR</base>
+-        <trans>The passwords you entered did not match.</trans>
+-    </entry>
+-    <entry>
+         <base>RESET_DESC</base>
+         <trans>You are about to change the password for the user account</trans>
+     </entry>
+@@ -209,10 +193,6 @@
+             initials to this field.</trans>
+     </entry>
+     <entry>
+-        <base>RESET_PASSWORD</base>
+-        <trans>Reset password</trans>
+-    </entry>
+-    <entry>
+         <base>LOCK_ACCOUNT</base>
+         <trans>Lock account</trans>
+     </entry>
+@@ -268,10 +248,6 @@
+         <trans>There are no user accounts on this system.</trans>
+     </entry>
+     <entry>
+-        <base>ACCOUNT_IS_LOCKED</base>
+-        <trans>Account is locked</trans>
+-    </entry>
+-    <entry>
+         <base>Users</base>
+         <trans>Users</trans>
+     </entry>
+@@ -313,10 +289,6 @@
+         <trans>Member?</trans>
+     </entry>
+     <entry>
+-        <base>DESCRIPTION</base>
+-        <trans>Description</trans>
+-    </entry>
+-    <entry>
+         <base>VPN_CLIENT_ACCESS</base>
+         <trans>VPN Client Access</trans>
+     </entry>
+@@ -368,10 +340,6 @@
+         <trans>Download digital certificate to IPSec client</trans>
+     </entry>
+     <entry>
+-        <base>BUTTON_IPSECRW_DOWNLOAD</base>
+-        <trans>Download</trans>
+-    </entry>
+-    <entry>
+         <base>ERR_OCCURRED_DELETING</base>
+         <trans>
+             An error occurred while trying to delete the user.
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/etc/e-smith/web/functions/groups mezzanine_patched_e-smith-base-4.18.1/root/etc/e-smith/web/functions/groups
+--- e-smith-base-4.18.1/root/etc/e-smith/web/functions/groups	2008-03-26 17:49:00.000000000 +0100
++++ mezzanine_patched_e-smith-base-4.18.1/root/etc/e-smith/web/functions/groups	2008-04-27 12:09:25.000000000 +0200
+@@ -3,7 +3,7 @@
+ # vim: ft=xml ts=4 sw=4 et:
+ #----------------------------------------------------------------------
+ # heading     : Collaboration
+-# description : Groups
++# description : GROUPS
+ # navigation  : 2000 2200
+ #----------------------------------------------------------------------
+ #----------------------------------------------------------------------
+@@ -112,7 +112,7 @@
+     </page>
+     <page name="CreateGroup" pre-event="turn_off_buttons()" 
+         post-event="create_group()">
+-        <title>CREATE_TITLE</title>
++        <title>CREATE_GROUP</title>
+         <description>GROUP_NAMING</description>
+         <field type="text" id="groupName" 
+             validation="validate_group, validate_group_length, validate_group_naming_conflict">
+@@ -127,7 +127,7 @@
+     </page>
+     <page name="Delete"  pre-event="turn_off_buttons()" 
+         post-event="delete_group()">
+-        <title>REMOVE_TITLE</title>
++        <title>REMOVE_USER_GROUP</title>
+         <subroutine src="print_group_delete_desc()"/>
+         <subroutine src="print_group_members()"/>
+         <subroutine src="print_ibay_list($acct)"/>
+@@ -135,7 +135,7 @@
+     </page>
+     <page name="Modify" pre-event="turn_off_buttons()" 
+         post-event="modify_group()">
+-        <title>MODIFY_TITLE</title>
++        <title>MODIFY_USER_GROUP</title>
+         <field type="literal" id="groupName" value="$q->param('groupName')">
+             <label>GROUP_NAME</label>
+         </field>
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/etc/e-smith/web/functions/useraccounts mezzanine_patched_e-smith-base-4.18.1/root/etc/e-smith/web/functions/useraccounts
+--- e-smith-base-4.18.1/root/etc/e-smith/web/functions/useraccounts	2008-04-27 12:20:21.000000000 +0200
++++ mezzanine_patched_e-smith-base-4.18.1/root/etc/e-smith/web/functions/useraccounts	2008-04-27 12:14:39.000000000 +0200
+@@ -257,13 +257,13 @@
+     <page name="CheckMaxUsersUnlock" post-event="checkMaxUsers('ResetPassword')">
+     </page>
+     <page name="ResetPassword" pre-event="turn_off_buttons()" post-event="reset_password()">
+-        <title>RESET_PASSWORD_TITLE</title>
++        <title>PASSWORD_RESET_TITLE</title>
+         <subroutine src="print_page_description('reset')" />
+         <field type="password" id="password1" validation="nonblank, check_password">
+-            <label>PASSWORD1</label>
++            <label>PASSWORD_NEW</label>
+         </field>
+         <field type="password" id="password2" validation="verifyPasswords">
+-            <label>PASSWORD2</label>
++            <label>PASSWORD_VERIFY_NEW</label>
+         </field>
+         <subroutine src="print_button('SAVE')" />
+     </page>
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/groups.pm mezzanine_patched_e-smith-base-4.18.1/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/groups.pm
+--- e-smith-base-4.18.1/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/groups.pm	2008-03-26 17:49:00.000000000 +0100
++++ mezzanine_patched_e-smith-base-4.18.1/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/groups.pm	2008-04-27 12:08:04.000000000 +0200
+@@ -161,12 +161,12 @@
+ 
+     print $q->Tr($q->td(
+ 	  "<p><a class=\"button-like\" href=\"groups?$params&wherenext=CreateGroup\">"
+-          . $fm->localise("CLICK_TO_CREATE")
++          . $fm->localise("GROUP_ADD")
+           . "</a></p>"));
+ 
+-    if ( $numGroups == 0 ) {
++    if ( $numGROUPS == 0 ) {
+         print $q->Tr($q->td(
+-	    '<p><b>' . $fm->localise("NO_GROUPS") . '</p></b>'));
++	    '<p><b>' . $fm->localise("ACCOUNT_GROUP_NONE") . '</p></b>'));
+ 
+     }
+     else {
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/remoteaccess.pm mezzanine_patched_e-smith-base-4.18.1/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/remoteaccess.pm
+--- e-smith-base-4.18.1/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/remoteaccess.pm	2008-03-26 17:49:00.000000000 +0100
++++ mezzanine_patched_e-smith-base-4.18.1/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/remoteaccess.pm	2008-04-27 12:17:51.000000000 +0200
+@@ -268,8 +268,8 @@
+     return '' if $mode eq 'off';
+ 
+     my %options = (
+-	public => $self->localise('PUBLIC'), 
+-	private => $self->localise('PRIVATE'), 
++	public => $self->localise('NETWORKS_ALLOW_PUBLIC'), 
++	private => $self->localise('NETWORKS_ALLOW_LOCAL'), 
+ 	off => $self->localise('NO_ACCESS'),
+     ); 
+ 
+@@ -306,14 +306,14 @@
+     return '' unless $db->get('ftp');
+ 
+     my %options = (
+-	normal => $self->localise('PUBLIC'), 
+-	private => $self->localise('PRIVATE'), 
++	normal => $self->localise('NETWORKS_ALLOW_PUBLIC'), 
++	private => $self->localise('NETWORKS_ALLOW_LOCAL'), 
+ 	off => $self->localise('NO_ACCESS'),
+     ); 
+ 
+     my %loginOptions = (
+-	private => $self->localise('PASSWORD_LOGIN_PRIVATE'),
+-	public  => $self->localise('PASSWORD_LOGIN_PUBLIC'),
++	private => $self->localise('PASSWORD_LOGIN_NETWORKS_ALLOW_LOCAL'),
++	public  => $self->localise('PASSWORD_LOGIN_NETWORKS_ALLOW_PUBLIC'),
+     );
+ 
+     print $q->Tr(
+@@ -721,7 +721,7 @@
+ 
+     unless ( system( "/sbin/e-smith/signal-event", "remoteaccess-update" ) == 0 )
+     {
+-        $self->error('ERROR_UPDATING');
++        $self->error('ERROR_UPDATING_CONFIGURATION');
+         return undef;
+     }
+ 
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm mezzanine_patched_e-smith-base-4.18.1/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm
+--- e-smith-base-4.18.1/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm	2008-04-27 12:20:21.000000000 +0200
++++ mezzanine_patched_e-smith-base-4.18.1/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm	2008-04-27 12:13:38.000000000 +0200
+@@ -142,9 +142,9 @@
+     my $acctName = $self->localise('USER_NAME');
+ 
+     my $modify  = $self->localise('MODIFY');
+-    my $resetpw = $self->localise('RESET_PASSWORD');
++    my $resetpw = $self->localise('PASSWORD_RESET');
+     my $lock    = $self->localise('LOCK_ACCOUNT');
+-    my $account_locked = $self->localise('ACCOUNT_IS_LOCKED');
++    my $account_locked = $self->localise('ACCOUNT_LOCKED');
+     my $remove  = $self->localise('REMOVE');
+ 
+     my @users = $accountdb->get('admin');
+@@ -605,7 +605,7 @@
+     my $pass1 = $self->{cgi}->param('password1');
+     unless ($pass1 eq $pass2) {
+         $self->{cgi}->param( -name => 'wherenext', -value => 'Password' );
+-        return "PASSWORD_VERIFY_ERROR";
++        return "PASSWORD_NO_MATCH";
+     }
+     return "OK";
+ }
+@@ -1140,7 +1140,7 @@
+     my $pass1 = $self->{cgi}->param('pass');
+     unless ($pass1 eq $pass2) {
+         $self->{cgi}->param( -name => 'wherenext', -value => 'Password' );
+-        return "SYSTEM_PASSWORD_VERIFY_ERROR";
++        return "SYSTEM_PASSWORD_NO_MATCH";
+     }
+     return "OK";
+ }
+@@ -1261,7 +1261,7 @@
+                 $q->td({-class=>'sme-noborders-content'},
+                 $q->a({-class=>'button-like', 
+                 -href=>"?action=getCert&user=$acct"}, 
+-                $self->localise('BUTTON_IPSECRW_DOWNLOAD'))));
++                $self->localise('DOWNLOAD'))));
+         }
+     }
+     return '';
