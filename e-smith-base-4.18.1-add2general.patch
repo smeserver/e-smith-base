@@ -334,3 +334,36 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/usr/lib/perl5/site_per
          }
      }
      return '';
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/reboot mezzanine_patched_e-smith-base-4.18.1/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/reboot
+--- e-smith-base-4.18.1/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/reboot	2008-03-26 17:49:00.000000000 +0100
++++ mezzanine_patched_e-smith-base-4.18.1/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/reboot	2008-04-27 17:49:48.000000000 +0200
+@@ -2,18 +2,10 @@
+ -->
+ <lexicon lang="en-us">
+     <entry>
+-	<base>PERFORM</base>
+-	<trans>Perform</trans>
+-    </entry>
+-    <entry>
+ 	<base>FORM_TITLE</base>
+ 	<trans>Shutdown or reboot</trans>
+     </entry>
+     <entry>
+-	<base>SHUTDOWN</base>
+-	<trans>Shutdown</trans>
+-    </entry>
+-    <entry>
+ 	<base>REBOOT</base>
+ 	<trans>Reboot</trans>
+     </entry>
+@@ -26,10 +18,6 @@
+ 	<trans>Your server has initiated the reboot process.</trans>
+     </entry>
+     <entry>
+-	<base>RECONFIGURE</base>
+-	<trans>Reconfigure</trans>
+-    </entry>
+-    <entry>
+ 	<base>RECONFIGURE_SUCCEEDED</base>
+ 	<trans>Reconfiguration request initiated successfully.</trans>
+     </entry>
