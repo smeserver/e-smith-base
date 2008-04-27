@@ -66,7 +66,7 @@ e-smith server and gateway software - base module.
 
 %changelog
 * Sun Apr 27 2008 Jonathan Martens <smeserver-contribs@snetram.nl> 4.18.1-13
-- Add common <base> tags to e-smith-formmagick's general
+- Add common <base> tags to e-smith-formmagick's general [SME: 4279]
 
 * Wed Apr 23 2008 Shad L. Lords <slords@mail.com> 4.18.1-12
 - Fix for > 5 nics detected [SME: 4232]
