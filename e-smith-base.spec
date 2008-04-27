@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.1
-%define release 12
+%define release 13
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -17,6 +17,7 @@ Patch6: e-smith-base-4.18.1-quitconsole.patch
 Patch7: e-smith-base-4.18.1-freebusy.patch2
 Patch8: e-smith-base-4.18.1-dateManip.patch
 Patch9: e-smith-base-4.18.1-ethernetlist.patch
+Patch10: e-smith-base-4.18.1-add2general.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-19
@@ -64,6 +65,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sun Apr 27 2008 Jonathan Martens <smeserver-contribs@snetram.nl> 4.18.1-13
+- Add common <base> tags to e-smith-formmagick's general
+
 * Wed Apr 23 2008 Shad L. Lords <slords@mail.com> 4.18.1-12
 - Fix for > 5 nics detected [SME: 4232]
 
@@ -1241,6 +1245,7 @@ e-smith server and gateway software - base module.
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
+%patch10 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
