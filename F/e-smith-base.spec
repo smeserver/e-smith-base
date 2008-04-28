@@ -22,7 +22,7 @@ BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-19
 Requires: server-manager-images, server-manager
-Requires: e-smith-formmagick >= 1.4.0-9
+Requires: e-smith-formmagick >= 1.4.0-12
 Requires: initscripts >= 6.67-1es17
 Requires: e-smith-daemontools >= 1.7.1-04
 Requires: perl(Locale::gettext)
