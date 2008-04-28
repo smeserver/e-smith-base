@@ -242,8 +242,7 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/usr/lib/perl5/site_per
 +          . $fm->localise("GROUP_ADD")
            . "</a></p>"));
  
--    if ( $numGroups == 0 ) {
-+    if ( $numGroups == 0 ) {
+     if ( $numGroups == 0 ) {
          print $q->Tr($q->td(
 -	    '<p><b>' . $fm->localise("NO_GROUPS") . '</p></b>'));
 +	    '<p><b>' . $fm->localise("ACCOUNT_GROUP_NONE") . '</p></b>'));
