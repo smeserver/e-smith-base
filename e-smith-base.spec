@@ -22,7 +22,7 @@ BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-19
 Requires: server-manager-images, server-manager
-Requires: e-smith-formmagick >= 1.4.0-9
+Requires: e-smith-formmagick >= 1.4.0-12
 Requires: initscripts >= 6.67-1es17
 Requires: e-smith-daemontools >= 1.7.1-04
 Requires: perl(Locale::gettext)
@@ -66,7 +66,7 @@ e-smith server and gateway software - base module.
 
 %changelog
 * Sun Apr 27 2008 Jonathan Martens <smeserver-contribs@snetram.nl> 4.18.1-13
-- Add common <base> tags to e-smith-formmagick's general
+- Add common <base> tags to e-smith-formmagick's general [SME: 4279]
 
 * Wed Apr 23 2008 Shad L. Lords <slords@mail.com> 4.18.1-12
 - Fix for > 5 nics detected [SME: 4232]
