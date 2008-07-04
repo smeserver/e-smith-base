@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.1
-%define release 13
+%define release 14
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -65,6 +65,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri Jul 4 2008 Jonathan Martens <smeserver-contribs@snetram.nl> 4.18.1-14
+- Add common <base> tags to e-smith-formmagick's general [SME: 4279]
+
 * Sun Apr 27 2008 Jonathan Martens <smeserver-contribs@snetram.nl> 4.18.1-13
 - Add common <base> tags to e-smith-formmagick's general [SME: 4279]
 

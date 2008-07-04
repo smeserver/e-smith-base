@@ -521,3 +521,14 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/etc/e-smith/web/panels
      </page>
      <page name="Done" pre-event="print_status_message()">
      </page>
+--- e-smith-base-4.18.1/root/etc/e-smith/web/functions/remoteaccess.add2general2	2008-07-04 23:13:37.000000000 +0200
++++ e-smith-base-4.18.1/root/etc/e-smith/web/functions/remoteaccess	2008-07-04 23:13:37.000000000 +0200
+@@ -132,7 +132,7 @@
+         
+         <field type="select" 
+             id="sshAccess" 
+-            options=" 'off' => 'NO_ACCESS', 'private' => 'PRIVATE', 'public' => 'PUBLIC'"
++            options=" 'off' => 'NO_ACCESS', 'private' => 'NETWORKS_ALLOW_LOCAL', 'public' => 'NETWORKS_ALLOW_PUBLIC'"
+             value="get_ssh_access()">
+             <label>LABEL_SSH</label>
+             <description>DESC_SSH</description>
