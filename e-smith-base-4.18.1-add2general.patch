@@ -263,7 +263,7 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/usr/lib/perl5/site_per
  	off => $self->localise('NO_ACCESS'),
      ); 
  
-@@ -306,14 +306,14 @@
+@@ -306,8 +306,8 @@
      return '' unless $db->get('ftp');
  
      my %options = (
@@ -274,14 +274,6 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/usr/lib/perl5/site_per
  	off => $self->localise('NO_ACCESS'),
      ); 
  
-     my %loginOptions = (
--	private => $self->localise('PASSWORD_LOGIN_PRIVATE'),
--	public  => $self->localise('PASSWORD_LOGIN_PUBLIC'),
-+	private => $self->localise('PASSWORD_LOGIN_NETWORKS_ALLOW_LOCAL'),
-+	public  => $self->localise('PASSWORD_LOGIN_NETWORKS_ALLOW_PUBLIC'),
-     );
- 
-     print $q->Tr(
 @@ -721,7 +721,7 @@
  
      unless ( system( "/sbin/e-smith/signal-event", "remoteaccess-update" ) == 0 )
