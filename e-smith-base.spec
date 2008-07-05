@@ -65,7 +65,7 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
-* Fri Jul 4 2008 Jonathan Martens <smeserver-contribs@snetram.nl> 4.18.1-14
+* Sat Jul 5 2008 Jonathan Martens <smeserver-contribs@snetram.nl> 4.18.1-14
 - Add common <base> tags to e-smith-formmagick's general [SME: 4279]
 
 * Sun Apr 27 2008 Jonathan Martens <smeserver-contribs@snetram.nl> 4.18.1-13
