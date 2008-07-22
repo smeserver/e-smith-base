@@ -1,0 +1,16 @@
+--- manageRAID.pl	2007-06-18 10:54:47.000000000 +0200
++++ /sbin/e-smith/console-menu-items/manageRAID.pl	2008-07-22 15:39:11.000000000 +0200
+@@ -213,7 +213,11 @@
+             {
+                 $devices{$dev}{$1} = $_;
+ 		my $used_disk = $4;
+-		$used_disk =~ s/\d+//;
++		if (/(rd|ida|cciss|i2o)\//) {
++			$used_disk =~ s/p\d+$//;
++		    } else {
++			    $used_disk =~ s/\d+//;
++	    }
+                 push (@{$devices{$dev}{UsedDisks}}, $used_disk);
+             }
+         }
+
