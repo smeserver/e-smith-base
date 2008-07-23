@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.1
-%define release 14
+%define release 15
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -18,6 +18,7 @@ Patch7: e-smith-base-4.18.1-freebusy.patch2
 Patch8: e-smith-base-4.18.1-dateManip.patch
 Patch9: e-smith-base-4.18.1-ethernetlist.patch
 Patch10: e-smith-base-4.18.1-add2general.patch
+Patch11: e-smith-base-4.18.1-get_raid_details_cciss.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-19
@@ -65,6 +66,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Jul 22 2008 Gavin Weight <gweight@gmail.com> 4.18.1-15
+- Add regex to support cciss device names in manageRAID.pl. [SME: 4455]
+
 * Sat Jul 5 2008 Jonathan Martens <smeserver-contribs@snetram.nl> 4.18.1-14
 - Add common <base> tags to e-smith-formmagick's general [SME: 4279]
 
@@ -1249,6 +1253,7 @@ e-smith server and gateway software - base module.
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
+%patch11 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
