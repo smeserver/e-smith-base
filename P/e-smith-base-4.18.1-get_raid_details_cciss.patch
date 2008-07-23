@@ -1,16 +1,18 @@
---- manageRAID.pl	2007-06-18 10:54:47.000000000 +0200
-+++ /sbin/e-smith/console-menu-items/manageRAID.pl	2008-07-22 15:39:11.000000000 +0200
-@@ -213,7 +213,11 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/sbin/e-smith/console-menu-items/manageRAID.pl mezzanine_patched_e-smith-base-4.18.1/root/sbin/e-smith/console-menu-items/manageRAID.pl
+--- e-smith-base-4.18.1/root/sbin/e-smith/console-menu-items/manageRAID.pl	2008-03-26 16:49:00.000000000 +0000
++++ mezzanine_patched_e-smith-base-4.18.1/root/sbin/e-smith/console-menu-items/manageRAID.pl	2008-07-22 22:16:12.000000000 +0100
+@@ -213,8 +213,12 @@
+             if ( m:\s+(\d+)\s+(\d+)\s+(\d+).*/dev/([\w\/]+): )
              {
                  $devices{$dev}{$1} = $_;
- 		my $used_disk = $4;
+-		my $used_disk = $4;
 -		$used_disk =~ s/\d+//;
-+		if (/(rd|ida|cciss|i2o)\//) {
-+			$used_disk =~ s/p\d+$//;
-+		    } else {
-+			    $used_disk =~ s/\d+//;
-+	    }
++                my $used_disk = $4;
++                if (/(rd|ida|cciss|i2o)\//) {
++                    $used_disk =~ s/p\d+$//;
++                } else {
++                    $used_disk =~ s/\d+//;
++                }
                  push (@{$devices{$dev}{UsedDisks}}, $used_disk);
              }
          }
-
