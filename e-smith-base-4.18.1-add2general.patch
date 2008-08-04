@@ -245,7 +245,7 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/usr/lib/perl5/site_per
      if ( $numGroups == 0 ) {
          print $q->Tr($q->td(
 -	    '<p><b>' . $fm->localise("NO_GROUPS") . '</p></b>'));
-+	    '<p><b>' . $fm->localise("ACCOUNT_GROUP_NONE") . '</p></b>'));
++	    '<p><b>' . $fm->localise("NO_GROUPS") . '</p></b>'));
  
      }
      else {
@@ -303,7 +303,7 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/usr/lib/perl5/site_per
      unless ($pass1 eq $pass2) {
          $self->{cgi}->param( -name => 'wherenext', -value => 'Password' );
 -        return "PASSWORD_VERIFY_ERROR";
-+        return "PASSWORD_NO_MATCH";
++        return "PASSWORD_VERIFY_ERROR";
      }
      return "OK";
  }
@@ -312,7 +312,7 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/usr/lib/perl5/site_per
      unless ($pass1 eq $pass2) {
          $self->{cgi}->param( -name => 'wherenext', -value => 'Password' );
 -        return "SYSTEM_PASSWORD_VERIFY_ERROR";
-+        return "SYSTEM_PASSWORD_NO_MATCH";
++        return "SYSTEM_PASSWORD_VERIFY_ERROR";
      }
      return "OK";
  }
@@ -461,7 +461,7 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/etc/e-smith/web/panels
      {
  	$q->param(-name => 'status_message', 
 -		    -value => 'PASSWORD_CHANGE_FAILURE');
-+		    -value => 'ERROR_PASSWORD_CHANGE');
++		    -value => 'PASSWORD_CHANGE_ERROR');
  	return;
      }
      $acct->set_prop("PasswordSet", "yes");
@@ -479,7 +479,7 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/etc/e-smith/web/panels
      	unless ($pass1 eq $pass2) {
      		$fm->{cgi}->param( -name => 'wherenext', -value => 'Password' );
 -       	 	return "PASSWORD_VERIFY_ERROR";
-+       	 	return "PASSWORD_NO_MATCH";
++       	 	return "PASSWORD_VERIFY_ERROR";
      	}
          return "OK";
  }
