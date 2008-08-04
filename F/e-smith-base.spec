@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.1
-%define release 15
+%define release 16
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -66,6 +66,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Aug  4 2008 Jonathan Martens <smeserver-contribs@snetram.nl> 4.18.1-16
+- Revert some locale changes
+
 * Tue Jul 22 2008 Gavin Weight <gweight@gmail.com> 4.18.1-15
 - Add regex to support cciss device names in manageRAID.pl. [SME: 4455]
 
