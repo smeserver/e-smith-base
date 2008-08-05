@@ -1380,3 +1380,8 @@ Wed Jul 23 18:53:53 2008                                         gavin
 
 See changelog
 ----------------------------------------------------------------------
+Tue Aug  5 19:32:36 2008                                    smebuilder
+
+* Tue Aug  5 2008 Jonathan Martens <smeserver-contribs@snetram.nl> 4.18.1-17
+- Revert previous invalid locale changes (reverting to 4.18.1-15) [SME: 4472]
+----------------------------------------------------------------------
