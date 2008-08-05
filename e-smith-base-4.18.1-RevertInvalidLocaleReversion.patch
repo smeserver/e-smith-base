@@ -1,0 +1,54 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/etc/e-smith/web/panels/password/cgi-bin/userpassword mezzanine_patched_e-smith-base-4.18.1/root/etc/e-smith/web/panels/password/cgi-bin/userpassword
+--- e-smith-base-4.18.1/root/etc/e-smith/web/panels/password/cgi-bin/userpassword	2008-08-05 19:00:19.000000000 +0200
++++ mezzanine_patched_e-smith-base-4.18.1/root/etc/e-smith/web/panels/password/cgi-bin/userpassword	2008-08-05 18:59:54.000000000 +0200
+@@ -82,7 +82,7 @@
+ 		$pass))
+     {
+ 	$q->param(-name => 'status_message', 
+-		    -value => 'PASSWORD_CHANGE_ERROR');
++		    -value => 'ERROR_PASSWORD_CHANGE');
+ 	return;
+     }
+     $acct->set_prop("PasswordSet", "yes");
+@@ -103,7 +103,7 @@
+ 	my $pass1 = $fm->{cgi}->param('pass');
+     	unless ($pass1 eq $pass2) {
+     		$fm->{cgi}->param( -name => 'wherenext', -value => 'Password' );
+-       	 	return "PASSWORD_VERIFY_ERROR";
++       	 	return "PASSWORD_NO_MATCH";
+     	}
+         return "OK";
+ }
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/groups.pm mezzanine_patched_e-smith-base-4.18.1/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/groups.pm
+--- e-smith-base-4.18.1/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/groups.pm	2008-08-05 19:00:19.000000000 +0200
++++ mezzanine_patched_e-smith-base-4.18.1/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/groups.pm	2008-08-05 18:59:54.000000000 +0200
+@@ -166,7 +166,7 @@
+ 
+     if ( $numGroups == 0 ) {
+         print $q->Tr($q->td(
+-	    '<p><b>' . $fm->localise("NO_GROUPS") . '</p></b>'));
++	    '<p><b>' . $fm->localise("ACCOUNT_GROUP_NONE") . '</p></b>'));
+ 
+     }
+     else {
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm mezzanine_patched_e-smith-base-4.18.1/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm
+--- e-smith-base-4.18.1/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm	2008-08-05 19:00:19.000000000 +0200
++++ mezzanine_patched_e-smith-base-4.18.1/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm	2008-08-05 18:59:54.000000000 +0200
+@@ -605,7 +605,7 @@
+     my $pass1 = $self->{cgi}->param('password1');
+     unless ($pass1 eq $pass2) {
+         $self->{cgi}->param( -name => 'wherenext', -value => 'Password' );
+-        return "PASSWORD_VERIFY_ERROR";
++        return "PASSWORD_NO_MATCH";
+     }
+     return "OK";
+ }
+@@ -1140,7 +1140,7 @@
+     my $pass1 = $self->{cgi}->param('pass');
+     unless ($pass1 eq $pass2) {
+         $self->{cgi}->param( -name => 'wherenext', -value => 'Password' );
+-        return "SYSTEM_PASSWORD_VERIFY_ERROR";
++        return "SYSTEM_PASSWORD_NO_MATCH";
+     }
+     return "OK";
+ }
