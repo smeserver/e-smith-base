@@ -1,0 +1,10 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/etc/e-smith/locale/en-us/etc/e-smith/web/panels/password/cgi-bin/userpassword mezzanine_patched_e-smith-base-4.18.1/root/etc/e-smith/locale/en-us/etc/e-smith/web/panels/password/cgi-bin/userpassword
+--- e-smith-base-4.18.1/root/etc/e-smith/locale/en-us/etc/e-smith/web/panels/password/cgi-bin/userpassword	2008-08-07 19:28:39.000000000 +0200
++++ mezzanine_patched_e-smith-base-4.18.1/root/etc/e-smith/locale/en-us/etc/e-smith/web/panels/password/cgi-bin/userpassword	2008-08-07 19:28:03.000000000 +0200
+@@ -16,6 +16,4 @@
+       </trans>
+     </entry>
+ 
+-    <entry>
+-
+ </lexicon>
