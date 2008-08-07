@@ -72,7 +72,7 @@ e-smith server and gateway software - base module.
 * Thu Aug  7 2008 Jonathan Martens <smeserver-contribs@snetram.nl> 4.18.1-18
 - Revert locale key PASSWORD_RESET_TITLE to RESET_PASSWORD_TITLE and move it 
   to e-smith-formmagick's general [SME: 4475]
-- Remove invlaid entry tag from userpassword's locale file preventing the 
+- Remove invalid entry tag from userpassword's locale file preventing the 
   form from displaying properly [SME: 4479]
 
 * Tue Aug  5 2008 Jonathan Martens <smeserver-contribs@snetram.nl> 4.18.1-17
