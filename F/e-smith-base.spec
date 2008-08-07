@@ -22,6 +22,7 @@ Patch11: e-smith-base-4.18.1-get_raid_details_cciss.patch
 Patch12: e-smith-base-4.18.1-RevertInvalidLocaleReversion.patch
 Patch13: e-smith-base-4.18.1-FixAndMoveRESET_PASSWORD_TITLE.patch
 Patch14: e-smith-base-4.18.1-removeInvalidEntryTag.patch
+Patch15: e-smith-base-4.18.1-fixPASSWORD_VERIFY_ERROR.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-19
@@ -72,6 +73,7 @@ e-smith server and gateway software - base module.
 * Thu Aug  7 2008 Jonathan Martens <smeserver-contribs@snetram.nl> 4.18.1-18
 - Revert locale key PASSWORD_RESET_TITLE to RESET_PASSWORD_TITLE and move it 
   to e-smith-formmagick's general [SME: 4475]
+- Reverting all *PASSWORD_NO_MATCH to *PASSWORD_VERIFY_ERROR locale keys [SME: 4476]
 - Remove invalid entry tag from userpassword's locale file preventing the 
   form from displaying properly [SME: 4479]
 
@@ -1272,6 +1274,7 @@ e-smith server and gateway software - base module.
 %patch12 -p1
 %patch13 -p1
 %patch14 -p1
+%patch15 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
