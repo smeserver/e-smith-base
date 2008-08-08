@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.1
-%define release 18
+%define release 19
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -23,6 +23,7 @@ Patch12: e-smith-base-4.18.1-RevertInvalidLocaleReversion.patch
 Patch13: e-smith-base-4.18.1-FixAndMoveRESET_PASSWORD_TITLE.patch
 Patch14: e-smith-base-4.18.1-removeInvalidEntryTag.patch
 Patch15: e-smith-base-4.18.1-fixPASSWORD_VERIFY_ERROR.patch
+Patch16: e-smith-base-4.18.1-fixPASSWORD_VERIFY_NEW.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-19
@@ -70,6 +71,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri Aug  8 2008 Jonathan Martens <smeserver-contribs@snetram.nl> 4.18.1-19
+- Change userpassword panel to use PASSWORD_VERIFY_NEW instead of PASSWORD_NEW_VERIFY [SME: 4487]
+
 * Thu Aug  7 2008 Jonathan Martens <smeserver-contribs@snetram.nl> 4.18.1-18
 - Revert locale key PASSWORD_RESET_TITLE to RESET_PASSWORD_TITLE and move it 
   to e-smith-formmagick's general [SME: 4475]
@@ -1275,6 +1279,7 @@ e-smith server and gateway software - base module.
 %patch13 -p1
 %patch14 -p1
 %patch15 -p1
+%patch16 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
