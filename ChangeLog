@@ -1398,3 +1398,8 @@ Thu Aug  7 20:41:07 2008                                    smebuilder
 * Thu Aug  7 2008 Jonathan Martens <smeserver-contribs@snetram.nl> 4.18.1-18
 - Reverting all *PASSWORD_NO_MATCH to *PASSWORD_VERIFY_ERROR locale keys [SME: 4476]
 ----------------------------------------------------------------------
+Fri Aug  8 12:55:45 2008                                    smebuilder
+
+* Fri Aug  8 2008 Jonathan Martens <smeserver-contribs@snetram.nl> 4.18.1-19
+- Change userpassword panel to use PASSWORD_VERIFY_NEW instead of PASSWORD_NEW_VERIFY [SME: 4487]
+----------------------------------------------------------------------
