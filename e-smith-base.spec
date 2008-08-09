@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.1
-%define release 19
+%define release 20
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -42,7 +42,6 @@ Requires: /sbin/microcode_ctl
 Requires: dbus
 Requires: hal
 Requires: acpid
-Requires: whiptail
 Requires: rssh
 Requires: bridge-utils
 Requires: vconfig
@@ -71,6 +70,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sat Aug 9 2008 Shad L. Lords <slords@mail.com> 4.18.1-20
+- Remove requires for whiptail.  No longer needed [SME: 4491]
+
 * Fri Aug  8 2008 Jonathan Martens <smeserver-contribs@snetram.nl> 4.18.1-19
 - Change userpassword panel to use PASSWORD_VERIFY_NEW instead of PASSWORD_NEW_VERIFY [SME: 4487]
 
