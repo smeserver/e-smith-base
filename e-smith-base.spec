@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.1
-%define release 20
+%define release 21
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -24,6 +24,7 @@ Patch13: e-smith-base-4.18.1-FixAndMoveRESET_PASSWORD_TITLE.patch
 Patch14: e-smith-base-4.18.1-removeInvalidEntryTag.patch
 Patch15: e-smith-base-4.18.1-fixPASSWORD_VERIFY_ERROR.patch
 Patch16: e-smith-base-4.18.1-fixPASSWORD_VERIFY_NEW.patch
+Patch17: e-smith-base-4.18.1-ip-down.race.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-19
@@ -70,6 +71,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Aug 11 2008 Charlie Brady <charlie_brady@mitel.com> 4.18.1-21
+- Fix race condition in VPN ip-down handling which could cause loss of
+  LAN connectivity. [SME: 4405]
+
 * Sat Aug 9 2008 Shad L. Lords <slords@mail.com> 4.18.1-20
 - Remove requires for whiptail.  No longer needed [SME: 4491]
 
@@ -1282,6 +1287,7 @@ e-smith server and gateway software - base module.
 %patch14 -p1
 %patch15 -p1
 %patch16 -p1
+%patch17 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
