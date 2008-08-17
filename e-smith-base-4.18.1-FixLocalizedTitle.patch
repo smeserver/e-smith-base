@@ -1,0 +1,11 @@
+--- e-smith-base-4.18.1/root/usr/lib/perl5/site_perl/esmith/console/perform_backup.pm.FixLocalizedTitle	2008-03-26 16:49:00.000000000 +0000
++++ e-smith-base-4.18.1/root/usr/lib/perl5/site_perl/esmith/console/perform_backup.pm	2008-08-17 15:20:26.000000000 +0100
+@@ -219,7 +219,7 @@
+     }
+     close DU;
+  
+-    $console->gauge(make_backup_callback($device), 'title' => 'Creating backup file');
++    $console->gauge(make_backup_callback($device), 'title' => gettext("Creating backup file"));
+ 
+     system("/bin/umount", "$device");
+     system("/sbin/e-smith/signal-event", "post-backup");
