@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.1
-%define release 21
+%define release 22
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -25,6 +25,7 @@ Patch14: e-smith-base-4.18.1-removeInvalidEntryTag.patch
 Patch15: e-smith-base-4.18.1-fixPASSWORD_VERIFY_ERROR.patch
 Patch16: e-smith-base-4.18.1-fixPASSWORD_VERIFY_NEW.patch
 Patch17: e-smith-base-4.18.1-ip-down.race.patch
+Patch18: e-smith-base-4.18.1-FixLocalizedTitle.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-19
@@ -71,6 +72,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sun Aug 17 2008 Gavin Weight <gweight@gmail.com> 4.18.1-22
+- Add gettext to creating backup file title for localization. [SME: 4467]
+
 * Mon Aug 11 2008 Charlie Brady <charlie_brady@mitel.com> 4.18.1-21
 - Fix race condition in VPN ip-down handling which could cause loss of
   LAN connectivity. [SME: 4405]
@@ -1288,6 +1292,7 @@ e-smith server and gateway software - base module.
 %patch15 -p1
 %patch16 -p1
 %patch17 -p1
+%patch18 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
