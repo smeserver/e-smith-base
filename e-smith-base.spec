@@ -1,31 +1,13 @@
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
-%define version 4.18.1
-%define release 22
+%define version 4.19.0
+%define release 1
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
-Patch1: e-smith-base-4.18.1-fixgettext.patch
-Patch2: e-smith-base-4.18.1-deleteorder.patch
-Patch3: e-smith-base-4.18.1-insertmode.patch
-Patch4: e-smith-base-4.18.1-freebusy.patch
-Patch5: e-smith-base-4.18.1-frames.patch
-Patch6: e-smith-base-4.18.1-quitconsole.patch
-Patch7: e-smith-base-4.18.1-freebusy.patch2
-Patch8: e-smith-base-4.18.1-dateManip.patch
-Patch9: e-smith-base-4.18.1-ethernetlist.patch
-Patch10: e-smith-base-4.18.1-add2general.patch
-Patch11: e-smith-base-4.18.1-get_raid_details_cciss.patch
-Patch12: e-smith-base-4.18.1-RevertInvalidLocaleReversion.patch
-Patch13: e-smith-base-4.18.1-FixAndMoveRESET_PASSWORD_TITLE.patch
-Patch14: e-smith-base-4.18.1-removeInvalidEntryTag.patch
-Patch15: e-smith-base-4.18.1-fixPASSWORD_VERIFY_ERROR.patch
-Patch16: e-smith-base-4.18.1-fixPASSWORD_VERIFY_NEW.patch
-Patch17: e-smith-base-4.18.1-ip-down.race.patch
-Patch18: e-smith-base-4.18.1-FixLocalizedTitle.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-19
@@ -72,6 +54,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Wed Aug 20 2008 Shad L. Lords <slords@mail.com> 4.19.0-1
+- Roll new dev stream.
+
 * Sun Aug 17 2008 Gavin Weight <gweight@gmail.com> 4.18.1-22
 - Add gettext to creating backup file title for localization. [SME: 4467]
 
@@ -1273,26 +1258,6 @@ e-smith server and gateway software - base module.
 
 %prep
 %setup
-%patch1 -p1
-%patch2 -p1
-%if "%{?rhel}" == "5"
-%patch3 -p1
-%endif
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
-%patch10 -p1
-%patch11 -p1
-%patch12 -p1
-%patch13 -p1
-%patch14 -p1
-%patch15 -p1
-%patch16 -p1
-%patch17 -p1
-%patch18 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
