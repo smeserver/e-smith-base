@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.19.0
-%define release 1
+%define release 2
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -54,6 +54,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Thu Aug 28 2008 Jonathan Martens <smeserver-contribs@snetram.nl> 4.19.0-2
+- Fixed warnings generated during build process [SME: 570]
+
 * Wed Aug 20 2008 Shad L. Lords <slords@mail.com> 4.19.0-1
 - Roll new dev stream.
 
@@ -1322,7 +1325,7 @@ ln -s /etc/rc.d/rc7.d root/etc/rc7.d
 mkdir -p root/etc/rc.d/rc1.d
 
 mkdir -p root/usr/share/locale/en_US/LC_MESSAGES
-xgettext -o root/usr/share/locale/en_US/LC_MESSAGES/server-console.po root/sbin/e-smith/console
+xgettext -L shell -o root/usr/share/locale/en_US/LC_MESSAGES/server-console.po root/sbin/e-smith/console
 
 mkdir -p root/etc/e-smith/locale
 # Make the fr-ca link in %pre to ease upgrades
@@ -1367,7 +1370,6 @@ rm root/service/{syslog,klogd}
 mkdir -p root/etc/e-smith/events/local
 mkdir -p root/etc/e-smith/events/user-modify-admin
 mkdir -p root/home/e-smith/db
-touch root/home/e-smith/db/configuration
 
 mkdir -p root/etc/e-smith/pam
 mkdir -p root/home/e-smith/ssl.key
@@ -1379,8 +1381,6 @@ mkdir -p root/var/state/e-smith
 for file in %{dbfiles}
 do
     mkdir -p root/etc/e-smith/db/$file/{defaults,migrate,force}
-    # Create ghost file for rpm
-    touch root/home/e-smith/db/$file
 done
 
 mkdir -p root/etc/tcprules
