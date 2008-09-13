@@ -1,0 +1,21 @@
+--- e-smith-base-4.18.1/root/etc/e-smith/templates/etc/inittab/12tty2.xenfix	2008-03-26 10:49:00.000000000 -0600
++++ e-smith-base-4.18.1/root/etc/e-smith/templates/etc/inittab/12tty2	2008-09-13 11:51:35.000000000 -0600
+@@ -1 +1 @@
+-{ -d "/proc/xen" && ! -f "/proc/xen/xsd_kva" ? "#" : "" }2:23457:respawn:/sbin/mingetty tty2
++{ -f "/proc/xen/xenbus" && ! -f "/proc/xen/xsd_kva" ? "#" : "" }2:23457:respawn:/sbin/mingetty tty2
+--- e-smith-base-4.18.1/root/etc/e-smith/templates/etc/inittab/13tty3.xenfix	2008-03-26 10:49:00.000000000 -0600
++++ e-smith-base-4.18.1/root/etc/e-smith/templates/etc/inittab/13tty3	2008-09-13 11:51:43.000000000 -0600
+@@ -1 +1 @@
+-{ -d "/proc/xen" && ! -f "/proc/xen/xsd_kva" ? "#" : "" }3:23457:respawn:/sbin/mingetty tty3
++{ -f "/proc/xen/xenbus" && ! -f "/proc/xen/xsd_kva" ? "#" : "" }3:23457:respawn:/sbin/mingetty tty3
+--- e-smith-base-4.18.1/root/etc/e-smith/templates/etc/inittab/70tty1.xenfix	2008-03-26 10:49:00.000000000 -0600
++++ e-smith-base-4.18.1/root/etc/e-smith/templates/etc/inittab/70tty1	2008-09-13 11:51:54.000000000 -0600
+@@ -1,7 +1,7 @@
+ 
+ # Run gettys in standard runlevels
+ {
+-    if ( -d "/proc/xen" && ! -f "/proc/xen/xsd_kva" )
++    if ( -f "/proc/xen/xenbus" && ! -f "/proc/xen/xsd_kva" )
+     {
+ 	"co:123457:respawn:/sbin/agetty xvc0 9600 vt100-nav";
+     }
