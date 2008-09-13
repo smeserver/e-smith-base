@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.1
-%define release 22
+%define release 24
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -26,6 +26,7 @@ Patch15: e-smith-base-4.18.1-fixPASSWORD_VERIFY_ERROR.patch
 Patch16: e-smith-base-4.18.1-fixPASSWORD_VERIFY_NEW.patch
 Patch17: e-smith-base-4.18.1-ip-down.race.patch
 Patch18: e-smith-base-4.18.1-FixLocalizedTitle.patch
+Patch19: e-smith-base-4.18.1-xenfix.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-19
@@ -72,6 +73,12 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sat Sep 13 2008 Shad L. Lords <slords@mail.com> 4.18.1-24
+- Fix detection of xen instance against newer kernels [SME: 4555]
+
+* Thu Aug 28 2008 Jonathan Martens <smeserver-contribs@snetram.nl> 4.18.1-23
+- Fixed warnings generated during build process [SME: 570]
+
 * Sun Aug 17 2008 Gavin Weight <gweight@gmail.com> 4.18.1-22
 - Add gettext to creating backup file title for localization. [SME: 4467]
 
@@ -1293,6 +1300,7 @@ e-smith server and gateway software - base module.
 %patch16 -p1
 %patch17 -p1
 %patch18 -p1
+%patch19 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
@@ -1357,7 +1365,7 @@ ln -s /etc/rc.d/rc7.d root/etc/rc7.d
 mkdir -p root/etc/rc.d/rc1.d
 
 mkdir -p root/usr/share/locale/en_US/LC_MESSAGES
-xgettext -o root/usr/share/locale/en_US/LC_MESSAGES/server-console.po root/sbin/e-smith/console
+xgettext -L shell -o root/usr/share/locale/en_US/LC_MESSAGES/server-console.po root/sbin/e-smith/console
 
 mkdir -p root/etc/e-smith/locale
 # Make the fr-ca link in %pre to ease upgrades
@@ -1402,7 +1410,6 @@ rm root/service/{syslog,klogd}
 mkdir -p root/etc/e-smith/events/local
 mkdir -p root/etc/e-smith/events/user-modify-admin
 mkdir -p root/home/e-smith/db
-touch root/home/e-smith/db/configuration
 
 mkdir -p root/etc/e-smith/pam
 mkdir -p root/home/e-smith/ssl.key
@@ -1414,8 +1421,6 @@ mkdir -p root/var/state/e-smith
 for file in %{dbfiles}
 do
     mkdir -p root/etc/e-smith/db/$file/{defaults,migrate,force}
-    # Create ghost file for rpm
-    touch root/home/e-smith/db/$file
 done
 
 mkdir -p root/etc/tcprules
