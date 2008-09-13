@@ -2,12 +2,13 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.19.0
-%define release 2
+%define release 3
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
+Patch1: e-smith-base-4.19.0-xenfix.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-19
@@ -54,6 +55,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sat Sep 13 2008 Shad L. Lords <slords@mail.com> 4.19.0-3
+- Fix detection of xen instance against newer kernels [SME: 4555]
+
 * Thu Aug 28 2008 Jonathan Martens <smeserver-contribs@snetram.nl> 4.19.0-2
 - Fixed warnings generated during build process [SME: 570]
 
@@ -1261,6 +1265,7 @@ e-smith server and gateway software - base module.
 
 %prep
 %setup
+%patch1 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
