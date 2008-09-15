@@ -2,13 +2,14 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.19.0
-%define release 3
+%define release 4
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch1: e-smith-base-4.19.0-xenfix.patch
+Patch2: e-smith-base-4.19.0-profile.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-19
@@ -55,6 +56,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Sep 15 2008 Shad L. Lords <slords@mail.com> 4.19.0-4
+- Fix screen corruption in console [SME: 4155]
+
 * Sat Sep 13 2008 Shad L. Lords <slords@mail.com> 4.19.0-3
 - Fix detection of xen instance against newer kernels [SME: 4555]
 
@@ -1266,6 +1270,7 @@ e-smith server and gateway software - base module.
 %prep
 %setup
 %patch1 -p1
+%patch2 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
