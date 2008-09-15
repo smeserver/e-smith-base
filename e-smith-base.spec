@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.1
-%define release 24
+%define release 25
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -27,6 +27,7 @@ Patch16: e-smith-base-4.18.1-fixPASSWORD_VERIFY_NEW.patch
 Patch17: e-smith-base-4.18.1-ip-down.race.patch
 Patch18: e-smith-base-4.18.1-FixLocalizedTitle.patch
 Patch19: e-smith-base-4.18.1-xenfix.patch
+Patch20: e-smith-base-4.18.1-profile.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-19
@@ -73,6 +74,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Sep 15 2008 Shad L. Lords <slords@mail.com> 4.18.1-25
+- Fix screen corruption in console [SME: 4155]
+
 * Sat Sep 13 2008 Shad L. Lords <slords@mail.com> 4.18.1-24
 - Fix detection of xen instance against newer kernels [SME: 4555]
 
@@ -1301,6 +1305,7 @@ e-smith server and gateway software - base module.
 %patch17 -p1
 %patch18 -p1
 %patch19 -p1
+%patch20 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

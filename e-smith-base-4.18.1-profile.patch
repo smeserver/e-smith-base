@@ -1,0 +1,11 @@
+--- e-smith-base-4.18.1/root/sbin/e-smith/console.profile	2007-01-26 18:56:31.000000000 -0700
++++ e-smith-base-4.18.1/root/sbin/e-smith/console	2008-09-15 09:04:50.000000000 -0600
+@@ -36,6 +36,8 @@
+ 
+ $ENV{TERM} = $termType if($termType);
+ 
++system("/bin/sh", "/etc/profile.d/lang.sh");
++
+ my %menu2object = ();
+ my @args = ();
+ my @items = ();
