@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.1
-%define release 25
+%define release 26
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -74,6 +74,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sat Sep 20 2008 Shad L. Lords <slords@mail.com> 4.18.1-26
+- Correct gettext type during build process [SME: 570]
+
 * Mon Sep 15 2008 Shad L. Lords <slords@mail.com> 4.18.1-25
 - Fix screen corruption in console [SME: 4155]
 
@@ -1370,7 +1373,7 @@ ln -s /etc/rc.d/rc7.d root/etc/rc7.d
 mkdir -p root/etc/rc.d/rc1.d
 
 mkdir -p root/usr/share/locale/en_US/LC_MESSAGES
-xgettext -L shell -o root/usr/share/locale/en_US/LC_MESSAGES/server-console.po root/sbin/e-smith/console
+xgettext -L perl -o root/usr/share/locale/en_US/LC_MESSAGES/server-console.po root/sbin/e-smith/console
 
 mkdir -p root/etc/e-smith/locale
 # Make the fr-ca link in %pre to ease upgrades
