@@ -1,0 +1,51 @@
+diff -urN orig/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/review localeemail/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/review
+--- orig/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/review	2008-03-27 03:49:00.000000000 +1100
++++ localeemail/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/review	2008-09-23 11:05:34.000000000 +1000
+@@ -104,6 +104,18 @@
+         <trans>Email Addresses</trans>
+     </entry>
+     <entry>
++        <base>EMAIL_USERACCOUNT</base>
++        <trans>useraccount</trans>
++    </entry>
++    <entry>
++        <base>EMAIL_FIRSTNAME</base>
++        <trans>firstname</trans>
++    </entry>
++    <entry>
++        <base>EMAIL_LASTNAME</base>
++        <trans>lastname</trans>
++    </entry>
++    <entry>
+         <base>NO_VIRTUAL_DOMAINS</base>
+         <trans>No virtual domains defined</trans>
+     </entry>
+diff -urN orig/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/review.pm localeemail/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/review.pm
+--- orig/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/review.pm	2005-11-21 15:28:10.000000000 +1100
++++ localeemail/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/review.pm	2008-09-23 11:39:58.000000000 +1000
+@@ -283,9 +283,13 @@
+     my $fm = shift;
+ 
+     my $domain = get_value($fm,'DomainName'); 
+-        my $out = "<I>useraccount</I>\@" . $domain . "<BR>"
+-        . "<I>firstname</I>.<I>lastname</I>\@" . $domain . "<BR>"
+-        . "<I>firstname</I>_<I>lastname</I>\@" . $domain . "<BR>"; 
++    my $useraccount = $fm->localise("EMAIL_USERACCOUNT");
++    my $firstname = $fm->localise("EMAIL_FIRSTNAME");
++    my $lastname = $fm->localise("EMAIL_LASTNAME");
++
++        my $out = "<I>" . $useraccount . "</I>\@" . $domain . "<BR>"
++        . "<I>" . $firstname . "</I>.<I>" . $lastname . "</I>\@" . $domain . "<BR>"
++        . "<I>" . $firstname . "</I>_<I>" . $lastname . "</I>\@" . $domain . "<BR>"; 
+ 
+         return $out;
+ }
+@@ -400,7 +404,7 @@
+ 	'https://'. (get_value('','SystemName') || 'localhost').'/server-manager/'  );
+     print_row($self,'MITEL_NETWORKS_SME_SERVER_USER_PASSWORD_PANEL',
+ 	'https://'. (get_value($self,'SystemName') || 'localhost').'/user-password/' );
+-    print_row($self,'EMAIL_ADDRESSES', gen_email_addresses() );
++    print_row($self,'EMAIL_ADDRESSES', gen_email_addresses($self) );
+     print "</table>";
+ }
+ 

@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 4.18.1
-%define release 26
+%define release 27
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -28,6 +28,7 @@ Patch17: e-smith-base-4.18.1-ip-down.race.patch
 Patch18: e-smith-base-4.18.1-FixLocalizedTitle.patch
 Patch19: e-smith-base-4.18.1-xenfix.patch
 Patch20: e-smith-base-4.18.1-profile.patch
+Patch21: e-smith-base-4.18.1-localeemail.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-19
@@ -74,6 +75,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Sep 23 2008 Stephen Noble <support@dungog.net> 4.18.1-27
+- Add locale tags for email in review panel [SME: 4267]
+
 * Sat Sep 20 2008 Shad L. Lords <slords@mail.com> 4.18.1-26
 - Correct gettext type during build process [SME: 570]
 
@@ -1309,6 +1313,7 @@ e-smith server and gateway software - base module.
 %patch18 -p1
 %patch19 -p1
 %patch20 -p1
+%patch21 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
