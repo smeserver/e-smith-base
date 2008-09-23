@@ -10,7 +10,7 @@ Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch1: e-smith-base-4.19.0-xenfix.patch
 Patch2: e-smith-base-4.19.0-profile.patch
-Patch2: e-smith-base-4.19.0-localeemail.patch
+Patch3: e-smith-base-4.19.0-localeemail.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-19
