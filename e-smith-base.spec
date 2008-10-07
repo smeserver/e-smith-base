@@ -1,16 +1,15 @@
+# $Id: e-smith-base.spec,v 1.69 2008/10/07 17:52:47 slords Exp $
+
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
-%define version 4.19.0
-%define release 6
+%define version 5.2.0
+%define release 1
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
-Patch1: e-smith-base-4.19.0-xenfix.patch
-Patch2: e-smith-base-4.19.0-profile.patch
-Patch3: e-smith-base-4.19.0-localeemail.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 1.18.0-19
@@ -40,9 +39,7 @@ Obsoletes: rlinetd, e-smith-mod_ssl
 Obsoletes: e-smith-serial-console
 Obsoletes: sshell
 Obsoletes: e-smith-rp-pppoe
-%if "%{?rhel}" == "5"
 Obsoletes: perl-Data-UUID
-%endif
 BuildRequires: perl, perl(Test::Inline) >= 0.12
 BuildRequires: e-smith-devtools >= 1.13.1-03
 BuildRequires: gettext
@@ -57,6 +54,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Oct 7 2008 Shad L. Lords <slords@mail.com> 5.2.0-1.sme
+- Roll new stream to separate sme7/sme8 trees [SME: 4633]
+
 * Tue Sep 23 2008 Stephen Noble <support@dungog.net> 4.19.0-6
 - Add locale tags for email in review panel [SME: 4267]
 
@@ -1276,9 +1276,6 @@ e-smith server and gateway software - base module.
 
 %prep
 %setup
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
