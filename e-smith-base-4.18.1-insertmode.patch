@@ -1,5 +1,0 @@
-diff -Nur -x '*.orig' -x '*.rej' e-smith-base-4.18.1/root/etc/e-smith/templates/etc/elinks.conf/10insert_mode mezzanine_patched_e-smith-base-4.18.1/root/etc/e-smith/templates/etc/elinks.conf/10insert_mode
---- e-smith-base-4.18.1/root/etc/e-smith/templates/etc/elinks.conf/10insert_mode	1969-12-31 17:00:00.000000000 -0700
-+++ mezzanine_patched_e-smith-base-4.18.1/root/etc/e-smith/templates/etc/elinks.conf/10insert_mode	2008-03-28 10:20:42.000000000 -0600
-@@ -0,0 +1 @@
-+set document.browse.forms.insert_mode = 0
