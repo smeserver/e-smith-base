@@ -1,18 +1,19 @@
-# $Id: e-smith-base.spec,v 1.69 2008/10/07 17:52:47 slords Exp $
+# $Id: e-smith-base.spec,v 1.70 2008/10/13 21:47:35 slords Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.2.0
-%define release 1
+%define release 2
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
+Patch1: e-smith-base-5.2.0-sambaRole.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
-Requires: e-smith-lib >= 1.18.0-19
+Requires: e-smith-lib >= 2.2.0-2
 Requires: server-manager-images, server-manager
 Requires: e-smith-formmagick >= 1.4.0-12
 Requires: initscripts >= 6.67-1es17
@@ -54,6 +55,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Oct 13 2008 Shad L. Lords <slords@mail.com> 5.2.0-2.sme
+- Add patch to support multiple samba roles [SME: 4172]
+
 * Tue Oct 7 2008 Shad L. Lords <slords@mail.com> 5.2.0-1.sme
 - Roll new stream to separate sme7/sme8 trees [SME: 4633]
 
@@ -1276,6 +1280,7 @@ e-smith server and gateway software - base module.
 
 %prep
 %setup
+%patch1 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
