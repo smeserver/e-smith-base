@@ -1,0 +1,12 @@
+--- e-smith-base-5.0.0/root/etc/e-smith/templates/etc/dhcpd.conf/25NetbiosNodeType.sambaRole	2005-11-20 21:28:06.000000000 -0700
++++ e-smith-base-5.0.0/root/etc/e-smith/templates/etc/dhcpd.conf/25NetbiosNodeType	2008-10-13 11:54:04.000000000 -0600
+@@ -1,7 +1,7 @@
+ {
+-    my $domain_master = $smb{DomainMaster} || 'no';
++    my $server_role = $smb{ServerRole} || 'WS';
+ 
+-    return "" unless $domain_master eq 'yes';
++    return "" unless $server_role =~ m{^(PDC|ADS)$};
+ 
+     return "    option netbios-node-type    8;";
+ }
