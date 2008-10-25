@@ -1,0 +1,10 @@
+--- e-smith-base-5.0.0/createlinks.smartd40	2008-10-08 04:34:48.000000000 +1100
++++ e-smith-base-5.0.0/createlinks	2008-10-25 22:26:22.000000000 +1100
+@@ -538,6 +538,7 @@
+     network  	=> "37",
+     irqbalance 	=> "39",
+     crond    	=> "40",
++    smartd    	=> "40",
+     acpid    	=> "44",
+     dhcpd    	=> "65",
+     messagebus 	=> "97",
