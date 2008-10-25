@@ -1,16 +1,17 @@
-# $Id: e-smith-base.spec,v 1.68 2008/10/13 21:47:34 slords Exp $
+# $Id: e-smith-base.spec,v 1.69 2008/10/25 11:32:06 dungog Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.0.0
-%define release 2
+%define release 3
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch1: e-smith-base-5.0.0-sambaRole.patch
+Patch2: e-smith-base-5.0.0-smartd40.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 2.0.0-2
@@ -54,6 +55,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sat Oct 25 2008 Stephen Noble <support@dungog.net> 5.0.0-3.sme
+- create service link for smartd [SME: 1445]
+
 * Mon Oct 13 2008 Shad L. Lords <slords@mail.com> 5.0.0-2.sme
 - Add patch to support multiple samba roles [SME: 4172]
 
@@ -1277,6 +1281,7 @@ e-smith server and gateway software - base module.
 %prep
 %setup
 %patch1 -p1
+%patch2 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
