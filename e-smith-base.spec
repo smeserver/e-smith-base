@@ -1,4 +1,4 @@
-# $Id: e-smith-base.spec,v 1.72 2009/02/14 11:08:27 snetram Exp $
+# $Id: e-smith-base.spec,v 1.73 2009/02/14 11:10:55 snetram Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
@@ -57,7 +57,7 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
-* Sat Feb 14 2009 Jonathan Martens <smesevrer-contribs@snetram.nl> 5.2.0-4.sme
+* Sat Feb 14 2009 Jonathan Martens <smeserver-contribs@snetram.nl> 5.2.0-4.sme
 - Auto-mount USB REV70-drive as usbdisk [SME: 5006]
 
 * Sat Oct 25 2008 Stephen Noble <support@dungog.net> 5.2.0-3.sme
