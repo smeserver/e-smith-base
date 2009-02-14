@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.71 2008/10/25 11:46:59 dungog Exp $
+# $Id: e-smith-base.spec,v 1.72 2009/02/14 11:08:27 snetram Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.2.0
-%define release 3
+%define release 4
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -12,6 +12,7 @@ Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch1: e-smith-base-5.2.0-sambaRole.patch
 Patch2: e-smith-base-5.2.0-smartd40.patch
+Patch3: e-smith-base-5.2.0-usbRev70drive.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 2.2.0-2
@@ -56,6 +57,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sat Feb 14 2009 Jonathan Martens <smesevrer-contribs@snetram.nl> 5.2.0-4.sme
+- Auto-mount USB REV70-drive as usbdisk [SME: 5006]
+
 * Sat Oct 25 2008 Stephen Noble <support@dungog.net> 5.2.0-3.sme
 - create service link for smartd [SME: 1445]
 
@@ -1286,6 +1290,7 @@ e-smith server and gateway software - base module.
 %setup
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
