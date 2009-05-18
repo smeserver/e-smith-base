@@ -1,0 +1,13 @@
+--- e-smith-base-5.0.0/root/sbin/e-smith/console-menu-items/manageRAID.pl.FixLabelArray	2008-10-07 18:34:48.000000000 +0100
++++ e-smith-base-5.0.0/root/sbin/e-smith/console-menu-items/manageRAID.pl	2009-05-18 16:53:52.000000000 +0100
+@@ -201,6 +201,10 @@
+             {
+                 my ($key, $value) = ($1, $2);
+                 $key =~ s/\s//g;
++
++		# Allow for different mdadm output formats for DeviceSize
++                $key =~ s/UsedDevSize/DeviceSize/;
++
+                 $devices{$dev}{$key} = $value;
+             }
+             elsif ( /\s*(.*)\s+:\s+(.*)\s*/ )
