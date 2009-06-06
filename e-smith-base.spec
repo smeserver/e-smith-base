@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.71 2009/05/18 16:24:15 bytegw Exp $
+# $Id: e-smith-base.spec,v 1.72 2009/06/06 15:18:28 slords Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.0.0
-%define release 5
+%define release 6
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -14,6 +14,7 @@ Patch1: e-smith-base-5.0.0-sambaRole.patch
 Patch2: e-smith-base-5.0.0-smartd40.patch
 Patch3: e-smith-base-5.0.0-usbRev70drive.patch
 Patch4: e-smith-base-5.0.0-FixLabelArray.patch
+Patch5: e-smith-base-5.0.0-straysymlink.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 2.0.0-2
@@ -57,6 +58,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sat Jun 6 2009 Shad L. Lords <slords@mail.com> 5.0.0-6.sme
+- Clean up stray symlinks in /lib/modules before depmod [SME: 5334]
+
 * Mon May 18 2009 Gavin Weight <gweight@gmail.com> 5.0.0-5.sme
 - Allow for different mdadm output formats for DeviceSize. [SME: 5258]
 
@@ -1292,6 +1296,7 @@ e-smith server and gateway software - base module.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

@@ -1,0 +1,13 @@
+--- e-smith-base-5.0.0/root/etc/e-smith/events/actions/conf-modules.straysymlink	2008-03-26 10:49:00.000000000 -0600
++++ e-smith-base-5.0.0/root/etc/e-smith/events/actions/conf-modules	2009-06-06 09:10:39.000000000 -0600
+@@ -22,6 +22,10 @@
+ 
+ use strict;
+ use Errno;
++use File::Find;
++
++# Remove stale symlinks from /lib/modules
++finddepth(sub{unlink unless -e $_}, '/lib/modules/');
+ 
+ opendir(BOOT, "/boot") or die("Can't open /boot directory: $!\n");
+ 
