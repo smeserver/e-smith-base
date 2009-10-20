@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.75 2009/06/06 15:18:28 slords Exp $
+# $Id: e-smith-base.spec,v 1.76 2009/10/20 13:59:20 filippocarletti Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.2.0
-%define release 6
+%define release 7
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -15,6 +15,7 @@ Patch2: e-smith-base-5.2.0-smartd40.patch
 Patch3: e-smith-base-5.2.0-usbRev70drive.patch
 Patch4: e-smith-base-5.2.0-FixLabelArray.patch
 Patch5: e-smith-base-5.2.0-straysymlink.patch
+Patch6: e-smith-base-5.2.0-nonetworkdrivers.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 2.2.0-2
@@ -59,6 +60,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Oct 20 2009 Filippo Carletti <filippo.carletti@gmail.com> 5.2.0-7.sme
+- Clean up: remove unused nonetworkdrivers [SME: 5521]
+
 * Sat Jun 6 2009 Shad L. Lords <slords@mail.com> 5.2.0-6.sme
 - Clean up stray symlinks in /lib/modules before depmod [SME: 5336]
 
@@ -1301,6 +1305,7 @@ e-smith server and gateway software - base module.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

@@ -1,0 +1,27 @@
+diff -Naur e-smith-base-5.2.0-orig/root/etc/e-smith/templates/etc/inittab/15nonetworkdrivers e-smith-base-5.2.0/root/etc/e-smith/templates/etc/inittab/15nonetworkdrivers
+--- e-smith-base-5.2.0-orig/root/etc/e-smith/templates/etc/inittab/15nonetworkdrivers	2006-02-17 04:41:51.000000000 +0100
++++ e-smith-base-5.2.0/root/etc/e-smith/templates/etc/inittab/15nonetworkdrivers	1970-01-01 01:00:00.000000000 +0100
+@@ -1 +0,0 @@
+-nn::sysinit:/bin/sh /sbin/e-smith/nonetworkdrivers
+diff -Naur e-smith-base-5.2.0-orig/root/sbin/e-smith/nonetworkdrivers e-smith-base-5.2.0/root/sbin/e-smith/nonetworkdrivers
+--- e-smith-base-5.2.0-orig/root/sbin/e-smith/nonetworkdrivers	2008-03-26 17:49:00.000000000 +0100
++++ e-smith-base-5.2.0/root/sbin/e-smith/nonetworkdrivers	1970-01-01 01:00:00.000000000 +0100
+@@ -1,18 +0,0 @@
+-#! /bin/sh
+-
+-# quit early and quietly if this is not going to work
+-test -x "/sbin/kmodule" || exit 0
+-# TODO - find out whether there is a "wrong module" problem
+-#        in CentOS5 - this script may be a workaround for a
+-#        problem which we don't ever see any more
+-
+-# unload any network drivers which have been installed
+-# by rc.sysinit, so that we can allocate eth0/eth1 as we
+-# choose, rather than in order defined by kmodule
+-kmodule | while read devtype mod
+-do
+-   if [ "$devtype" = "NETWORK" ]
+-   then
+-        /sbin/rmmod $mod 2>/dev/null
+-   fi
+-done
