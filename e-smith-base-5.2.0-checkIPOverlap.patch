@@ -1,0 +1,43 @@
+diff -up e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm.checkIPOverlap e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm
+--- e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm.checkIPOverlap	2008-08-20 23:17:24.000000000 +0200
++++ e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm	2009-10-24 20:32:00.000000000 +0200
+@@ -1049,7 +1049,38 @@
+     {
+         if ( isValidIP($choice) )
+         {
+-            $db->set_value('ExternalNetmask', cleanIP($choice));
++            # Check for overlapping ranges in external and internal interface IP and netmasks
++
++            # Retrieve the local IP/mask setting
++            my $localAddress = $db->get_value('LocalIP');
++            my $localNetmask = $db->get_value('LocalNetmask');
++
++            # Retrieve the external IP/mask setting
++            my $externalAddress = $db->get_value('ExternalIP');
++            my $externalNetmask = cleanIP($choice);
++
++            if ( ipv4_in_network($localAddress, $localNetmask, $externalAddress, $externalNetmask) )
++            {
++
++                ($rc, $choice) = $console->message_page
++                (
++                    title => gettext("Invalid address ranges"),
++                    text  => gettext(
++                                 "Internal address range overlaps external address range" .
++                                 "\n\n".
++                                 "Local interface: $localAddress/$localNetmask" .
++                                 "\n" .
++                                 "External interface: $externalAddress/$externalNetmask" .
++                                 "\n\n".
++                                 "Please review your settings."
++                    )
++                );
++
++                goto STATIC_IP;
++
++            }
++
++            $db->set_value('ExternalNetmask', $externalNetmask);
+             goto STATIC_GATEWAY;
+         }
+     }

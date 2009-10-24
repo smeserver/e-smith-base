@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.76 2009/10/20 13:59:20 filippocarletti Exp $
+# $Id: e-smith-base.spec,v 1.77 2009/10/24 20:35:32 snetram Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.2.0
-%define release 7
+%define release 8
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -16,6 +16,7 @@ Patch3: e-smith-base-5.2.0-usbRev70drive.patch
 Patch4: e-smith-base-5.2.0-FixLabelArray.patch
 Patch5: e-smith-base-5.2.0-straysymlink.patch
 Patch6: e-smith-base-5.2.0-nonetworkdrivers.patch
+Patch7: e-smith-base-5.2.0-checkIPOverlap.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 2.2.0-2
@@ -60,6 +61,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sat Oct 24 2009 Jonathan Martens <smeserver-contribs@snetram.nl> 5.2.0-8.sme
+- Prevent IP conflicts between local and external interface in server gateway mode [SME: 5501]
+
 * Tue Oct 20 2009 Filippo Carletti <filippo.carletti@gmail.com> 5.2.0-7.sme
 - Clean up: remove unused nonetworkdrivers [SME: 5521]
 
@@ -1306,6 +1310,7 @@ e-smith server and gateway software - base module.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
