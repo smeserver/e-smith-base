@@ -1,0 +1,59 @@
+diff -up e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm.adapter-translation-fixes e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm
+--- e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm.adapter-translation-fixes	2009-11-06 13:12:01.000000000 +0100
++++ e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm	2009-11-06 13:14:27.000000000 +0100
+@@ -102,21 +102,21 @@ sub ethernetSelect($$)
+     push( @args,
+           ++$item . ".",
+           sprintf(gettext("Manually select driver for %s ethernet adapter"),
+-                  $ifName),
++                  gettext($ifName)),
+         );
+ 
+ 
+     my ($rc, $choice) = $console->menu_page
+         (
+          title => sprintf(gettext("Select %s network ethernet driver"),
+-                          $ifName),
++                          gettext($ifName)),
+ 	 default => $default,
+          text  =>
+          sprintf(gettext("You now need to select the proper driver for your " .
+ 	      "%s network ethernet adapter. The server can attempt to do " .
+ 	      "this automatically, or you can do it manually - either by " .
+ 	      "specifying the model of your ethernet adapter or by " .
+-	      "directly choosing a driver.\n"), $ifName),
++	      "directly choosing a driver.\n"), gettext($ifName)),
+          argsref => \@args,
+         );
+ 
+@@ -164,7 +164,7 @@ sub ethernetManual($)
+ 
+     my ($rc, $choice) = $console->menu_page
+         (
+-         title   => sprintf(gettext("Select %s adapter manually"), $ifName),
++         title   => sprintf(gettext("Select %s adapter manually"), gettext($ifName)),
+          text    => gettext("Please select one of the following:"),
+          argsref => \@args
+         );
+@@ -186,8 +186,8 @@ sub ethernetManual($)
+         my ($rc, $choice) = $console->menu_page
+             (
+              title => sprintf(gettext("Specify %s adapter and driver"),
+-                              $ifName),
+-             text  => sprintf(gettext("Please specify your %s ethernet adapter and corresponding driver"), $ifName),
++                              gettext($ifName)),
++             text  => sprintf(gettext("Please specify your %s ethernet adapter and corresponding driver"), gettext($ifName)),
+              argsref => \@args
+             );
+ 
+@@ -211,8 +211,8 @@ sub ethernetManual($)
+ 
+         my ($rc, $choice) = $console->menu_page
+             (
+-             title   => sprintf(gettext("Specify %s ethernet driver"), $ifName),
+-             text    => sprintf(gettext("Please specify the driver to use for the %s ethernet adapter"), $ifName),
++             title   => sprintf(gettext("Specify %s ethernet driver"), gettext($ifName)),
++             text    => sprintf(gettext("Please specify the driver to use for the %s ethernet adapter"), gettext($ifName)),
+              argsref => \@args
+             );
+ 
