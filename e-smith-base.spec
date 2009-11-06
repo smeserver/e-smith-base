@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.77 2009/10/24 20:35:32 snetram Exp $
+# $Id: e-smith-base.spec,v 1.78 2009/11/06 12:29:24 snetram Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.2.0
-%define release 8
+%define release 9
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -17,6 +17,7 @@ Patch4: e-smith-base-5.2.0-FixLabelArray.patch
 Patch5: e-smith-base-5.2.0-straysymlink.patch
 Patch6: e-smith-base-5.2.0-nonetworkdrivers.patch
 Patch7: e-smith-base-5.2.0-checkIPOverlap.patch
+Patch8: e-smith-base-5.2.0-adapter-translation-fixes.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 2.2.0-2
@@ -61,6 +62,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri Nov 6 2009 Jonathan Martens <smeserver-contribs@snetram.nl> 5.2.0-9.sme
+- Translate $ifName in console configuration pages [SME: 5571]
+
 * Sat Oct 24 2009 Jonathan Martens <smeserver-contribs@snetram.nl> 5.2.0-8.sme
 - Prevent IP conflicts between local and external interface in server gateway mode [SME: 5501]
 
@@ -1311,6 +1315,7 @@ e-smith server and gateway software - base module.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
