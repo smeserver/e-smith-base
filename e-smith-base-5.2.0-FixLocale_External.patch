@@ -1,0 +1,17 @@
+diff -up e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm.FixLocale_External e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm
+--- e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm.FixLocale_External	2009-11-23 18:40:25.000000000 +0000
++++ e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm	2009-11-23 18:41:53.000000000 +0000
+@@ -99,6 +99,13 @@ sub ethernetSelect($$)
+         }
+     }
+ 
++    #--------------------------------------------------------
++    # These are just to ensure that xgettext knows about the
++    # interface types.
++    gettext("internal");
++    gettext("external");
++    #--------------------------------------------------------
++
+     push( @args,
+           ++$item . ".",
+           sprintf(gettext("Manually select driver for %s ethernet adapter"),

@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.78 2009/11/06 12:29:24 snetram Exp $
+# $Id: e-smith-base.spec,v 1.79 2009/11/23 18:47:55 bytegw Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.2.0
-%define release 9
+%define release 10
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -18,6 +18,7 @@ Patch5: e-smith-base-5.2.0-straysymlink.patch
 Patch6: e-smith-base-5.2.0-nonetworkdrivers.patch
 Patch7: e-smith-base-5.2.0-checkIPOverlap.patch
 Patch8: e-smith-base-5.2.0-adapter-translation-fixes.patch
+Patch9: e-smith-base-5.2.0-FixLocale_External.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 2.2.0-2
@@ -62,6 +63,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Nov 23 2009 Gavin Weight <gweight@gmail.com> 5.2.0-10.sme
+- Add a dummy call so xgettext can pull translated $ifName in console configuration pages. [SME: 5571]
+
 * Fri Nov 6 2009 Jonathan Martens <smeserver-contribs@snetram.nl> 5.2.0-9.sme
 - Translate $ifName in console configuration pages [SME: 5571]
 
@@ -1316,6 +1320,7 @@ e-smith server and gateway software - base module.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
