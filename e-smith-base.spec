@@ -1,4 +1,4 @@
-# $Id: e-smith-base.spec,v 1.80 2010/01/14 12:10:20 filippocarletti Exp $
+# $Id: e-smith-base.spec,v 1.81 2010/01/14 12:12:57 filippocarletti Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
@@ -65,7 +65,7 @@ e-smith server and gateway software - base module.
 
 %changelog
 * Thu Jan 14 2010 Filippo Carletti <filippo.carletti@gmail.com> 5.2.0-11.sme
-- Fix console restore from removable media (Federico Simoncelli) [SME: 5521]
+- Fix console restore from removable media (Federico Simoncelli) [SME: 4809]
 
 * Mon Nov 23 2009 Gavin Weight <gweight@gmail.com> 5.2.0-10.sme
 - Add a dummy call so xgettext can pull translated $ifName in console configuration pages. [SME: 5571]
