@@ -1,0 +1,87 @@
+--- e-smith-base-5.2.0-old/root/usr/lib/perl5/site_perl/esmith/console/perform_restore.pm.orig	2008-03-26 17:49:00.000000000 +0100
++++ e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/console/perform_restore.pm	2010-01-13 16:03:01.000000000 +0100
+@@ -25,6 +25,7 @@
+          gettext("Do you wish to restore from backup?"),
+         );
+     return unless $rc == 0;
++    mkdir("/mnt/bootstrap-console-backup");
+     system("/etc/init.d/messagebus", "start");
+     system("/etc/init.d/haldaemon", "start");
+     INITIATE_RESTORE:
+@@ -39,19 +40,22 @@
+     unless ($rc == 0) {
+         system("/etc/init.d/haldaemon", "stop");
+         system("/etc/init.d/messagebus", "stop");
++        rmdir("/mnt/bootstrap-console-backup");
+         return;
+     }
+     sleep(3);
+     my @dirs;
+     @dirs = ();
+-    open(FSTAB, "</etc/fstab");
+-    while (<FSTAB>)
+-    {
+-        next unless m:^(\S+)\s+(/media/\S+)\s+(\S+)\s+(\S+):;
+-        my ($dev, $mount, $filesys, $options) = ($1, $2, $3, $4);
+-        push @dirs, $mount;
++    foreach my $udi (qx(hal-find-by-property --key volume.fsusage --string filesystem)) {
++        $udi =~ m/^(\S+)/;
++        my $is_mounted = qx(hal-get-property --udi $1 --key volume.is_mounted);
++
++        if ($is_mounted eq "false\n") {
++            my $blkdev = qx(hal-get-property --udi $1 --key block.device);
++            $blkdev =~ m/^(\S+)/;
++            push @dirs, $1;
++        }
+     }
+-    close FSTAB;
+     unless ($dirs[0])
+     {
+ 	($rc, $choice) = $console->message_page
+@@ -82,10 +86,10 @@
+         my %args_hash = ( @args );
+         $device = $args_hash{$choice};
+     }
+-    system("/bin/mount", "$device");
++    system("/bin/mount", "$device", "/mnt/bootstrap-console-backup");
+     sleep(1);
+ 
+-    unless (-f "$device/smeserver.tgz")
++    unless (-f "/mnt/bootstrap-console-backup/smeserver.tgz")
+     {
+         system("/bin/umount", "$device");
+ 	($rc, $choice) = $console->message_page
+@@ -98,14 +102,14 @@
+ 	goto INITIATE_RESTORE;
+     }
+     use File::stat;
+-    my $st = stat("$device/smeserver.tgz");
++    my $st = stat("/mnt/bootstrap-console-backup/smeserver.tgz");
+     my $size = $st->size;
+     
+     ($rc, $choice) = $console->yesno_page
+         (
+          title => gettext("Start restore from backup"),
+          text  =>
+-         gettext("Backup file found:") . " $device/smeserver.tgz " .
++         gettext("Backup file found:") . " smeserver.tgz ($device) " .
+          gettext("size") . " $size " . gettext("bytes") .
+          "\n\n" .
+          gettext("Do you wish to restore from this file?"),
+@@ -115,7 +119,7 @@
+         goto INITIATE_RESTORE;
+     }
+     system("/sbin/e-smith/signal-event", "pre-restore");
+-    system("(cd / ; cat $device/smeserver.tgz |
++    system("(cd / ; cat /mnt/bootstrap-console-backup/smeserver.tgz |
+ 	pv -n -s $size |
+ 	gunzip |
+ 	tar xf - > /dev/null ) 2>&1 |
+@@ -124,6 +128,7 @@
+     system("/bin/umount", "$device");
+     system("/etc/init.d/haldaemon", "stop");
+     system("/etc/init.d/messagebus", "stop");
++    rmdir("/mnt/bootstrap-console-backup");
+ }
+ 
+ #use esmith::console;

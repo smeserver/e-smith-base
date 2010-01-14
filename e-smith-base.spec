@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.79 2009/11/23 18:47:55 bytegw Exp $
+# $Id: e-smith-base.spec,v 1.80 2010/01/14 12:10:20 filippocarletti Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.2.0
-%define release 10
+%define release 11
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -19,6 +19,7 @@ Patch6: e-smith-base-5.2.0-nonetworkdrivers.patch
 Patch7: e-smith-base-5.2.0-checkIPOverlap.patch
 Patch8: e-smith-base-5.2.0-adapter-translation-fixes.patch
 Patch9: e-smith-base-5.2.0-FixLocale_External.patch
+Patch10: e-smith-base-5.2.0-perform_restore-hal.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 2.2.0-2
@@ -63,6 +64,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Thu Jan 14 2010 Filippo Carletti <filippo.carletti@gmail.com> 5.2.0-11.sme
+- Fix console restore from removable media (Federico Simoncelli) [SME: 5521]
+
 * Mon Nov 23 2009 Gavin Weight <gweight@gmail.com> 5.2.0-10.sme
 - Add a dummy call so xgettext can pull translated $ifName in console configuration pages. [SME: 5571]
 
@@ -1321,6 +1325,7 @@ e-smith server and gateway software - base module.
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
+%patch10 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
