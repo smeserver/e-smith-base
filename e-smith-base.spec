@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.74 2009/11/23 18:38:47 bytegw Exp $
+# $Id: e-smith-base.spec,v 1.75 2010/01/30 21:33:23 snetram Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.0.0
-%define release 8
+%define release 9
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -17,6 +17,7 @@ Patch4: e-smith-base-5.0.0-FixLabelArray.patch
 Patch5: e-smith-base-5.0.0-straysymlink.patch
 Patch6: e-smith-base-5.0.0-adapter-translation-fixes.patch
 Patch7: e-smith-base-5.0.0-FixLocale_External.patch
+Patch8: e-smith-base+ldap-5.0.0-generate-2048-bits-keys.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 2.0.0-2
@@ -60,6 +61,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sat Jan 30 2010 Jonathan Martens <smeserver-contribs@snetram.nl> 5.0.0-9.sme
+- Bump certificate encryption from 1024 bits to 2048 bits [SME: 5734]
+
 * Mon Nov 23 2009 Gavin Weight <gweight@gmail.com> 5.0.0-8.sme
 - Add a dummy call so xgettext can pull translated $ifName in console configuration pages [SME: 1189]
 
@@ -1307,6 +1311,7 @@ e-smith server and gateway software - base module.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

@@ -1,0 +1,12 @@
+diff -up e-smith-base-5.2.0/root/etc/e-smith/templates/home/e-smith/ssl.key.generate-2048-bits-keys e-smith-base-5.2.0/root/etc/e-smith/templates/home/e-smith/ssl.key
+--- e-smith-base-5.2.0/root/etc/e-smith/templates/home/e-smith/ssl.key.generate-2048-bits-keys	2007-01-19 22:33:22.000000000 +0100
++++ e-smith-base-5.2.0/root/etc/e-smith/templates/home/e-smith/ssl.key	2010-01-30 22:21:45.000000000 +0100
+@@ -43,7 +43,7 @@
+ 		/proc/rtc
+ 		/proc/uptime
+ 		)),
+-	    '1024')
++	    '2048')
+ 	    || die "can't exec program: $!";
+     }
+     while (<SSL>)
