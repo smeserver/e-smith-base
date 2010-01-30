@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.81 2010/01/14 12:12:57 filippocarletti Exp $
+# $Id: e-smith-base.spec,v 1.82 2010/01/30 21:34:04 snetram Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.2.0
-%define release 11
+%define release 12
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -20,6 +20,7 @@ Patch7: e-smith-base-5.2.0-checkIPOverlap.patch
 Patch8: e-smith-base-5.2.0-adapter-translation-fixes.patch
 Patch9: e-smith-base-5.2.0-FixLocale_External.patch
 Patch10: e-smith-base-5.2.0-perform_restore-hal.patch
+Patch11: e-smith-base-5.2.0-generate-2048-bits-keys.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 2.2.0-2
@@ -64,6 +65,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sat Jan 30 2010 Jonathan Martens <smeserver-contribs@snetram.nl> 5.2.0-12.sme
+- Bump certificate encryption from 1024 bits to 2048 bits [SME: 5735]
+
 * Thu Jan 14 2010 Filippo Carletti <filippo.carletti@gmail.com> 5.2.0-11.sme
 - Fix console restore from removable media (Federico Simoncelli) [SME: 4809]
 
@@ -1326,6 +1330,7 @@ e-smith server and gateway software - base module.
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
+%patch11 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
