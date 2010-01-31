@@ -1,4 +1,4 @@
-# $Id: e-smith-base.spec,v 1.82 2010/01/30 21:34:04 snetram Exp $
+# $Id: e-smith-base.spec,v 1.83 2010/01/31 05:14:04 dungog Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
@@ -21,6 +21,7 @@ Patch8: e-smith-base-5.2.0-adapter-translation-fixes.patch
 Patch9: e-smith-base-5.2.0-FixLocale_External.patch
 Patch10: e-smith-base-5.2.0-perform_restore-hal.patch
 Patch11: e-smith-base-5.2.0-generate-2048-bits-keys.patch
+Patch12: e-smith-base-5.2.0-perform_backup-hal.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 2.2.0-2
@@ -65,6 +66,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sun Jan 31 2010 Stephen Noble <support@dungog.net> 5.2.0-13.sme
+- Fix console backup from removable media [SME: 4809]
+
 * Sat Jan 30 2010 Jonathan Martens <smeserver-contribs@snetram.nl> 5.2.0-12.sme
 - Bump certificate encryption from 1024 bits to 2048 bits [SME: 5735]
 
@@ -1331,6 +1335,7 @@ e-smith server and gateway software - base module.
 %patch9 -p1
 %patch10 -p1
 %patch11 -p1
+%patch12 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

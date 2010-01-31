@@ -1,0 +1,91 @@
+diff -urN e-smith-base-5.2.0.po/root/usr/lib/perl5/site_perl/esmith/console/perform_backup.pm e-smith-base-5.2.0.new/root/usr/lib/perl5/site_perl/esmith/console/perform_backup.pm
+--- e-smith-base-5.2.0.po/root/usr/lib/perl5/site_perl/esmith/console/perform_backup.pm	2010-01-30 01:59:07.000000000 +1100
++++ e-smith-base-5.2.0.new/root/usr/lib/perl5/site_perl/esmith/console/perform_backup.pm	2010-01-31 15:40:39.000000000 +1100
+@@ -57,7 +57,7 @@
+         close DU;
+ 
+         open(OLDSTDOUT, ">&STDOUT");
+-        unless (open(STDOUT, ">/$device/smeserver.tgz"))
++        unless (open(STDOUT, ">/mnt/bootstrap-console-backup/smeserver.tgz"))
+         {
+             return gettext("Could not create backup file on device").": $!\n";
+         }
+@@ -150,16 +150,25 @@
+         );
+     return unless $rc == 0;
+     sleep(3);
+-    my @dirs;
+-    @dirs = ();
+-    open(FSTAB, "</etc/fstab");
+-    while (<FSTAB>)
+-    {
+-        next unless m:^(\S+)\s+(/media/\S+)\s+(\S+)\s+(\S+):;
+-        my ($dev, $mount, $filesys, $options) = ($1, $2, $3, $4);
+-        push @dirs, $mount unless $mount =~ m{/floppy|/cd|/dvd};
++    my @dirs = ();
++    my @labels = ();
++    foreach my $udi (qx(hal-find-by-property --key volume.fsusage --string filesystem)) {
++        $udi =~ m/^(\S+)/;
++        my $is_mounted = qx(hal-get-property --udi $1 --key volume.is_mounted);
++
++        if ($is_mounted eq "false\n") {
++            my $blkdev = qx(hal-get-property --udi $1 --key block.device);
++            $blkdev =~ m/^(\S+)/;
++            push @dirs, $1;
++        }
++        if ($is_mounted eq "false\n") {
++            my $vollbl = qx(hal-get-property --udi $1 --key volume.label);
++            $vollbl =~ m/^(\S+)/;
++            if ($vollbl =~ /^\s/) {$vollbl = 'nolabel';}
++            chomp $vollbl;
++            push @labels, lc($vollbl);
++        }
+     }
+-    close FSTAB;
+     unless ($dirs[0])
+     {
+ 	($rc, $choice) = $console->message_page
+@@ -171,6 +180,8 @@
+ 	    );
+ 	goto INITIATE_BACKUP;
+     }
++    mkdir("/mnt/bootstrap-console-backup");
++
+     my $device = $dirs[0];
+     if (defined $dirs[1])
+     {
+@@ -180,7 +191,7 @@
+ 	my ($rc, $choice) = $console->menu_page
+         (
+ 	    title => gettext("Choose device to use for backup"),
+-	    text  => gettext("Please select which device should be used for the backup file."),
++	    text  => ("@dirs \n @labels"),
+ 	    argsref => \@args,
+ 	    left => gettext("Cancel"),
+ 	    right => gettext("OK"),
+@@ -189,9 +200,10 @@
+         my %args_hash = ( @args );
+         $device = $args_hash{$choice};
+     }
+-    system("/bin/mount", "$device");
++    system("/bin/mount", "$device", "/mnt/bootstrap-console-backup");
++
+     use File::stat;
+-    my $st = stat("$device/smeserver.tgz");
++    my $st = stat("/mnt/bootstrap-console-backup/smeserver.tgz");
+     if ($st)
+     {
+ # TODO
+@@ -219,9 +231,10 @@
+     }
+     close DU;
+  
+-    $console->gauge(make_backup_callback($device), 'title' => gettext("Creating backup file"));
++    $console->gauge(make_backup_callback("/mnt/bootstrap-console-backup"), 'title' => gettext("Creating backup file"));
+ 
+-    system("/bin/umount", "$device");
++    system("/bin/umount", "/mnt/bootstrap-console-backup");
++    rmdir("/mnt/bootstrap-console-backup");
+     system("/sbin/e-smith/signal-event", "post-backup");
+     ($rc, $choice) = $console->message_page
+         (
