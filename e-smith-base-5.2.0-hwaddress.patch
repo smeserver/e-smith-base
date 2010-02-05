@@ -1,0 +1,276 @@
+diff -uNr e-smith-base-5.2.0/root/etc/e-smith/templates/etc/sysconfig/network-scripts/ifcfg-ethX/10HWADDR e-smith-base-5.2.0-hwaddress/root/etc/e-smith/templates/etc/sysconfig/network-scripts/ifcfg-ethX/10HWADDR
+--- e-smith-base-5.2.0/root/etc/e-smith/templates/etc/sysconfig/network-scripts/ifcfg-ethX/10HWADDR	1970-01-01 01:00:00.000000000 +0100
++++ e-smith-base-5.2.0-hwaddress/root/etc/e-smith/templates/etc/sysconfig/network-scripts/ifcfg-ethX/10HWADDR	2010-01-25 16:07:25.127139939 +0100
+@@ -0,0 +1,11 @@
++{
++    $OUT = "";
++    return if ($InternalInterface{Name} eq "bond0");
++    if ($THIS_DEVICE =~ /^eth[01]$/)
++    {
++        $OUT .= "HWADDR=" . (
++            ($is_internal) ?
++            $InternalInterface{HWAddress} : $ExternalInterface{HWAddress}
++        );
++    }
++}
+diff -uNr e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm e-smith-base-5.2.0-hwaddress/root/usr/lib/perl5/site_perl/esmith/console/configure.pm
+--- e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm	2010-01-25 16:45:28.248772290 +0100
++++ e-smith-base-5.2.0-hwaddress/root/usr/lib/perl5/site_perl/esmith/console/configure.pm	2010-01-25 17:20:01.498833247 +0100
+@@ -51,50 +51,52 @@
+ 	{
+ 	    # We'll use a VLAN on eth0 for the "dedicated" WAN link
+ 	    $db->set_value("EthernetDriver2", "unknown");
++            $db->set_prop("ExternalInterface", "HWAddress", "");
+ 	    return 'CHANGE';
+ 	}
+ 	# Internal, and there's only one
+-        my (undef, $driver, undef) = split (/\s+/, $adapters[0], 3);
++        my (undef, $driver, $hwaddr, undef) = split (/\s+/, $adapters[0], 4);
+ 	$db->set_value("EthernetDriver1", $driver);
++        $db->set_prop("InternalInterface", "HWAddress", $hwaddr);
+ 	return 'CHANGE';
+     }
+ 
+-    if (scalar @adapters == 2)
+-    {
+-        my (undef, $driver1, undef) = split (/\s+/, $adapters[0], 3);
+-        my (undef, $driver2, undef) = split (/\s+/, $adapters[1], 3);
+-	if ($driver1 eq $driver2)
+-	{
+-	    # Choice is obvious!
+-	    $db->set_value($confEntry, $driver1);
+-	    return 'CHANGE';
+-	}
+-    }
+-
+     my %tag2driver;
++    my %tag2hwaddr;
+     my @args;
+     my $default;
++    my $existing_hwaddr;
++    my $skip;
+ 
+-    my $existing_driver = $db->get_value($confEntry);
+-    my $skip = ($confEntry eq "EthernetDriver2") ? $db->get_value("EthernetDriver1") : '';
++    if ($ifName eq "external")
++    {
++        $skip = $db->get_prop("InternalInterface", "HWAddress");
++        $existing_hwaddr = $db->get_prop("ExternalInterface", "HWAddress");
++    }
++    else
++    {
++        $skip = "";
++        $existing_hwaddr = $db->get_prop("InternalInterface", "HWAddress");
++    }
+ 
+     foreach my $adapter ( @adapters )
+     {
+-        my ($parameter, $driver, $chipset) = split (/\s+/, $adapter, 3);
++        my ($parameter, $driver, $hwaddr, $chipset) = split (/\s+/, $adapter, 4);
+         chomp($chipset);
+ 
+ 	my $tag = ++$item . ".";
+ 
+ 	$tag2driver{$tag} = $driver;
++	$tag2hwaddr{$tag} = $hwaddr;
+ 
+ 	my $display_name = gettext("Use") . " " . ${driver} . " " .
+ 	    gettext("for chipset") . " " . ${chipset};
+ 
+ 	push(@args, $tag, substr($display_name, 0, 65));
+ 
+-        if ($driver ne $skip)
++        if ($hwaddr ne $skip)
+         {
+-            $default = $tag if $driver eq $existing_driver;
++            $default = $tag if $hwaddr eq $existing_hwaddr;
+             $default ||= $tag;
+         }
+     }
+@@ -106,13 +108,6 @@
+     gettext("external");
+     #--------------------------------------------------------
+ 
+-    push( @args,
+-          ++$item . ".",
+-          sprintf(gettext("Manually select driver for %s ethernet adapter"),
+-                  gettext($ifName)),
+-        );
+-
+-
+     my ($rc, $choice) = $console->menu_page
+         (
+          title => sprintf(gettext("Select %s network ethernet driver"),
+@@ -129,109 +124,17 @@
+ 
+     return 'CANCEL' unless ($rc == 0);
+ 
+-    my $newDriver;
+-
+-    if ( $choice =~ /^${item}/ )
+-    {
+-        $newDriver = ethernetManual($ifName);
+-        return 'CANCEL_MANUAL' if ($newDriver eq 'CANCEL_MANUAL');
+-    }
+-    elsif (defined($tag2driver{$choice}) )
+-    {
+-        $newDriver = $tag2driver{$choice};
+-    }
+-
+-    if ( $newDriver eq $existing_driver )
+-    {
+-        return 'KEEP';
+-    }
++    return 'KEEP' if ($tag2hwaddr{$choice} eq $existing_hwaddr);
+ 
+-    # Try to load the driver before accepting it.
+-    system('/sbin/modprobe', $newDriver) == 0
+-        or return ('NOLOAD', $newDriver);
++    $db->set_value($confEntry, $tag2driver{$choice});
++    $db->set_prop(
++        ($ifName eq "external") ? "ExternalInterface" : "InternalInterface",
++        "HWAddress", $tag2hwaddr{$choice}
++    );
+ 
+-    $db->set_value($confEntry, $newDriver);
+     return 'CHANGE';
+ }
+ 
+-#------------------------------------------------------------
+-# Manually choose Ethernet driver for given adapter
+-#------------------------------------------------------------
+-sub ethernetManual($)
+-{
+-    my ($ifName) = @_;
+-
+-    my $driver = gettext("unknown");
+-
+-    my @args =
+-        (
+-         "1.",  gettext("Choose driver by specifying ethernet adapter model"),
+-         "2.",  gettext("Choose driver directly"),
+-        );
+-
+-    my ($rc, $choice) = $console->menu_page
+-        (
+-         title   => sprintf(gettext("Select %s adapter manually"), gettext($ifName)),
+-         text    => gettext("Please select one of the following:"),
+-         argsref => \@args
+-        );
+-
+-    return 'CANCEL_MANUAL' unless ($rc == 0);
+-
+-    if ($choice eq "1.")
+-    {
+-        # Choose driver by specifying ethernet adapter model
+-        my @args;
+-
+-        my $adapters = esmith::ethernet::listAdapters();
+-
+-        while ( $adapters =~ s/^\s*"([^"]*)"// ) # )"...Keep Emacs happy
+-        {
+-            push @args, substr $1, 0, 60;
+-        }
+-
+-        my ($rc, $choice) = $console->menu_page
+-            (
+-             title => sprintf(gettext("Specify %s adapter and driver"),
+-                              gettext($ifName)),
+-             text  => sprintf(gettext("Please specify your %s ethernet adapter and corresponding driver"), gettext($ifName)),
+-             argsref => \@args
+-            );
+-
+-        return 'CANCEL_MANUAL' unless ($rc == 0);
+-
+-        $choice =~ /(\w+)/;
+-        $driver = $1;
+-    }
+-    else
+-    {
+-        # Choose driver directly
+-
+-        my @args;
+-
+-        my $drivers = esmith::ethernet::listDrivers;
+-
+-        while ($drivers =~ s/^\s*"([^"]*)"//)
+-        {
+-            push @args, substr $1, 0, 60;
+-        }
+-
+-        my ($rc, $choice) = $console->menu_page
+-            (
+-             title   => sprintf(gettext("Specify %s ethernet driver"), gettext($ifName)),
+-             text    => sprintf(gettext("Please specify the driver to use for the %s ethernet adapter"), gettext($ifName)),
+-             argsref => \@args
+-            );
+-
+-        return 'CANCEL_MANUAL' unless ($rc == 0);
+-
+-        $choice =~ /(\w+)/;
+-        $driver = $1;
+-    }
+-
+-    return $driver;
+-}
+-
+ sub doit
+ {
+     my $self = shift;
+@@ -615,44 +518,7 @@
+         goto ETHERNET_EXTERNAL;
+     }
+ 
+-    if ($db->get_value('EthernetDriver1') eq $db->get_value('EthernetDriver2'))
+-    {
+-        goto ETHERNET_SWAP
+-    }
+-    else
+-    {
+-        $db->set_value('EthernetAssign', "normal");
+-    }
+-
+-    goto SERVER_GATEWAY_DEDICATED;
+-}
+-
+-#------------------------------------------------------------
+-ETHERNET_SWAP:
+-#------------------------------------------------------------
+-
+-{
+-    my $EthernetAssign = $db->get_value('EthernetAssign');
+-
+-    my @args = (
+-                gettext("normal"),  gettext("eth0 is local, eth1 is external"),
+-                gettext("swapped"), gettext("eth1 is local, eth0 is external")
+-               );
+-
+-    ($rc, $choice) = $console->menu_page
+-        (
+-         title => gettext("Select ethernet card assignment"),
+-	 default => gettext($EthernetAssign),
+-         text  =>
+-         gettext("You have two Ethernet cards which use the same driver. The server will automatically designate one for your local network (called eth0) and one for your external Internet connection (called eth1). If this default assignment is not appropriate for your situation, you can select the opposite assignment using swapped mode. Most installations can accept the default setting of normal.") .
+-         "\n\n" .
+-         gettext("Please select whether you want to operate in normal or swapped mode.") ,
+-         argsref => \@args
+-        );
+-
+-    goto SERVER_GATEWAY unless ($rc == 0);
+-
+-    $db->set_value('EthernetAssign', ($choice eq gettext("swapped")) ? "swapped" : "normal");
++    $db->set_value('EthernetAssign', "normal");
+ 
+     goto SERVER_GATEWAY_DEDICATED;
+ }
+@@ -1671,8 +1537,8 @@
+ {
+     if (scalar @adapters == 2)
+     {
+-        my (undef, $driver1, undef) = split (/\s+/, $adapters[0], 3);
+-        my (undef, $driver2, undef) = split (/\s+/, $adapters[1], 3);
++        my (undef, $driver1, undef, undef) = split (/\s+/, $adapters[0], 4);
++        my (undef, $driver2, undef, undef) = split (/\s+/, $adapters[1], 4);
+         if($driver1 eq $driver2)
+         {
+ 	    my $val = $db->get_prop('InternalInterface', 'NICBonding') || 'disabled';
