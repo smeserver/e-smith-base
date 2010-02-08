@@ -1,0 +1,12 @@
+diff -up e-smith-base-5.2.0/root/etc/e-smith/templates/home/e-smith/ssl.crt.sha1 e-smith-base-5.2.0/root/etc/e-smith/templates/home/e-smith/ssl.crt
+--- e-smith-base-5.2.0/root/etc/e-smith/templates/home/e-smith/ssl.crt.sha1	2008-08-20 23:17:24.000000000 +0200
++++ e-smith-base-5.2.0/root/etc/e-smith/templates/home/e-smith/ssl.crt	2010-02-08 21:42:13.000000000 +0100
+@@ -89,7 +89,7 @@
+ 	    exec("/usr/bin/openssl",
+ 		qw(req -new -key),
+ 		$key,
+-		qw(-x509 -days), KEYLIFEINDAYS,
++		qw(-sha1 -x509 -days), KEYLIFEINDAYS,
+ 		qw(-set_serial), time(),
+ 		)
+ 		    || die "can't exec program: $!";
