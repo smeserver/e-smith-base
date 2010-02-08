@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.75 2010/01/30 21:33:23 snetram Exp $
+# $Id: e-smith-base.spec,v 1.76 2010/02/08 20:51:48 snetram Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.0.0
-%define release 9
+%define release 10
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -18,6 +18,7 @@ Patch5: e-smith-base-5.0.0-straysymlink.patch
 Patch6: e-smith-base-5.0.0-adapter-translation-fixes.patch
 Patch7: e-smith-base-5.0.0-FixLocale_External.patch
 Patch8: e-smith-base+ldap-5.0.0-generate-2048-bits-keys.patch
+Patch9: e-smith-base-5.0.0-sha1.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 2.0.0-2
@@ -61,6 +62,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Feb 8 2010 Jonathan Martens <smeserver-contribs@snetram.nl> 5.0.0-10.sme
+- Improve security by using SHA1 algorithm for certificate signing [SME: 5736]
+
 * Sat Jan 30 2010 Jonathan Martens <smeserver-contribs@snetram.nl> 5.0.0-9.sme
 - Bump certificate encryption from 1024 bits to 2048 bits [SME: 5734]
 
@@ -1312,6 +1316,7 @@ e-smith server and gateway software - base module.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
