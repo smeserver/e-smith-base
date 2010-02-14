@@ -1,0 +1,16 @@
+diff -up e-smith-base-5.2.0/root/etc/e-smith/templates/etc/sysconfig/network-scripts/ifcfg-ethX/10HWADDR.fix-template-expansion-error e-smith-base-5.2.0/root/etc/e-smith/templates/etc/sysconfig/network-scripts/ifcfg-ethX/10HWADDR
+--- e-smith-base-5.2.0/root/etc/e-smith/templates/etc/sysconfig/network-scripts/ifcfg-ethX/10HWADDR.fix-template-expansion-error	2010-02-14 11:33:04.000000000 +0100
++++ e-smith-base-5.2.0/root/etc/e-smith/templates/etc/sysconfig/network-scripts/ifcfg-ethX/10HWADDR	2010-02-14 11:35:10.000000000 +0100
+@@ -2,10 +2,6 @@
+     $OUT = "";
+     return if ($InternalInterface{Name} eq "bond0");
+     if ($THIS_DEVICE =~ /^eth[01]$/)
+-    {
+-        $OUT .= "HWADDR=" . (
+-            ($is_internal) ?
+-            $InternalInterface{HWAddress} : $ExternalInterface{HWAddress}
+-        );
+-    }
++    my $hwaddr = $is_internal ? $InternalInterface{HWAddress} : $ExternalInterface{HWAddress};
++    $OUT .= "HWADDR=$hwaddr" if $hwaddr;
+ }

@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.85 2010/02/08 20:51:48 snetram Exp $
+# $Id: e-smith-base.spec,v 1.86 2010/02/14 10:37:30 snetram Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.2.0
-%define release 15
+%define release 16
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -24,6 +24,7 @@ Patch11: e-smith-base-5.2.0-generate-2048-bits-keys.patch
 Patch12: e-smith-base-5.2.0-perform_backup-hal.patch
 Patch13: e-smith-base-5.2.0-hwaddress.patch
 Patch14: e-smith-base-5.2.0-sha1.patch
+Patch15: e-smith-base-5.2.0-fix-template-expansion-error.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 2.2.0-2
@@ -68,6 +69,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sun Feb 14 2010 Jonathan Martens <smeserver-contribs@snetram.nl> 5.2.0-16.sme
+- Fix template expansion error [SME: 4528]
+
 * Mon Feb 8 2010 Jonathan Martens <smeserver-contribs@snetram.nl> 5.2.0-15.sme
 - Improve security by using SHA1 algorithm for certificate signing [SME: 5737]
 
@@ -1346,6 +1350,7 @@ e-smith server and gateway software - base module.
 %patch12 -p1
 %patch13 -p1
 %patch14 -p1
+%patch15 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
