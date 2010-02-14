@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.86 2010/02/14 10:37:30 snetram Exp $
+# $Id: e-smith-base.spec,v 1.87 2010/02/14 19:42:41 snetram Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.2.0
-%define release 16
+%define release 17
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -69,6 +69,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sun Feb 14 2010 Jonathan Martens <smeserver-contribs@snetram.nl> 5.2.0-17.sme
+- Really fix template expansion error [SME: 4528]
+
 * Sun Feb 14 2010 Jonathan Martens <smeserver-contribs@snetram.nl> 5.2.0-16.sme
 - Fix template expansion error [SME: 4528]
 
