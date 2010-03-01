@@ -1,0 +1,23 @@
+diff -up e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm.gettext e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm
+--- e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm.gettext	2010-03-01 11:58:25.000000000 -0700
++++ e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm	2010-03-01 11:58:07.000000000 -0700
+@@ -938,14 +938,15 @@ STATIC_NETMASK:
+                 ($rc, $choice) = $console->message_page
+                 (
+                     title => gettext("Invalid address ranges"),
+-                    text  => gettext(
++                    text  => sprintf(gettext(
+                                  "Internal address range overlaps external address range" .
+                                  "\n\n".
+-                                 "Local interface: $localAddress/$localNetmask" .
++                                 "Local interface: %s/%s" .
+                                  "\n" .
+-                                 "External interface: $externalAddress/$externalNetmask" .
++                                 "External interface: %s/%s" .
+                                  "\n\n".
+-                                 "Please review your settings."
++                                 "Please review your settings."), 
++                             $localAddress, $localNetmask, $externalAddress, $externalNetmask
+                     )
+                 );
+ 

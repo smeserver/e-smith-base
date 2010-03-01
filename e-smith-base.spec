@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.87 2010/02/14 19:42:41 snetram Exp $
+# $Id: e-smith-base.spec,v 1.88 2010/03/01 19:02:20 slords Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.2.0
-%define release 17
+%define release 18
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -25,6 +25,7 @@ Patch12: e-smith-base-5.2.0-perform_backup-hal.patch
 Patch13: e-smith-base-5.2.0-hwaddress.patch
 Patch14: e-smith-base-5.2.0-sha1.patch
 Patch15: e-smith-base-5.2.0-fix-template-expansion-error.patch
+Patch16: e-smith-base-5.2.0-gettext.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 2.2.0-2
@@ -69,6 +70,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Mar 1 2010 Shad L. Lords <slords@mail.com> 5.2.0-18.sme
+- Fix gettext errors in WAN/LAN subnet error message [SME: 5501]
+
 * Sun Feb 14 2010 Jonathan Martens <smeserver-contribs@snetram.nl> 5.2.0-17.sme
 - Really fix template expansion error [SME: 4528]
 
@@ -1354,6 +1358,7 @@ e-smith server and gateway software - base module.
 %patch13 -p1
 %patch14 -p1
 %patch15 -p1
+%patch16 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
