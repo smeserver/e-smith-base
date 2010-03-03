@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.88 2010/03/01 19:02:20 slords Exp $
+# $Id: e-smith-base.spec,v 1.89 2010/03/03 13:51:14 filippocarletti Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.2.0
-%define release 18
+%define release 19
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -41,6 +41,7 @@ Requires: perl(Net::IPv4Addr)
 Requires: /usr/sbin/irqbalance
 Requires: /usr/sbin/cpuspeed
 Requires: /sbin/microcode_ctl
+Requires: /usr/sbin/smartd
 Requires: dbus
 Requires: hal
 Requires: acpid
@@ -70,6 +71,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Wed Mar  3 2010 Federico Simoncelli <federico.simoncelli@gmail.com> 5.2.0-19.sme
+- Restate smartd dependency. [SME: 5814]
+
 * Mon Mar 1 2010 Shad L. Lords <slords@mail.com> 5.2.0-18.sme
 - Fix gettext errors in WAN/LAN subnet error message [SME: 5501]
 
