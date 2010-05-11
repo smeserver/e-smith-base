@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.89 2010/03/03 13:51:14 filippocarletti Exp $
+# $Id: e-smith-base.spec,v 1.90 2010/05/11 04:00:39 mrjhb3 Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.2.0
-%define release 19
+%define release 20
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -26,6 +26,7 @@ Patch13: e-smith-base-5.2.0-hwaddress.patch
 Patch14: e-smith-base-5.2.0-sha1.patch
 Patch15: e-smith-base-5.2.0-fix-template-expansion-error.patch
 Patch16: e-smith-base-5.2.0-gettext.patch
+Patch17: e-smith-base-5.2.0-remove-freebusy-references.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 2.2.0-2
@@ -71,6 +72,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon May 10 2010 John H. Bennett III <bennettj@johnbennettservices.com> 5.2.0-20.sme
+- Patch that will remove all FreeBusy references from e-smith-base. [SME: 5941] 
+
 * Wed Mar  3 2010 Federico Simoncelli <federico.simoncelli@gmail.com> 5.2.0-19.sme
 - Restate smartd dependency. [SME: 5814]
 
@@ -1363,6 +1367,7 @@ e-smith server and gateway software - base module.
 %patch14 -p1
 %patch15 -p1
 %patch16 -p1
+%patch17 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
