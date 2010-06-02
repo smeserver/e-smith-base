@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.76 2010/02/08 20:51:48 snetram Exp $
+# $Id: e-smith-base.spec,v 1.77 2010/06/02 19:04:21 slords Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.0.0
-%define release 10
+%define release 11
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -19,6 +19,7 @@ Patch6: e-smith-base-5.0.0-adapter-translation-fixes.patch
 Patch7: e-smith-base-5.0.0-FixLocale_External.patch
 Patch8: e-smith-base+ldap-5.0.0-generate-2048-bits-keys.patch
 Patch9: e-smith-base-5.0.0-sha1.patch
+Patch10: e-smith-base-5.0.0-badkmods.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 2.0.0-2
@@ -62,6 +63,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Wed Jun 02 2010 Shad L. Lords <slords@mail.com> 5.0.0-11.sme
+- Remove bad kmods when configuring modules [SME: 5995]
+
 * Mon Feb 8 2010 Jonathan Martens <smeserver-contribs@snetram.nl> 5.0.0-10.sme
 - Improve security by using SHA1 algorithm for certificate signing [SME: 5736]
 
@@ -1317,6 +1321,7 @@ e-smith server and gateway software - base module.
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
+%patch10 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

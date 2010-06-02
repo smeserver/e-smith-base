@@ -1,0 +1,22 @@
+diff -up e-smith-base-5.0.0/root/etc/e-smith/events/actions/conf-modules.badkmods e-smith-base-5.0.0/root/etc/e-smith/events/actions/conf-modules
+--- e-smith-base-5.0.0/root/etc/e-smith/events/actions/conf-modules.badkmods	2010-06-02 11:13:16.000000000 -0600
++++ e-smith-base-5.0.0/root/etc/e-smith/events/actions/conf-modules	2010-06-02 13:01:23.000000000 -0600
+@@ -24,6 +24,18 @@ use strict;
+ use Errno;
+ use File::Find;
+ 
++# Remove broken kmods
++use RPM2;
++my @remove;
++my $rpm2 = RPM2->open_rpm_db();
++foreach ($rpm2->find_by_provides('appletalk-kmod'), $rpm2->find_by_provides('slip-kmod')) {
++    push @remove, $_->as_nvre if $_->version eq '1.0' && $_->release eq '6.el4.sme';
++}
++foreach ($rpm2->find_by_provides('ppp-kmod')) {
++    push @remove, $_->as_nvre if $_->version eq '1.0.2' && $_->release eq '7.el4.sme';
++}
++system(qw(rpm -e --noscripts), @remove) if scalar @remove > 0;
++
+ # Remove stale symlinks from /lib/modules
+ finddepth(sub{unlink unless -e $_}, '/lib/modules/');
+ 
