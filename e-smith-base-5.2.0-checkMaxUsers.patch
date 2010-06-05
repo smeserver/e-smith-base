@@ -1,0 +1,76 @@
+diff -urN e-smith-base-5.2.0.old/root/etc/e-smith/web/functions/useraccounts e-smith-base-5.2.0/root/etc/e-smith/web/functions/useraccounts
+--- e-smith-base-5.2.0.old/root/etc/e-smith/web/functions/useraccounts	2010-06-05 08:51:52.000000000 +0100
++++ e-smith-base-5.2.0/root/etc/e-smith/web/functions/useraccounts	2010-06-05 09:01:29.000000000 +0100
+@@ -169,8 +169,6 @@
+         <description>FIRSTPAGE_DESC</description>
+         <subroutine src="print_user_table()" />
+     </page>
+-    <page name="CheckMaxUsersAdd" post-event="checkMaxUsers('CreateModify')">
+-    </page>
+     <page name="CreateModify" pre-event="turn_off_buttons()" post-event="handle_user_accounts()">
+         <title>P2_TITLE</title> 
+         <description>CREATE_MODIFY_DESC</description>
+@@ -249,8 +247,6 @@
+         <subroutine src="print_ipsec_client_section()" />
+         <subroutine src="print_button('SAVE')" />
+     </page>
+-    <page name="CheckMaxUsersUnlock" post-event="checkMaxUsers('ResetPassword')">
+-    </page>
+     <page name="ResetPassword" pre-event="turn_off_buttons()" post-event="reset_password()">
+         <title>RESET_PASSWORD_TITLE</title>
+         <subroutine src="print_page_description('reset')" />
+diff -urN e-smith-base-5.2.0.old/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm
+--- e-smith-base-5.2.0.old/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm	2010-06-05 08:51:52.000000000 +0100
++++ e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm	2010-06-05 09:09:17.000000000 +0100
+@@ -42,7 +42,6 @@
+     get_ldap_value
+     username_clash
+     pseudonym_clash
+-    checkMaxUsers
+     handle_user_accounts
+     modify_admin
+     emailforward
+@@ -181,7 +180,7 @@
+         my $password_set = $u->prop('PasswordSet');
+ 
+         my $pagenum = ($username eq "admin") ? $self->get_page_by_name('SystemPasswordDummy')
+-        : $self->get_page_by_name('CheckMaxUsersUnlock');
++        : $self->get_page_by_name('ResetPassword');
+ 
+         # make normal links
+         my $lock_url = ($password_set eq 'yes') ?
+@@ -608,34 +607,6 @@
+ 
+ =head1 CREATING AND MODIFYING USERS
+ 
+-=head2 checkMaxUsers()
+-
+-Returns an error message if the current number of users is greater than or
+-equal to the sysconfig|MaxUsers property.
+-
+-Takes the name of the next page to go to if the test succeeds as an argument.
+-
+-=cut
+-
+-sub checkMaxUsers
+-{
+-    my ($self, $next_page) = @_;
+-
+-    # Get value of MaxUsers if it exists.
+-    my $sysconfig = $configdb->get('sysconfig');
+-    my $maxUsers = (($sysconfig) ? $sysconfig->prop('MaxUsers') : '') || '';
+-    my $activeUsers = scalar $accountdb->activeUsers() || 0;
+-    if ((defined $activeUsers and $maxUsers ne '') 
+-        and ($activeUsers >= $maxUsers))
+-    {
+-        $self->error('MAX_USERS_EXCEEDED');
+-    }
+-    else
+-    {
+-        $self->{cgi}->param(-name => 'wherenext', -value => $next_page);
+-    }
+-}
+-
+ =head2 handle_user_accounts()
+ 
+ This is the routine called by the "Save" button on the create/modify page.  

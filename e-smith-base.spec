@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.90 2010/05/11 04:00:39 mrjhb3 Exp $
+# $Id: e-smith-base.spec,v 1.91 2010/06/05 14:35:09 wellsi Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.2.0
-%define release 20
+%define release 21
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -27,6 +27,7 @@ Patch14: e-smith-base-5.2.0-sha1.patch
 Patch15: e-smith-base-5.2.0-fix-template-expansion-error.patch
 Patch16: e-smith-base-5.2.0-gettext.patch
 Patch17: e-smith-base-5.2.0-remove-freebusy-references.patch
+Patch18: e-smith-base-5.2.0-checkMaxUsers.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 2.2.0-2
@@ -72,6 +73,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sat Jun 5 2010 Ian Wells <esmith@wellsi.com>  5.2.0-21.sme
+- Remove checkMaxUsers(). [SME: 5537] 
+
 * Mon May 10 2010 John H. Bennett III <bennettj@johnbennettservices.com> 5.2.0-20.sme
 - Patch that will remove all FreeBusy references from e-smith-base. [SME: 5941] 
 
@@ -1368,6 +1372,7 @@ e-smith server and gateway software - base module.
 %patch15 -p1
 %patch16 -p1
 %patch17 -p1
+%patch18 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
