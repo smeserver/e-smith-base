@@ -1,0 +1,31 @@
+diff -up e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm.no-nic e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm
+--- e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm.no-nic	2010-06-05 15:18:46.000000000 +0200
++++ e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm	2010-06-06 08:31:25.000000000 +0200
+@@ -79,6 +79,18 @@ sub ethernetSelect($$)
+         $existing_hwaddr = $db->get_prop("InternalInterface", "HWAddress");
+     }
+ 
++    if ( @adapters == 0 ) {
++
++        my ($rc, $choice) = $console->message_page
++               (
++                title   => gettext("No network interfaces found"),
++                text    => gettext("The installer can't continue because no network interfaces are installed or recognised. Please install at least one network interface."),
++               );
++
++        return 'NONIC';
++
++    }
++
+     foreach my $adapter ( @adapters )
+     {
+         my ($parameter, $driver, $hwaddr, $chipset) = split (/\s+/, $adapter, 4);
+@@ -268,6 +280,8 @@ ETHERNET_LOCAL:
+ 
+     goto SYSTEM_NAME        if ($selectMode eq 'CANCEL');
+ 
++    goto QUIT1              if ($selectMode eq 'NONIC');
++
+     if ($selectMode eq 'NOLOAD')
+     {
+         failed_to_load($newDriver);
