@@ -1,4 +1,4 @@
-# $Id: e-smith-base.spec,v 1.79 2010/06/09 17:45:25 slords Exp $
+# $Id: e-smith-base.spec,v 1.80 2010/06/09 17:46:14 slords Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
@@ -64,10 +64,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
-* Wed 09 2010 Shad L. Lords <slords@mail.com> 5.0.0-13.sme
+* Wed Jun 09 2010 Shad L. Lords <slords@mail.com> 5.0.0-13.sme
 - Fix patch so it doesn't create orig file [SME: 6039]
 
-* Tue Jun  8 2010 Jonathan Martens <smeserver-contribs@snetram.nl> 5.0.0-12.sme
+* Tue Jun 08 2010 Jonathan Martens <smeserver-contribs@snetram.nl> 5.0.0-12.sme
 - Fix translation of local nic string in console [SME: 6039]
 
 * Wed Jun 02 2010 Shad L. Lords <slords@mail.com> 5.0.0-11.sme
