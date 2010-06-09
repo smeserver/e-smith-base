@@ -1,7 +1,8 @@
 diff -up e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm.fix-local-nic-string-in-console e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm
---- e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm.fix-local-nic-string-in-console	2010-06-08 21:40:27.000000000 +0200
-+++ e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm	2010-06-08 21:41:30.000000000 +0200
-@@ -116,7 +116,7 @@ sub ethernetSelect($$)
+diff -up e-smith-base-5.0.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm.fix-local-nic-string-in-console e-smith-base-5.0.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm
+--- e-smith-base-5.0.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm.fix-local-nic-string-in-console	2010-06-09 11:42:31.000000000 -0600
++++ e-smith-base-5.0.0/root/usr/lib/perl5/site_perl/esmith/console/configure.pm	2010-06-09 11:43:19.000000000 -0600
+@@ -102,7 +102,7 @@ sub ethernetSelect($$)
      #--------------------------------------------------------
      # These are just to ensure that xgettext knows about the
      # interface types.
