@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.94 2010/06/11 07:39:39 wellsi Exp $
+# $Id: e-smith-base.spec,v 1.95 2010/06/11 13:21:14 filippocarletti Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.2.0
-%define release 24
+%define release 25
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -29,6 +29,7 @@ Patch16: e-smith-base-5.2.0-gettext.patch
 Patch17: e-smith-base-5.2.0-remove-freebusy-references.patch
 Patch18: e-smith-base-5.2.0-no-nic.patch
 Patch19: e-smith-base-5.2.0-fix-local-nic-string-in-console.patch
+Patch20: e-smith-base-5.2.0-freebusy-user-modify-fix.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 2.2.0-2
@@ -74,6 +75,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri Jun 11 2010 Federico Simoncelli <federico.simoncelli@gmail.com> 5.2.0-25.sme
+- FreeBusy patch fix (save account changes) [SME: 5941]
+
 * Fri Jun 11 2010 Ian Wells <esmith@wellsi.com>  5.2.0-24.sme
 - Remove checkMaxUsers patch due to regression. [SME: 5537] 
 
@@ -1384,6 +1388,7 @@ e-smith server and gateway software - base module.
 %patch17 -p1
 %patch18 -p1
 %patch19 -p1
+%patch20 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

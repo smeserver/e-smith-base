@@ -1,0 +1,12 @@
+diff -uNr e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm e-smith-base-5.2.0-freebusy-user-modify-fix/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm
+--- e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm	2010-06-10 16:51:26.876638176 +0200
++++ e-smith-base-5.2.0-freebusy-user-modify-fix/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm	2010-06-10 17:06:35.204966202 +0200
+@@ -727,6 +727,8 @@
+             'VPNClientAccess'=> $self->{cgi}->param('VPNClientAccess'),
+         );
+ 
++        $acct->merge_props(%newProperties);
++
+         $accountdb->create_user_auto_pseudonyms($acctName);
+ 
+         my @old_groups = $accountdb->user_group_list($acctName);
