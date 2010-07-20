@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.80 2010/06/09 17:46:14 slords Exp $
+# $Id: e-smith-base.spec,v 1.81 2010/07/20 00:13:23 charliebrady Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.0.0
-%define release 13
+%define release 14
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -21,6 +21,7 @@ Patch8: e-smith-base+ldap-5.0.0-generate-2048-bits-keys.patch
 Patch9: e-smith-base-5.0.0-sha1.patch
 Patch10: e-smith-base-5.0.0-badkmods.patch
 Patch11: e-smith-base-5.0.0-fix-local-nic-string-in-console.patch
+Patch12: e-smith-base-5.0.0-condrestart.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 2.0.0-2
@@ -64,6 +65,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Jul 19 2010 Charlie Brady <charlie_brady@mitel.com> 5.0.0-14.sme
+- Don't exit 99 from e-smith-service script when called with 'condrestart'
+  and service is disabled. [SME: 6104]
+
 * Wed Jun 09 2010 Shad L. Lords <slords@mail.com> 5.0.0-13.sme
 - Fix patch so it doesn't create orig file [SME: 6039]
 
@@ -1330,6 +1335,7 @@ e-smith server and gateway software - base module.
 %patch9 -p1
 %patch10 -p1
 %patch11 -p1
+%patch12 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

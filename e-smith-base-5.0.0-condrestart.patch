@@ -1,0 +1,27 @@
+--- e-smith-base-5.0.0/root/etc/rc.d/init.d/e-smith-service.condrestart	2010-07-18 15:09:17.000000000 -0400
++++ e-smith-base-5.0.0/root/etc/rc.d/init.d/e-smith-service	2010-07-19 20:10:48.000000000 -0400
+@@ -50,14 +50,17 @@
+ 
+ STATUS=$( /sbin/e-smith/db configuration getprop ${SERVICE} status )
+ 
+-case $1 in
+-    *start)
+-	if [ "${STATUS}" != "enabled" ]
+-	then
++if [ "${STATUS}" != "enabled" ]
++then
++    case $1 in
++        start)
+ 	    exit 99
+-	fi
+-	;;
+-esac
++	    ;;
++        condrestart)
++	    exit 0
++	    ;;
++    esac
++fi
+ 
+ if [ -f ${INITSCRIPT} ]
+ then
