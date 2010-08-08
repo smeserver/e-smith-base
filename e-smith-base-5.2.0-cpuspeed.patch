@@ -1,0 +1,6 @@
+diff -ruN e-smith-base-5.2.0.old/root/etc/e-smith/db/configuration/defaults/cpuspeed/status e-smith-base-5.2.0/root/etc/e-smith/db/configuration/defaults/cpuspeed/status
+--- e-smith-base-5.2.0.old/root/etc/e-smith/db/configuration/defaults/cpuspeed/status	2005-11-21 04:28:04.000000000 +0000
++++ e-smith-base-5.2.0/root/etc/e-smith/db/configuration/defaults/cpuspeed/status	2010-08-08 08:49:14.000000000 +0100
+@@ -1 +1 @@
+-disabled
++enabled

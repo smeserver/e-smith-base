@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.97 2010/07/25 13:42:18 charliebrady Exp $
+# $Id: e-smith-base.spec,v 1.98 2010/08/08 08:08:32 wellsi Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.2.0
-%define release 27
+%define release 28
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -32,6 +32,7 @@ Patch19: e-smith-base-5.2.0-fix-local-nic-string-in-console.patch
 Patch20: e-smith-base-5.2.0-freebusy-user-modify-fix.patch
 Patch21: e-smith-base-5.2.0-condrestart.patch
 Patch22: e-smith-base-5.2.0-condrestart.patch2
+Patch23: e-smith-base-5.2.0-cpuspeed.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 2.2.0-2
@@ -77,6 +78,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sun Aug 8 2010 Ian Wells <esmith@wellsi.com> 5.2.0-28.sme
+- Enable cpuspeed by default [SME: 6066]
+
 * Sun Jul 25 2010 Charlie Brady <charlie_brady@mitel.com> 5.2.0-27.sme
 - Fix syntax error in last patch. [SME: 5830]
 
@@ -1400,6 +1404,7 @@ e-smith server and gateway software - base module.
 %patch20 -p1
 %patch21 -p1
 %patch22 -p1
+%patch23 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
