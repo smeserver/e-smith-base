@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.98 2010/08/08 08:08:32 wellsi Exp $
+# $Id: e-smith-base.spec,v 1.99 2010/09/23 14:59:41 vip-ire Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.2.0
-%define release 28
+%define release 29
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -33,6 +33,7 @@ Patch20: e-smith-base-5.2.0-freebusy-user-modify-fix.patch
 Patch21: e-smith-base-5.2.0-condrestart.patch
 Patch22: e-smith-base-5.2.0-condrestart.patch2
 Patch23: e-smith-base-5.2.0-cpuspeed.patch
+Patch24: e-smith-base-5.2.0-nss_ldap.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 2.2.0-2
@@ -59,6 +60,7 @@ Requires: e-smith-bootloader
 Requires: mdadm
 Requires: pv
 Requires: pam_abl
+Requires: nss_ldap
 Obsoletes: rlinetd, e-smith-mod_ssl
 Obsoletes: e-smith-serial-console
 Obsoletes: sshell
@@ -78,6 +80,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Thu Sep 23 2010 Daniel Berteaud <daniel@firewall-services.com> 5.2.0-29.sme
+- Prepare nss_ldap [SME: 6227]
+
 * Sun Aug 8 2010 Ian Wells <esmith@wellsi.com> 5.2.0-28.sme
 - Enable cpuspeed by default [SME: 6066]
 
@@ -1405,6 +1410,7 @@ e-smith server and gateway software - base module.
 %patch21 -p1
 %patch22 -p1
 %patch23 -p1
+%patch24 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
@@ -1483,6 +1489,9 @@ ln -s en-us root/etc/e-smith/locale/en-nz
 mkdir -p root/etc/e-smith/templates/etc/dhcpc/dhcpcd.exe
 ln -s /etc/e-smith/templates-default/template-begin-shell \
       root/etc/e-smith/templates/etc/dhcpc/dhcpcd.exe/template-begin
+
+mkdir -p root/etc/e-smith/templates/etc/ldap.secret/
+touch root/etc/e-smith/templates/etc/ldap.secret/template-begin
 
 for file in imap login passwd pwauth system-auth
 do
