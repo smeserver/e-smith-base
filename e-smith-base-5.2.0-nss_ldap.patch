@@ -1,6 +1,6 @@
 diff -Nur -x '*.orig' -x '*.rej' e-smith-base-5.2.0/createlinks mezzanine_patched_e-smith-base-5.2.0/createlinks
---- e-smith-base-5.2.0/createlinks	2010-09-23 16:27:49.000000000 +0200
-+++ mezzanine_patched_e-smith-base-5.2.0/createlinks	2010-09-23 16:27:31.000000000 +0200
+--- e-smith-base-5.2.0/createlinks	2010-09-23 17:04:03.000000000 +0200
++++ mezzanine_patched_e-smith-base-5.2.0/createlinks	2010-09-23 17:03:59.000000000 +0200
 @@ -206,6 +206,8 @@
  	/etc/pam.d/system-auth
  	/etc/pam.d/passwd
@@ -10,15 +10,6 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-base-5.2.0/createlinks mezzanine_patche
  	/etc/security/pam_abl.conf
      ))
  {
-@@ -523,6 +525,8 @@
- $event = "ldap-update";
- 
- templates2events("/home/e-smith/ssl.pem/pem", $event);
-+templates2events("/etc/ldap.conf", $event);
-+templates2events("/etc/ldap.secret", $event);
- 
- #--------------------------------------------------
- # actions for email-update event:
 diff -Nur -x '*.orig' -x '*.rej' e-smith-base-5.2.0/root/etc/e-smith/templates/etc/ldap.conf/10ssl mezzanine_patched_e-smith-base-5.2.0/root/etc/e-smith/templates/etc/ldap.conf/10ssl
 --- e-smith-base-5.2.0/root/etc/e-smith/templates/etc/ldap.conf/10ssl	1970-01-01 01:00:00.000000000 +0100
 +++ mezzanine_patched_e-smith-base-5.2.0/root/etc/e-smith/templates/etc/ldap.conf/10ssl	2010-09-23 16:20:03.000000000 +0200
