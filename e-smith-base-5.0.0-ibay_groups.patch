@@ -1,0 +1,13 @@
+diff -up e-smith-base-5.0.0/root/etc/e-smith/events/actions/group-modify-unix.ibay_groups e-smith-base-5.0.0/root/etc/e-smith/events/actions/group-modify-unix
+--- e-smith-base-5.0.0/root/etc/e-smith/events/actions/group-modify-unix.ibay_groups	2005-11-20 21:28:05.000000000 -0700
++++ e-smith-base-5.0.0/root/etc/e-smith/events/actions/group-modify-unix	2010-09-27 14:34:35.000000000 -0600
+@@ -71,6 +71,9 @@ foreach my $group (@groups)
+     my @oldMembers = split (/\s+/, $members);
+     my @newMembers = split (/,/, $properties {'Members'});
+ 
++    # Add in ibay group membership
++    push @newMembers, (map { $_->key } $a->get_all_by_prop(Group => $groupName));
++
+     # "admin" and "www" are implicit members of all groups
+     push @newMembers, qw(www admin);
+ 

@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.81 2010/07/20 00:13:23 charliebrady Exp $
+# $Id: e-smith-base.spec,v 1.82 2010/09/27 20:35:43 slords Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.0.0
-%define release 14
+%define release 15
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -22,6 +22,7 @@ Patch9: e-smith-base-5.0.0-sha1.patch
 Patch10: e-smith-base-5.0.0-badkmods.patch
 Patch11: e-smith-base-5.0.0-fix-local-nic-string-in-console.patch
 Patch12: e-smith-base-5.0.0-condrestart.patch
+Patch13: e-smith-base-5.0.0-ibay_groups.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 2.0.0-2
@@ -65,6 +66,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Sep 27 2010 Shad L. Lords <slords@mail.com> 5.0.0-15.sme
+- Add ibay groups to group membership [SME: 6248]
+
 * Mon Jul 19 2010 Charlie Brady <charlie_brady@mitel.com> 5.0.0-14.sme
 - Don't exit 99 from e-smith-service script when called with 'condrestart'
   and service is disabled. [SME: 6104]
@@ -1336,6 +1340,7 @@ e-smith server and gateway software - base module.
 %patch10 -p1
 %patch11 -p1
 %patch12 -p1
+%patch13 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
