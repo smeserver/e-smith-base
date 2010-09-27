@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.99 2010/09/23 14:59:41 vip-ire Exp $
+# $Id: e-smith-base.spec,v 1.100 2010/09/27 20:33:28 slords Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.2.0
-%define release 29
+%define release 30
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -34,6 +34,7 @@ Patch21: e-smith-base-5.2.0-condrestart.patch
 Patch22: e-smith-base-5.2.0-condrestart.patch2
 Patch23: e-smith-base-5.2.0-cpuspeed.patch
 Patch24: e-smith-base-5.2.0-nss_ldap.patch
+Patch25: e-smith-base-5.2.0-ibay_groups.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 2.2.0-2
@@ -80,6 +81,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Sep 27 2010 Shad L. Lords <slords@mail.com> 5.2.0-30.sme
+- Add ibay groups to group membership [SME: 6247]
+
 * Thu Sep 23 2010 Daniel Berteaud <daniel@firewall-services.com> 5.2.0-29.sme
 - Prepare nss_ldap [SME: 6227]
 
@@ -1411,6 +1415,7 @@ e-smith server and gateway software - base module.
 %patch22 -p1
 %patch23 -p1
 %patch24 -p1
+%patch25 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
