@@ -1,0 +1,21 @@
+diff -up e-smith-base-5.2.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/ipcp-accept.keep_external e-smith-base-5.2.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/ipcp-accept
+--- e-smith-base-5.2.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/ipcp-accept.keep_external	2010-10-06 09:35:50.000000000 -0600
++++ e-smith-base-5.2.0/root/etc/e-smith/templates/var/service/wan/pppoe.pppd.conf/ipcp-accept	2010-10-06 09:36:10.000000000 -0600
+@@ -0,0 +1,2 @@
++ipcp-accept-local
++ipcp-accept-remote
+diff -up e-smith-base-5.2.0/root/var/service/wan/run.pppoe.keep_external e-smith-base-5.2.0/root/var/service/wan/run.pppoe
+--- e-smith-base-5.2.0/root/var/service/wan/run.pppoe.keep_external	2007-01-26 18:56:31.000000000 -0700
++++ e-smith-base-5.2.0/root/var/service/wan/run.pppoe	2010-10-06 09:38:09.000000000 -0600
+@@ -23,9 +23,10 @@ exec 2>&1
+ 
+ . run.pppoe.conf
+ 
++extaddr=$(/sbin/e-smith/config getprop ExternalInterface IPAddress)
+ 
+ exec \
+     /usr/local/bin/softlimit -m $PPPD_MLIMIT \
+     /usr/bin/setsid \
+-    /usr/sbin/pppd \
++    /usr/sbin/pppd ${extaddr:+$extaddr:} \
+     file pppoe.pppd.conf
