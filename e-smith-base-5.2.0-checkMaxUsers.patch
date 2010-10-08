@@ -1,7 +1,35 @@
-diff -urN e-smith-base-5.2.0.old/root/etc/e-smith/web/functions/useraccounts e-smith-base-5.2.0/root/etc/e-smith/web/functions/useraccounts
---- e-smith-base-5.2.0.old/root/etc/e-smith/web/functions/useraccounts	2010-06-05 08:51:52.000000000 +0100
-+++ e-smith-base-5.2.0/root/etc/e-smith/web/functions/useraccounts	2010-06-05 09:01:29.000000000 +0100
-@@ -169,8 +169,6 @@
+diff -up e-smith-base-5.2.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/useraccounts.checkMaxUsers e-smith-base-5.2.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/useraccounts
+--- e-smith-base-5.2.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/useraccounts.checkMaxUsers	2010-10-08 10:24:28.000000000 -0600
++++ e-smith-base-5.2.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/useraccounts	2010-10-08 10:28:51.000000000 -0600
+@@ -11,7 +11,7 @@
+             <![CDATA[
+             <p>
+                 <a class="button-like"
+-                    href="useraccounts?page=1&page_stack=&Next=Next">Add
++                    href="useraccounts?page=0&page_stack=&Next=Next">Add
+                     user account</a>
+             </p>
+             <p>
+@@ -66,15 +66,6 @@
+         <trans>Modify the admin account</trans>
+     </entry>
+     <entry>
+-        <base>MAX_USERS_EXCEEDED</base>
+-        <trans>ERROR: Unable to add user account. You have reached the
+-            maximum number of users for which you have licenses. You
+-            need to either delete an existing user account or contact
+-            your authorized reseller to purchase
+-            additional user licenses.
+-        </trans>
+-    </entry>
+-    <entry>
+         <base>USER_CREATED</base>
+         <trans>Successfully created user account. </trans>
+     </entry>
+diff -up e-smith-base-5.2.0/root/etc/e-smith/web/functions/useraccounts.checkMaxUsers e-smith-base-5.2.0/root/etc/e-smith/web/functions/useraccounts
+--- e-smith-base-5.2.0/root/etc/e-smith/web/functions/useraccounts.checkMaxUsers	2010-10-08 10:24:28.000000000 -0600
++++ e-smith-base-5.2.0/root/etc/e-smith/web/functions/useraccounts	2010-10-08 10:24:56.000000000 -0600
+@@ -169,8 +169,6 @@ __DATA__
          <description>FIRSTPAGE_DESC</description>
          <subroutine src="print_user_table()" />
      </page>
@@ -10,7 +38,7 @@ diff -urN e-smith-base-5.2.0.old/root/etc/e-smith/web/functions/useraccounts e-s
      <page name="CreateModify" pre-event="turn_off_buttons()" post-event="handle_user_accounts()">
          <title>P2_TITLE</title> 
          <description>CREATE_MODIFY_DESC</description>
-@@ -249,8 +247,6 @@
+@@ -249,8 +247,6 @@ __DATA__
          <subroutine src="print_ipsec_client_section()" />
          <subroutine src="print_button('SAVE')" />
      </page>
@@ -19,10 +47,10 @@ diff -urN e-smith-base-5.2.0.old/root/etc/e-smith/web/functions/useraccounts e-s
      <page name="ResetPassword" pre-event="turn_off_buttons()" post-event="reset_password()">
          <title>RESET_PASSWORD_TITLE</title>
          <subroutine src="print_page_description('reset')" />
-diff -urN e-smith-base-5.2.0.old/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm
---- e-smith-base-5.2.0.old/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm	2010-06-05 08:51:52.000000000 +0100
-+++ e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm	2010-06-05 09:09:17.000000000 +0100
-@@ -42,7 +42,6 @@
+diff -up e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm.checkMaxUsers e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm
+--- e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm.checkMaxUsers	2010-10-08 10:24:28.000000000 -0600
++++ e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm	2010-10-08 10:26:18.000000000 -0600
+@@ -42,7 +42,6 @@ our @EXPORT = qw(
      get_ldap_value
      username_clash
      pseudonym_clash
@@ -30,7 +58,7 @@ diff -urN e-smith-base-5.2.0.old/root/usr/lib/perl5/site_perl/esmith/FormMagick/
      handle_user_accounts
      modify_admin
      emailforward
-@@ -181,7 +180,7 @@
+@@ -181,7 +180,7 @@ sub print_user_table {
          my $password_set = $u->prop('PasswordSet');
  
          my $pagenum = ($username eq "admin") ? $self->get_page_by_name('SystemPasswordDummy')
@@ -39,7 +67,7 @@ diff -urN e-smith-base-5.2.0.old/root/usr/lib/perl5/site_perl/esmith/FormMagick/
  
          # make normal links
          my $lock_url = ($password_set eq 'yes') ?
-@@ -608,34 +607,6 @@
+@@ -608,34 +607,6 @@ sub verifyPasswords {
  
  =head1 CREATING AND MODIFYING USERS
  
