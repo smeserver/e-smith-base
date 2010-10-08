@@ -1,0 +1,12 @@
+diff -up e-smith-base-5.2.0/root/etc/e-smith/db/configuration/migrate/10apmdStatus.apmd64bit e-smith-base-5.2.0/root/etc/e-smith/db/configuration/migrate/10apmdStatus
+--- e-smith-base-5.2.0/root/etc/e-smith/db/configuration/migrate/10apmdStatus.apmd64bit	2010-10-08 11:00:08.000000000 -0600
++++ e-smith-base-5.2.0/root/etc/e-smith/db/configuration/migrate/10apmdStatus	2010-10-08 11:00:08.000000000 -0600
+@@ -0,0 +1,8 @@
++{
++    my $apmd = $DB->get('apmd') || $DB->new_record('apmd', { type => 'service'});
++
++    my $arch = `/bin/uname -i`;
++    chomp($arch);
++
++    $apmd->set_prop("status", "disabled") unless $arch eq 'i386';
++}

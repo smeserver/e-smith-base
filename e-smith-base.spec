@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.102 2010/10/08 16:35:10 slords Exp $
+# $Id: e-smith-base.spec,v 1.103 2010/10/08 17:01:43 slords Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.2.0
-%define release 32
+%define release 33
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -37,6 +37,7 @@ Patch24: e-smith-base-5.2.0-nss_ldap.patch
 Patch25: e-smith-base-5.2.0-ibay_groups.patch
 Patch26: e-smith-base-5.2.0-keep_external.patch
 Patch27: e-smith-base-5.2.0-checkMaxUsers.patch
+Patch28: e-smith-base-5.2.0-apmd64bit.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 2.2.0-2
@@ -83,6 +84,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri Oct 8 2010 Shad L. Lords <slords@mail.com> 5.2.0-33.sme
+- Disable apmd on 64-bit arch [SME: 6170]
+
 * Fri Oct 8 2010 Shad L. Lords <slords@mail.com> 5.2.0-32.sme
 - Remove check for maxUsers [SME: 5537]
 
@@ -1426,6 +1430,7 @@ e-smith server and gateway software - base module.
 %patch25 -p1
 %patch26 -p1
 %patch27 -p1
+%patch28 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
