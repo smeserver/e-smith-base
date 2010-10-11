@@ -1,0 +1,8 @@
+diff -up e-smith-base-5.2.0/root/etc/e-smith/templates/etc/ppp/options/lcp-echo-options.echo-options e-smith-base-5.2.0/root/etc/e-smith/templates/etc/ppp/options/lcp-echo-options
+--- e-smith-base-5.2.0/root/etc/e-smith/templates/etc/ppp/options/lcp-echo-options.echo-options	2005-11-20 21:28:08.000000000 -0700
++++ e-smith-base-5.2.0/root/etc/e-smith/templates/etc/ppp/options/lcp-echo-options	2010-10-11 15:55:28.000000000 -0600
+@@ -1,2 +1,2 @@
+-lcp-echo-interval 30
+-lcp-echo-failure 2
++lcp-echo-interval { $pppoe{lcpEchoInterval} || '30' }
++lcp-echo-failure { $pppoe{lcpEchoFailure} || '2' }
