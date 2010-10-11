@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.105 2010/10/11 21:56:51 slords Exp $
+# $Id: e-smith-base.spec,v 1.106 2010/10/11 23:17:01 slords Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.2.0
-%define release 35
+%define release 36
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -40,6 +40,7 @@ Patch27: e-smith-base-5.2.0-checkMaxUsers.patch
 Patch28: e-smith-base-5.2.0-apmd64bit.patch
 Patch29: e-smith-base-5.2.0-relocate_dhclient_conf.patch
 Patch30: e-smith-base-5.2.0-echo-options.patch
+Patch31: e-smith-base-5.2.0-migrateHWaddr.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 2.2.0-2
@@ -86,6 +87,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Oct 11 2010 Shad L. Lords <slords@mail.com> 5.2.0-36.sme
+- Add migrate script to add missing HWaddr to interface records [SME: 6267]
+
 * Mon Oct 11 2010 Shad L. Lords <slords@mail.com> 5.2.0-35.sme
 - Make lcp options configurable [SME: 6277]
 
@@ -1441,6 +1445,7 @@ e-smith server and gateway software - base module.
 %patch28 -p1
 %patch29 -p1
 %patch30 -p1
+%patch31 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

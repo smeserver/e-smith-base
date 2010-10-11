@@ -1,0 +1,22 @@
+diff -up e-smith-base-5.2.0/root/etc/e-smith/db/configuration/migrate/20interfaceMac.migrateHWaddr e-smith-base-5.2.0/root/etc/e-smith/db/configuration/migrate/20interfaceMac
+--- e-smith-base-5.2.0/root/etc/e-smith/db/configuration/migrate/20interfaceMac.migrateHWaddr	2010-10-11 16:54:44.000000000 -0600
++++ e-smith-base-5.2.0/root/etc/e-smith/db/configuration/migrate/20interfaceMac	2010-10-11 17:16:20.000000000 -0600
+@@ -0,0 +1,18 @@
++{
++    foreach my $iface ( qw(InternalInterface ExternalInterface) )
++    {
++        my $iface = $DB->get($iface) || next;
++        next if $iface->prop('HWAddress');
++
++        if ($iface->prop('Name') =~ m{^(eth[0-9])$})
++        {
++            if (open(MAC, "/sys/class/net/$1/address"))
++            {
++                $addr=<MAC>;
++                close(MAC);
++                chomp $addr;
++                $iface->set_prop('HWAddress', $addr);
++            }
++        }
++    }
++}
