@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.106 2010/10/11 23:17:01 slords Exp $
+# $Id: e-smith-base.spec,v 1.107 2010/10/12 17:55:13 vip-ire Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.2.0
-%define release 36
+%define release 37
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -41,6 +41,7 @@ Patch28: e-smith-base-5.2.0-apmd64bit.patch
 Patch29: e-smith-base-5.2.0-relocate_dhclient_conf.patch
 Patch30: e-smith-base-5.2.0-echo-options.patch
 Patch31: e-smith-base-5.2.0-migrateHWaddr.patch
+Patch32: e-smith-base-5.2.0-relocate_dhcpd_leases_file.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 2.2.0-2
@@ -87,6 +88,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Oct 12 2010 Daniel Berteaud <daniel@firewall-services.com> 5.2.0-37.sme
+- Relocate dhcpd leases file [SME: 6274]
+
 * Mon Oct 11 2010 Shad L. Lords <slords@mail.com> 5.2.0-36.sme
 - Add migrate script to add missing HWaddr to interface records [SME: 6267]
 
@@ -1446,6 +1450,7 @@ e-smith server and gateway software - base module.
 %patch29 -p1
 %patch30 -p1
 %patch31 -p1
+%patch32 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
