@@ -1,0 +1,11 @@
+--- e-smith-base-5.2.0/root/var/service/dhcpd/run.fix_empty_file_test	2010-10-14 18:14:37.000000000 +0200
++++ e-smith-base-5.2.0/root/var/service/dhcpd/run	2010-10-14 18:15:24.000000000 +0200
+@@ -30,7 +30,7 @@
+ /sbin/e-smith/expand-template $configfile
+ 
+ # Relocate the leases file to its new location
+-if [ -e /var/lib/dhcp/dhcpd.leases -a ! -z /var/lib/dhcpd/dhcpd.leases ]; then
++if [ -e /var/lib/dhcp/dhcpd.leases -a ! -s /var/lib/dhcpd/dhcpd.leases ]; then
+     mv -f /var/lib/dhcp/dhcpd.leases \
+         /var/lib/dhcpd/dhcpd.leases
+ fi
