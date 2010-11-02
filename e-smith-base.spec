@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.109 2010/11/02 17:19:26 slords Exp $
+# $Id: e-smith-base.spec,v 1.110 2010/11/02 19:49:03 slords Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.2.0
-%define release 41
+%define release 42
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -46,6 +46,7 @@ Patch33: e-smith-base-5.2.0-fix_empty_file_test.patch
 Patch34: e-smith-base-5.2.0-cpu-conf.patch
 Patch35: e-smith-base-5.2.0-ldap-auth.patch
 Patch36: e-smith-base-5.2.0-enable-cpu.patch
+Patch37: e-smith-base-5.2.0-better-ldap.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 2.2.0-2
@@ -93,13 +94,16 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
-* Mon Nov 1 2010 Daniel Berteaud <daniel@firewall-services.com> 5.2.0-40.sme
+* Tue Nov 2 2010 Shad L. Lords <slords@lordsfam.net 5.2.0-42.sme
+- Always use cpu, do unix if ldap{Auth} is disabled [SME: 6328]
+
+* Mon Nov 1 2010 Shad L. Lords <slords@lordsfam.net 5.2.0-41.sme
 - Switch to cpu commands if ldap is master [SME: 6328]
 
-* Mon Nov 1 2010 Daniel Berteaud <daniel@firewall-services.com> 5.2.0-40.sme
+* Mon Nov 1 2010 Shad L. Lords <slords@lordsfam.net 5.2.0-40.sme
 - Add templates for ldap authentication if enabled [SME: 6329]
 
-* Mon Nov 1 2010 Daniel Berteaud <daniel@firewall-services.com> 5.2.0-39.sme
+* Mon Nov 1 2010 Shad L. Lords <slords@lordsfam.net 5.2.0-39.sme
 - Add cpu.conf and cpu-system.conf template/program to SME [SME: 6327]
 
 * Thu Oct 14 2010 Daniel Berteaud <daniel@firewall-services.com> 5.2.0-38.sme
@@ -1472,6 +1476,7 @@ e-smith server and gateway software - base module.
 %patch34 -p1
 %patch35 -p1
 %patch36 -p1
+%patch37 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
