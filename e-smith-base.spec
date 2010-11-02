@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.108 2010/10/14 16:21:30 vip-ire Exp $
+# $Id: e-smith-base.spec,v 1.109 2010/11/02 17:19:26 slords Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.2.0
-%define release 38
+%define release 41
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -43,6 +43,9 @@ Patch30: e-smith-base-5.2.0-echo-options.patch
 Patch31: e-smith-base-5.2.0-migrateHWaddr.patch
 Patch32: e-smith-base-5.2.0-relocate_dhcpd_leases_file.patch
 Patch33: e-smith-base-5.2.0-fix_empty_file_test.patch
+Patch34: e-smith-base-5.2.0-cpu-conf.patch
+Patch35: e-smith-base-5.2.0-ldap-auth.patch
+Patch36: e-smith-base-5.2.0-enable-cpu.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 2.2.0-2
@@ -70,6 +73,7 @@ Requires: mdadm
 Requires: pv
 Requires: pam_abl
 Requires: nss_ldap
+Requires: cpu >= 1.4.3
 Obsoletes: rlinetd, e-smith-mod_ssl
 Obsoletes: e-smith-serial-console
 Obsoletes: sshell
@@ -89,6 +93,15 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Nov 1 2010 Daniel Berteaud <daniel@firewall-services.com> 5.2.0-40.sme
+- Switch to cpu commands if ldap is master [SME: 6328]
+
+* Mon Nov 1 2010 Daniel Berteaud <daniel@firewall-services.com> 5.2.0-40.sme
+- Add templates for ldap authentication if enabled [SME: 6329]
+
+* Mon Nov 1 2010 Daniel Berteaud <daniel@firewall-services.com> 5.2.0-39.sme
+- Add cpu.conf and cpu-system.conf template/program to SME [SME: 6327]
+
 * Thu Oct 14 2010 Daniel Berteaud <daniel@firewall-services.com> 5.2.0-38.sme
 - Fix empty leases file test [SME: 6274]
 
@@ -1456,6 +1469,9 @@ e-smith server and gateway software - base module.
 %patch31 -p1
 %patch32 -p1
 %patch33 -p1
+%patch34 -p1
+%patch35 -p1
+%patch36 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
