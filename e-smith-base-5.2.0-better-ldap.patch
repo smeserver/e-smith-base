@@ -61,7 +61,7 @@ diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-create-unix.be
 +        "/usr/sbin/cpu", "groupadd",
 +        "-g", $gid,
 +        $groupName
-+    ) == 0 or ( $x = 255, warn "Failed to create (ldap) group $groupName.\n" );
++    ) == 0 or ( $x = $ldapauth ne 'enabled ? $x : 255, warn "Failed to create (ldap) group $groupName.\n" );
 +
 +# Now create the dummy user account (in ldap)
 +system(
@@ -74,7 +74,7 @@ diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-create-unix.be
 +        "-s",
 +        "/bin/false",
 +        "$groupName"
-+    ) == 0 or ( $x = 255, warn "Failed to create (ldap) user $groupName.\n" );
++    ) == 0 or ( $x = $ldapauth ne 'enabled ? $x : 255, warn "Failed to create (ldap) user $groupName.\n" );
 +
  # Release lock if we have one
  $lock && esmith::lockfile::UnlockFile($lock);
@@ -111,7 +111,7 @@ diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-create-unix.be
 +    $groups = join (',', sort (@groupList));
 +
 +    system("/usr/sbin/cpu", "-C/etc/cpu-system.conf", "usermod", "-G", "$groups", "$member") == 0
-+        or ( $x = 255, warn "Failed to modify supplementary (ldap) group list for $member.\n" );
++        or ( $x = $ldapauth ne 'enabled ? $x : 255, warn "Failed to modify supplementary (ldap) group list for $member.\n" );
  }
  
 -exit (0);
@@ -150,10 +150,10 @@ diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-delete-unix.be
  
 -exit (0);
 +system("/usr/sbin/cpu", "-C/etc/cpu-system.conf", "userdel", "$groupName") == 0
-+    or ( $x = 255, warn "Failed to delete dummy user for (ldap) group $groupName.\n" );
++    or ( $x = $ldapauth ne 'enabled ? $x : 255, warn "Failed to delete dummy user for (ldap) group $groupName.\n" );
 +
 +system("/usr/sbin/cpu", "groupdel", "$groupName") == 0
-+    or ( $x = 255, warn "Failed to delete (ldap) group $groupName.\n" );
++    or ( $x = $ldapauth ne 'enabled ? $x : 255, warn "Failed to delete (ldap) group $groupName.\n" );
 +
 +exit ($x);
 diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-modify-unix.better-ldap e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-modify-unix
@@ -185,7 +185,7 @@ diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-modify-unix.be
      }
  
 +    system("/usr/sbin/cpu", "-C/etc/cpu-system.conf", "usermod", "-c", "$groupDesc", "$groupName") == 0
-+        or ( $x = 255, warn "Failed to modify (ldap) group description for $groupName.\n" );
++        or ( $x = $ldapauth ne 'enabled ? $x : 255, warn "Failed to modify (ldap) group description for $groupName.\n" );
 +
      my ($name, $passwd, $gid, $members) = getgrnam ($groupName);
      my @oldMembers = split (/\s+/, $members);
@@ -225,7 +225,7 @@ diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-modify-unix.be
 +        $groups = join (',', sort (@groupList));
 +
 +        system("/usr/sbin/cpu", "-C/etc/cpu-system.conf", "usermod", "-G", "$groups", "$member") == 0
-+            or ( $x = 255, warn "Failed to modify supplementary (ldap) group list for $member.\n" );
++            or ( $x = $ldapauth ne 'enabled ? $x : 255, warn "Failed to modify supplementary (ldap) group list for $member.\n" );
      }
  }
  
@@ -301,7 +301,7 @@ diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-create-unix.bet
 +        "-g",
 +        $gid,
 +        $userName
-+    ) == 0 or ( $x = 255, warn "Failed to create (ldap) group $userName.\n" );
++    ) == 0 or ( $x = $ldapauth ne 'enabled ? $x : 255, warn "Failed to create (ldap) group $userName.\n" );
 +
 +# Now create the user account (in ldap)
 +system(
@@ -317,7 +317,7 @@ diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-create-unix.bet
 +        "-k/etc/e-smith/skel/user",
 +        "-s", "$shell",
 +        $userName
-+    ) == 0 or ( $x = 255, warn "Failed to create (ldap) account $userName.\n" );
++    ) == 0 or ( $x = $ldapauth ne 'enabled ? $x : 255, warn "Failed to create (ldap) account $userName.\n" );
 +
  
  # Release lock if we have one
@@ -339,7 +339,7 @@ diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-create-unix.bet
 +        and ( $x = 255, warn "Could not lock (unix) password for $userName\n" );
  }
 +system("/usr/sbin/cpu", "usermod", "-L", "$userName")
-+    and ( $x = 255, warn "Could not lock (ldap) password for $userName\n" );
++    and ( $x = $ldapauth ne 'enabled ? $x : 255, warn "Could not lock (ldap) password for $userName\n" );
  system("/usr/bin/smbpasswd", "-a", "-d", "$userName")
 -    and warn("Could not lock smb password for $userName\n");;
 +    and ( $x = 255, warn "Could not lock (smb) password for $userName\n" );
@@ -384,10 +384,10 @@ diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-delete-unix.bet
  
 -exit (0);
 +system("/usr/sbin/cpu", "userdel", "-r", $userName) == 0
-+    or ( $x = 255, warn "Failed to delete (ldap) account $userName.\n" );
++    or ( $x = $ldapauth ne 'enabled ? $x : 255, warn "Failed to delete (ldap) account $userName.\n" );
 +
 +system("/usr/sbin/cpu", "-C/etc/cpu-system.conf", "groupdel", $userName) == 0
-+    or ( $x = 255, warn "Failed to delete (ldap) group account $userName.\n" );
++    or ( $x = $ldapauth ne 'enabled ? $x : 255, warn "Failed to delete (ldap) group account $userName.\n" );
 +
 +exit ($x);
 diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-lock-passwd.better-ldap e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-lock-passwd
@@ -418,7 +418,7 @@ diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-lock-passwd.bet
 +            or ( $x = 255, warn "Error locking (unix) account $userName" );
      }
 +    system("/usr/sbin/cpu", "usermod", "-L", $userName) == 0
-+        or ( $x = 255, warn "Error locking (ldap) account $userName" );
++        or ( $x = $ldapauth ne 'enabled ? $x : 255, warn "Error locking (ldap) account $userName" );
      system("/usr/bin/smbpasswd", "-d", $userName) == 0
 -        or die "Error running /usr/bin/smbpasswd command to lock account $userName";
 +        or ( $x = 255, warn "Error locking (smb) account $userName" );
@@ -473,7 +473,7 @@ diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-modify-unix.bet
          }
 +
 +        system("/usr/sbin/cpu", "usermod", '-s', "$new_shell", "-G", "$groups", $userName) == 0
-+            or ( $x = 255, warn "Failed to modify shell of (ldap) account $userName.\n" );
++            or ( $x = $ldapauth ne 'enabled ? $x : 255, warn "Failed to modify shell of (ldap) account $userName.\n" );
      }
  
      #------------------------------------------------------------
@@ -495,7 +495,7 @@ diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-modify-unix.bet
          }
 +
 +        system("/usr/sbin/cpu", "usermod", "-c", "$first $last", "-G", "$groups", $userName) == 0
-+            or ( $x = 255, warn "Failed to modify comment of (ldap) account $userName.\n" );
++            or ( $x = $ldapauth ne 'enabled ? $x : 255, warn "Failed to modify comment of (ldap) account $userName.\n" );
      }
  }
  

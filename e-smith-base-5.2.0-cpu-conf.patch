@@ -1,7 +1,7 @@
 diff -up e-smith-base-5.2.0/createlinks.cpu-conf e-smith-base-5.2.0/createlinks
 --- e-smith-base-5.2.0/createlinks.cpu-conf	2010-11-01 07:55:51.000000000 -0600
 +++ e-smith-base-5.2.0/createlinks	2010-11-01 07:58:01.000000000 -0600
-@@ -214,6 +214,14 @@ foreach my $file (qw(
+@@ -214,6 +214,19 @@ foreach my $file (qw(
      templates2events($file, qw(console-save bootstrap-console-save));
  }
  
@@ -10,7 +10,12 @@ diff -up e-smith-base-5.2.0/createlinks.cpu-conf e-smith-base-5.2.0/createlinks
 +       /etc/cpu-system.conf
 +    ))
 +{
-+    templates2events($file, qw(console-save bootstrap-console-save ldap-update));
++    templates2events("$_", qw(
++	post-upgrade
++	console-save
++	bootstrap-console-save
++	ldap-update
++	));
 +}
 +
  # conf-userlists

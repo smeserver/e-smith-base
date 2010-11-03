@@ -66,7 +66,7 @@ diff -up e-smith-base-5.2.0/root/etc/e-smith/templates/etc/pam.d/system-auth/50s
 diff -up e-smith-base-5.2.0/createlinks.enable-cpu e-smith-base-5.2.0/createlinks
 --- e-smith-base-5.2.0/createlinks.enable-cpu	2010-11-01 10:00:03.000000000 -0600
 +++ e-smith-base-5.2.0/createlinks	2010-11-01 10:01:53.000000000 -0600
-@@ -311,7 +311,6 @@
+@@ -316,7 +316,6 @@
  templates2events("/etc/smartd.conf", $event);
  templates2events("/home/e-smith/ssl.pem/pem", $event);
  event_link("rmmod-bonding", $event, "10");
@@ -74,7 +74,7 @@ diff -up e-smith-base-5.2.0/createlinks.enable-cpu e-smith-base-5.2.0/createlink
  event_link("set-hostname", $event, "10");
  event_link("conf-modules", $event, "30");
  event_link("conf-startup", $event, "60");
-@@ -319,6 +318,14 @@
+@@ -324,6 +323,14 @@
  event_link("init-reload", $event, "90");
  event_link("reset-unsavedflag", $event, "95");
  

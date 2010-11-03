@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.110 2010/11/02 19:49:03 slords Exp $
+# $Id: e-smith-base.spec,v 1.111 2010/11/03 14:00:42 slords Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.2.0
-%define release 42
+%define release 43
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -94,6 +94,10 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Wed Nov 3 2010 Shad L. Lords <slords@lordsfam.net 5.2.0-43.sme
+- Make cpu calls critical only with ldap{Auth} is enabled [SME: 6330]
+- Add cpu.conf and cpu-system.conf to post-upgrade event [SME: 6327]
+
 * Tue Nov 2 2010 Shad L. Lords <slords@lordsfam.net 5.2.0-42.sme
 - Always use cpu, do unix if ldap{Auth} is disabled [SME: 6328]
 
