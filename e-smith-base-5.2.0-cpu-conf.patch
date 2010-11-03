@@ -5,7 +5,7 @@ diff -up e-smith-base-5.2.0/createlinks.cpu-conf e-smith-base-5.2.0/createlinks
      templates2events($file, qw(console-save bootstrap-console-save));
  }
  
-+foreach my $file (qw(
++foreach (qw(
 +       /etc/cpu.conf
 +       /etc/cpu-system.conf
 +    ))
