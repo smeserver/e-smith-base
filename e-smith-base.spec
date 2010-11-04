@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.112 2010/11/03 18:55:06 slords Exp $
+# $Id: e-smith-base.spec,v 1.113 2010/11/04 20:02:03 slords Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.2.0
-%define release 44
+%define release 45
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -47,6 +47,7 @@ Patch34: e-smith-base-5.2.0-cpu-conf.patch
 Patch35: e-smith-base-5.2.0-ldap-auth.patch
 Patch36: e-smith-base-5.2.0-enable-cpu.patch
 Patch37: e-smith-base-5.2.0-better-ldap.patch
+Patch38: e-smith-base-5.2.0-add-extra-ldap.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 2.2.0-2
@@ -94,6 +95,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Thu Nov 4 2010 Shad L. Lords <slords@lordsfam.net 5.2.0-45.sme
+- Add extra attributes to ldap objects with cpu call [SME: 6334]
+
 * Wed Nov 3 2010 Shad L. Lords <slords@lordsfam.net 5.2.0-44.sme
 - Fix cpu critical patch missing ' [SME: 6330]
 
@@ -1484,6 +1488,7 @@ e-smith server and gateway software - base module.
 %patch35 -p1
 %patch36 -p1
 %patch37 -p1
+%patch38 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
