@@ -1,6 +1,6 @@
 diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-create-unix.add-extra-ldap e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-create-unix
---- e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-create-unix.add-extra-ldap	2010-11-04 10:57:22.000000000 -0600
-+++ e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-create-unix	2010-11-04 11:06:42.000000000 -0600
+--- e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-create-unix.add-extra-ldap	2010-11-04 18:21:40.000000000 -0600
++++ e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-create-unix	2010-11-04 18:22:55.000000000 -0600
 @@ -27,6 +27,7 @@ use strict;
  use Errno;
  use esmith::ConfigDB;
@@ -20,13 +20,14 @@ diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-create-unix.ad
  my $event = $ARGV [0];
  my $groupName = $ARGV [1];
  
-@@ -93,11 +98,16 @@ if ($ldapauth ne 'enabled')
+@@ -93,11 +98,17 @@ if ($ldapauth ne 'enabled')
  }
  
  # Create the user's unique group first (in ldap)
 +my $tmpattr = File::Temp->new();
 +print $tmpattr "mail: $groupName\@$domain\n";
 +print $tmpattr "description: $description\n";
++$tmpattr->flush();
  system(
          "/usr/sbin/cpu", "groupadd",
 +        "-a", "$tmpattr",
@@ -38,8 +39,8 @@ diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-create-unix.ad
  # Now create the dummy user account (in ldap)
  system(
 diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-modify-unix.add-extra-ldap e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-modify-unix
---- e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-modify-unix.add-extra-ldap	2010-11-04 10:57:22.000000000 -0600
-+++ e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-modify-unix	2010-11-04 11:06:52.000000000 -0600
+--- e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-modify-unix.add-extra-ldap	2010-11-04 18:21:40.000000000 -0600
++++ e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-modify-unix	2010-11-04 18:23:00.000000000 -0600
 @@ -27,6 +27,7 @@ use strict;
  use Errno;
  use esmith::ConfigDB;
@@ -59,13 +60,14 @@ diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-modify-unix.ad
  my $event = shift || die "Event name arg missing\n";;
  my @groups;
  
-@@ -76,6 +81,16 @@ foreach my $group (@groups)
+@@ -76,6 +81,17 @@ foreach my $group (@groups)
      system("/usr/sbin/cpu", "-C/etc/cpu-system.conf", "usermod", "-c", "$groupDesc", "$groupName") == 0
          or ( $x = $ldapauth ne 'enabled' ? $x : 255, warn "Failed to modify (ldap) group description for $groupName.\n" );
  
 +    my $tmpattr = File::Temp->new();
 +    print $tmpattr "mail: $groupName\@$domain\n";
 +    print $tmpattr "description: $groupDesc\n";
++    $tmpattr->flush();
 +    system(
 +            "/usr/sbin/cpu", "-C/etc/cpu-system.conf", "groupmod", 
 +            "-a", "$tmpattr",
@@ -77,8 +79,8 @@ diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-modify-unix.ad
      my @oldMembers = split (/\s+/, $members);
      my @newMembers = split (/,/, $properties {'Members'});
 diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-create-unix.add-extra-ldap e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-create-unix
---- e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-create-unix.add-extra-ldap	2010-11-04 10:57:22.000000000 -0600
-+++ e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-create-unix	2010-11-04 11:10:41.000000000 -0600
+--- e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-create-unix.add-extra-ldap	2010-11-04 18:21:40.000000000 -0600
++++ e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-create-unix	2010-11-04 18:23:40.000000000 -0600
 @@ -27,6 +27,7 @@ use strict;
  use Errno;
  use esmith::ConfigDB;
@@ -104,7 +106,7 @@ diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-create-unix.add
  my $last = $acct->prop('LastName') || '';
 +my $phone = $acct->prop('Phone') || '';
 +my $company = $acct->prop('Company') || '';
-+my $dept = $acct->prop('Department') || '';
++my $dept = $acct->prop('Dept') || '';
 +my $city = $acct->prop('City') || '';
 +my $street = $acct->prop('Street') || '';
  my $shell = $acct->prop('Shell') || '/usr/bin/rssh';
@@ -113,7 +115,7 @@ diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-create-unix.add
  if ($ldapauth ne 'enabled')
  {
      # Create the user's unique group first
-@@ -99,6 +108,12 @@ system(
+@@ -99,6 +108,13 @@ system(
      ) == 0 or ( $x = $ldapauth ne 'enabled' ? $x : 255, warn "Failed to create (ldap) group $userName.\n" );
  
  # Now create the user account (in ldap)
@@ -123,10 +125,11 @@ diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-create-unix.add
 +print $tmpattr "ou: $dept\n";
 +print $tmpattr "l: $city\n";
 +print $tmpattr "street: $street\n";
++$tmpattr->flush();
  system(
          "/usr/sbin/cpu", "useradd",
          "-u", $uid,
-@@ -106,6 +121,8 @@ system(
+@@ -106,6 +122,8 @@ system(
          "-c", "$first $last",
          "-f", "$first",
          "-E", "$last",
@@ -135,7 +138,7 @@ diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-create-unix.add
          "-d", "/home/e-smith/files/users/$userName",
          "-G", "shared",
          "-m",
-@@ -113,6 +130,7 @@ system(
+@@ -113,6 +131,7 @@ system(
          "-s", "$shell",
          $userName
      ) == 0 or ( $x = $ldapauth ne 'enabled' ? $x : 255, warn "Failed to create (ldap) account $userName.\n" );
@@ -144,8 +147,8 @@ diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-create-unix.add
  
  # Release lock if we have one
 diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-modify-unix.add-extra-ldap e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-modify-unix
---- e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-modify-unix.add-extra-ldap	2010-11-04 10:57:22.000000000 -0600
-+++ e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-modify-unix	2010-11-04 11:12:28.000000000 -0600
+--- e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-modify-unix.add-extra-ldap	2010-11-04 18:21:40.000000000 -0600
++++ e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-modify-unix	2010-11-04 18:24:58.000000000 -0600
 @@ -22,12 +22,17 @@ use strict;
  use Errno;
  use esmith::AccountsDB;
@@ -164,7 +167,7 @@ diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-modify-unix.add
  my $event = $ARGV [0];
  my $userName = $ARGV [1];
  
-@@ -115,9 +120,25 @@ foreach my $u (@users)
+@@ -115,9 +120,28 @@ foreach my $u (@users)
                  or ( $x = 255, warn "Failed to modify comment of (unix) account $userName.\n" );
          }
  
@@ -176,17 +179,20 @@ diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-modify-unix.add
 +
 +    my $new_phone = $u->prop('Phone') || '';
 +    my $new_company = $u->prop('Company') || '';
-+    my $new_dept = $u->prop('Department') || '';
++    my $new_dept = $u->prop('Dept') || '';
 +    my $new_city = $u->prop('City') || '';
 +    my $new_street = $u->prop('Street') || '';
 +
++    my @attrs;
 +    my $tmpattr = File::Temp->new();
 +    print $tmpattr "telephoneNumber: $new_phone\n" if $new_phone;
 +    print $tmpattr "o: $new_company\n" if $new_company;
 +    print $tmpattr "ou: $new_dept\n" if $new_dept;
 +    print $tmpattr "l: $new_city\n" if $new_city;
-+    print $tmpattr "street: $new_street\n" $new_street;
-+    system("/usr/sbin/cpu", "usermod", "-a", "$tmpattr", "-e", "$userName\@$domain", "-G", "$groups", $userName) == 0
++    print $tmpattr "street: $new_street\n" if $new_street;
++    $tmpattr->flush();
++    push @attrs, ('-a', "$tmpattr") if -s $tmpattr;
++    system("/usr/sbin/cpu", "usermod", @attrs, "-e", "$userName\@$domain", "-G", "$groups", $userName) == 0
 +        or ( $x = $ldapauth ne 'enabled' ? $x : 255, warn "Failed to modify email of (ldap) account $userName.\n" );
 +    undef $tmpattr;
  }
