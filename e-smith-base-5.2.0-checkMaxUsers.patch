@@ -38,15 +38,15 @@ diff -up e-smith-base-5.2.0/root/etc/e-smith/web/functions/useraccounts.checkMax
      <page name="CreateModify" pre-event="turn_off_buttons()" post-event="handle_user_accounts()">
          <title>P2_TITLE</title> 
          <description>CREATE_MODIFY_DESC</description>
-@@ -249,8 +247,6 @@ __DATA__
+@@ -249,7 +247,7 @@ __DATA__
          <subroutine src="print_ipsec_client_section()" />
          <subroutine src="print_button('SAVE')" />
      </page>
 -    <page name="CheckMaxUsersUnlock" post-event="checkMaxUsers('ResetPassword')">
--    </page>
++    <page name="ResetPasswordDummy" post-event="checkMaxUsers('ResetPassword')">
+     </page>
      <page name="ResetPassword" pre-event="turn_off_buttons()" post-event="reset_password()">
          <title>RESET_PASSWORD_TITLE</title>
-         <subroutine src="print_page_description('reset')" />
 diff -up e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm.checkMaxUsers e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm
 --- e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm.checkMaxUsers	2010-10-08 10:24:28.000000000 -0600
 +++ e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/useraccounts.pm	2010-10-08 10:26:18.000000000 -0600
@@ -63,7 +63,7 @@ diff -up e-smith-base-5.2.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel
  
          my $pagenum = ($username eq "admin") ? $self->get_page_by_name('SystemPasswordDummy')
 -        : $self->get_page_by_name('CheckMaxUsersUnlock');
-+        : $self->get_page_by_name('ResetPassword');
++        : $self->get_page_by_name('ResetPasswordDummy');
  
          # make normal links
          my $lock_url = ($password_set eq 'yes') ?

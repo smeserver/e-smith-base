@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.115 2010/11/05 01:37:08 slords Exp $
+# $Id: e-smith-base.spec,v 1.116 2010/11/05 01:56:12 slords Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.2.0
-%define release 47
+%define release 48
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -95,6 +95,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Thu Nov 4 2010 Shad L. Lords <slords@lordsfam.net 5.2.0-48.sme
+- Fix maxUsers patch to not break setting passwords [SME: 5537]
+
 * Thu Nov 4 2010 Shad L. Lords <slords@lordsfam.net 5.2.0-47.sme
 - Don't put empty attributes in file for cpu [SME: 6334]
 
