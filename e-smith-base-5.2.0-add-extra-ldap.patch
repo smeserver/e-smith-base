@@ -136,7 +136,7 @@ diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-create-unix.add
          "-f", "$first",
          "-E", "$last",
 +        "-e", "$userName\@$domain",
-+        $attrs,
++        @attrs,
          "-d", "/home/e-smith/files/users/$userName",
          "-G", "shared",
          "-m",

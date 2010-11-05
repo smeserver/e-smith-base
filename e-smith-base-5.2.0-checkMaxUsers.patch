@@ -43,7 +43,7 @@ diff -up e-smith-base-5.2.0/root/etc/e-smith/web/functions/useraccounts.checkMax
          <subroutine src="print_button('SAVE')" />
      </page>
 -    <page name="CheckMaxUsersUnlock" post-event="checkMaxUsers('ResetPassword')">
-+    <page name="ResetPasswordDummy" post-event="checkMaxUsers('ResetPassword')">
++    <page name="ResetPasswordDummy">
      </page>
      <page name="ResetPassword" pre-event="turn_off_buttons()" post-event="reset_password()">
          <title>RESET_PASSWORD_TITLE</title>
