@@ -1,6 +1,6 @@
 diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-create-unix.add-extra-ldap e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-create-unix
---- e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-create-unix.add-extra-ldap	2010-11-04 18:21:40.000000000 -0600
-+++ e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-create-unix	2010-11-04 18:22:55.000000000 -0600
+--- e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-create-unix.add-extra-ldap	2010-11-04 19:17:44.000000000 -0600
++++ e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-create-unix	2010-11-04 19:17:55.000000000 -0600
 @@ -27,6 +27,7 @@ use strict;
  use Errno;
  use esmith::ConfigDB;
@@ -39,8 +39,8 @@ diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-create-unix.ad
  # Now create the dummy user account (in ldap)
  system(
 diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-modify-unix.add-extra-ldap e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-modify-unix
---- e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-modify-unix.add-extra-ldap	2010-11-04 18:21:40.000000000 -0600
-+++ e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-modify-unix	2010-11-04 18:23:00.000000000 -0600
+--- e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-modify-unix.add-extra-ldap	2010-11-04 19:17:44.000000000 -0600
++++ e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-modify-unix	2010-11-04 19:17:55.000000000 -0600
 @@ -27,6 +27,7 @@ use strict;
  use Errno;
  use esmith::ConfigDB;
@@ -79,8 +79,8 @@ diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/group-modify-unix.ad
      my @oldMembers = split (/\s+/, $members);
      my @newMembers = split (/,/, $properties {'Members'});
 diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-create-unix.add-extra-ldap e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-create-unix
---- e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-create-unix.add-extra-ldap	2010-11-04 18:21:40.000000000 -0600
-+++ e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-create-unix	2010-11-04 18:23:40.000000000 -0600
+--- e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-create-unix.add-extra-ldap	2010-11-04 19:17:44.000000000 -0600
++++ e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-create-unix	2010-11-04 19:35:47.000000000 -0600
 @@ -27,6 +27,7 @@ use strict;
  use Errno;
  use esmith::ConfigDB;
@@ -115,30 +115,32 @@ diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-create-unix.add
  if ($ldapauth ne 'enabled')
  {
      # Create the user's unique group first
-@@ -99,6 +108,13 @@ system(
+@@ -99,6 +108,15 @@ system(
      ) == 0 or ( $x = $ldapauth ne 'enabled' ? $x : 255, warn "Failed to create (ldap) group $userName.\n" );
  
  # Now create the user account (in ldap)
++my @attrs;
 +my $tmpattr = File::Temp->new();
-+print $tmpattr "telephoneNumber: $phone\n";
-+print $tmpattr "o: $company\n";
-+print $tmpattr "ou: $dept\n";
-+print $tmpattr "l: $city\n";
-+print $tmpattr "street: $street\n";
++print $tmpattr "telephoneNumber: $phone\n" if $phone;
++print $tmpattr "o: $company\n" if $company;
++print $tmpattr "ou: $dept\n" if $dept;
++print $tmpattr "l: $city\n" if $city;
++print $tmpattr "street: $street\n" if $street;
 +$tmpattr->flush();
++push @attrs, ('-a', "$tmpattr") if -s $tmpattr;
  system(
          "/usr/sbin/cpu", "useradd",
          "-u", $uid,
-@@ -106,6 +122,8 @@ system(
+@@ -106,6 +124,8 @@ system(
          "-c", "$first $last",
          "-f", "$first",
          "-E", "$last",
 +        "-e", "$userName\@$domain",
-+        "-a", "$tmpattr",
++        $attrs,
          "-d", "/home/e-smith/files/users/$userName",
          "-G", "shared",
          "-m",
-@@ -113,6 +131,7 @@ system(
+@@ -113,6 +133,7 @@ system(
          "-s", "$shell",
          $userName
      ) == 0 or ( $x = $ldapauth ne 'enabled' ? $x : 255, warn "Failed to create (ldap) account $userName.\n" );
@@ -147,8 +149,8 @@ diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-create-unix.add
  
  # Release lock if we have one
 diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-modify-unix.add-extra-ldap e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-modify-unix
---- e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-modify-unix.add-extra-ldap	2010-11-04 18:21:40.000000000 -0600
-+++ e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-modify-unix	2010-11-04 18:24:58.000000000 -0600
+--- e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-modify-unix.add-extra-ldap	2010-11-04 19:17:44.000000000 -0600
++++ e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-modify-unix	2010-11-04 19:17:55.000000000 -0600
 @@ -22,12 +22,17 @@ use strict;
  use Errno;
  use esmith::AccountsDB;
