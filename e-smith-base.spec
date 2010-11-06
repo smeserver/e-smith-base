@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.117 2010/11/05 03:56:15 slords Exp $
+# $Id: e-smith-base.spec,v 1.118 2010/11/06 06:12:31 slords Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.2.0
-%define release 49
+%define release 50
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -48,6 +48,7 @@ Patch35: e-smith-base-5.2.0-ldap-auth.patch
 Patch36: e-smith-base-5.2.0-enable-cpu.patch
 Patch37: e-smith-base-5.2.0-better-ldap.patch
 Patch38: e-smith-base-5.2.0-add-extra-ldap.patch
+Patch39: e-smith-base-5.2.0-cpu-can-delete.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 2.2.0-2
@@ -95,6 +96,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Fri Nov 5 2010 Shad L. Lords <slords@lordsfam.net 5.2.0-50.sme
+- Allow cpu to remove empty attributes [SME: 6343]
+
 * Thu Nov 4 2010 Shad L. Lords <slords@lordsfam.net 5.2.0-49.sme
 - Fix maxUsers patch (again) to not break setting passwords [SME: 5537]
 
@@ -1501,6 +1505,7 @@ e-smith server and gateway software - base module.
 %patch36 -p1
 %patch37 -p1
 %patch38 -p1
+%patch39 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

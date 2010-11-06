@@ -1,0 +1,59 @@
+diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-create-unix.cpu-can-delete e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-create-unix
+--- e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-create-unix.cpu-can-delete	2010-11-05 23:48:18.000000000 -0600
++++ e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-create-unix	2010-11-06 00:07:59.000000000 -0600
+@@ -108,15 +108,13 @@ system(
+     ) == 0 or ( $x = $ldapauth ne 'enabled' ? $x : 255, warn "Failed to create (ldap) group $userName.\n" );
+ 
+ # Now create the user account (in ldap)
+-my @attrs;
+ my $tmpattr = File::Temp->new();
+-print $tmpattr "telephoneNumber: $phone\n" if $phone;
+-print $tmpattr "o: $company\n" if $company;
+-print $tmpattr "ou: $dept\n" if $dept;
+-print $tmpattr "l: $city\n" if $city;
+-print $tmpattr "street: $street\n" if $street;
++print $tmpattr "telephoneNumber: $phone\n";
++print $tmpattr "o: $company\n";
++print $tmpattr "ou: $dept\n";
++print $tmpattr "l: $city\n";
++print $tmpattr "street: $street\n";
+ $tmpattr->flush();
+-push @attrs, ('-a', "$tmpattr") if -s $tmpattr;
+ system(
+         "/usr/sbin/cpu", "useradd",
+         "-u", $uid,
+@@ -125,7 +123,7 @@ system(
+         "-f", "$first",
+         "-E", "$last",
+         "-e", "$userName\@$domain",
+-        @attrs,
++        "-a", "$tmpattr",
+         "-d", "/home/e-smith/files/users/$userName",
+         "-G", "shared",
+         "-m",
+diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-modify-unix.cpu-can-delete e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-modify-unix
+--- e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-modify-unix.cpu-can-delete	2010-11-05 23:48:18.000000000 -0600
++++ e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-modify-unix	2010-11-06 00:09:45.000000000 -0600
+@@ -130,16 +130,14 @@ foreach my $u (@users)
+     my $new_city = $u->prop('City') || '';
+     my $new_street = $u->prop('Street') || '';
+ 
+-    my @attrs;
+     my $tmpattr = File::Temp->new();
+-    print $tmpattr "telephoneNumber: $new_phone\n" if $new_phone;
+-    print $tmpattr "o: $new_company\n" if $new_company;
+-    print $tmpattr "ou: $new_dept\n" if $new_dept;
+-    print $tmpattr "l: $new_city\n" if $new_city;
+-    print $tmpattr "street: $new_street\n" if $new_street;
++    print $tmpattr "telephoneNumber: $new_phone\n";
++    print $tmpattr "o: $new_company\n";
++    print $tmpattr "ou: $new_dept\n";
++    print $tmpattr "l: $new_city\n";
++    print $tmpattr "street: $new_street\n";
+     $tmpattr->flush();
+-    push @attrs, ('-a', "$tmpattr") if -s $tmpattr;
+-    system("/usr/sbin/cpu", "usermod", @attrs, "-e", "$userName\@$domain", "-G", "$groups", $userName) == 0
++    system("/usr/sbin/cpu", "usermod", "-a", "$tmpattr", "-e", "$userName\@$domain", "-G", "$groups", $userName) == 0
+         or ( $x = $ldapauth ne 'enabled' ? $x : 255, warn "Failed to modify email of (ldap) account $userName.\n" );
+     undef $tmpattr;
+ }
