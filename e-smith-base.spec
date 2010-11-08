@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.118 2010/11/06 06:12:31 slords Exp $
+# $Id: e-smith-base.spec,v 1.119 2010/11/08 03:58:38 slords Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.2.0
-%define release 50
+%define release 51
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -49,6 +49,7 @@ Patch36: e-smith-base-5.2.0-enable-cpu.patch
 Patch37: e-smith-base-5.2.0-better-ldap.patch
 Patch38: e-smith-base-5.2.0-add-extra-ldap.patch
 Patch39: e-smith-base-5.2.0-cpu-can-delete.patch
+Patch40: e-smith-base-5.2.0-supp-groups.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 2.2.0-2
@@ -96,6 +97,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Sun Nov 7 2010 Shad L. Lords <slords@lordsfam.net 5.2.0-51.sme
+- No longer need to pass supplemental groups to cpu [SME: 6349]
+
 * Fri Nov 5 2010 Shad L. Lords <slords@lordsfam.net 5.2.0-50.sme
 - Allow cpu to remove empty attributes [SME: 6343]
 
@@ -1506,6 +1510,7 @@ e-smith server and gateway software - base module.
 %patch37 -p1
 %patch38 -p1
 %patch39 -p1
+%patch40 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]

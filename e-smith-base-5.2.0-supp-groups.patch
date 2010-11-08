@@ -1,0 +1,56 @@
+diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-modify-unix.supp-groups e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-modify-unix
+--- e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-modify-unix.supp-groups	2010-11-07 20:52:51.000000000 -0700
++++ e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-modify-unix	2010-11-07 20:55:37.000000000 -0700
+@@ -62,25 +62,6 @@ foreach my $u (@users)
+     die "Account $userName is not a user account; modify user failed.\n"
+ 	unless ( ($userName eq 'admin') or ($type eq 'user') );
+ 
+-    # cpu usermod called without "-G list,of,supplementary,groups" causes user
+-    # to be removed from all it's supplementary groups. Thus, to be able to call
+-    # cpu usermod properly we need to know user supplementary groups.
+-
+-    my $cmd = "/usr/bin/id -G -n '$userName'";
+-    my $groups = `$cmd 2>/dev/null`;
+-    if ($? != 0)
+-    {
+-        die "Failed to get supplementary group list for $userName.\n";
+-    }
+-    chomp ($groups);
+-
+-    my @groupList = split (/\s+/, $groups);
+-    @groupList = grep (!/^$userName$/, @groupList);
+-
+-    # root user/group isn't in ldap
+-    @groupList = grep (!/^root$/, @groupList);
+-    $groups = join (',', sort (@groupList));
+-
+     setpwent;
+     my ($comment, $shell) = (getpwnam($userName))[5,8];
+     endpwent;
+@@ -100,7 +81,7 @@ foreach my $u (@users)
+                 or ( $x = 255, warn "Failed to modify shell of (unix) account $userName.\n" );
+         }
+ 
+-        system("/usr/sbin/cpu", "usermod", '-s', "$new_shell", "-G", "$groups", $userName) == 0
++        system("/usr/sbin/cpu", "usermod", '-s', "$new_shell", $userName) == 0
+             or ( $x = $ldapauth ne 'enabled' ? $x : 255, warn "Failed to modify shell of (ldap) account $userName.\n" );
+     }
+ 
+@@ -120,7 +101,7 @@ foreach my $u (@users)
+                 or ( $x = 255, warn "Failed to modify comment of (unix) account $userName.\n" );
+         }
+ 
+-        system("/usr/sbin/cpu", "usermod", "-c", "$first $last", "-f", "$first", "-E", "$last", "-G", "$groups", $userName) == 0
++        system("/usr/sbin/cpu", "usermod", "-c", "$first $last", "-f", "$first", "-E", "$last", $userName) == 0
+             or ( $x = $ldapauth ne 'enabled' ? $x : 255, warn "Failed to modify comment/name of (ldap) account $userName.\n" );
+     }
+ 
+@@ -137,7 +118,7 @@ foreach my $u (@users)
+     print $tmpattr "l: $new_city\n";
+     print $tmpattr "street: $new_street\n";
+     $tmpattr->flush();
+-    system("/usr/sbin/cpu", "usermod", "-a", "$tmpattr", "-e", "$userName\@$domain", "-G", "$groups", $userName) == 0
++    system("/usr/sbin/cpu", "usermod", "-a", "$tmpattr", "-e", "$userName\@$domain", $userName) == 0
+         or ( $x = $ldapauth ne 'enabled' ? $x : 255, warn "Failed to modify email of (ldap) account $userName.\n" );
+     undef $tmpattr;
+ }
