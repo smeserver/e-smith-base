@@ -1,4 +1,4 @@
-# $Id: e-smith-base.spec,v 1.119 2010/11/08 03:58:38 slords Exp $
+# $Id: e-smith-base.spec,v 1.120 2010/11/14 16:45:07 slords Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
@@ -97,44 +97,44 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
-* Sun Nov 7 2010 Shad L. Lords <slords@lordsfam.net 5.2.0-51.sme
+* Sun Nov 7 2010 Shad L. Lords <slords@lordsfam.net> 5.2.0-51.sme
 - No longer need to pass supplemental groups to cpu [SME: 6349]
 
-* Fri Nov 5 2010 Shad L. Lords <slords@lordsfam.net 5.2.0-50.sme
+* Fri Nov 5 2010 Shad L. Lords <slords@lordsfam.net> 5.2.0-50.sme
 - Allow cpu to remove empty attributes [SME: 6343]
 
-* Thu Nov 4 2010 Shad L. Lords <slords@lordsfam.net 5.2.0-49.sme
+* Thu Nov 4 2010 Shad L. Lords <slords@lordsfam.net> 5.2.0-49.sme
 - Fix maxUsers patch (again) to not break setting passwords [SME: 5537]
 
-* Thu Nov 4 2010 Shad L. Lords <slords@lordsfam.net 5.2.0-48.sme
+* Thu Nov 4 2010 Shad L. Lords <slords@lordsfam.net> 5.2.0-48.sme
 - Fix maxUsers patch to not break setting passwords [SME: 5537]
 
-* Thu Nov 4 2010 Shad L. Lords <slords@lordsfam.net 5.2.0-47.sme
+* Thu Nov 4 2010 Shad L. Lords <slords@lordsfam.net> 5.2.0-47.sme
 - Don't put empty attributes in file for cpu [SME: 6334]
 
-* Thu Nov 4 2010 Shad L. Lords <slords@lordsfam.net 5.2.0-46.sme
+* Thu Nov 4 2010 Shad L. Lords <slords@lordsfam.net> 5.2.0-46.sme
 - Add flush to tmpfile so that data is available to cpu [SME: 6334]
 
-* Thu Nov 4 2010 Shad L. Lords <slords@lordsfam.net 5.2.0-45.sme
+* Thu Nov 4 2010 Shad L. Lords <slords@lordsfam.net> 5.2.0-45.sme
 - Add extra attributes to ldap objects with cpu call [SME: 6334]
 
-* Wed Nov 3 2010 Shad L. Lords <slords@lordsfam.net 5.2.0-44.sme
+* Wed Nov 3 2010 Shad L. Lords <slords@lordsfam.net> 5.2.0-44.sme
 - Fix cpu critical patch missing ' [SME: 6330]
 
-* Wed Nov 3 2010 Shad L. Lords <slords@lordsfam.net 5.2.0-43.sme
+* Wed Nov 3 2010 Shad L. Lords <slords@lordsfam.net> 5.2.0-43.sme
 - Make cpu calls critical only with ldap{Auth} is enabled [SME: 6330]
 - Add cpu.conf and cpu-system.conf to post-upgrade event [SME: 6327]
 
-* Tue Nov 2 2010 Shad L. Lords <slords@lordsfam.net 5.2.0-42.sme
+* Tue Nov 2 2010 Shad L. Lords <slords@lordsfam.net> 5.2.0-42.sme
 - Always use cpu, do unix if ldap{Auth} is disabled [SME: 6328]
 
-* Mon Nov 1 2010 Shad L. Lords <slords@lordsfam.net 5.2.0-41.sme
+* Mon Nov 1 2010 Shad L. Lords <slords@lordsfam.net> 5.2.0-41.sme
 - Switch to cpu commands if ldap is master [SME: 6328]
 
-* Mon Nov 1 2010 Shad L. Lords <slords@lordsfam.net 5.2.0-40.sme
+* Mon Nov 1 2010 Shad L. Lords <slords@lordsfam.net> 5.2.0-40.sme
 - Add templates for ldap authentication if enabled [SME: 6329]
 
-* Mon Nov 1 2010 Shad L. Lords <slords@lordsfam.net 5.2.0-39.sme
+* Mon Nov 1 2010 Shad L. Lords <slords@lordsfam.net> 5.2.0-39.sme
 - Add cpu.conf and cpu-system.conf template/program to SME [SME: 6327]
 
 * Thu Oct 14 2010 Daniel Berteaud <daniel@firewall-services.com> 5.2.0-38.sme
