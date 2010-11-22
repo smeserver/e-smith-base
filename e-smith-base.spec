@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.120 2010/11/14 16:45:07 slords Exp $
+# $Id: e-smith-base.spec,v 1.121 2010/11/22 16:27:05 slords Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.2.0
-%define release 51
+%define release 52
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -97,6 +97,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Nov 22 2010 Shad L. Lords <slords@lordsfam.net> 5.2.0-52.sme
+- Fix relocation of dhclient conf file [SME: 6385]
+
 * Sun Nov 7 2010 Shad L. Lords <slords@lordsfam.net> 5.2.0-51.sme
 - No longer need to pass supplemental groups to cpu [SME: 6349]
 
