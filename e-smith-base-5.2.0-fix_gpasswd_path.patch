@@ -1,0 +1,20 @@
+--- e-smith-base-5.2.0/root/etc/e-smith/events/actions/init-accounts.fix_gpasswd_path	2010-11-29 20:20:17.000000000 +0100
++++ e-smith-base-5.2.0/root/etc/e-smith/events/actions/init-accounts	2010-11-29 20:21:17.000000000 +0100
+@@ -55,7 +55,7 @@
+     if ($ldapauth eq 'enabled')
+     {
+         `/usr/sbin/cpu useradd -c 'e-smith administrator' -d /home/e-smith -G shared -M -s /sbin/e-smith/console admin`;
+-        `/usr/sbin/gpasswd -a admin root`;
++        `/usr/bin/gpasswd -a admin root`;
+     }
+     else
+     {
+@@ -114,7 +114,7 @@
+     {
+ 	die "Failed to change shell and modify supplementary group list for admin.\n";
+     }
+-    `/usr/sbin/gpasswd -a admin root` if ($ldapauth eq 'enabled');
++    `/usr/bin/gpasswd -a admin root` if ($ldapauth eq 'enabled');
+ }
+ 
+ #--------------------------------------------------
