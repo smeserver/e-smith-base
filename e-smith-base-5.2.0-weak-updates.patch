@@ -1,0 +1,12 @@
+diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/conf-modules.weak-updates e-smith-base-5.2.0/root/etc/e-smith/events/actions/conf-modules
+--- e-smith-base-5.2.0/root/etc/e-smith/events/actions/conf-modules.weak-updates	2010-11-30 12:50:14.000000000 -0700
++++ e-smith-base-5.2.0/root/etc/e-smith/events/actions/conf-modules	2010-11-30 12:57:26.000000000 -0700
+@@ -25,7 +25,7 @@ use Errno;
+ use File::Find;
+ 
+ # Remove stale symlinks from /lib/modules
+-finddepth(sub{unlink unless -e $_}, '/lib/modules/');
++finddepth({ wanted => sub{unlink if m{/weak-updates/} && ! -e $_}, no_chdir => 1}, '/lib/modules/');
+ 
+ opendir(BOOT, "/boot") or die("Can't open /boot directory: $!\n");
+ 

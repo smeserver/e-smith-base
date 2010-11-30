@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.123 2010/11/30 17:03:44 slords Exp $
+# $Id: e-smith-base.spec,v 1.124 2010/11/30 19:58:45 slords Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.2.0
-%define release 54
+%define release 55
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -52,6 +52,7 @@ Patch39: e-smith-base-5.2.0-cpu-can-delete.patch
 Patch40: e-smith-base-5.2.0-supp-groups.patch
 Patch41: e-smith-base-5.2.0-fix_gpasswd_path.patch
 Patch42: e-smith-base-5.2.0-fix-gid.patch
+Patch43: e-smith-base-5.2.0-weak-updates.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 2.2.0-2
@@ -99,6 +100,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Nov 30 2010 Shad L. Lords <slords@lordsfam.net> 5.2.0-55.sme
+- Only remove dangling symlinks in weak-updates directories [SME: 6376]
+
 * Tue Nov 30 2010 Shad L. Lords <slords@lordsfam.net> 5.2.0-54.sme
 - Fix create user gid parameter [SME: 6416]
 
@@ -1524,6 +1528,7 @@ e-smith server and gateway software - base module.
 %patch40 -p1
 %patch41 -p1
 %patch42 -p1
+%patch43 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
