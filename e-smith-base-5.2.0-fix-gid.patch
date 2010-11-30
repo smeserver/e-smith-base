@@ -1,0 +1,21 @@
+diff -up e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-create-unix.fix-gid e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-create-unix
+--- e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-create-unix.fix-gid	2010-11-30 10:01:41.000000000 -0700
++++ e-smith-base-5.2.0/root/etc/e-smith/events/actions/user-create-unix	2010-11-30 10:02:19.000000000 -0700
+@@ -88,7 +88,7 @@ if ($ldapauth ne 'enabled')
+     system(
+             "/usr/sbin/useradd",
+             "-u", $uid,
+-            "-g", $uid,
++            "-g", $gid,
+             "-c", "$first $last",
+             "-d", "/home/e-smith/files/users/$userName",
+             "-G", "shared",
+@@ -118,7 +118,7 @@ $tmpattr->flush();
+ system(
+         "/usr/sbin/cpu", "useradd",
+         "-u", $uid,
+-        "-g", $uid,
++        "-g", $gid,
+         "-c", "$first $last",
+         "-f", "$first",
+         "-E", "$last",

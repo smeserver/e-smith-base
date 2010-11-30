@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.122 2010/11/29 19:32:08 vip-ire Exp $
+# $Id: e-smith-base.spec,v 1.123 2010/11/30 17:03:44 slords Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.2.0
-%define release 53
+%define release 54
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -51,6 +51,7 @@ Patch38: e-smith-base-5.2.0-add-extra-ldap.patch
 Patch39: e-smith-base-5.2.0-cpu-can-delete.patch
 Patch40: e-smith-base-5.2.0-supp-groups.patch
 Patch41: e-smith-base-5.2.0-fix_gpasswd_path.patch
+Patch42: e-smith-base-5.2.0-fix-gid.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 2.2.0-2
@@ -98,6 +99,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Tue Nov 30 2010 Shad L. Lords <slords@lordsfam.net> 5.2.0-54.sme
+- Fix create user gid parameter [SME: 6416]
+
 * Mon Nov 29 2010 Daniel Berteaud <daniel@firewall-services.com> 5.2.0-53.sme
 - Fix gpasswd path [SME: 6412]
 
@@ -1519,6 +1523,7 @@ e-smith server and gateway software - base module.
 %patch39 -p1
 %patch40 -p1
 %patch41 -p1
+%patch42 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
