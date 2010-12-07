@@ -1,10 +1,10 @@
-# $Id: e-smith-base.spec,v 1.124 2010/11/30 19:58:45 slords Exp $
+# $Id: e-smith-base.spec,v 1.125 2010/12/07 08:18:56 vip-ire Exp $
 
 Summary: e-smith server and gateway - base module
 %define name e-smith-base
 Name: %{name}
 %define version 5.2.0
-%define release 55
+%define release 56
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -53,6 +53,7 @@ Patch40: e-smith-base-5.2.0-supp-groups.patch
 Patch41: e-smith-base-5.2.0-fix_gpasswd_path.patch
 Patch42: e-smith-base-5.2.0-fix-gid.patch
 Patch43: e-smith-base-5.2.0-weak-updates.patch
+Patch44: e-smith-base-5.2.0-apache_alias_for_www.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: mod_auth_external
 Requires: e-smith-lib >= 2.2.0-2
@@ -100,6 +101,9 @@ AutoReqProv: no
 e-smith server and gateway software - base module.
 
 %changelog
+* Mon Dec 6 2010 Daniel Berteaud <daniel@firewall-services.com> 5.2.0-56.sme
+- change apache uid and gid so they become aliases for www [SME: 6425]
+
 * Tue Nov 30 2010 Shad L. Lords <slords@lordsfam.net> 5.2.0-55.sme
 - Only remove dangling symlinks in weak-updates directories [SME: 6376]
 
@@ -1529,6 +1533,7 @@ e-smith server and gateway software - base module.
 %patch41 -p1
 %patch42 -p1
 %patch43 -p1
+%patch44 -p1
 
 %pre
 if [ -d /etc/e-smith/locale/fr-ca -a ! -L /etc/e-smith/locale/fr-ca ]
